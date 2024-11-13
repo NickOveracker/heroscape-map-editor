@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import { DrawerList } from "../layout/DrawerList";
 import HeaderNav from "../layout/HeaderNav";
 
-export default function Root() {
+export default function Layout() {
   // https://robohash.org/you.png?size=200x200
   const [isNavOpen, setIsNavOpen] = React.useState(false)
   const toggleIsNavOpen = (s: boolean) => {
@@ -44,9 +44,14 @@ export default function Root() {
         background: 'var(--black)',
         overflow: 'auto',
       }}
-
-
-      ></div>
+      >
+        <span>CONTROLS WIP</span>
+        {/* <HexxaformControls
+          boardHexes={G.boardHexes}
+          hexMap={G.hexMap}
+          moves={moves}
+          /> */}
+      </div>
     </div>
   );
 }
