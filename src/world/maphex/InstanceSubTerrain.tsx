@@ -4,10 +4,10 @@ import {
     halfLevel,
     HEXGRID_HEX_HEIGHT,
     quarterLevel,
-} from '../utils/constants'
-import { BoardHex, HexTerrain } from '../types'
-import { getBoardHex3DCoords } from '../utils/map-utils'
-import { isFluidTerrainHex } from '../utils/board-utils'
+} from '../../utils/constants'
+import { BoardHex, HexTerrain } from '../../types'
+import { getBoardHex3DCoords } from '../../utils/map-utils'
+import { isFluidTerrainHex } from '../../utils/board-utils'
 import { hexTerrainColor } from './hexColors'
 
 
@@ -31,24 +31,25 @@ const InstanceSubTerrain = ({ boardHexes }: { boardHexes: BoardHex[] }) => {
     useLayoutEffect(() => {
         const placeholder = new THREE.Object3D()
         boardHexes.forEach((boardHex, i) => {
+            const { x, z } = getBoardHex3DCoords(boardHex)
             const altitude = boardHex.altitude
             const isFluidHex = isFluidTerrainHex(boardHex.terrain)
-            const { x, z } = getBoardHex3DCoords(boardHex)
-            const heightScaleSubTerrain = isFluidHex
+            const subTerrain = HexTerrain.grass
+            const subTerrainColor = new THREE.Color(hexTerrainColor[subTerrain])
+
+
+
+            const y = (altitude - quarterLevel) / 4
+            const scale = isFluidHex
                 ? altitude - halfLevel
                 : altitude - quarterLevel
-            const subTerrain = HexTerrain.grass
-            //   const subTerrain =
-            //     boardHex?.subTerrain ?? getDefaultSubTerrainForTerrain(boardHex.terrain)
-            const subTerrainYAdjust = (altitude - quarterLevel) / 4
-            const subTerrainColor = new THREE.Color(hexTerrainColor[subTerrain])
-            const subTerrainPosition = new THREE.Vector3(x, subTerrainYAdjust, z)
+
+            const subTerrainPosition = new THREE.Vector3(x, y, z)
+            placeholder.scale.set(1, scale, 1)
             placeholder.position.set(
                 subTerrainPosition.x,
                 subTerrainPosition.y,
-                subTerrainPosition.z
-            )
-            placeholder.scale.set(1, heightScaleSubTerrain, 1)
+                subTerrainPosition.z)
             placeholder.updateMatrix()
             instanceRef.current.setColorAt(i, subTerrainColor)
             instanceRef.current.setMatrixAt(i, placeholder.matrix)

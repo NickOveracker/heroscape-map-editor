@@ -1,5 +1,5 @@
 import { Dictionary } from "lodash";
-import { HexTerrain } from "../types";
+import { HexTerrain } from "../../types";
 
 export const hexTerrainColor: Dictionary<string> = {
     [HexTerrain.empty]: '#040404',

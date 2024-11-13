@@ -3,9 +3,9 @@ import { CameraControls } from '@react-three/drei'
 import React from 'react'
 import { BoardHex, BoardHexes, HexTerrain } from '../types'
 import { isFluidTerrainHex } from '../utils/board-utils.ts'
-import InstanceSubTerrainWrapper from './InstanceSubTerrain.tsx'
+import InstanceSubTerrainWrapper from './maphex/InstanceSubTerrain.tsx'
 import { useZoomCameraToMapCenter } from '../hooks/useZoomeCameraToMapCenter.tsx'
-import { MapHex3D } from './MapHex3D.tsx'
+import { MapHex3D } from './maphex/MapHex3D.tsx'
 
 export default function MapEditor({
     boardHexes,

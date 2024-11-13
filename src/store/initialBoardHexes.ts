@@ -33,7 +33,7 @@ const initialState: AppState = {
             "occupyingUnitID": "",
             "isUnitTail": false,
             "altitude": 1,
-            "terrain": "grass",
+            "terrain": "water",
             "startzonePlayerIDs": []
         },
         "1,1,-2": {
