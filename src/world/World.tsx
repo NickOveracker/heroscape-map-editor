@@ -40,7 +40,7 @@ const World = () => {
                     cameraControlsRef={cameraControlsRef}
                 />
                 <Lights />
-                <axesHelper scale={[100, 100, 100]} />
+                <axesHelper scale={[1, 1, 1]} />
                 <MyCameraControls cameraControlsRef={cameraControlsRef} />
             </Canvas>
 
