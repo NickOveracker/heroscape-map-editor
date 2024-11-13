@@ -18,11 +18,11 @@ export default function MapEditor({
     //   glyphs: Glyphs
     cameraControlsRef: React.MutableRefObject<CameraControls>
 }) {
-    useZoomCameraToMapCenter({
-        cameraControlsRef,
-        boardHexes,
-        mapID: hexMapID,
-    })
+    // useZoomCameraToMapCenter({
+    //     cameraControlsRef,
+    //     boardHexes,
+    //     mapID: hexMapID,
+    // })
     //   const { penMode, pieceSize } = useHexxaformContext()
     const hoverID = React.useRef('')
 

@@ -6,6 +6,7 @@ import React from "react"
 import MyCameraControls from "./MyCameraControls"
 import useAppState from "../store/store"
 import MapEditor from "./MapEditor"
+import { Vector3 } from "three"
 
 const World = () => {
     const boardHexes = useAppState((state) => state.boardHexes)
@@ -40,7 +41,15 @@ const World = () => {
                     cameraControlsRef={cameraControlsRef}
                 />
                 <Lights />
-                <axesHelper scale={[1, 1, 1]} />
+                <axesHelper scale={[0, 10, 0]} />
+                <axesHelper scale={[10, 0, 10]} position={new Vector3(0, 0 / 2, 0)} />
+                <axesHelper scale={[10, 0, 10]} position={new Vector3(0, 1 / 2, 0)} />
+                <axesHelper scale={[10, 0, 10]} position={new Vector3(0, 2 / 2, 0)} />
+                <axesHelper scale={[10, 0, 10]} position={new Vector3(0, 3 / 2, 0)} />
+                <axesHelper scale={[10, 0, 10]} position={new Vector3(0, 4 / 2, 0)} />
+                <axesHelper scale={[10, 0, 10]} position={new Vector3(0, 5 / 2, 0)} />
+                <axesHelper scale={[10, 0, 10]} position={new Vector3(0, 6 / 2, 0)} />
+                <axesHelper scale={[10, 0, 10]} position={new Vector3(0, 7 / 2, 0)} />
                 <MyCameraControls cameraControlsRef={cameraControlsRef} />
             </Canvas>
 
