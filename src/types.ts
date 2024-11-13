@@ -1,3 +1,7 @@
+export type AppState = {
+    boardHexes: BoardHexes
+    hexMap: HexMap
+}
 export type GameMap = {
     boardHexes: BoardHexes
     startZones: StartZones

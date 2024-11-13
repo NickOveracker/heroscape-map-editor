@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber"
-import { CAMERA_FOV } from "../constants"
+import { CAMERA_FOV } from "../utils/constants"
 import Lights from "./Lights"
 import { Stars, Stats } from "@react-three/drei"
 import React from "react"
