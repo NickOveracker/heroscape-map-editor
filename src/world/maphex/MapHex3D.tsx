@@ -1,11 +1,9 @@
 import { Vector3, } from 'three'
 import { BoardHex } from '../../types'
-import {
-  quarterLevel,
-} from '../../utils/constants'
 import { HeightRings } from './HeightRings'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { isFluidTerrainHex } from '../../utils/board-utils'
+import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 
 
 export const MapHex3D = ({
@@ -20,7 +18,7 @@ export const MapHex3D = ({
   const y = altitude / 4
   const bottomRingYPosition = y - altitude / 2
   const topRingYPosition = isFluidHex
-    ? y + quarterLevel
+    ? y + (HEXGRID_HEX_HEIGHT / 4)
     : y
   const hexPosition = new Vector3(x, y, z)
 

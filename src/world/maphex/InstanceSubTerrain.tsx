@@ -1,9 +1,7 @@
 import { useRef, useLayoutEffect } from 'react'
 import * as THREE from 'three'
 import {
-    halfLevel,
     HEXGRID_HEX_HEIGHT,
-    quarterLevel,
 } from '../../utils/constants'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
@@ -39,10 +37,10 @@ const InstanceSubTerrain = ({ boardHexes }: { boardHexes: BoardHex[] }) => {
 
 
 
-            const y = (altitude - quarterLevel) / 4
+            const y = (altitude - (HEXGRID_HEX_HEIGHT / 4)) / 4
             const scale = isFluidHex
-                ? altitude - halfLevel
-                : altitude - quarterLevel
+                ? altitude - (HEXGRID_HEX_HEIGHT / 2)
+                : altitude - (HEXGRID_HEX_HEIGHT / 4)
 
             const subTerrainPosition = new THREE.Vector3(x, y, z)
             placeholder.scale.set(1, scale, 1)
