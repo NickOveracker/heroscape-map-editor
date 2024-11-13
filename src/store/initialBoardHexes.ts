@@ -10,8 +10,8 @@ const initialState: AppState = {
             "id": "0,0,0",
             "occupyingUnitID": "",
             "isUnitTail": false,
-            "altitude": 0,
-            "terrain": "empty",
+            "altitude": 2,
+            "terrain": "grass",
             "startzonePlayerIDs": []
         },
         "1,0,-1": {
@@ -21,8 +21,8 @@ const initialState: AppState = {
             "id": "1,0,-1",
             "occupyingUnitID": "",
             "isUnitTail": false,
-            "altitude": 0,
-            "terrain": "empty",
+            "altitude": 1,
+            "terrain": "grass",
             "startzonePlayerIDs": []
         },
         "0,1,-1": {
@@ -32,8 +32,8 @@ const initialState: AppState = {
             "id": "0,1,-1",
             "occupyingUnitID": "",
             "isUnitTail": false,
-            "altitude": 0,
-            "terrain": "empty",
+            "altitude": 1,
+            "terrain": "grass",
             "startzonePlayerIDs": []
         },
         "1,1,-2": {
@@ -43,8 +43,8 @@ const initialState: AppState = {
             "id": "1,1,-2",
             "occupyingUnitID": "",
             "isUnitTail": false,
-            "altitude": 0,
-            "terrain": "empty",
+            "altitude": 2,
+            "terrain": "grass",
             "startzonePlayerIDs": []
         }
     },

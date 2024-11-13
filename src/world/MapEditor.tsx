@@ -3,30 +3,13 @@ import { CameraControls } from '@react-three/drei'
 import React from 'react'
 import { BoardHex, BoardHexes, HexTerrain } from '../types'
 import { isFluidTerrainHex } from '../utils/board-utils.ts'
+import InstanceSubTerrainWrapper from './InstanceSubTerrain.tsx'
+import { useZoomCameraToMapCenter } from '../hooks/useZoomeCameraToMapCenter.tsx'
+import { MapHex3D } from './MapHex3D.tsx'
 
-// import {
-//   BoardHex,
-//   BoardHexes,
-//   HexTerrain,
-// } from '../../game/types'
-// import { MapHex3D } from '../../shared/MapHex3D'
-// import { HexxaformMoves, PenMode } from '../../game/hexxaform/hexxaform-types'
-// import { useHexxaformContext } from '../useHexxaformContext'
-// import getVSTileTemplate from '../virtualscape/tileTemplates'
-// import { generateHexID, isFluidTerrainHex } from '../../game/constants'
-// import InstanceSubTerrainWrapper from '../../shared/world/InstanceSubTerrain'
-// import InstanceCapWrapper from '../../shared/world/InstanceCapWrapper'
-// import InstanceEmptyHexCap from '../../shared/world/InstanceEmptyHexCap'
-// import InstanceFluidHexCap from '../../shared/world/InstanceFluidHexCap'
-// import InstanceSolidHexCap from '../../shared/world/InstanceSolidHexCap'
-// import { useZoomCameraToMapCenter } from '../../hooks/useZoomCameraToMapCenter'
-
-
-let rotation = 0
-
-export function HexxaformMapDisplay3D({
+export default function MapEditor({
     boardHexes,
-    //   hexMapID,
+    hexMapID,
     //   glyphs,
     cameraControlsRef,
 }: {
@@ -35,11 +18,11 @@ export function HexxaformMapDisplay3D({
     //   glyphs: Glyphs
     cameraControlsRef: React.MutableRefObject<CameraControls>
 }) {
-    //   useZoomCameraToMapCenter({
-    //     cameraControlsRef,
-    //     boardHexes,
-    //     mapID: hexMapID,
-    //   })
+    useZoomCameraToMapCenter({
+        cameraControlsRef,
+        boardHexes,
+        mapID: hexMapID,
+    })
     //   const { penMode, pieceSize } = useHexxaformContext()
     const hoverID = React.useRef('')
 
@@ -70,49 +53,21 @@ export function HexxaformMapDisplay3D({
 
     return (
         <>
-            {/* <InstanceCapWrapper
-                capHexesArray={emptyHexCaps}
-                glKey={'InstanceEmptyHexCap-'}
-                component={InstanceEmptyHexCap}
-                onPointerEnter={onPointerEnter}
-                onPointerOut={onPointerOut}
-                onPointerDown={onPointerDown}
-            /> */}
 
-            {/* <InstanceCapWrapper
-                capHexesArray={fluidHexCaps}
-                glKey={'InstanceFluidHexCap-'}
-                component={InstanceFluidHexCap}
-                onPointerEnter={onPointerEnter}
-                onPointerOut={onPointerOut}
-                onPointerDown={onPointerDown}
-            /> */}
-
-            {/* <InstanceCapWrapper
-                capHexesArray={solidHexCaps}
-                glKey={'InstanceSolidHexCap-'}
-                component={InstanceSolidHexCap}
-                onPointerEnter={onPointerEnter}
-                onPointerOut={onPointerOut}
-                onPointerDown={onPointerDown}
-            /> */}
-
-            {/* <InstanceSubTerrainWrapper glKey={'InstanceSubTerrain-'} boardHexes={Object.values(boardHexes).filter(bh => !(bh.terrain === HexTerrain.empty))} /> */}
+            <InstanceSubTerrainWrapper
+                glKey={'InstanceSubTerrain-'}
+                boardHexes={Object.values(boardHexes).filter(bh => !(bh.terrain === HexTerrain.empty))}
+            />
+            {/* <HeightRings /> */}
+            {Object.values(boardHexes).map((bh => {
+                return (
+                    <MapHex3D
+                        key={bh.id}
+                        boardHex={bh}
+                    />
+                )
+            }))}
 
         </>
     )
 }
-
-
-// {Object.values(boardHexes).map((bh: any) => {
-//     return (
-//         <MapHex3D
-//             playerID={'0'}
-//             boardHex={bh}
-//             glyphs={glyphs}
-//             selectedUnitMoveRange={{}}
-//             isEditor={true}
-//             key={`${bh.id}-${bh.altitude}`}
-//         />
-//     )
-// })}

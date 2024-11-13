@@ -4,9 +4,12 @@ import Lights from "./Lights"
 import { Stars, Stats } from "@react-three/drei"
 import React from "react"
 import MyCameraControls from "./MyCameraControls"
-
+import useAppState from "../store/store"
+import MapEditor from "./MapEditor"
 
 const World = () => {
+    const boardHexes = useAppState((state) => state.boardHexes)
+    const hexMap = useAppState((state) => state.hexMap)
     const cameraControlsRef = React.useRef(undefined)
     return (
         <div
@@ -31,10 +34,11 @@ const World = () => {
                 />
                 {/* Stats displays the fps */}
                 <Stats className='stats-panel' />
-                <mesh>
-                    <boxGeometry args={[2, 2, 2]} />
-                    <meshPhongMaterial />
-                </mesh>
+                <MapEditor
+                    boardHexes={boardHexes}
+                    hexMapID={hexMap.id}
+                    cameraControlsRef={cameraControlsRef}
+                />
                 <Lights />
                 <axesHelper scale={[100, 100, 100]} />
                 <MyCameraControls cameraControlsRef={cameraControlsRef} />
