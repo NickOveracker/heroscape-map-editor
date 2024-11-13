@@ -16,11 +16,12 @@ export const HeightRings = ({
   const heightRingsForThisHex = genHeightRings(topRingYPos, bottomRingYPos)
   return (
     <>
-      {heightRingsForThisHex.map((height) => {
+      {heightRingsForThisHex.map((height, i) => {
         const points = genPointsForHeightRing(height)
         const lineGeometry = new BufferGeometry().setFromPoints(points)
         return (
           <line_
+            key={`${position.x},${position.y},${position.z},${i}`}
             geometry={lineGeometry}
             position={position}
             rotation={[0, Math.PI / 6, 0]}
