@@ -5,7 +5,7 @@ import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './routes/root'
 import ErrorPage from './error-page'
-import Contact from './routes/contact'
+import { ROUTES } from './routes/ROUTES'
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -13,13 +13,13 @@ const darkTheme = createTheme({
 })
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: ROUTES.home,
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "contacts/:contactId",
-        element: <Contact />,
+        path: ROUTES.home,
+        element: <div>Outlet1?</div>
       },
     ],
   },
