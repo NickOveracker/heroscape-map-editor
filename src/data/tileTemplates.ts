@@ -1,26 +1,7 @@
 import { Dictionary } from 'lodash'
-import { hexUtilsAdd, hexUtilsRotate } from '../utils/hex-utils'
 import { CastleObstacles, EdgeAddons, EdgeObstacles, CubeCoordinate, HexObstacles } from '../types'
-import rotationTransforms from './rotationTransforms'
 
-export default function getVSTileTemplate({
-  clickedHex,
-  rotation,
-  template,
-}: {
-  clickedHex: CubeCoordinate
-  rotation: number
-  template: string
-}): CubeCoordinate[] {
-  const originOfTileTransform =
-    rotationTransforms[template][rotation]
-  const originOfTile = hexUtilsAdd(clickedHex, originOfTileTransform)
-  return vsTileTemplates[template]
-    .map((t) => {
-      return hexUtilsRotate(t, origin, rotation)
-    })
-    .map((t) => hexUtilsAdd(t, originOfTile))
-}
+
 
 const origin = { q: 0, r: 0, s: 0 }
 const basic1 = [origin]
@@ -254,12 +235,12 @@ const wallWalk9 = [
 ]
 
 const vsTileTemplates: Dictionary<CubeCoordinate[]> = {
-  1: basic1,
-  2: basic2,
-  3: basic3,
-  5: straight5, // currently, road is only land with a 5-hex
-  7: basic7,
-  24: basic24,
+  ' 1': basic1,
+  ' 2': basic2,
+  ' 3': basic3,
+  ' 5': straight5, // currently, road is only land with a 5-hex
+  ' 7': basic7,
+  '24': basic24,
   // hex obstructions below
   [HexObstacles.tree10]: basic1,
   [HexObstacles.tree11]: basic1,
@@ -275,13 +256,13 @@ const vsTileTemplates: Dictionary<CubeCoordinate[]> = {
   [HexObstacles.glacier3]: basic3,
   [HexObstacles.glacier4]: glacier4,
   [HexObstacles.glacier6]: glacier6,
-  [HexObstacles.hive6]: glacier6,
+  [HexObstacles.hive]: glacier6,
 
   // edge stuff below
   [EdgeObstacles.ruins2]: basic2,
   [EdgeObstacles.ruins3]: straight3,
-  [EdgeObstacles.marvel6]: marvel6,
-  [EdgeObstacles.marvelBroken6]: marvel6,
+  [EdgeObstacles.marvel]: marvel6,
+  [EdgeObstacles.marvelBroken]: marvel6,
   // castle
   [CastleObstacles.wallWalk1]: basic1,
   [CastleObstacles.wallWalk7]: wallWalk7,
@@ -295,7 +276,7 @@ const vsTileTemplates: Dictionary<CubeCoordinate[]> = {
   [CastleObstacles.castleWallStraight]: basic1,
   [CastleObstacles.castleWallEnd]: basic1,
 
-  [EdgeAddons.roadWall4]: straight4,
+  [EdgeAddons.roadWall]: straight4,
   // TODO
   // start zone
   // glyph
@@ -304,3 +285,4 @@ const vsTileTemplates: Dictionary<CubeCoordinate[]> = {
   // flag: basic1,
 }
 
+export default vsTileTemplates 

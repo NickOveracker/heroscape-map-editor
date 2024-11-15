@@ -1,47 +1,26 @@
-import { CastleObstacles, EdgeAddons, EdgeObstacles, HexObstacles } from "../types"
+import { CastleObstacles, CubeCoordinate, EdgeAddons, EdgeObstacles, HexObstacles } from "../types"
+import { hexUtilsAdd, hexUtilsRotate } from "../utils/hex-utils"
+import vsTileTemplates from "./tileTemplates"
 
-/* 
-    WHAT/WHY
-    These were mapped out by placing a tile down in virtualscape 6 times on known hexes. 1 for each rotation.
-    So the first placement would mark the "origin" hex, whatever hex goes where you clicked. The tile-templates
-    are built from this placement. The origin hex is {0,0,0} and the rest of the tiles for rotation-0 are in the 
-    template with coordinates relative to the origin hex.
-  
-    Now, for each rotation, Virtualscape sometimes moves the origin hex, while still consistently rotating pieces clockwise.
-    For instance, when your rotate the 24-hex piece, the origin hex moves a few hexes away from
-    the actual hex you clicked.
-  
-    Here were my findings for all the pieces that are in Virtualscape:
-  
-    1-hex land tiles: rotation matters little.
-    1-hex obstructions: affects model display.
-  
-    1-hex castle walls/bases: 
-    END(=>), STRAIGHT(=) connections to left 
-    CORNER(>>) connections left-up & left-down
-    All turn CW
-  
-    1-hex edge pieces: battlements, ladders, flags
-    Start facing right-up, CW from there (remember, they are technically placed adjacent to the hex they are modifying)
-    
-    2-hex tiles have 3 unique orientations that repeat 2-times
-  
-    3-hex have 2 unique orientations that repeat 3-times
-    Glacier-3, however, shows that if each part of the 3-hex is unique, then there is 6 unique orientations
-  
-    7-hex (rose/circle): rotation does not really matter
-  
-    All these are similar:
-    4-hex: [glacier-4, tree-4]
-    EdgeObstacles: [ruins-3, ruins-2, roadwall-4]
-    "Long Tiles": [7-hex wallWalk, 9-hex wallWalk, arch-3/archnodoor-3,
-    road-5, glacier-6, hive-6, marvelRuin-6, marvelBreakingWall-6]
-    They go:
-    ($%)--1 Then flip and repeat: (%$)--4
-    |  \                          |  \
-    3   2                         6   5
+export default function getVSTileTemplate({
+  clickedHex,
+  rotation,
+  template,
+}: {
+  clickedHex: CubeCoordinate
+  rotation: number
+  template: string
+}): CubeCoordinate[] {
+  const originOfTileTransform =
+    rotationTransforms[template][rotation]
+  const originOfTile = hexUtilsAdd(clickedHex, originOfTileTransform)
+  return vsTileTemplates[template]
+    .map((t) => {
+      return hexUtilsRotate(t, origin, rotation)
+    })
+    .map((t) => hexUtilsAdd(t, originOfTile))
+}
 
-*/
 const origin = { q: 0, r: 0, s: 0 }
 const t1 = [origin, origin, origin, origin, origin, origin]
 const straight2 = [
@@ -192,5 +171,3 @@ const rotationTransforms = {
   [CastleObstacles.castleWallStraight]: t1, // THESE FACE LEFT THOUGH!
   [CastleObstacles.castleWallEnd]: t1, // THESE FACE LEFT THOUGH!
 }
-
-export default rotationTransforms

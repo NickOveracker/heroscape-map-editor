@@ -1,15 +1,7 @@
-import { Dictionary, template } from 'lodash'
-import { CastleObstacles, EdgeAddons, EdgeObstacles, HexObstacles, HexTerrain } from '../types'
-import { VirtualScapeTile } from '../types'
+import { template } from 'lodash'
+import { VirtualScapeTile, CastleObstacles, EdgeAddons, EdgeObstacles, HexObstacles, HexTerrain } from '../types'
+import getVSTileTemplate from './tileTemplates'
 
-export const hexTerrainColor: Dictionary<string> = {
-  [HexTerrain.empty]: '#040404',
-  [HexTerrain.grass]: '#60840d',
-  [HexTerrain.rock]: '#475776',
-  [HexTerrain.sand]: '#ab8e10',
-  [HexTerrain.road]: '#868686',
-  [HexTerrain.water]: '#3794fd',
-}
 
 function getPiece(tile: VirtualScapeTile) {
   const piece = {
@@ -76,6 +68,7 @@ const nonLandPieceIDs = {
   [HexObstacles.palm14]: {
     height: 14,
     size: 1,
+    // template: 
   },
   [HexObstacles.palm15]: {
     height: 15,
