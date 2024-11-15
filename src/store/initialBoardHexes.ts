@@ -7,8 +7,8 @@ const initialState: AppState = {
             "r": 0,
             "s": 0,
             "id": "1,0,0",
-            "altitude": 1,
-            "terrain": "grass",
+            "altitude": 0,
+            "terrain": "empty",
             tileID: '1,0,0,grass2',
         },
         "1,1,0": {
@@ -16,8 +16,8 @@ const initialState: AppState = {
             "r": 0,
             "s": -1,
             "id": "1,1,0",
-            "altitude": 1,
-            "terrain": "grass",
+            "altitude": 0,
+            "terrain": "empty",
             tileID: '1,0,0,grass2',
         },
         // "0,1,-1": {

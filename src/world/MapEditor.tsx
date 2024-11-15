@@ -6,6 +6,8 @@ import InstanceSubTerrainWrapper from './maphex/InstanceSubTerrain.tsx'
 import useAppState from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
 import { BoardHex, HexTerrain } from '../types'
+import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
+import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
 
 export default function MapEditor({
     cameraControlsRef,
@@ -13,21 +15,67 @@ export default function MapEditor({
     cameraControlsRef: React.MutableRefObject<CameraControls>
 }) {
     const boardHexes = useAppState((state) => state.boardHexes)
+    const hoverID = React.useRef('')
     useZoomCameraToMapCenter({
         cameraControlsRef,
         boardHexes,
         disabled: true,
     })
-    const onPointerDown = (event: ThreeEvent<PointerEvent>, _hex: BoardHex) => {
+    const onPointerDown = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
         if (event.button === 2) return // ignore right clicks
         event.stopPropagation()
         // Early out if camera is active
         if (cameraControlsRef.current.active) return
         cameraControlsRef.current
-        console.log("🚀 ~ onPointerDown ~ onPointerDown:", onPointerDown)
+        const isVoidTerrainHex = hex.terrain === HexTerrain.empty
+        // if (PenMode === PenMode.eraser && !isVoidTerrainHex) {
+        //   voidHex({ hexID: hex.id })
+        // }
+        // if (penMode === PenMode.eraserStartZone) {
+        //   voidStartZone({ hexID: hex.id })
+        // }
+        // if (penMode === PenMode.grass) {
+        //   const hexIDArr = getVSTileTemplate({
+        //     clickedHex: { q: hex.q, r: hex.r, s: hex.s },
+        //     rotation: rotation++ % 6,
+        //     template: `${pieceSize}`, // DEV: Only land pieces will have their size as their template name, future things will have a string
+        //   }).map((h) => generateHexID(h))
+        //   paintGrassTile({ hexIDArr, altitude: hex.altitude })
+        // }
+        // // last letter in string is playerID, but this seems inelegant
+        // if (penMode.slice(0, -1) === 'startZone') {
+        //   paintStartZone({ hexID: hex.id, playerID: penMode.slice(-1) })
+        // }
+        // if (penMode === PenMode.water) {
+        //   paintWaterHex({ hexID: hex.id })
+        // }
+    }
+
+    const emptyHexCaps = Object.values(boardHexes).filter((bh) => {
+        return bh.terrain === HexTerrain.empty
+    })
+    //   const fluidHexCaps = Object.values(boardHexes).filter((bh) => {
+    //     return bh.terrain !== HexTerrain.empty && isFluidTerrainHex(bh.terrain)
+    //   })
+    //   const solidHexCaps = Object.values(boardHexes).filter((bh) => {
+    //     return bh.terrain !== HexTerrain.empty && !isFluidTerrainHex(bh.terrain)
+    //   })
+    const onPointerEnter = (_e: ThreeEvent<PointerEvent>, hex: BoardHex) => {
+        hoverID.current = hex.id
+    }
+    const onPointerOut = (_e: ThreeEvent<PointerEvent>) => {
+        hoverID.current = ''
     }
     return (
         <>
+            <InstanceCapWrapper
+                capHexesArray={emptyHexCaps}
+                glKey={'InstanceEmptyHexCap-'}
+                component={InstanceEmptyHexCap}
+                onPointerEnter={onPointerEnter}
+                onPointerOut={onPointerOut}
+                onPointerDown={onPointerDown}
+            />
             <InstanceSubTerrainWrapper
                 glKey={'InstanceSubTerrain-'}
                 boardHexes={Object.values(boardHexes).filter(bh => !(bh.terrain === HexTerrain.empty))}
