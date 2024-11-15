@@ -1,6 +1,6 @@
 import { CastleObstacles, CubeCoordinate, EdgeAddons, EdgeObstacles, HexObstacles } from "../types"
 import { hexUtilsAdd, hexUtilsRotate } from "../utils/hex-utils"
-import vsTileTemplates from "./tileTemplates"
+import tileTemplates from "./tileTemplates"
 
 export default function getVSTileTemplate({
   clickedHex,
@@ -14,7 +14,7 @@ export default function getVSTileTemplate({
   const originOfTileTransform =
     rotationTransforms[template][rotation]
   const originOfTile = hexUtilsAdd(clickedHex, originOfTileTransform)
-  return vsTileTemplates[template]
+  return tileTemplates[template]
     .map((t) => {
       return hexUtilsRotate(t, origin, rotation)
     })

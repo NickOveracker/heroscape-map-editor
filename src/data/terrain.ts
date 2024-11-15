@@ -1,6 +1,4 @@
-import { template } from 'lodash'
 import { VirtualScapeTile, CastleObstacles, EdgeAddons, EdgeObstacles, HexObstacles, HexTerrain } from '../types'
-import getVSTileTemplate from './tileTemplates'
 
 
 function getPiece(tile: VirtualScapeTile) {

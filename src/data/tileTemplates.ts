@@ -234,7 +234,7 @@ const wallWalk9 = [
   },
 ]
 
-const vsTileTemplates: Dictionary<CubeCoordinate[]> = {
+const tileTemplates: Dictionary<CubeCoordinate[]> = {
   ' 1': basic1,
   ' 2': basic2,
   ' 3': basic3,
@@ -285,4 +285,4 @@ const vsTileTemplates: Dictionary<CubeCoordinate[]> = {
   // flag: basic1,
 }
 
-export default vsTileTemplates 
+export default tileTemplates 
