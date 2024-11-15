@@ -29,7 +29,10 @@ const App = () => {
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
-            <RouterProvider router={router} />
+            <RouterProvider router={router} future={{
+                // v7_relativeSplatPath: true,
+                v7_startTransition: true
+            }} />
         </ThemeProvider>
     )
 }
