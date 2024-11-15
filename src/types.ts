@@ -2,11 +2,6 @@ export type AppState = {
     boardHexes: BoardHexes
     hexMap: HexMap
 }
-export type GameMap = {
-    boardHexes: BoardHexes
-    startZones: StartZones
-    hexMap: HexMap
-}
 export type HexMap = {
     id: string
     name: string
@@ -24,15 +19,24 @@ export type Glyph = {
     glyphID: string
     isRevealed: boolean
 }
-export type Point = {
-    x: number
-    y: number
-}
-export type HexCoordinates = {
+export type CubeCoordinate = {
     q: number
     r: number
     s: number
 }
+export interface BoardHex extends CubeCoordinate {
+    id: string
+    altitude: number
+    startzonePlayerIDs: string[]
+    terrain: string
+}
+export type BoardHexes = {
+    [key: string]: BoardHex
+}
+export type StartZones = {
+    [playerID: string]: string[] // boardHex IDs
+}
+
 export enum HexTerrain {
     empty = 'empty',
     // solid
@@ -95,25 +99,59 @@ export enum CastleObstacles {
     castleWallStraight = 'castleWallStraight',
     castleWallEnd = 'castleWallEnd',
 }
-export interface BoardHex extends HexCoordinates {
-    id: string
-    occupyingUnitID: string
-    isUnitTail: boolean
-    altitude: number
-    startzonePlayerIDs: string[]
-    terrain: string
-    subTerrain?: string
+
+export enum PenMode {
+    none = 'none',
+    eraserStartZone = 'eraserStartZone',
+    eraser = HexTerrain.empty,
+    water = HexTerrain.water,
+    grass = HexTerrain.grass,
+    sand = HexTerrain.sand,
+    rock = HexTerrain.rock,
+    startZone0 = 'startZone0',
+    startZone1 = 'startZone1',
+    startZone2 = 'startZone2',
+    // startZone3 = 'startZone3',
+    // startZone4 = 'startZone4',
+    // startZone5 = 'startZone5',
 }
-export type BoardHexes = {
-    [key: string]: BoardHex
+
+export type VirtualScapeMap = {
+    version: number
+    name: string
+    author: string
+    playerNumber: string
+    scenario: string
+    levelPerPage: number
+    printingTransparency: number
+    printingGrid: boolean
+    printTileNumber: boolean
+    printStartAreaAsLevel: boolean
+    tileCount: number
+    tiles: VirtualScapeTile[]
 }
-export type EditingBoardHexes = {
-    [boardHexId: string]: HexCoordinates & {
-        id: string
-        occupyingUnitID: string
-        isUnitTail: boolean
-    }
-}
-export type StartZones = {
-    [playerID: string]: string[] // boardHex IDs
+export type VirtualScapeTile = {
+    type: number
+    version: number
+    rotation: number
+    posX: number
+    posY: number
+    posZ: number
+    glyphLetter: string
+    glyphName: string
+    startName: string
+    colorf: number
+    isFigureTile: boolean
+    figure: {
+        name: string
+        name2: string
+    },
+    isPersonalTile: boolean
+    personal: {
+        pieceSize: number
+        textureTop: string
+        textureSide: string
+        letter: string
+        name: string
+    },
 }

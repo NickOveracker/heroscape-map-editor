@@ -1,0 +1,23 @@
+const glyphLetterToName = {
+  '?': 'unknown', // tile.type: 14063="unknown"
+  A: 'astrid',
+  G: 'gerda',
+  I: 'ivor',
+  V: 'valda',
+  D: 'dragmar',
+  B: 'brandar',
+  K: 'kelda',
+  E: 'erland',
+  M: 'mitonsoul',
+  L: 'lodin',
+  S: 'sturla',
+  R: 'rannveig',
+  J: 'jalgard',
+  W: 'wannok',
+  P: 'proftaka',
+  O: 'oreld',
+  N: 'nilrend',
+  C: 'crevcor',
+  T: 'thorian',
+  U: 'ulaniva',
+}

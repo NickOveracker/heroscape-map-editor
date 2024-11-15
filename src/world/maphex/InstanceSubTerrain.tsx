@@ -1,11 +1,7 @@
 import { useRef, useLayoutEffect } from 'react'
 import * as THREE from 'three'
-import {
-    HEXGRID_HEX_HEIGHT,
-} from '../../utils/constants'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
-import { isFluidTerrainHex } from '../../utils/board-utils'
 import { hexTerrainColor } from './hexColors'
 
 
@@ -29,21 +25,12 @@ const InstanceSubTerrain = ({ boardHexes }: { boardHexes: BoardHex[] }) => {
     useLayoutEffect(() => {
         const placeholder = new THREE.Object3D()
         boardHexes.forEach((boardHex, i) => {
-            const { x, z } = getBoardHex3DCoords(boardHex)
-            const altitude = boardHex.altitude
-            const isFluidHex = isFluidTerrainHex(boardHex.terrain)
-            const subTerrain = HexTerrain.grass
-            const subTerrainColor = new THREE.Color(hexTerrainColor[subTerrain])
-
-
-
-            const y = (altitude - (HEXGRID_HEX_HEIGHT / 4)) / 4
-            const scale = isFluidHex
-                ? altitude - (HEXGRID_HEX_HEIGHT / 2)
-                : altitude - (HEXGRID_HEX_HEIGHT / 4)
+            const subTerrainColor = new THREE.Color(hexTerrainColor[HexTerrain.grass])
+            const { x, y: scaleY, z } = getBoardHex3DCoords(boardHex)
+            const y = scaleY / 2 // vertical position is halfway between top and bottom
 
             const subTerrainPosition = new THREE.Vector3(x, y, z)
-            placeholder.scale.set(1, scale, 1)
+            placeholder.scale.set(1, scaleY, 1)
             placeholder.position.set(
                 subTerrainPosition.x,
                 subTerrainPosition.y,
@@ -60,7 +47,7 @@ const InstanceSubTerrain = ({ boardHexes }: { boardHexes: BoardHex[] }) => {
             ref={instanceRef}
             args={[undefined, undefined, countOfSubTerrains]} //args:[geometry, material, count]
         >
-            <cylinderGeometry args={[1, 1, HEXGRID_HEX_HEIGHT, 6]} />
+            <cylinderGeometry args={[1, 1, 1, 6]} />
             <meshBasicMaterial />
         </instancedMesh>
     )

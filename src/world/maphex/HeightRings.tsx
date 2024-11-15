@@ -28,7 +28,7 @@ export const HeightRings = ({
             <lineBasicMaterial
               attach="material"
               color={new Color('#fff')}
-              linewidth={2}
+              linewidth={10}
             />
           </Line>
         )
@@ -38,11 +38,6 @@ export const HeightRings = ({
 }
 
 const genHeightRings = (top: number, bottom: number) => {
-  /* 
-  NOTE: this shows a height ring at the top (which is higher for a fluid hex than a solid hex of same height!)
-  As well as a height ring for every hex height interval in between. 
-  So for solid hexes, the last ring is the same height as the top ring
-  */
   const rings: number[] = [top] // no need to show bottom rings
   for (
     let i = bottom + HEXGRID_HEX_HEIGHT;

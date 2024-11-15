@@ -3,6 +3,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { DrawerList } from "../layout/DrawerList";
 import HeaderNav from "../layout/HeaderNav";
+import Controls from "../controls/Controls";
 
 export default function Layout() {
   // https://robohash.org/you.png?size=200x200
@@ -45,12 +46,7 @@ export default function Layout() {
         overflow: 'auto',
       }}
       >
-        <span>CONTROLS WIP</span>
-        {/* <HexxaformControls
-          boardHexes={G.boardHexes}
-          hexMap={G.hexMap}
-          moves={moves}
-          /> */}
+        <Controls />
       </div>
     </div>
   );

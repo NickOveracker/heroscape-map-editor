@@ -2,14 +2,11 @@ import { AppState } from "../types"
 
 const initialState: AppState = {
     boardHexes: {
-
         "0,0,0": {
             "q": 0,
             "r": 0,
             "s": 0,
             "id": "0,0,0",
-            "occupyingUnitID": "",
-            "isUnitTail": false,
             "altitude": 2,
             "terrain": "grass",
             "startzonePlayerIDs": []
@@ -19,8 +16,6 @@ const initialState: AppState = {
             "r": 0,
             "s": -1,
             "id": "1,0,-1",
-            "occupyingUnitID": "",
-            "isUnitTail": false,
             "altitude": 1,
             "terrain": "grass",
             "startzonePlayerIDs": []
@@ -30,8 +25,6 @@ const initialState: AppState = {
             "r": 1,
             "s": -1,
             "id": "0,1,-1",
-            "occupyingUnitID": "",
-            "isUnitTail": false,
             "altitude": 1,
             "terrain": "water",
             "startzonePlayerIDs": []
@@ -41,9 +34,7 @@ const initialState: AppState = {
             "r": 1,
             "s": -2,
             "id": "1,1,-2",
-            "occupyingUnitID": "",
-            "isUnitTail": false,
-            "altitude": 2,
+            "altitude": 3,
             "terrain": "grass",
             "startzonePlayerIDs": []
         }

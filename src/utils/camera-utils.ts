@@ -1,6 +1,6 @@
-import { CAMERA_FOV, HEXGRID_HEX_HEIGHT } from '../utils/constants'
-import { getBoardHexesRectangularMapDimensions, getBoardHex3DCoords } from '../utils/map-utils'
-import { BoardHex, BoardHexes } from '../types'
+import { CAMERA_FOV } from '../utils/constants'
+import { getBoardHexesRectangularMapDimensions } from '../utils/map-utils'
+import { BoardHexes } from '../types'
 
 type CameraLookAtArgs = [
   // positionX
@@ -23,19 +23,21 @@ export const getMapCenterCameraLookAt = (
   boardHexes: BoardHexes
 ): CameraLookAtArgs => {
   const { width, height } = getBoardHexesRectangularMapDimensions(boardHexes)
+  /* 
+  TODO: This will need to be updated: Find width and height,
+  then ascend a bit from apex, not from base (what if apex is fat?) 
+  */
   const alpha = CAMERA_FOV / 2
-  const beta = 90 - alpha // 180 degrees in a right-triangle
-  const heightCameraFitMapInFov = (width / 2) * Math.tan(beta)
+  const beta = 90 - alpha
+  const y = (width / 2) * Math.tan(beta) // far enough to see all of bottom of map even if it wall at the apex of the map
   const centerOfMapCamera = {
     x: width / 2,
-    // z: height / 2,
-    z: height, // let's try looking more eschew
-    y: heightCameraFitMapInFov,
+    z: height,
+    y: y,
   }
   const centerOfMapLookAt = {
     x: width / 2,
-    // z: height / 2,
-    z: height / 2, // let's try looking more eschew
+    z: height / 2,
     y: 0,
   }
   return [
@@ -48,41 +50,5 @@ export const getMapCenterCameraLookAt = (
     centerOfMapLookAt.y,
     centerOfMapLookAt.z,
     false,
-  ]
-}
-export const getUnitDefaultCameraLookAt = (
-  boardHex: BoardHex,
-  boardHexes: BoardHexes
-): CameraLookAtArgs => {
-  const { width, height } = getBoardHexesRectangularMapDimensions(boardHexes)
-  const { x, z } = getBoardHex3DCoords(boardHex)
-  const hexHeight = boardHex.altitude * HEXGRID_HEX_HEIGHT
-  const lilExtra = 10
-  const y = hexHeight + lilExtra
-  const unitOverheadCamera = {
-    x,
-    z,
-    y,
-  }
-  const centerOfMapLookAt = {
-    x: width / 2,
-    z: height / 2,
-    y: 0,
-  }
-  const midpointOfUnitAndCenterOfMap = {
-    x: (unitOverheadCamera.x + centerOfMapLookAt.x) / 2,
-    z: (unitOverheadCamera.z + centerOfMapLookAt.z) / 2,
-    y: 0,
-  }
-  return [
-    // from
-    unitOverheadCamera.x,
-    unitOverheadCamera.y,
-    unitOverheadCamera.z,
-    // at
-    midpointOfUnitAndCenterOfMap.x,
-    midpointOfUnitAndCenterOfMap.y,
-    midpointOfUnitAndCenterOfMap.z,
-    true,
   ]
 }
