@@ -1,4 +1,4 @@
-import { Dictionary } from 'lodash'
+import { Dictionary, template } from 'lodash'
 import { CastleObstacles, EdgeAddons, EdgeObstacles, HexObstacles, HexTerrain } from '../types'
 import { VirtualScapeTile } from '../types'
 
@@ -10,33 +10,12 @@ export const hexTerrainColor: Dictionary<string> = {
   [HexTerrain.road]: '#868686',
   [HexTerrain.water]: '#3794fd',
 }
-// This is used in Hexxaform context
-export const landSizes = {
-  // solid terrain below
-  [HexTerrain.grass]: [1, 2, 3, 7, 24],
-  [HexTerrain.rock]: [1, 2, 3, 7, 24],
-  [HexTerrain.sand]: [1, 2, 3, 7, 24],
-  [HexTerrain.swamp]: [1, 2, 3, 7, 24],
-  [HexTerrain.dungeon]: [1, 2, 3, 7, 24],
-  [HexTerrain.lavaField]: [1, 2, 7],
-  [HexTerrain.concrete]: [1, 2, 7],
-  [HexTerrain.asphalt]: [1, 2, 7],
-  [HexTerrain.road]: [1, 2],
-  [HexTerrain.snow]: [1, 2],
-  // fluid terrain below
-  [HexTerrain.water]: [1],
-  [HexTerrain.swampWater]: [1],
-  [HexTerrain.lava]: [1],
-  [HexTerrain.ice]: [1],
-  [HexTerrain.shadow]: [1],
-}
 
 function getPiece(tile: VirtualScapeTile) {
   const piece = {
     terrain: '',
-    vsType: tile.type,
-    vsColor: '',
-    hexSize: 0,
+    pieceID: '',
+    size: 0,
     template: '',
     height: 0,
     isSolid: false,
@@ -64,13 +43,13 @@ function getPiece(tile: VirtualScapeTile) {
   if (isSolid) {
     piece.isSolid = true
     piece.terrain = solidLandCodes[terrainCode]
-    piece.hexSize = Number(terrainSubcode)
+    piece.size = Number(terrainSubcode) // land tiles use their size as their template key
     piece.template = terrainSubcode // land tiles have their size as their subcode
     piece.height = 1
   } else if (isFluid) {
     piece.isFluid = true
     piece.terrain = fluidLandCodes[terrainCode]
-    piece.hexSize = Number(terrainSubcode)
+    piece.size = Number(terrainSubcode)
     piece.template = terrainSubcode // land tiles have their size as their subcode
     piece.height = 1
   }
@@ -79,7 +58,7 @@ function getPiece(tile: VirtualScapeTile) {
   if (isHexObstacle) {
     piece.isHexObstacle = true
     // piece.terrain = fluidLandCodes[terrainCode]
-    piece.hexSize = Number(terrainSubcode)
+    piece.size = Number(terrainSubcode)
     piece.template = terrainSubcode
     piece.height = 1
   }
@@ -88,14 +67,12 @@ function getPiece(tile: VirtualScapeTile) {
   if (isEdgeObstacle) {
     piece.isEdgeObstacle = true
     // piece.terrain = fluidLandCodes[terrainCode]
-    piece.hexSize = Number(terrainSubcode)
+    piece.size = Number(terrainSubcode)
     piece.template = terrainSubcode
     piece.height = 1
   }
-
-
 }
-const pieces = {
+const nonLandPieceIDs = {
   [HexObstacles.palm14]: {
     height: 14,
     size: 1,
@@ -134,7 +111,7 @@ const pieces = {
     size: 1,
 
   },
-  [HexObstacles.hive6]: {
+  [HexObstacles.hive]: {
     height: 17,
     size: 1,
 
@@ -217,16 +194,44 @@ const pieces = {
 }
 
 const solidLandCodes = {
-  '10': HexTerrain.grass,
-  '20': HexTerrain.rock,
-  '30': HexTerrain.sand,
-  '80': HexTerrain.road,
-  '90': HexTerrain.snow,
-  '70': HexTerrain.lavaField,
-  '210': HexTerrain.concrete,
-  '220': HexTerrain.asphalt,
-  '200': HexTerrain.swamp,
-  '260': HexTerrain.dungeon,
+  '1001': HexTerrain.grass,
+  '1002': HexTerrain.grass,
+  '1003': HexTerrain.grass,
+  '1007': HexTerrain.grass,
+  '1024': HexTerrain.grass,
+  '2001': HexTerrain.rock,
+  '2002': HexTerrain.rock,
+  '2003': HexTerrain.rock,
+  '2007': HexTerrain.rock,
+  '2024': HexTerrain.rock,
+  '3001': HexTerrain.sand,
+  '3002': HexTerrain.sand,
+  '3003': HexTerrain.sand,
+  '3007': HexTerrain.sand,
+  '3024': HexTerrain.sand,
+  '20001': HexTerrain.swamp,
+  '20002': HexTerrain.swamp,
+  '20003': HexTerrain.swamp,
+  '20007': HexTerrain.swamp,
+  '20024': HexTerrain.swamp,
+  '26001': HexTerrain.dungeon,
+  '26002': HexTerrain.dungeon,
+  '26003': HexTerrain.dungeon,
+  '26007': HexTerrain.dungeon,
+  '26024': HexTerrain.dungeon,
+  '7001': HexTerrain.lavaField,
+  '7002': HexTerrain.lavaField,
+  '7007': HexTerrain.lavaField,
+  '21001': HexTerrain.concrete,
+  '21002': HexTerrain.concrete,
+  '21007': HexTerrain.concrete,
+  '22001': HexTerrain.asphalt,
+  '22002': HexTerrain.asphalt,
+  '22007': HexTerrain.asphalt,
+  '8001': HexTerrain.road,
+  '8002': HexTerrain.road,
+  '9001': HexTerrain.snow,
+  '9002': HexTerrain.snow,
 }
 const fluidLandCodes = {
   '40': HexTerrain.water,
@@ -244,7 +249,7 @@ const hexObstacleCodes = {
   '10012': HexObstacles.tree11,
   '10013': HexObstacles.tree12,
   '10004': HexObstacles.tree415,
-  '230006': HexObstacles.hive6,
+  '230006': HexObstacles.hive,
   '13001': HexObstacles.glacier1,
   '13003': HexObstacles.glacier3,
   '13004': HexObstacles.glacier4,
@@ -256,12 +261,12 @@ const edgeObstacleCodes = {
   '11002': EdgeObstacles.ruins2,
   '11003': EdgeObstacles.ruins3,
   // edge/hex obstacle
-  '11006': EdgeObstacles.marvel6, // marvel ruins also create two elevated spaces/boardHexes
-  '11007': EdgeObstacles.marvelBroken6, // marvel ruins also create two elevated spaces/boardHexes
+  '11006': EdgeObstacles.marvel, // marvel ruins also create two elevated spaces/boardHexes
+  '11007': EdgeObstacles.marvelBroken, // marvel ruins also create two elevated spaces/boardHexes
 }
 const edgeAddonCodes = {
   // edge add-ons
-  '12004': EdgeAddons.roadWall4,
+  '12004': EdgeAddons.roadWall,
   '16301': EdgeAddons.battlement,
   '16402': EdgeAddons.ladder,
   '16403': EdgeAddons.flag,
@@ -281,10 +286,14 @@ const castleCodes = {
   '16404': CastleObstacles.archNoDoor3,
 }
 const personalAndFigureTypeCodes = {
-  // Tiles that people could customize in Virtualscape:
+  // Tiles that people could customize in Virtualscape
   '170': 'TYPE_PERSONAL',
-  // The MasterSet 1 figures (colored/textured too!), and Wave 1 figures (unpainted & incomplete but most of the meshes)
+  // The MasterSet 1 figures (colored/textured too!), and Wave 1 figures (unpainted & incomplete but many of the meshes)
   '180': 'TYPE_FIGURE',
+}
+const startAreaCodes = {
+  // startzone
+  '15001': 'startArea',
 }
 const startAreaColorsToPlayerID = {
   // Keys are the colorf values of StartAreaTiles from virtualscape (the colorf values are these tiles only differentiating property)
@@ -297,11 +306,5 @@ const startAreaColorsToPlayerID = {
   33023: '7', // orange
   16711808: '8', // purple
 }
-const startAreaCodes = {
-  // startzone
-  '15001': 'startArea',
-  // // ignoring these below for now
-  // [typeCodes.TYPE_PERSONAL]: 'personal',
-  // [typeCodes.TYPE_FIGURE]: 'figure',
-}
+
 

@@ -1,9 +1,27 @@
-export const glyphIDs = {
-  attack: 'attack',
-  defense: 'defense',
-  move: 'move',
-  range: 'range',
+const vsGlyphLetterToName = {
+  '?': 'unknown', // tile.type: 14063="unknown"
+  A: 'astrid',
+  G: 'gerda',
+  I: 'ivor',
+  V: 'valda',
+  D: 'dragmar',
+  B: 'brandar',
+  K: 'kelda',
+  E: 'erland',
+  M: 'mitonsoul',
+  L: 'lodin',
+  S: 'sturla',
+  R: 'rannveig',
+  J: 'jalgard',
+  W: 'wannok',
+  P: 'proftaka',
+  O: 'oreld',
+  N: 'nilrend',
+  C: 'crevcor',
+  T: 'thorian',
+  U: 'ulaniva',
 }
+
 type HexoscapeGlyphs = {
   [key: string]: {
     id: string
@@ -14,7 +32,6 @@ type HexoscapeGlyphs = {
     description: string
   }
 }
-export const MOVE_GLYPH_BONUS = 2
 
 export const powerGlyphs: HexoscapeGlyphs = {
   attack: {

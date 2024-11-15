@@ -106,7 +106,7 @@ const straight5 = [
   { q: -4, r: 4, s: 0 },
 ]
 const glacier6 = [
-  // glacier6, hive6
+  // glacier6, hive
   { q: 0, r: 0, s: 0 },
   { q: 1, r: 0, s: -1 },
   { q: 0, r: 1, s: -1 },
@@ -152,7 +152,7 @@ const rotationTransforms = {
   '1': t1,
   '2': straight2,
   '3': t3,
-  '5': straight5,
+  '5': straight5, // only road5 uses this
   '7': t7,
   '24': t24,
   // obstacles will use their template name to lookup their rotations
@@ -170,18 +170,19 @@ const rotationTransforms = {
   [HexObstacles.glacier3]: t3,
   [HexObstacles.glacier4]: glacier4,
   [HexObstacles.glacier6]: glacier6,
-  [HexObstacles.hive6]: glacier6,
+  [HexObstacles.hive]: glacier6,
   // EDGE OBSTACLES
   [EdgeObstacles.ruins2]: straight2,
   [EdgeObstacles.ruins3]: straight3,
   // HEX/EDGE
-  [EdgeObstacles.marvel6]: marvel6,
-  [EdgeObstacles.marvelBroken6]: marvel6,
+  [EdgeObstacles.marvel]: marvel6,
+  [EdgeObstacles.marvelBroken]: marvel6,
   // ADDONS
-  [EdgeAddons.roadWall4]: straight4,
+  [EdgeAddons.roadWall]: straight4,
   // CASTLE
   [CastleObstacles.archDoor3]: straight3,
   [CastleObstacles.archNoDoor3]: straight3,
+  [CastleObstacles.wallWalk1]: t1,
   [CastleObstacles.wallWalk7]: castle7,
   [CastleObstacles.wallWalk9]: castle9,
   [CastleObstacles.castleBaseCorner]: t1, // THESE FACE LEFT THOUGH!

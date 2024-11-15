@@ -41,7 +41,7 @@ export const getBoardHexesRectangularMapDimensions = (
     const apex = Math.max(...Object.keys(boardHexes).map((hexID) => boardHexes[hexID].altitude))
     return { height, width, apex }
 }
-export const getBoardHex3DCoords = (hex: BoardHex) => {
+export const getBoardHex3DCoords = (hex: CubeCoordinate & { altitude: number }) => {
     return {
         x: cubeToPixel(hex).x * HEXGRID_SPACING,
         y: hex.altitude * HEXGRID_HEX_HEIGHT,
@@ -55,4 +55,7 @@ export function genBoardHexID(hex: CubeCoordinate & { altitude: number }) {
     2. Only one hex can exist per global coordinate
     */
     return `${hex.altitude},${hex.q},${hex.r}`
+}
+export function genPieceID(hex: CubeCoordinate & { altitude: string }, pieceID: string) {
+    return `${hex.altitude},${hex.q},${hex.r},${pieceID}`
 }

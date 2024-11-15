@@ -27,11 +27,11 @@ export type CubeCoordinate = {
 export interface BoardHex extends CubeCoordinate {
     id: string
     altitude: number
-    startzonePlayerIDs: string[]
     terrain: string
+    tileID: string // tileID=qraID + pieceID
 }
 export type BoardHexes = {
-    [key: string]: BoardHex
+    [qraID: string]: BoardHex
 }
 export type StartZones = {
     [playerID: string]: string[] // boardHex IDs
@@ -56,6 +56,37 @@ export enum HexTerrain {
     ice = 'ice',
     swampWater = 'swampWater',
     shadow = 'shadow',
+    // hex obstacle
+    tree = 'tree',
+    palm = 'palm',
+    brush = 'brush',
+    outcrop = 'outcrop',
+    glacier = 'glacier',
+    hive = 'hive',
+    // edge obstacle
+    ruin = 'ruin',
+    marvelRuin = 'marvelRuin',
+    // edge addon
+    roadWall = 'roadWall',
+    battlement = 'battlement',
+    castleFlag = 'castleFlag',
+    ladder = 'ladder',
+    // castle
+    castle = 'castle',
+    wallWalk = 'wallWalk',
+    // other
+    glyph = 'glyph',
+    _vsPersonal = '_vsPersonal',
+    _vsFigure = '_vsFigure',
+}
+export enum NonHexTerrain {
+    // castleFlag = 'castleFlag',
+}
+export enum EdgeAddons {
+    roadWall = 'roadWall',
+    battlement = 'battlement',
+    flag = 'castleFlag',
+    ladder = 'ladder',
 }
 export enum HexObstacles {
     tree10 = 'tree10',
@@ -72,19 +103,13 @@ export enum HexObstacles {
     glacier3 = 'glacier3',
     glacier4 = 'glacier4',
     glacier6 = 'glacier6',
-    hive6 = 'hive6',
+    hive = 'hive',
 }
 export enum EdgeObstacles {
     ruins2 = 'ruins2',
     ruins3 = 'ruins3',
-    marvel6 = 'marvel6',
-    marvelBroken6 = 'marvelBroken6',
-}
-export enum EdgeAddons {
-    roadWall4 = 'roadWall4',
-    battlement = 'battlement',
-    flag = 'castleFlag',
-    ladder = 'ladder',
+    marvel = 'marvel',
+    marvelBroken = 'marvelBroken',
 }
 export enum CastleObstacles {
     wallWalk1 = 'wallWalk1',

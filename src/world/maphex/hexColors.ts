@@ -1,6 +1,41 @@
 import { Dictionary } from "lodash";
 import { HexTerrain } from "../../types";
-import virtualscapeTileColors from "../../data/virtualscapeTileColors";
+
+const virtualscapeTileColors: Dictionary<string> = {
+    [HexTerrain.grass]: 'rgb(0,160,0)',
+    [HexTerrain.rock]: 'rgb(170, 170, 170)',
+    [HexTerrain.sand]: 'rgb(206,172,40)',
+    [HexTerrain.road]: 'rgb(160, 160, 160)',
+    [HexTerrain.lavaField]: 'rgb(160,32,32)',
+    [HexTerrain.asphalt]: 'rgb(120, 120, 120)',
+    [HexTerrain.concrete]: 'rgb(220, 220, 220)',
+    [HexTerrain.swamp]: 'rgb(111,105,21)',
+    [HexTerrain.dungeon]: 'rgb(220, 220, 220)',
+    [HexTerrain.snow]: 'rgb(255, 255, 255)',
+    [HexTerrain.water]: 'rgb(55, 148, 253)',
+    [HexTerrain.ice]: 'rgb(180,180,255)',
+    [HexTerrain.lava]: 'rgb(255,64,64)',
+    [HexTerrain.shadow]: 'rgb(0, 0, 0)',
+    [HexTerrain.swampWater]: 'rgb(222,210,42)',
+    [HexTerrain.glyph]: 'rgb(64,0,0)',
+    [HexTerrain.ruin]: 'rgb(160, 0, 0)',
+    [HexTerrain.roadWall]: 'rgb(120, 120, 120)',
+    [HexTerrain.marvelRuin]: 'rgb(220, 220, 220)',
+    [HexTerrain.outcrop]: 'rgb(180,180,180)',
+    [HexTerrain.wallWalk]: 'rgb(190,190,190)',
+    [HexTerrain.castle]: 'rgb(220, 220, 220)',
+    castle2: 'rgb(50, 50, 50)', // Castle tiles in virtualscape have a second color for some reason
+    [HexTerrain.battlement]: 'rgb(80, 80, 80)',
+    [HexTerrain.castleFlag]: 'rgb(0,100,0)',
+    [HexTerrain.palm]: 'rgb(120,255,120)',
+    [HexTerrain.brush]: 'rgb(255,255,0)',
+    [HexTerrain.tree]: 'rgb(0,85,0)',
+    [HexTerrain.ladder]: 'rgb(255,20,00)',
+    [HexTerrain.glacier]: 'rgb(180,180,255)',
+    [HexTerrain.hive]: 'rgb(193,121,65)',
+    [HexTerrain._vsFigure]: 'rgb(255, 255, 255)',
+    [HexTerrain._vsPersonal]: 'rgb(160, 160, 160)',
+}
 
 export const hexTerrainColor: Dictionary<string> = {
     [HexTerrain.empty]: '#040404',

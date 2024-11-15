@@ -3,21 +3,13 @@ import { hexUtilsGenHexagonGrid, hexUtilsGenRectangleGrid } from './hex-utils'
 import { genBoardHexID } from './map-utils'
 
 export const generateHexagon = (mapSize: number): BoardHexes => {
-  const hexgridHexes = hexUtilsGenHexagonGrid(mapSize)
-  // in order to keep our hex grid within the same quadrant of the XY plane, we need to move it "to the right and down" according to the map size
-  const boardHexes = hexesToBoardHexes(
-    translateHexagonHexesToNormal(hexgridHexes, mapSize)
+  // keeps our hex grid within same quadrant as rectangle map
+  const boardHexes = hexesToEmptyBoardHexes(
+    translateHexagonHexesToNormal(hexUtilsGenHexagonGrid(mapSize), mapSize)
   )
   return boardHexes
 }
 
-/* 
-  translateHexagonHexesToNormal
-  translateHexagonBoardHexesToNormal
-    These functions normalize a hexagon map that is centered around (0,0), to one that stays in the same XY quadrant as rectangular maps. 
-    (Moves it "to the right and down" according to the map size)
-    DOWNSIDE: It causes decimal values for q if the map size is odd
-*/
 const qAdjust = 2 // why does dividing by 2 work?
 const translateHexagonHexesToNormal = (
   hexes: CubeCoordinate[],
@@ -54,21 +46,18 @@ export const generateRectangle = (
   mapWidth: number,
   mapHeight: number
 ): BoardHexes => {
-  const hexgridHexes = hexUtilsGenRectangleGrid(mapWidth, mapHeight)
-  const boardHexes = hexesToBoardHexes(hexgridHexes)
-  return boardHexes
+  return hexesToEmptyBoardHexes(hexUtilsGenRectangleGrid(mapWidth, mapHeight))
 }
 
-function hexesToBoardHexes(hexgridHexes: CubeCoordinate[]): BoardHexes {
+function hexesToEmptyBoardHexes(hexgridHexes: CubeCoordinate[]): BoardHexes {
   return hexgridHexes.reduce(
     (prev: BoardHexes, curr: CubeCoordinate): BoardHexes => {
       const boardHex = {
         ...curr,
-        id: genBoardHexID({ ...curr, altitude: 1 }),
-        isUnitTail: false,
+        id: genBoardHexID({ ...curr, altitude: 0 }),
         altitude: 0,
-        terrain: HexTerrain.grass,
-        startzonePlayerIDs: [],
+        terrain: HexTerrain.empty,
+        tileID: '',
       }
       return {
         ...prev,
