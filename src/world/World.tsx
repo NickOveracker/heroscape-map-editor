@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber"
 import { Stats } from "@react-three/drei"
 import Lights from "./Lights"
 import MyCameraControls from "./camera/MyCameraControls"
-import MapEditor from "./MapEditor"
+import MapDisplay3D from "./MapDisplay3D"
 import GridHelper from "./GridHelper"
 import { CAMERA_FOV } from "../utils/constants"
 
@@ -23,7 +23,7 @@ const World = () => {
             }}>
                 {/* Stats displays the fps */}
                 <Stats className='stats-panel' />
-                <MapEditor
+                <MapDisplay3D
                     cameraControlsRef={cameraControlsRef}
                 />
                 <Lights />

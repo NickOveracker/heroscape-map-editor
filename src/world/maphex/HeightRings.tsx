@@ -20,7 +20,7 @@ export const HeightRings = ({
         const points = genPointsForHeightRing(height)
         return (
           <Line
-            key={`${position.x},${position.y},${position.z},${i}`}
+            key={i}
             points={points}
             position={position}
             rotation={[0, Math.PI / 6, 0]}

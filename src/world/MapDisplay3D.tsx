@@ -5,12 +5,12 @@ import { MapHex3D } from './maphex/MapHex3D.tsx'
 import InstanceSubTerrainWrapper from './maphex/InstanceSubTerrain.tsx'
 import useAppState from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
-import { BoardHex, HexTerrain } from '../types'
+import { BoardHex, HexTerrain } from '../types.ts'
 import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 
-export default function MapEditor({
+export default function MapDisplay3D({
     cameraControlsRef,
 }: {
     cameraControlsRef: React.MutableRefObject<CameraControls>
@@ -30,6 +30,7 @@ export default function MapEditor({
             })
             .then(arrayBuffer => {
                 const myMap = processVirtualScapeArrayBuffer(arrayBuffer)
+                console.log("🚀 ~ React.useEffect ~ myMap:", myMap)
             });
     }, [])
 

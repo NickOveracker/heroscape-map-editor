@@ -37,8 +37,8 @@ export const getBoardHexesRectangularMapDimensions = (
     const height = (hexHeight * 1.5 + 2 * HEXGRID_HEX_RADIUS) * HEXGRID_SPACING
     const hexWidth = sMinusQMax - sMinusQMin
     const width =
-        (hexWidth * HEXGRID_HEX_APOTHEM + 2 * HEXGRID_HEX_APOTHEM) * HEXGRID_SPACING
-    const apex = Math.max(...Object.keys(boardHexes).map((hexID) => boardHexes[hexID].altitude))
+        (hexWidth + 2) * HEXGRID_HEX_APOTHEM * HEXGRID_SPACING
+    const apex = Math.max(...Object.values(boardHexes).map((hex) => hex.altitude)) * HEXGRID_HEX_HEIGHT
     return { height, width, apex }
 }
 export const getBoardHex3DCoords = (hex: CubeCoordinate & { altitude: number }) => {
