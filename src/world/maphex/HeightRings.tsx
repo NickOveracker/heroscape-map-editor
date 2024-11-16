@@ -1,8 +1,22 @@
-import { Color, Vector3 } from 'three'
+import { BufferGeometry, Color, Line, Vector3 } from 'three'
 import {
   HEXGRID_HEX_HEIGHT,
 } from '../../utils/constants'
-import { Line } from '@react-three/drei'
+import { extend, Object3DNode } from '@react-three/fiber'
+
+// this extension for line_ is because, if we just use <line></line> then we get an error:
+// Property 'geometry' does not exist on type 'SVGProps<SVGLineElement>'
+// So, following advice found in issue: https://github.com/pmndrs/react-three-fiber/discussions/1387
+extend({ Line_: Line })
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace JSX {
+    interface IntrinsicElements {
+      line_: Object3DNode<Line, typeof Line>
+    }
+  }
+}
+
 
 export const HeightRings = ({
   bottomRingYPos,
@@ -18,19 +32,22 @@ export const HeightRings = ({
     <>
       {heightRingsForThisHex.map((height, i) => {
         const points = genPointsForHeightRing(height)
+        const lineGeometry = new BufferGeometry().setFromPoints(points)
         return (
-          <Line
-            key={i}
-            points={points}
+          <line_
+            geometry={lineGeometry}
             position={position}
             rotation={[0, Math.PI / 6, 0]}
           >
             <lineBasicMaterial
               attach="material"
-              color={new Color('#fff')}
-              linewidth={10}
+              // warning, opacity can be a bit fps expensive
+              // transparent
+              // opacity={0.3}
+              color={new Color('#dbdbdb')}
+              linewidth={0.1}
             />
-          </Line>
+          </line_>
         )
       })}
     </>
