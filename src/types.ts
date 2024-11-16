@@ -134,7 +134,7 @@ export enum CastleObstacles {
 }
 
 export enum PenMode {
-    none = 'none',
+    select = 'select',
     eraserStartZone = 'eraserStartZone',
     eraser = HexTerrain.empty,
     water = HexTerrain.water,

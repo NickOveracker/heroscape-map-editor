@@ -20,9 +20,10 @@ import { PenMode } from '../types'
 import useBoundStore from '../store/store'
 
 export default function PenTerrainSelect() {
-  // const boardHexes = useBoundStore((state) => state.)
+  const penMode = useBoundStore((state) => state.penMode)
+  const togglePenMode = useBoundStore((state) => state.togglePenMode)
   const handleChange = (event: SelectChangeEvent) => {
-    // togglePenMode(event.target.value as PenMode)
+    togglePenMode(event.target.value as PenMode)
   }
   return (
     <FormControl variant="filled">
@@ -37,10 +38,10 @@ export default function PenTerrainSelect() {
         }}
         labelId="pen-terrain-select-label"
         id="pen-terrain-select"
-        // value={penMode}
+        value={penMode}
         onChange={handleChange}
       >
-        <MenuItem value={PenMode.none}>
+        <MenuItem value={PenMode.select}>
           <ListItemIcon>
             <GiArrowCursor />
           </ListItemIcon>

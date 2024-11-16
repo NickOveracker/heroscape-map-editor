@@ -4,10 +4,14 @@ import { AppState } from "./store"
 import { produce } from "immer"
 
 export interface UISlice extends UIState {
-
+    togglePenMode: (mode: PenMode) => void
     toggleIsShowStartZones: (s: boolean) => void
     toggleIsTakingPicture: (s: boolean) => void
+    togglePieceSize: (s: number) => void
+
 }
+
+const initialPenMode = PenMode.grass
 
 const createUISlice: StateCreator<
     // https://immerjs.github.io/immer/#with-immer
@@ -16,29 +20,27 @@ const createUISlice: StateCreator<
     [],
     UISlice
 > = (set) => ({
-    penMode: PenMode.grass,
+    penMode: initialPenMode,
     pieceSize: 1,
     isShowStartZones: true,
     isTakingPicture: false,
-    flatPieceSizes: [1],
-    setPenMode: (mode: PenMode) => set((state) => {
+    flatPieceSizes: landSizes?.[initialPenMode] ?? [],
+    togglePieceSize: (newVal: number) => set((state) => {
+        return { ...state, pieceSize: newVal }
+    }),
+    togglePenMode: (mode: PenMode) => set(produce((state) => {
+        // when we switch terrains, we have different size options available and must update smartly
         const { newSize, newSizes } = getNewPieceSizeForPenMode(
             mode,
             state.penMode,
             state.pieceSize
         )
-        return produce(state, draft => {
-            draft.penMode = mode
-            draft.pieceSize = newSize
-            draft.flatPieceSizes = newSizes
-        })
-    }),
-    toggleIsTakingPicture: (newVal: boolean) => set((state) => {
-        return { ...state, isTakingPicture: newVal }
-    }),
-    toggleIsShowStartZones: (newVal: boolean) => set((state) => {
-        return { ...state, isShowStartZones: newVal }
-    }),
+        state.penMode = mode
+        state.pieceSize = newSize
+        state.flatPieceSizes = newSizes
+    })),
+    toggleIsTakingPicture: (n: boolean) => set(produce((s => s.isTakingPicture = n))),
+    toggleIsShowStartZones: (n: boolean) => set(produce((s => s.isShowStartZones = n))),
 })
 const landSizes = {
     // solid terrain below
@@ -59,7 +61,6 @@ const landSizes = {
     [HexTerrain.ice]: [1],
     [HexTerrain.shadow]: [1],
 }
-
 const getNewPieceSizeForPenMode = (
     newMode: string,
     oldMode: string,

@@ -41,7 +41,7 @@ export default function Layout() {
         display: 'flex',
         flexFlow: 'column nowrap',
         width: '100%',
-        height: '25vh',
+        height: '30vh',
         background: 'var(--black)',
         overflow: 'auto',
       }}
