@@ -11,6 +11,7 @@ export default function getVSTileTemplate({
   rotation: number
   template: string
 }): CubeCoordinate[] {
+  console.log("🚀 ~ template:", template)
   const originOfTileTransform =
     rotationTransforms[template][rotation]
   const originOfTile = hexUtilsAdd(clickedHex, originOfTileTransform)

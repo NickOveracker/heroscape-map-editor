@@ -235,11 +235,11 @@ const wallWalk9 = [
 ]
 
 const tileTemplates: Dictionary<CubeCoordinate[]> = {
-  ' 1': basic1,
-  ' 2': basic2,
-  ' 3': basic3,
-  ' 5': straight5, // currently, road is only land with a 5-hex
-  ' 7': basic7,
+  '1': basic1,
+  '2': basic2,
+  '3': basic3,
+  '5': straight5, // currently, road is only land with a 5-hex
+  '7': basic7,
   '24': basic24,
   // hex obstructions below
   [HexObstacles.tree10]: basic1,

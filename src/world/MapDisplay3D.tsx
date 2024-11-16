@@ -9,6 +9,7 @@ import { BoardHex, HexTerrain } from '../types.ts'
 import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
+import buildupMap from '../data/terrain.ts'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -30,7 +31,9 @@ export default function MapDisplay3D({
             })
             .then(arrayBuffer => {
                 const myMap = processVirtualScapeArrayBuffer(arrayBuffer)
+                const myBuiltup = buildupMap(myMap.tiles)
                 console.log("🚀 ~ React.useEffect ~ myMap:", myMap)
+                console.log("🚀 ~ React.useEffect ~ myBuiltup:", myBuiltup)
             });
     }, [])
 

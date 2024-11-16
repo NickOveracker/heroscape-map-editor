@@ -2,7 +2,7 @@
 export default function Lights() {
   return (
     <>
-      <ambientLight intensity={1} />
+      <ambientLight intensity={2} />
       {/* 4 in rectangle over top, shop-light style */}
       {/* <directionalLight position={[50, 50, 50]} intensity={0.65} />
       <directionalLight position={[50, 50, -50]} intensity={0.65} />

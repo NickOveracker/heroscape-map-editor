@@ -111,20 +111,6 @@ export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
   })
   return virtualScapeMap
 }
-export default function readVirtualscapeMapFile(file: File) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      const arrayBuffer = reader.result
-      const virtualScapeMap = processVirtualScapeArrayBuffer(arrayBuffer as ArrayBuffer)
-      resolve(virtualScapeMap)
-    }
-    reader.onerror = () => {
-      reject(reader.error)
-    }
-    reader.readAsArrayBuffer(file)
-  })
-}
 
 function getFloat64(dataView: DataView): number {
   const val = dataView.getFloat64(offset, isLittleEndian)
@@ -184,4 +170,19 @@ function rtfToText(rtf: string) {
   return rtf
     .replace(/\{\*?\\[^{}]+}|[{}]|\\\n?[A-Za-z]+\n?(?:-?\d+)?[ ]?/g, '')
     .trim()
+}
+
+export default function readVirtualscapeMapFile(file: File) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      const arrayBuffer = reader.result
+      const virtualScapeMap = processVirtualScapeArrayBuffer(arrayBuffer as ArrayBuffer)
+      resolve(virtualScapeMap)
+    }
+    reader.onerror = () => {
+      reject(reader.error)
+    }
+    reader.readAsArrayBuffer(file)
+  })
 }

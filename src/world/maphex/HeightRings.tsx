@@ -35,6 +35,7 @@ export const HeightRings = ({
         const lineGeometry = new BufferGeometry().setFromPoints(points)
         return (
           <line_
+            key={i}
             geometry={lineGeometry}
             position={position}
             rotation={[0, Math.PI / 6, 0]}

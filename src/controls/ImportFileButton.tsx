@@ -2,7 +2,8 @@ import { ChangeEvent } from 'react'
 import { Button } from '@mui/material'
 import { MdFileOpen } from 'react-icons/md'
 import { GiDevilMask } from 'react-icons/gi'
-import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile'
+import processVirtualScapeArrayBuffer from '../data/readVirtualscapeMapFile'
+import readVirtualscapeMapFile from '../data/readVirtualscapeMapFile'
 
 const hiddenStyle = {
   clip: 'rect(0 0 0 0)',
@@ -16,20 +17,6 @@ const hiddenStyle = {
   width: '1',
 }
 
-function readVirtualscapeMapFile(file: File) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      const arrayBuffer = reader.result
-      const virtualScapeMap = processVirtualScapeArrayBuffer(arrayBuffer as ArrayBuffer)
-      resolve(virtualScapeMap)
-    }
-    reader.onerror = () => {
-      reject(reader.error)
-    }
-    reader.readAsArrayBuffer(file)
-  })
-}
 
 const ImportFileButton = () => {
   const uploadElementID = 'upload'

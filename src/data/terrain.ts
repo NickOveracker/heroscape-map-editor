@@ -1,67 +1,65 @@
-import { VirtualScapeTile, CastleObstacles, EdgeAddons, EdgeObstacles, HexObstacles, HexTerrain } from '../types'
+import { VirtualScapeTile, CastleObstacles, EdgeAddons, EdgeObstacles, HexObstacles, HexTerrain, BoardHexes } from '../types'
+import { hexUtilsOddRToCube } from '../utils/hex-utils';
+import { genBoardHexID } from '../utils/map-utils';
+import getVSTileTemplate from './rotationTransforms';
 
-
-function getPiece(tile: VirtualScapeTile) {
-  const piece = {
-    terrain: '',
-    pieceID: '',
-    size: 0,
-    template: '',
-    height: 0,
-    isSolid: false,
-    isFluid: false,
-    isHexObstacle: false,
-    isEdgeObstacle: false,
-    isStartZone: false,
-    isFigure: false,
-    isGlyph: false,
-    isPersonalTile: false,
-  }
-
-  const str = tile.type.toString()
-  let terrainCode = str.substring(0, str.length - 2)
-  let terrainSubcode = Number(str.substring(str.length - 2)).toString()
-  if (terrainCode.startsWith('16')) {
-    // Castle is the only tile type with 3 digit subcode
-    terrainCode = '16'
-    terrainSubcode = Number(str.substring(str.length - 3)).toString()
-  }
-
-  /* LAND */
-  const isSolid = Boolean(solidLandCodes[terrainCode])
-  const isFluid = Boolean(fluidLandCodes[terrainCode])
-  if (isSolid) {
-    piece.isSolid = true
-    piece.terrain = solidLandCodes[terrainCode]
-    piece.size = Number(terrainSubcode) // land tiles use their size as their template key
-    piece.template = terrainSubcode // land tiles have their size as their subcode
-    piece.height = 1
-  } else if (isFluid) {
-    piece.isFluid = true
-    piece.terrain = fluidLandCodes[terrainCode]
-    piece.size = Number(terrainSubcode)
-    piece.template = terrainSubcode // land tiles have their size as their subcode
-    piece.height = 1
-  }
-
-  const isHexObstacle = Boolean(hexObstacleCodes[terrainCode])
-  if (isHexObstacle) {
-    piece.isHexObstacle = true
-    // piece.terrain = fluidLandCodes[terrainCode]
-    piece.size = Number(terrainSubcode)
-    piece.template = terrainSubcode
-    piece.height = 1
-  }
-
-  const isEdgeObstacle = Boolean(edgeObstacleCodes[terrainCode])
-  if (isEdgeObstacle) {
-    piece.isEdgeObstacle = true
-    // piece.terrain = fluidLandCodes[terrainCode]
-    piece.size = Number(terrainSubcode)
-    piece.template = terrainSubcode
-    piece.height = 1
-  }
+type Piece = {
+  terrain: string;
+  pieceID: string;
+  size: number;
+  template: string;
+  height: number;
 }
+export default function buildupMap(tiles: VirtualScapeTile[]): BoardHexes {
+  return tiles.reduce((myBoardHexes, tile) => {
+
+    const str = tile.type.toString()
+    let terrainCode = str.substring(0, str.length - 2)
+    let terrainSubcode = Number(str.substring(str.length - 2)).toString()
+    if (terrainCode.startsWith('16')) {
+      // Castle is the only tile type with 3 digit subcode
+      terrainCode = '16'
+      terrainSubcode = Number(str.substring(str.length - 3)).toString()
+    }
+
+    // BEGIN BUILDING
+    const cubeCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
+
+    /* LAND */
+    const isSolid = Boolean(solidLandCodes[terrainCode])
+    const isFluid = Boolean(fluidLandCodes[terrainCode])
+    if (isSolid) {
+      // piece.terrain = solidLandCodes[terrainCode]
+      // piece.size = Number(terrainSubcode) // land tiles use their size as their template key
+      // piece.template = terrainSubcode // land tiles have their size as their subcode
+      // FIRST, ONLY LEVEL1
+      const hexIDArr = getVSTileTemplate({
+        clickedHex: { q: cubeCoords.q, r: cubeCoords.r, s: cubeCoords.s },
+        rotation: tile.rotation,
+        template: `${terrainSubcode}`, // DEV: Only land pieces will have their size as their template name, future things will have a string
+      }).map((h) => genBoardHexID({ ...h, altitude: tile.posZ }))
+      // paintGrassTile({ hexIDArr, altitude: hex.altitude })
+      console.log("🚀 ~ returntiles.reduce ~ hexIDArr:", hexIDArr)
+    }
+    if (isFluid) {
+      // piece.terrain = fluidLandCodes[terrainCode]
+      // piece.size = Number(terrainSubcode)
+      // piece.template = terrainSubcode // land tiles have their size as their subcode
+      // piece.height = 1
+    }
+    return myBoardHexes
+  }, {})
+
+}
+// function buildupLandPiece(piece: Piece) {
+//   const hexIDArr = getVSTileTemplate({
+//     clickedHex: { q: hex.q, r: hex.r, s: hex.s },
+//     rotation: rotation++ % 6,
+//     template: `${pieceSize}`, // DEV: Only land pieces will have their size as their template name, future things will have a string
+//   }).map((h) => generateHexID(h))
+//   paintGrassTile({ hexIDArr, altitude: hex.altitude })
+// }
+
 const nonLandPieceIDs = {
   [HexObstacles.palm14]: {
     height: 14,
@@ -183,46 +181,17 @@ const nonLandPieceIDs = {
     size: 1,
   },
 }
-
 const solidLandCodes = {
-  '1001': HexTerrain.grass,
-  '1002': HexTerrain.grass,
-  '1003': HexTerrain.grass,
-  '1007': HexTerrain.grass,
-  '1024': HexTerrain.grass,
-  '2001': HexTerrain.rock,
-  '2002': HexTerrain.rock,
-  '2003': HexTerrain.rock,
-  '2007': HexTerrain.rock,
-  '2024': HexTerrain.rock,
-  '3001': HexTerrain.sand,
-  '3002': HexTerrain.sand,
-  '3003': HexTerrain.sand,
-  '3007': HexTerrain.sand,
-  '3024': HexTerrain.sand,
-  '20001': HexTerrain.swamp,
-  '20002': HexTerrain.swamp,
-  '20003': HexTerrain.swamp,
-  '20007': HexTerrain.swamp,
-  '20024': HexTerrain.swamp,
-  '26001': HexTerrain.dungeon,
-  '26002': HexTerrain.dungeon,
-  '26003': HexTerrain.dungeon,
-  '26007': HexTerrain.dungeon,
-  '26024': HexTerrain.dungeon,
-  '7001': HexTerrain.lavaField,
-  '7002': HexTerrain.lavaField,
-  '7007': HexTerrain.lavaField,
-  '21001': HexTerrain.concrete,
-  '21002': HexTerrain.concrete,
-  '21007': HexTerrain.concrete,
-  '22001': HexTerrain.asphalt,
-  '22002': HexTerrain.asphalt,
-  '22007': HexTerrain.asphalt,
-  '8001': HexTerrain.road,
-  '8002': HexTerrain.road,
-  '9001': HexTerrain.snow,
-  '9002': HexTerrain.snow,
+  '10': HexTerrain.grass,
+  '20': HexTerrain.rock,
+  '30': HexTerrain.sand,
+  '80': HexTerrain.road,
+  '90': HexTerrain.snow,
+  '70': HexTerrain.lavaField,
+  '210': HexTerrain.concrete,
+  '220': HexTerrain.asphalt,
+  '200': HexTerrain.swamp,
+  '260': HexTerrain.dungeon,
 }
 const fluidLandCodes = {
   '40': HexTerrain.water,
