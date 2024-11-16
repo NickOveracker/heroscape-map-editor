@@ -1,6 +1,7 @@
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import { HexTerrain } from '../types'
+import useBoundStore from '../store/store'
 
 export const landSizes = {
   // solid terrain below
@@ -23,8 +24,12 @@ export const landSizes = {
 }
 
 export default function PieceSizeSelect() {
-  // const { penMode, pieceSize, togglePieceSize, flatPieceSizes } =
-  //   useHexxaformContext()
+  const {
+    penMode,
+    pieceSize,
+    //  togglePieceSize,
+    //  flatPieceSizes 
+  } = useBoundStore(s => s)
   const handleChange = (event) => {
     // togglePieceSize(parseInt(event?.target?.value ?? '1'))
   }

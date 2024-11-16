@@ -6,21 +6,23 @@ import {
   FormLabel,
   Switch,
 } from '@mui/material'
+import useBoundStore from '../store/store'
 
 const MapLensToggles = () => {
-  // const { isShowStartZones, toggleIsShowStartZones } = useHexxaformContext()
+  const isShowStartZones = useBoundStore(s => s.isShowStartZones)
+  const toggleIsShowStartZones = useBoundStore((s => s.toggleIsShowStartZones))
   return (
     <Container>
       <FormControl component="fieldset">
         <FormLabel component="legend">Map Lenses</FormLabel>
         <FormGroup aria-label="map lens toggles" row>
           <FormControlLabel
-            // value={isShowStartZones}
+            value={isShowStartZones}
             control={
               <Switch
                 color="primary"
-              // checked={isShowStartZones}
-              // onChange={toggleIsShowStartZones}
+                checked={isShowStartZones}
+                onChange={() => toggleIsShowStartZones(!isShowStartZones)}
               />
             }
             label="Show Start Zones"

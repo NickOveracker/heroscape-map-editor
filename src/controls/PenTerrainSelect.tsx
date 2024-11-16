@@ -17,9 +17,10 @@ import {
   TbHexagonNumber3Filled,
 } from 'react-icons/tb'
 import { PenMode } from '../types'
+import useBoundStore from '../store/store'
 
 export default function PenTerrainSelect() {
-
+  // const boardHexes = useBoundStore((state) => state.)
   const handleChange = (event: SelectChangeEvent) => {
     // togglePenMode(event.target.value as PenMode)
   }

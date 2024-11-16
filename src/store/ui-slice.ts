@@ -1,0 +1,88 @@
+import { StateCreator } from "zustand"
+import { HexTerrain, PenMode, UIState } from "../types"
+import { AppState } from "./store"
+import { produce } from "immer"
+
+export interface UISlice extends UIState {
+
+    toggleIsShowStartZones: (s: boolean) => void
+    toggleIsTakingPicture: (s: boolean) => void
+}
+
+const createUISlice: StateCreator<
+    // https://immerjs.github.io/immer/#with-immer
+    AppState,
+    [],
+    [],
+    UISlice
+> = (set) => ({
+    penMode: PenMode.grass,
+    pieceSize: 1,
+    isShowStartZones: true,
+    isTakingPicture: false,
+    flatPieceSizes: [1],
+    setPenMode: (mode: PenMode) => set((state) => {
+        const { newSize, newSizes } = getNewPieceSizeForPenMode(
+            mode,
+            state.penMode,
+            state.pieceSize
+        )
+        return produce(state, draft => {
+            draft.penMode = mode
+            draft.pieceSize = newSize
+            draft.flatPieceSizes = newSizes
+        })
+    }),
+    toggleIsTakingPicture: (newVal: boolean) => set((state) => {
+        return { ...state, isTakingPicture: newVal }
+    }),
+    toggleIsShowStartZones: (newVal: boolean) => set((state) => {
+        return { ...state, isShowStartZones: newVal }
+    }),
+})
+const landSizes = {
+    // solid terrain below
+    [HexTerrain.grass]: [1, 2, 3, 7, 24],
+    [HexTerrain.rock]: [1, 2, 3, 7, 24],
+    [HexTerrain.sand]: [1, 2, 3, 7, 24],
+    [HexTerrain.swamp]: [1, 2, 3, 7, 24],
+    [HexTerrain.dungeon]: [1, 2, 3, 7, 24],
+    [HexTerrain.lavaField]: [1, 2, 7],
+    [HexTerrain.concrete]: [1, 2, 7],
+    [HexTerrain.asphalt]: [1, 2, 7],
+    [HexTerrain.road]: [1, 2],
+    [HexTerrain.snow]: [1, 2],
+    // fluid terrain below
+    [HexTerrain.water]: [1],
+    [HexTerrain.swampWater]: [1],
+    [HexTerrain.lava]: [1],
+    [HexTerrain.ice]: [1],
+    [HexTerrain.shadow]: [1],
+}
+
+const getNewPieceSizeForPenMode = (
+    newMode: string,
+    oldMode: string,
+    oldPieceSize: number
+): { newSize: number; newSizes: number[] } => {
+    const terrainsWithFlatPieceSizes = Object.keys(landSizes).filter((t) => {
+        return landSizes[t].length > 0
+    })
+    const newPieceSizes = terrainsWithFlatPieceSizes.includes(newMode)
+        ? landSizes[newMode]
+        : []
+    if (!(newPieceSizes.length > 0)) {
+        return { newSize: 1, newSizes: [] }
+    }
+    if (newPieceSizes.includes(oldPieceSize)) {
+        return { newSize: oldPieceSize, newSizes: newPieceSizes }
+    } else {
+        const oldIndex = landSizes[oldMode].indexOf(oldPieceSize)
+        return {
+            newSize: newPieceSizes?.[oldIndex] ?? newPieceSizes[0],
+            newSizes: newPieceSizes,
+        }
+    }
+}
+
+export default createUISlice
