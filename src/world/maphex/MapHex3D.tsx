@@ -2,7 +2,7 @@ import { Vector3, } from 'three'
 import { BoardHex } from '../../types'
 import { HeightRings } from './HeightRings'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
-import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
+import { MapHexIDDisplay } from './MapHexIDDisplay'
 
 
 export const MapHex3D = ({
@@ -10,22 +10,19 @@ export const MapHex3D = ({
 }: {
   boardHex: BoardHex
 }) => {
-  const { x, z } = getBoardHex3DCoords(boardHex)
-  const altitude = boardHex.altitude
-  const y = 0
-  const bottomRingYPosition = 0
-  const topRingYPosition = altitude * HEXGRID_HEX_HEIGHT
-  const hexPosition = new Vector3(x, y, z)
-  // right here is where we should calculate on map state and figure out pieces, hexes, etc
+  const { x, y, z } = getBoardHex3DCoords(boardHex)
 
-
+  const bottomRingYPosition = 0 // hardCoded for now, but eventually....
+  const hexBottomPosition = new Vector3(x, bottomRingYPosition, z)
+  const hexTopPosition = new Vector3(x, y, z)
   return (
-    <group>
+    <>
+      <MapHexIDDisplay text={boardHex.id} position={hexTopPosition} />
       <HeightRings
         bottomRingYPos={bottomRingYPosition}
-        topRingYPos={topRingYPosition}
-        position={hexPosition}
+        topRingYPos={y}
+        position={hexBottomPosition}
       />
-    </group>
+    </>
   )
 }

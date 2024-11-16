@@ -1,4 +1,11 @@
-export type AppState = {
+export type AppState = MapState & {
+    uiState: {
+        penMode: PenMode
+        pieceSize: number
+        isShowStartZones: boolean
+    },
+}
+export type MapState = {
     boardHexes: BoardHexes
     hexMap: HexMap
 }

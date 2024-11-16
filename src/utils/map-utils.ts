@@ -1,4 +1,4 @@
-import { BoardHex, BoardHexes, CubeCoordinate } from "../types"
+import { BoardHexes, CubeCoordinate } from "../types"
 import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_HEIGHT, HEXGRID_HEX_RADIUS, HEXGRID_SPACING } from "./constants"
 import { cubeToPixel } from "./hex-utils"
 
@@ -57,5 +57,7 @@ export function genBoardHexID(hex: CubeCoordinate & { altitude: number }) {
     return `${hex.altitude},${hex.q},${hex.r}`
 }
 export function genPieceID(hex: CubeCoordinate & { altitude: string }, pieceID: string) {
+    // this will keep each piece unique
     return `${hex.altitude},${hex.q},${hex.r},${pieceID}`
 }
+

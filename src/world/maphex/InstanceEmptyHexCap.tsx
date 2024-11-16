@@ -12,7 +12,6 @@ import {
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { InstanceCapProps } from './InstanceCapWrapper'
 import { hexTerrainColor } from './hexColors'
-import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 
 
 
@@ -40,8 +39,9 @@ const InstanceEmptyHexCap = ({
         const placeholder = new Object3D()
         capHexesArray.forEach((boardHex, i) => {
             const { x, z, y } = getBoardHex3DCoords(boardHex)
+            const waferThin = 0.1
             placeholder.position.set(x, y, z)
-            placeholder.scale.set(1, 1, 1)
+            placeholder.scale.set(1, waferThin, 1)
             placeholder.updateMatrix()
             instanceRef.current.setMatrixAt(i, placeholder.matrix)
         })
@@ -64,6 +64,7 @@ const InstanceEmptyHexCap = ({
 
 
     return (
+
         <instancedMesh
             ref={instanceRef}
             args={[undefined, undefined, countOfCapHexes]} //args:[geometry, material, count]
@@ -71,12 +72,12 @@ const InstanceEmptyHexCap = ({
             onPointerEnter={handleEnter}
             onPointerOut={handleOut}
         >
-            <cylinderGeometry args={[1, HEXGRID_HEX_HEIGHT / 2, 1, 6]}>
+            <cylinderGeometry args={[1, 1, 0.25, 6]}>
                 <instancedBufferAttribute attach="attributes-color" args={[colorArray, 3]} />
             </cylinderGeometry>
             <meshLambertMaterial
-                transparent
-                opacity={0.5}
+                // transparent
+                // opacity={0.5}
                 vertexColors
             />
         </instancedMesh>

@@ -52,11 +52,12 @@ export const generateRectangle = (
 function hexesToEmptyBoardHexes(hexgridHexes: CubeCoordinate[]): BoardHexes {
   return hexgridHexes.reduce(
     (prev: BoardHexes, curr: CubeCoordinate): BoardHexes => {
+      const altitude = 6
       const boardHex = {
         ...curr,
-        id: genBoardHexID({ ...curr, altitude: 0 }),
-        altitude: 0,
-        terrain: HexTerrain.empty,
+        id: genBoardHexID({ ...curr, altitude }),
+        terrain: HexTerrain.grass,
+        altitude,
         tileID: '',
       }
       return {

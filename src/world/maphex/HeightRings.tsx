@@ -40,7 +40,7 @@ export const HeightRings = ({
 const genHeightRings = (top: number, bottom: number) => {
   const rings: number[] = [top] // no need to show bottom rings
   for (
-    let i = bottom + HEXGRID_HEX_HEIGHT;
+    let i = bottom;
     i < top;
     i += HEXGRID_HEX_HEIGHT
   ) {

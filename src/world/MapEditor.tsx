@@ -8,6 +8,7 @@ import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx
 import { BoardHex, HexTerrain } from '../types'
 import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
+import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 
 export default function MapEditor({
     cameraControlsRef,
@@ -19,8 +20,32 @@ export default function MapEditor({
     useZoomCameraToMapCenter({
         cameraControlsRef,
         boardHexes,
-        disabled: true,
+        // disabled: true,
     })
+    React.useEffect(() => {
+        // automatically load up the map while devving
+        fetch('/buildup.hsc')
+            .then(response => {
+                return response.arrayBuffer()
+            })
+            .then(arrayBuffer => {
+                const myMap = processVirtualScapeArrayBuffer(arrayBuffer)
+            });
+    }, [])
+
+
+
+
+
+    const emptyHexCaps = Object.values(boardHexes).filter((bh) => {
+        return bh.terrain === HexTerrain.empty
+    })
+    //   const fluidHexCaps = Object.values(boardHexes).filter((bh) => {
+    //     return bh.terrain !== HexTerrain.empty && isFluidTerrainHex(bh.terrain)
+    //   })
+    //   const solidHexCaps = Object.values(boardHexes).filter((bh) => {
+    //     return bh.terrain !== HexTerrain.empty && !isFluidTerrainHex(bh.terrain)
+    //   })
     const onPointerDown = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
         if (event.button === 2) return // ignore right clicks
         event.stopPropagation()
@@ -50,16 +75,6 @@ export default function MapEditor({
         //   paintWaterHex({ hexID: hex.id })
         // }
     }
-
-    const emptyHexCaps = Object.values(boardHexes).filter((bh) => {
-        return bh.terrain === HexTerrain.empty
-    })
-    //   const fluidHexCaps = Object.values(boardHexes).filter((bh) => {
-    //     return bh.terrain !== HexTerrain.empty && isFluidTerrainHex(bh.terrain)
-    //   })
-    //   const solidHexCaps = Object.values(boardHexes).filter((bh) => {
-    //     return bh.terrain !== HexTerrain.empty && !isFluidTerrainHex(bh.terrain)
-    //   })
     const onPointerEnter = (_e: ThreeEvent<PointerEvent>, hex: BoardHex) => {
         hoverID.current = hex.id
     }

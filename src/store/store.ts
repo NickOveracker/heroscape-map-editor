@@ -1,10 +1,10 @@
 import { create } from 'zustand'
 import { AppState, BoardHex, PenMode } from '../types'
-import initialState from './initialBoardHexes'
+import { rectangleScenario } from '../utils/map-gen'
 
 const useAppState = create<AppState>()((set) => ({
-    boardHexes: initialState.boardHexes,
-    hexMap: initialState.hexMap,
+    boardHexes: rectangleScenario.boardHexes,
+    hexMap: rectangleScenario.hexMap,
     uiState: {
         penMode: PenMode.grass,
         pieceSize: 1,
