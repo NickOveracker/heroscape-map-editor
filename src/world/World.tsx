@@ -1,6 +1,6 @@
 import React from "react"
 import { Canvas } from "@react-three/fiber"
-import { Stars, Stats } from "@react-three/drei"
+import { Stats } from "@react-three/drei"
 import Lights from "./Lights"
 import MyCameraControls from "./camera/MyCameraControls"
 import MapEditor from "./MapEditor"
@@ -21,15 +21,6 @@ const World = () => {
             <Canvas camera={{
                 fov: CAMERA_FOV,
             }}>
-                <Stars
-                    radius={100}
-                    depth={50}
-                    count={5000}
-                    factor={4}
-                    saturation={0}
-                    fade
-                    speed={0.1}
-                />
                 {/* Stats displays the fps */}
                 <Stats className='stats-panel' />
                 <MapEditor
