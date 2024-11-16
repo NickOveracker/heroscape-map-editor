@@ -1,13 +1,13 @@
-export type AppState = MapState & {
-    uiState: {
-        penMode: PenMode
-        pieceSize: number
-        isShowStartZones: boolean
-    },
-}
-export type MapState = {
+export type AppState = MapState & UIState
+export interface MapState {
     boardHexes: BoardHexes
     hexMap: HexMap
+}
+export interface UIState {
+    penMode: PenMode
+    pieceSize: number
+    isShowStartZones: boolean
+    isTakingPicture: boolean
 }
 export type HexMap = {
     id: string

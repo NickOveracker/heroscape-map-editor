@@ -2,7 +2,6 @@ import { ChangeEvent } from 'react'
 import { Button } from '@mui/material'
 import { MdFileOpen } from 'react-icons/md'
 import { GiDevilMask } from 'react-icons/gi'
-import processVirtualScapeArrayBuffer from '../data/readVirtualscapeMapFile'
 import readVirtualscapeMapFile from '../data/readVirtualscapeMapFile'
 
 const hiddenStyle = {

@@ -5,6 +5,7 @@ import ErrorPage from './layout/error-page'
 import World from './world/World'
 import { ROUTES } from './routes/ROUTES'
 import './layout/index.css'
+import { EventProvider } from './hooks/useEvent'
 
 const darkTheme = createTheme({
     palette: {
@@ -32,16 +33,16 @@ const App = () => {
             v7_normalizeFormMethod: true,
             v7_partialHydration: true,
             v7_skipActionErrorRevalidation: true,
-
         }
     });
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
-            <RouterProvider router={router} future={{
-                v7_startTransition: true
-
-            }} />
+            <EventProvider>
+                <RouterProvider router={router} future={{
+                    v7_startTransition: true
+                }} />
+            </EventProvider>
         </ThemeProvider>
     )
 }

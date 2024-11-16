@@ -3,20 +3,20 @@ import { ThreeEvent } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
 import { MapHex3D } from './maphex/MapHex3D.tsx'
 import InstanceSubTerrainWrapper from './maphex/InstanceSubTerrain.tsx'
-import useAppState from '../store/store.ts'
+import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
 import { BoardHex, HexTerrain } from '../types.ts'
 import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
-import buildupMap from '../data/terrain.ts'
+import buildupMap from '../data/buildupMap.ts'
 
 export default function MapDisplay3D({
     cameraControlsRef,
 }: {
     cameraControlsRef: React.MutableRefObject<CameraControls>
 }) {
-    const boardHexes = useAppState((state) => state.boardHexes)
+    const boardHexes = useBoundStore((state) => state.boardHexes)
     const hoverID = React.useRef('')
     useZoomCameraToMapCenter({
         cameraControlsRef,

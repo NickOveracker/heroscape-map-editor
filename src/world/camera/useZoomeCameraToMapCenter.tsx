@@ -2,7 +2,7 @@ import React from 'react'
 import { CameraControls } from '@react-three/drei'
 import { getMapCenterCameraLookAt } from '../../utils/camera-utils'
 import { BoardHexes } from '../../types'
-import useAppState from '../../store/store'
+import useBoundStore from '../../store/store'
 
 export const useZoomCameraToMapCenter = ({
     cameraControlsRef,
@@ -13,7 +13,7 @@ export const useZoomCameraToMapCenter = ({
     boardHexes: BoardHexes
     disabled?: boolean
 }) => {
-    const mapID = useAppState((state) => state.hexMap.id)
+    const mapID = useBoundStore((state) => state.hexMap.id)
     React.useEffect(() => {
         if (disabled) {
             console.warn("Zoom to center of map has been disabled!")

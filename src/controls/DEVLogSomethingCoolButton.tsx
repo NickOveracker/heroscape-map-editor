@@ -1,16 +1,14 @@
 import { Button } from '@mui/material'
-import useAppState from '../store/store'
+import useBoundStore from '../store/store'
 
 const DEVLogSomethingCoolButton = () => {
-  const boardHexes = useAppState((state) => state.boardHexes)
-  const hexMap = useAppState((state) => state.boardHexes)
+  const appState = useBoundStore((state) => state)
   const onClick = () => {
-    console.log("🚀 ~ hexMap:", hexMap)
-    console.log('🚀 ~ boardHexes:', boardHexes)
+    console.log("🚀 ~ DEVLogSomethingCoolButton ~ appState:", appState)
   }
   return (
     <Button variant="contained" onClick={onClick}>
-      Log current state (or w/e)
+      Log app state to console
     </Button>
   )
 }
