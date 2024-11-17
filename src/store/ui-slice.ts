@@ -5,10 +5,9 @@ import { produce } from "immer"
 
 export interface UISlice extends UIState {
     togglePenMode: (mode: PenMode) => void
+    togglePieceSize: (s: number) => void
     toggleIsShowStartZones: (s: boolean) => void
     toggleIsTakingPicture: (s: boolean) => void
-    togglePieceSize: (s: number) => void
-
 }
 
 const initialPenMode = PenMode.grass
@@ -25,9 +24,6 @@ const createUISlice: StateCreator<
     isShowStartZones: true,
     isTakingPicture: false,
     flatPieceSizes: landSizes?.[initialPenMode] ?? [],
-    togglePieceSize: (newVal: number) => set((state) => {
-        return { ...state, pieceSize: newVal }
-    }),
     togglePenMode: (mode: PenMode) => set(produce((state) => {
         // when we switch terrains, we have different size options available and must update smartly
         const { newSize, newSizes } = getNewPieceSizeForPenMode(
@@ -39,6 +35,9 @@ const createUISlice: StateCreator<
         state.pieceSize = newSize
         state.flatPieceSizes = newSizes
     })),
+    togglePieceSize: (newVal: number) => set((state) => {
+        return { ...state, pieceSize: newVal }
+    }),
     toggleIsTakingPicture: (n: boolean) => set(produce((s => s.isTakingPicture = n))),
     toggleIsShowStartZones: (n: boolean) => set(produce((s => s.isShowStartZones = n))),
 })
