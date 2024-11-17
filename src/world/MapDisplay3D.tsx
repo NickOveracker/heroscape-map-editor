@@ -10,6 +10,9 @@ import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import buildupMap from '../data/buildupMap.ts'
+import { isFluidTerrainHex } from '../utils/board-utils.ts'
+import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
+import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -23,8 +26,9 @@ export default function MapDisplay3D({
         boardHexes,
         // disabled: true,
     })
+
+    // USE EFFECT: automatically load up the map while devving
     React.useEffect(() => {
-        // automatically load up the map while devving
         fetch('/buildup.hsc')
             .then(response => {
                 return response.arrayBuffer()
@@ -37,19 +41,15 @@ export default function MapDisplay3D({
             });
     }, [])
 
-
-
-
-
     const emptyHexCaps = Object.values(boardHexes).filter((bh) => {
         return bh.terrain === HexTerrain.empty
     })
-    //   const fluidHexCaps = Object.values(boardHexes).filter((bh) => {
-    //     return bh.terrain !== HexTerrain.empty && isFluidTerrainHex(bh.terrain)
-    //   })
-    //   const solidHexCaps = Object.values(boardHexes).filter((bh) => {
-    //     return bh.terrain !== HexTerrain.empty && !isFluidTerrainHex(bh.terrain)
-    //   })
+    const fluidHexCaps = Object.values(boardHexes).filter((bh) => {
+        return bh.terrain !== HexTerrain.empty && isFluidTerrainHex(bh.terrain)
+    })
+    const solidHexCaps = Object.values(boardHexes).filter((bh) => {
+        return bh.terrain !== HexTerrain.empty && !isFluidTerrainHex(bh.terrain)
+    })
     const onPointerDown = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
         if (event.button === 2) return // ignore right clicks
         event.stopPropagation()
@@ -91,6 +91,23 @@ export default function MapDisplay3D({
                 capHexesArray={emptyHexCaps}
                 glKey={'InstanceEmptyHexCap-'}
                 component={InstanceEmptyHexCap}
+                onPointerEnter={onPointerEnter}
+                onPointerOut={onPointerOut}
+                onPointerDown={onPointerDown}
+            />
+            <InstanceCapWrapper
+                capHexesArray={fluidHexCaps}
+                glKey={'InstanceFluidHexCap-'}
+                component={InstanceFluidHexCap}
+                onPointerEnter={onPointerEnter}
+                onPointerOut={onPointerOut}
+                onPointerDown={onPointerDown}
+            />
+
+            <InstanceCapWrapper
+                capHexesArray={solidHexCaps}
+                glKey={'InstanceSolidHexCap-'}
+                component={InstanceSolidHexCap}
                 onPointerEnter={onPointerEnter}
                 onPointerOut={onPointerOut}
                 onPointerDown={onPointerDown}
