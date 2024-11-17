@@ -4,6 +4,7 @@ export interface MapState {
 }
 export interface UIState {
     penMode: PenMode
+    pieceRotation: number
     pieceSize: number
     flatPieceSizes: number[]
     isShowStartZones: boolean
@@ -87,9 +88,6 @@ export enum HexTerrain {
     _vsPersonal = '_vsPersonal',
     _vsFigure = '_vsFigure',
 }
-export enum NonHexTerrain {
-    // castleFlag = 'castleFlag',
-}
 export enum EdgeAddons {
     roadWall = 'roadWall',
     battlement = 'battlement',
@@ -132,7 +130,6 @@ export enum CastleObstacles {
     castleWallStraight = 'castleWallStraight',
     castleWallEnd = 'castleWallEnd',
 }
-
 export enum PenMode {
     select = 'select',
     eraserStartZone = 'eraserStartZone',
@@ -141,12 +138,14 @@ export enum PenMode {
     grass = HexTerrain.grass,
     sand = HexTerrain.sand,
     rock = HexTerrain.rock,
-    startZone0 = 'startZone0',
     startZone1 = 'startZone1',
     startZone2 = 'startZone2',
-    // startZone3 = 'startZone3',
-    // startZone4 = 'startZone4',
-    // startZone5 = 'startZone5',
+    startZone3 = 'startZone3',
+    startZone4 = 'startZone4',
+    startZone5 = 'startZone5',
+    startZone6 = 'startZone6',
+    startZone7 = 'startZone7',
+    startZone8 = 'startZone8',
 }
 
 export type VirtualScapeMap = {

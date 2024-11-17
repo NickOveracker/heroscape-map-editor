@@ -6,6 +6,7 @@ import { produce } from "immer"
 export interface UISlice extends UIState {
     togglePenMode: (mode: PenMode) => void
     togglePieceSize: (s: number) => void
+    togglePieceRotation: (s: number) => void
     toggleIsShowStartZones: (s: boolean) => void
     toggleIsTakingPicture: (s: boolean) => void
 }
@@ -20,10 +21,6 @@ const createUISlice: StateCreator<
     UISlice
 > = (set) => ({
     penMode: initialPenMode,
-    pieceSize: 1,
-    isShowStartZones: true,
-    isTakingPicture: false,
-    flatPieceSizes: landSizes?.[initialPenMode] ?? [],
     togglePenMode: (mode: PenMode) => set(produce((state) => {
         // when we switch terrains, we have different size options available and must update smartly
         const { newSize, newSizes } = getNewPieceSizeForPenMode(
@@ -35,11 +32,15 @@ const createUISlice: StateCreator<
         state.pieceSize = newSize
         state.flatPieceSizes = newSizes
     })),
-    togglePieceSize: (newVal: number) => set((state) => {
-        return { ...state, pieceSize: newVal }
-    }),
-    toggleIsTakingPicture: (n: boolean) => set(produce((s => s.isTakingPicture = n))),
-    toggleIsShowStartZones: (n: boolean) => set(produce((s => s.isShowStartZones = n))),
+    flatPieceSizes: landSizes?.[initialPenMode] ?? [],
+    pieceSize: 1,
+    togglePieceSize: (n: number) => set(produce((s => s.pieceSize = n))),
+    pieceRotation: 0,
+    togglePieceRotation: (n: number) => set(produce((s => s.pieceRotation = n))),
+    isShowStartZones: true,
+    toggleIsShowStartZones: (b: boolean) => set(produce((s => s.isShowStartZones = b))),
+    isTakingPicture: false,
+    toggleIsTakingPicture: (b: boolean) => set(produce((s => s.isTakingPicture = b))),
 })
 const landSizes = {
     // solid terrain below
