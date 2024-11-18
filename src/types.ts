@@ -172,7 +172,7 @@ export type VirtualScapeTile = {
     glyphLetter: string
     glyphName: string
     startName: string
-    colorf: number
+    colorf: string
     // isFigureTile: boolean
     figure: {
         name: string

@@ -2,7 +2,7 @@ import { Button } from '@mui/material'
 import { MdOutlineDownloadForOffline } from 'react-icons/md'
 import useBoundStore from '../store/store'
 
-const ExportFileButton = () => {
+const ExportJsonFileButton = () => {
   const boardHexes = useBoundStore((state) => state.boardHexes)
   const hexMap = useBoundStore((state) => state.boardHexes)
   const handleClickExportJson = () => {
@@ -20,9 +20,9 @@ const ExportFileButton = () => {
     )
     element.setAttribute('download', filename)
     element.style.display = 'none'
-    document.body.append(element)
+    // document.body.append(element)
     element.click()
-    element.remove()
+    // element.remove()
   }
   return (
     <Button
@@ -34,4 +34,4 @@ const ExportFileButton = () => {
     </Button>
   )
 }
-export default ExportFileButton
+export default ExportJsonFileButton

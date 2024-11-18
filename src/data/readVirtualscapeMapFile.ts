@@ -53,7 +53,7 @@ export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
       glyphLetter: '',
       glyphName: '',
       startName: '',
-      colorf: 0,
+      colorf: '',
       // isFigureTile: false,
       figure: {
         name: '',
@@ -68,7 +68,6 @@ export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
         name: '',
       },
     }
-    console.log("🚀 ~ processVirtualScapeArrayBuffer ~ START:", offset)
     // type designates a unique piece/tile in heroscape
     tile.type = getInt32(dataView)
     // tile version "0.0003" only one tested or seen
@@ -86,7 +85,11 @@ export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
     tile.glyphName = readCString(dataView)
     tile.startName = readCString(dataView)
     // this
-    tile.colorf = getInt32(dataView)
+    const red = getUint8(dataView)
+    const green = getUint8(dataView)
+    const blue = getUint8(dataView)
+    const alpha = getUint8(dataView)
+    tile.colorf = `rgba(${red},${green},${blue},${alpha})`
 
     if (Math.floor(tile.type / 1000) === 17) {
       // "personal" tiles have additional data
@@ -154,16 +157,25 @@ function readCString(dataView: DataView): string {
   return value
 }
 function readCStringLength(dataView: DataView): number {
+  /* 
+  Mystery lives here, still.
+  So, 3 bytes seem to always be used as number/byte padding.
+   They will be: 0xff 0xfffe pointing us to loop back and
+   THEN we may encounter our result as a byte or a short.
+   So 3bytes + 1byte, or 3bytes + 3bytes, always (will need to know this for writing files back to virtualscape)
+  */
   let length = 0
   const byte = getUint8(dataView)
-  if (byte !== 0xff) {
+  if (byte !== 0xff/* 255, indicating larger */) {
     length = byte
   } else {
     const short = getUint16(dataView)
 
     if (short === 0xfffe) {
+      // THIS BRANCH ALWAYS RUNS
       return readCStringLength(dataView)
     } else if (short === 0xffff) {
+      // Probably never happens. Virtualscape caps map name at 30,000 characters
       length = getUint32(dataView)
     } else {
       length = short

@@ -26,7 +26,7 @@ const isLittleEndian = true
 let offset = 0
 const myFile = {
   version: 0.0007,
-  name: '',
+  name: 'HexoscapeMap',
   author: '',
   playerNumber: '',
   scenario: '',
@@ -47,7 +47,7 @@ const myFile = {
       glyphLetter: '\u0000',
       glyphName: '',
       startName: '',
-      colorf: 16777215,
+      colorf: { r: 0, g: 160, b: 0, a: 0 },
     },
   ],
 }
@@ -113,7 +113,7 @@ export function writeVirtualScapeArrayBuffer(length?: number) {
     setInt32(dataView, tile.posZ)
     // glyphLetter reliably is stored and read in files
     // tile.glyphLetter = String.fromCharCode(getUint8(dataView))
-    setInt32(dataView, (tile.glyphLetter || 'õ').charCodeAt[0])
+    setInt32(dataView, ('õ').charCodeAt[0])
     // glyphName is empty on some tests of files, do not use it
     // tile.glyphName = readCString(dataView)
     writeCString(dataView, tile.glyphName)
@@ -121,7 +121,10 @@ export function writeVirtualScapeArrayBuffer(length?: number) {
     writeCString(dataView, tile.startName)
     // this
     // tile.colorf = getInt32(dataView)
-    setInt32(dataView, tile.colorf)
+    setUint8(dataView, tile.colorf.r)
+    setUint8(dataView, tile.colorf.g)
+    setUint8(dataView, tile.colorf.b)
+    setUint8(dataView, tile.colorf.a) // alpha?
   }
   return { offset, dataView, arrayBuffer }
 
@@ -143,7 +146,11 @@ function setUint16(dataView: DataView, value: number) {
   offset += 2
 }
 function setUint8(dataView: DataView, value: number) {
-  dataView.setUint8(offset, value)
+  dataView.setInt8(offset, value)
+  offset += 1
+}
+function setInt8(dataView: DataView, value: number) {
+  dataView.setInt8(offset, value)
   offset += 1
 }
 

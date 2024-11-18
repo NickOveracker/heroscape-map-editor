@@ -1,7 +1,8 @@
 import { LoadSaveMapButtons } from './LoadSaveMapButtons'
-import ExportFileButton from './ExportFileButton'
+import ExportJsonFileButton from './ExportJsonFileButton'
 import ImportFileButton from './ImportFileButton'
 import { ButtonGroup } from '@mui/material'
+import ExportBinaryFileButton from './ExportBinaryFileButton'
 
 const FileButtonGroup = () => {
   return (
@@ -14,7 +15,8 @@ const FileButtonGroup = () => {
     >
       <LoadSaveMapButtons
       />
-      <ExportFileButton />
+      <ExportBinaryFileButton />
+      <ExportJsonFileButton />
       <ImportFileButton />
     </ButtonGroup>
   )

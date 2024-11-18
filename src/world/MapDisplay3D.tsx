@@ -5,7 +5,7 @@ import { MapHex3D } from './maphex/MapHex3D.tsx'
 import InstanceSubTerrainWrapper from './maphex/InstanceSubTerrain.tsx'
 import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
-import { BoardHex, HexTerrain } from '../types.ts'
+import { BoardHex, HexTerrain, PenMode } from '../types.ts'
 import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
@@ -13,6 +13,8 @@ import buildupMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex } from '../utils/board-utils.ts'
 import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
 import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
+import getVSTileTemplate from '../data/rotationTransforms.ts'
+import { genBoardHexID } from '../utils/map-utils.ts'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -20,16 +22,20 @@ export default function MapDisplay3D({
     cameraControlsRef: React.MutableRefObject<CameraControls>
 }) {
     const boardHexes = useBoundStore((state) => state.boardHexes)
+    const penMode = useBoundStore((state) => state.penMode)
+    const pieceSize = useBoundStore((state) => state.pieceSize)
+    const pieceRotation = useBoundStore((state) => state.pieceRotation)
     const hoverID = React.useRef('')
     useZoomCameraToMapCenter({
         cameraControlsRef,
         boardHexes,
-        // disabled: true,
+        // disabled: true, // for when working on camera stuff
     })
 
     // USE EFFECT: automatically load up the map while devving
     React.useEffect(() => {
-        fetch('/buildup.hsc')
+        const fileName = '/personal.hsc'
+        fetch(fileName)
             .then(response => {
                 return response.arrayBuffer()
             })
@@ -37,7 +43,7 @@ export default function MapDisplay3D({
                 const myMap = processVirtualScapeArrayBuffer(arrayBuffer)
                 const myBuiltup = buildupMap(myMap.tiles)
                 console.log("🚀 ~ React.useEffect ~ myMap:", myMap)
-                console.log("🚀 ~ React.useEffect ~ myBuiltup:", myBuiltup)
+                console.log(`🚀 ~ React.useEffect ~ myBuiltup: ${fileName}`, myBuiltup)
             });
     }, [])
 
@@ -57,26 +63,26 @@ export default function MapDisplay3D({
         if (cameraControlsRef.current.active) return
         cameraControlsRef.current
         const isVoidTerrainHex = hex.terrain === HexTerrain.empty
-        // if (PenMode === PenMode.eraser && !isVoidTerrainHex) {
-        //   voidHex({ hexID: hex.id })
-        // }
-        // if (penMode === PenMode.eraserStartZone) {
-        //   voidStartZone({ hexID: hex.id })
-        // }
-        // if (penMode === PenMode.grass) {
-        //   const hexIDArr = getVSTileTemplate({
-        //     clickedHex: { q: hex.q, r: hex.r, s: hex.s },
-        //     rotation: rotation++ % 6,
-        //     template: `${pieceSize}`, // DEV: Only land pieces will have their size as their template name, future things will have a string
-        //   }).map((h) => generateHexID(h))
-        //   paintGrassTile({ hexIDArr, altitude: hex.altitude })
-        // }
-        // // last letter in string is playerID, but this seems inelegant
-        // if (penMode.slice(0, -1) === 'startZone') {
-        //   paintStartZone({ hexID: hex.id, playerID: penMode.slice(-1) })
-        // }
+        if (penMode === PenMode.eraser && !isVoidTerrainHex) {
+            // voidHex({ hexID: hex.id })
+        }
+        if (penMode === PenMode.eraserStartZone) {
+            // voidStartZone({ hexID: hex.id })
+        }
+        if (penMode === PenMode.grass) {
+            const hexIDArr = getVSTileTemplate({
+                clickedHex: { q: hex.q, r: hex.r, s: hex.s },
+                rotation: pieceRotation % 6,
+                template: `${pieceSize}`, // DEV: Only land pieces will have their size as their template name, future things will have a string
+            }).map((h) => genBoardHexID({ ...h, altitude: hex.altitude }))
+            // paintGrassTile({ hexIDArr, altitude: hex.altitude })
+        }
+        // last letter in string is playerID
+        if (penMode.slice(0, -1) === 'startZone') {
+            // paintStartZone({ hexID: hex.id, playerID: penMode.slice(-1) })
+        }
         // if (penMode === PenMode.water) {
-        //   paintWaterHex({ hexID: hex.id })
+        //     paintWaterHex({ hexID: hex.id })
         // }
     }
     const onPointerEnter = (_e: ThreeEvent<PointerEvent>, hex: BoardHex) => {
