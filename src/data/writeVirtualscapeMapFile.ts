@@ -1,34 +1,11 @@
-import { truncate } from "lodash"
-
-// // Create an array of bytes (e.g., representing an image)
-// const byteArray = [0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64];
-
-// // Create a Blob from the array
-// const blob = new Blob([new Uint8Array(byteArray)], { type: 'application/octet-stream' });
-
-// // Create a URL for the Blob
-// const url = URL.createObjectURL(blob);
-
-// // Create a link element
-// const link = document.createElement('a');
-// link.href = url;
-// link.download = 'binary_file.bin'; // Set the desired file name
-
-// // Append the link to the DOM and trigger a click event
-// document.body.appendChild(link);
-// link.click();
-
-// // Clean up
-// document.body.removeChild(link);
-// URL.revokeObjectURL(url);
 const isLittleEndian = true
 let offset = 0
 const myFile = {
   version: 0.0007,
-  name: '',
-  author: '',
-  playerNumber: '',
-  scenario: '',
+  name: '', // gets written blank
+  author: '', // gets written blank
+  playerNumber: '', // gets written blank
+  scenario: 'This is all about my scenario!',
   levelPerPage: 6,
   printingTransparency: 80,
   printingGrid: true,
@@ -43,9 +20,9 @@ const myFile = {
       posX: 0,
       posY: 0,
       posZ: 0,
-      glyphLetter: 'T',
-      glyphName: '',
-      startName: '',
+      glyphLetter: 'T', // gets written static until a problem arises: T works, use "T"
+      glyphName: '', // gets written blank
+      startName: '', // gets written blank
       colorf: { r: 0, g: 160, b: 0, a: 0 },
     },
   ],
@@ -62,9 +39,9 @@ export function writeVirtualScapeArrayBuffer(length?: number) {
   console.log("🚀 ~ writeVirtualScapeArrayBuffer ~ dataView:", dataView)
   offset = 0
   setFloat64(dataView, myFile.version)
-  writeCString(dataView, myFile.name)
-  writeCString(dataView, myFile.author)
-  writeCString(dataView, myFile.playerNumber)
+  writeBlankCString(dataView, myFile.name)
+  writeBlankCString(dataView, myFile.author)
+  writeBlankCString(dataView, myFile.playerNumber)
   setInt32(dataView, myFile.scenario.length)
   const encoder = new TextEncoder();
   const encodedData = encoder.encode(myFile.scenario);
@@ -87,8 +64,8 @@ export function writeVirtualScapeArrayBuffer(length?: number) {
     setInt32(dataView, tile.posY)
     setInt32(dataView, tile.posZ)
     setInt8(dataView, (tile.glyphLetter).charCodeAt[0])
-    writeCString(dataView, tile.glyphName)
-    writeCString(dataView, tile.startName)
+    writeBlankCString(dataView, tile.glyphName)
+    writeBlankCString(dataView, tile.startName)
     setInt8(dataView, tile.colorf.r)
     setInt8(dataView, tile.colorf.g)
     setInt8(dataView, tile.colorf.b)
@@ -105,10 +82,10 @@ function setInt32(dataView: DataView, value: number) {
   dataView.setInt32(offset, value, isLittleEndian)
   offset += 4
 }
-function setInt16(dataView: DataView, value: number) {
-  dataView.setInt16(offset, value, isLittleEndian)
-  offset += 2
-}
+// function setInt16(dataView: DataView, value: number) {
+//   dataView.setInt16(offset, value, isLittleEndian)
+//   offset += 2
+// }
 function setUint16(dataView: DataView, value: number) {
   dataView.setUint16(offset, value, isLittleEndian)
   offset += 2
@@ -122,31 +99,33 @@ function setInt8(dataView: DataView, value: number) {
   offset += 1
 }
 
-export function stringToUTF16Bytes(str) {
-  const bytes = [];
-
-  for (let i = 0; i < str.length; i++) {
-    const codePoint = str.charCodeAt(i);
-    bytes.push(codePoint >> 8, codePoint & 0xFF);
-  }
-
-  return bytes;
-}
-
-function writeCString(dataView: DataView, argValue: string) {
-  const truncated = truncate(argValue, {
-    length: 254,
-    omission: ''
-  })
-  const length = truncated.length
+function writeBlankCString(dataView: DataView, _argValue: string) {
+  // Cannot figure out how to write strings, so they all get written as empty
+  const length = 0
   // FEFF 00FF : for empty strings
   setUint16(dataView, 0xfeff)
   setUint8(dataView, 0xff)
   setUint8(dataView, length)
 
-  const valueAsUtf16Arr = stringToUTF16Bytes(truncated)
-  for (let i = 0; i < length; i++) {
-    // const new2Bit = String.prototype.codePointAt(truncated[i])
-    setInt16(dataView, valueAsUtf16Arr[i])
-  }
+  // const valueAsUtf16Arr = stringToUTF16Bytes(truncated)
+  // for (let i = 0; i < length; i++) {
+  //   // const new2Bit = String.prototype.codePointAt(truncated[i])
+  //   setInt16(dataView, valueAsUtf16Arr[i])
+  // }
+  // function stringToUTF16Bytes(str) {
+  //   const bytes = [];
+  //   for (let i = 0; i < str.length; i++) {
+  //     const codePoint = str.charCodeAt(i);
+  //     // Check if code point requires surrogate pair
+  //     if (codePoint > 0xFFFF) {
+  //       const highSurrogate = 0xD800 + ((codePoint - 0x10000) >> 10);
+  //       const lowSurrogate = 0xDC00 + ((codePoint - 0x10000) & 0x3FF);
+  //       bytes.push(highSurrogate >> 8, highSurrogate & 0xFF);
+  //       bytes.push(lowSurrogate >> 8, lowSurrogate & 0xFF);
+  //     } else {
+  //       bytes.push(codePoint >> 8, codePoint & 0xFF);
+  //     }
+  //     return bytes;
+  //   }
+  // }
 }
