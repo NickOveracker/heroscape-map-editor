@@ -39,7 +39,7 @@ export default function buildupMap(tiles: VirtualScapeTile[]): BoardHexes {
         template: `${terrainSubcode}`, // DEV: Only land pieces will have their size as their template name, future things will have a string
       }).map((h) => genBoardHexID({ ...h, altitude: tile.posZ }))
       // paintGrassTile({ hexIDArr, altitude: hex.altitude })
-      console.log("🚀 ~ returntiles.reduce ~ hexIDArr:", hexIDArr)
+      // console.log("🚀 ~ returntiles.reduce ~ hexIDArr:", hexIDArr)
     }
     if (isFluid) {
       // piece.terrain = fluidLandCodes[terrainCode]

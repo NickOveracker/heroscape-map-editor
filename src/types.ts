@@ -173,12 +173,12 @@ export type VirtualScapeTile = {
     glyphName: string
     startName: string
     colorf: number
-    isFigureTile: boolean
+    // isFigureTile: boolean
     figure: {
         name: string
         name2: string
     },
-    isPersonalTile: boolean
+    // isPersonalTile: boolean
     personal: {
         pieceSize: number
         textureTop: string
