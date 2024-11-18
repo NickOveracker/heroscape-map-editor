@@ -1,5 +1,6 @@
 import { truncate } from "lodash"
 import { VirtualScapeMap, VirtualScapeTile } from "../types"
+import { cStringBytePrefix, cStringShortPrefix } from "./readVirtualscapeMapFile"
 
 // // Create an array of bytes (e.g., representing an image)
 // const byteArray = [0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64];
@@ -177,11 +178,16 @@ export function stringToUTF16Bytes(str) {
 
 function writeCString(dataView: DataView, argValue: string) {
   const truncated = truncate(argValue, {
-    length: 1000,
-    omission: 'TRUNCATED BY HEXOSCAPE BECAUSE STRING LENGTH OVER 65000 CHARACTERS'
+    length: 30000,
+    omission: 'TRUNCATED: OVER 30,000 CHARACTERS'
   })
   const length = truncated.length
   const is2byteLength = length >= 255
+  // FIRST, there will be three bytes of prefix
+  setUint8(dataView, cStringBytePrefix)
+  setUint16(dataView, cStringShortPrefix)
+
+
   if (is2byteLength) {
     setUint16(dataView, length)
   } else {

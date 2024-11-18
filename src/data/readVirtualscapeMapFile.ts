@@ -5,6 +5,8 @@ This function reads a specific binary file format used by VirtualScape.
 VirtualScape map editor: https://github.com/didiers/virtualscape
 */
 const isLittleEndian = true
+export const cStringBytePrefix = 0xff // 255
+export const cStringShortPrefix = 0xfffe // 65534
 let offset = 0
 export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
   const dataView = new DataView(arrayBuffer as ArrayBuffer)
@@ -157,25 +159,16 @@ function readCString(dataView: DataView): string {
   return value
 }
 function readCStringLength(dataView: DataView): number {
-  /* 
-  Mystery lives here, still.
-  So, 3 bytes seem to always be used as number/byte padding.
-   They will be: 0xff 0xfffe pointing us to loop back and
-   THEN we may encounter our result as a byte or a short.
-   So 3bytes + 1byte, or 3bytes + 3bytes, always (will need to know this for writing files back to virtualscape)
-  */
   let length = 0
   const byte = getUint8(dataView)
-  if (byte !== 0xff/* 255, indicating larger */) {
+  if (byte !== cStringBytePrefix) {
     length = byte
   } else {
     const short = getUint16(dataView)
 
-    if (short === 0xfffe) {
-      // THIS BRANCH ALWAYS RUNS
+    if (short === cStringShortPrefix) {
       return readCStringLength(dataView)
-    } else if (short === 0xffff) {
-      // Probably never happens. Virtualscape caps map name at 30,000 characters
+    } else if (short === 0xffff) { // 65535
       length = getUint32(dataView)
     } else {
       length = short

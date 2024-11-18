@@ -8,7 +8,6 @@ const ExportBinaryFileButton = () => {
     const element = document.createElement('a')
     const fileByteLength = writeVirtualScapeArrayBuffer().offset
     const file = writeVirtualScapeArrayBuffer(fileByteLength).arrayBuffer
-    console.log("🚀 ~ handleClickExportBinary ~ file:", file)
     const blob = new Blob([file], { type: "application/octet-stream" });
     element.setAttribute(
       'href',
