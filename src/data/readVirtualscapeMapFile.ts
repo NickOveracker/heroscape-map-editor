@@ -54,12 +54,12 @@ export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
       glyphName: '',
       startName: '',
       colorf: 0,
-      isFigureTile: false,
+      // isFigureTile: false,
       figure: {
         name: '',
         name2: '',
       },
-      isPersonalTile: false,
+      // isPersonalTile: false,
       personal: {
         pieceSize: 0,
         textureTop: '',
@@ -68,6 +68,7 @@ export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
         name: '',
       },
     }
+    console.log("🚀 ~ processVirtualScapeArrayBuffer ~ START:", offset)
     // type designates a unique piece/tile in heroscape
     tile.type = getInt32(dataView)
     // tile version "0.0003" only one tested or seen
@@ -89,16 +90,16 @@ export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
 
     if (Math.floor(tile.type / 1000) === 17) {
       // "personal" tiles have additional data
-      tile.isPersonalTile = true
+      // tile.isPersonalTile = true
       tile.personal.pieceSize = getInt32(dataView)
-      tile.personal.textureTop = readCString(dataView)
-      tile.personal.textureSide = readCString(dataView)
+      tile.personal.textureTop = readCString(dataView) // My Ice.bmp
+      tile.personal.textureSide = readCString(dataView) // My IceSide.bmp
       tile.personal.letter = readCString(dataView)
       tile.personal.name = readCString(dataView)
     }
     if (Math.floor(tile.type / 1000) === 18) {
       // "figure" tiles have additional data
-      tile.isFigureTile = true
+      // tile.isFigureTile = true
       tile.figure.name = readCString(dataView)
       tile.figure.name2 = readCString(dataView)
     }
@@ -114,50 +115,56 @@ export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
 
 function getFloat64(dataView: DataView): number {
   const val = dataView.getFloat64(offset, isLittleEndian)
-  const BYTES_PER_FLOAT = 8
-  offset += BYTES_PER_FLOAT
+  offset += 8
   return val
 }
 function getInt32(dataView: DataView): number {
   const val = dataView.getInt32(offset, isLittleEndian)
-  const BYTES_PER_INT32 = 4
-  offset += BYTES_PER_INT32
+  offset += 4
+  return val
+}
+function getUint32(dataView: DataView): number {
+  const val = dataView.getUint32(offset, isLittleEndian)
+  offset += 4
+  return val
+}
+function getInt16(dataView: DataView): number {
+  const val = dataView.getInt16(offset, isLittleEndian)
+  offset += 2
+  return val
+}
+function getUint16(dataView: DataView): number {
+  const val = dataView.getUint16(offset, isLittleEndian)
+  offset += 2
   return val
 }
 function getUint8(dataView: DataView): number {
   const val = dataView.getUint8(offset)
-  const BYTES_PER_UINT8 = 1
-  offset += BYTES_PER_UINT8
+  offset += 1
   return val
 }
 function readCString(dataView: DataView): string {
   const length = readCStringLength(dataView)
   let value = ''
   for (let i = 0; i < length; i++) {
-    const newChar = String.fromCodePoint(
-      dataView.getInt16(offset, isLittleEndian)
+    value += String.fromCodePoint(
+      getInt16(dataView)
     )
-    value += newChar
-    offset += 2
   }
   return value
 }
 function readCStringLength(dataView: DataView): number {
   let length = 0
-  const byte = dataView.getUint8(offset)
-  offset += 1
-
+  const byte = getUint8(dataView)
   if (byte !== 0xff) {
     length = byte
   } else {
-    const short = dataView.getUint16(offset, isLittleEndian)
-    offset += 2
+    const short = getUint16(dataView)
 
     if (short === 0xfffe) {
       return readCStringLength(dataView)
     } else if (short === 0xffff) {
-      length = dataView.getUint32(offset, true)
-      offset += 4
+      length = getUint32(dataView)
     } else {
       length = short
     }
