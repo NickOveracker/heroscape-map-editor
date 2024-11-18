@@ -5,8 +5,6 @@ This function reads a specific binary file format used by VirtualScape.
 VirtualScape map editor: https://github.com/didiers/virtualscape
 */
 const isLittleEndian = true
-export const cStringBytePrefix = 0xff // 255
-export const cStringShortPrefix = 0xfffe // 65534
 let offset = 0
 export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
   const dataView = new DataView(arrayBuffer as ArrayBuffer)
@@ -46,9 +44,10 @@ export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
   virtualScapeMap.tileCount = getInt32(dataView)
 
   for (let i = 0; i < virtualScapeMap.tileCount; i++) {
+    // if all C-string fields above were empty, then tiles start at byte 48
     const tile: VirtualScapeTile = {
       type: 0,
-      version: 0,
+      version: 0.0003,
       rotation: 0,
       posX: 0,
       posY: 0,
@@ -146,6 +145,8 @@ function getUint16(dataView: DataView): number {
 }
 function getUint8(dataView: DataView): number {
   const val = dataView.getUint8(offset)
+  console.log("🚀 ~ getUint8 ~ val:", val)
+  console.log("🚀 ~ getUint8 ~ val:", val.toString(16))
   offset += 1
   return val
 }
@@ -162,12 +163,12 @@ function readCString(dataView: DataView): string {
 function readCStringLength(dataView: DataView): number {
   let length = 0
   const byte = getUint8(dataView)
-  if (byte !== cStringBytePrefix) {
+  if (byte !== 0xff) {
     length = byte
   } else {
     const short = getUint16(dataView)
 
-    if (short === cStringShortPrefix) {
+    if (short === 0xfffe) {
       return readCStringLength(dataView)
     } else if (short === 0xffff) { // 65535
       length = getUint32(dataView)

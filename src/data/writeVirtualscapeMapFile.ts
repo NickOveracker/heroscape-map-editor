@@ -1,6 +1,4 @@
 import { truncate } from "lodash"
-import { VirtualScapeMap, VirtualScapeTile } from "../types"
-import { cStringBytePrefix, cStringShortPrefix } from "./readVirtualscapeMapFile"
 
 // // Create an array of bytes (e.g., representing an image)
 // const byteArray = [0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64];
@@ -27,7 +25,7 @@ const isLittleEndian = true
 let offset = 0
 const myFile = {
   version: 0.0007,
-  name: 'HexoscapeMap',
+  name: '',
   author: '',
   playerNumber: '',
   scenario: '',
@@ -45,7 +43,7 @@ const myFile = {
       posX: 0,
       posY: 0,
       posZ: 0,
-      glyphLetter: '',
+      glyphLetter: 'T',
       glyphName: '',
       startName: '',
       colorf: { r: 0, g: 160, b: 0, a: 0 },
@@ -88,7 +86,7 @@ export function writeVirtualScapeArrayBuffer(length?: number) {
     setInt32(dataView, tile.posX)
     setInt32(dataView, tile.posY)
     setInt32(dataView, tile.posZ)
-    setInt32(dataView, (tile.glyphLetter).charCodeAt[0])
+    setInt8(dataView, (tile.glyphLetter).charCodeAt[0])
     writeCString(dataView, tile.glyphName)
     writeCString(dataView, tile.startName)
     setInt8(dataView, tile.colorf.r)
@@ -137,21 +135,15 @@ export function stringToUTF16Bytes(str) {
 
 function writeCString(dataView: DataView, argValue: string) {
   const truncated = truncate(argValue, {
-    length: 30000,
-    omission: 'TRUNCATED: OVER 30,000 CHARACTERS'
+    length: 254,
+    omission: ''
   })
   const length = truncated.length
-  const is2byteLength = length >= 255
-  // FIRST, there will be three bytes of prefix
-  setUint8(dataView, cStringBytePrefix)
-  setUint16(dataView, cStringShortPrefix)
+  // FEFF 00FF : for empty strings
+  setUint16(dataView, 0xfeff)
+  setUint8(dataView, 0xff)
+  setUint8(dataView, length)
 
-
-  if (is2byteLength) {
-    setUint16(dataView, length)
-  } else {
-    setUint8(dataView, length)
-  }
   const valueAsUtf16Arr = stringToUTF16Bytes(truncated)
   for (let i = 0; i < length; i++) {
     // const new2Bit = String.prototype.codePointAt(truncated[i])
