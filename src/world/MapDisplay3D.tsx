@@ -34,7 +34,7 @@ export default function MapDisplay3D({
 
     // USE EFFECT: automatically load up the map while devving
     React.useEffect(() => {
-        const fileName = '/personal.hsc'
+        const fileName = '/new1.hsc'
         fetch(fileName)
             .then(response => {
                 return response.arrayBuffer()
@@ -42,7 +42,7 @@ export default function MapDisplay3D({
             .then(arrayBuffer => {
                 const myMap = processVirtualScapeArrayBuffer(arrayBuffer)
                 const myBuiltup = buildupMap(myMap.tiles)
-                console.log("🚀 ~ React.useEffect ~ myMap:", myMap)
+                console.log(`🚀 ~ React.useEffect ~ myMap: ${fileName}`, myMap)
                 console.log(`🚀 ~ React.useEffect ~ myBuiltup: ${fileName}`, myBuiltup)
             });
     }, [])

@@ -10,6 +10,7 @@ export const cStringShortPrefix = 0xfffe // 65534
 let offset = 0
 export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
   const dataView = new DataView(arrayBuffer as ArrayBuffer)
+  console.log("🚀 ~ processVirtualScapeArrayBuffer ~ dataView:", dataView.byteLength)
   offset = 0
   const virtualScapeMap: VirtualScapeMap = {
     version: 0,

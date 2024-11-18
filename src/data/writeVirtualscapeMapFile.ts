@@ -45,7 +45,7 @@ const myFile = {
       posX: 0,
       posY: 0,
       posZ: 0,
-      glyphLetter: '\u0000',
+      glyphLetter: '',
       glyphName: '',
       startName: '',
       colorf: { r: 0, g: 160, b: 0, a: 0 },
@@ -63,69 +63,38 @@ export function writeVirtualScapeArrayBuffer(length?: number) {
   const dataView = new DataView(arrayBuffer)
   console.log("🚀 ~ writeVirtualScapeArrayBuffer ~ dataView:", dataView)
   offset = 0
-  // file version "0.0007" only one ever seen
   setFloat64(dataView, myFile.version)
   writeCString(dataView, myFile.name)
-  // virtualScapeMap.name = readCString(dataView)
   writeCString(dataView, myFile.author)
-  // virtualScapeMap.author = readCString(dataView)
   writeCString(dataView, myFile.playerNumber)
-  // virtualScapeMap.playerNumber = readCString(dataView)
   setInt32(dataView, myFile.scenario.length)
-  // const scenarioLength = getInt32(dataView)
-  // let scenarioRichText = ''
   const encoder = new TextEncoder();
   const encodedData = encoder.encode(myFile.scenario);
   for (let i = 0; i < myFile.scenario.length; i++) {
     setUint8(dataView, encodedData[i])
   }
-  // virtualScapeMap.scenario = rtfToText(scenarioRichText)
   setInt32(dataView, myFile.levelPerPage)
-  // virtualScapeMap.levelPerPage = getInt32(dataView)
   setInt32(dataView, myFile.printingTransparency)
-  // virtualScapeMap.printingTransparency = getInt32(dataView)
   setInt32(dataView, myFile.printingGrid === true ? 1 : 0)
-  // virtualScapeMap.printingGrid = getInt32(dataView) !== 0
   setInt32(dataView, myFile.printTileNumber === true ? 1 : 0)
-  // virtualScapeMap.printTileNumber = getInt32(dataView) !== 0
   setInt32(dataView, myFile.printStartAreaAsLevel === true ? 1 : 0)
-  // virtualScapeMap.printStartAreaAsLevel = getInt32(dataView) !== 0
   setInt32(dataView, myFile.tiles.length)
-  // virtualScapeMap.tileCount = getInt32(dataView)
 
   for (let i = 0; i < myFile.tiles.length; i++) {
     const tile = myFile.tiles[i]
-    // type designates a unique piece/tile in heroscape
-    // tile.type = getInt32(dataView)
     setInt32(dataView, tile.type)
-    // tile version "0.0003" only one tested or seen
-    // tile.version = getFloat64(dataView)
     setFloat64(dataView, tile.version)
-    // 6 rotations progress clockwise, 0-5
-    // tile.rotation = getInt32(dataView)
     setInt32(dataView, tile.rotation)
-    // x,y are "odd-r" offset hex coordinates: https://www.redblobgames.com/grids/hexagons/#coordinates
-    // tile.posX = getInt32(dataView)
     setInt32(dataView, tile.posX)
-    // tile.posY = getInt32(dataView)
     setInt32(dataView, tile.posY)
-    // z is altitude in our world
-    // tile.posZ = getInt32(dataView)
     setInt32(dataView, tile.posZ)
-    // glyphLetter reliably is stored and read in files
-    // tile.glyphLetter = String.fromCharCode(getUint8(dataView))
-    setInt32(dataView, ('õ').charCodeAt[0])
-    // glyphName is empty on some tests of files, do not use it
-    // tile.glyphName = readCString(dataView)
+    setInt32(dataView, (tile.glyphLetter).charCodeAt[0])
     writeCString(dataView, tile.glyphName)
-    // tile.startName = readCString(dataView)
     writeCString(dataView, tile.startName)
-    // this
-    // tile.colorf = getInt32(dataView)
-    setUint8(dataView, tile.colorf.r)
-    setUint8(dataView, tile.colorf.g)
-    setUint8(dataView, tile.colorf.b)
-    setUint8(dataView, tile.colorf.a) // alpha?
+    setInt8(dataView, tile.colorf.r)
+    setInt8(dataView, tile.colorf.g)
+    setInt8(dataView, tile.colorf.b)
+    setInt8(dataView, tile.colorf.a) // alpha?
   }
   return { offset, dataView, arrayBuffer }
 
@@ -147,7 +116,7 @@ function setUint16(dataView: DataView, value: number) {
   offset += 2
 }
 function setUint8(dataView: DataView, value: number) {
-  dataView.setInt8(offset, value)
+  dataView.setUint8(offset, value)
   offset += 1
 }
 function setInt8(dataView: DataView, value: number) {
@@ -160,17 +129,7 @@ export function stringToUTF16Bytes(str) {
 
   for (let i = 0; i < str.length; i++) {
     const codePoint = str.charCodeAt(i);
-
-    // Check if code point requires surrogate pair
-    if (codePoint > 0xFFFF) {
-      const highSurrogate = 0xD800 + ((codePoint - 0x10000) >> 10);
-      const lowSurrogate = 0xDC00 + ((codePoint - 0x10000) & 0x3FF);
-
-      bytes.push(highSurrogate >> 8, highSurrogate & 0xFF);
-      bytes.push(lowSurrogate >> 8, lowSurrogate & 0xFF);
-    } else {
-      bytes.push(codePoint >> 8, codePoint & 0xFF);
-    }
+    bytes.push(codePoint >> 8, codePoint & 0xFF);
   }
 
   return bytes;
