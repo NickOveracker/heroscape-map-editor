@@ -37,7 +37,7 @@ export interface BoardHex extends CubeCoordinate {
     id: string
     altitude: number
     terrain: string
-    tileID: string // tileID=qraID + pieceID
+    pieceID: string // tileID=qraID + piece-UID
 }
 export type BoardHexes = {
     [qraID: string]: BoardHex
@@ -88,13 +88,65 @@ export enum HexTerrain {
     _vsPersonal = '_vsPersonal',
     _vsFigure = '_vsFigure',
 }
-export enum EdgeAddons {
+export type Piece = {
+    id: string;
+    terrain: string;
+    size: number;
+    template: string;
+    height: number;
+}
+export enum Pieces {
+    grass1 = 'grass1',
+    grass2 = 'grass2',
+    grass3 = 'grass3',
+    grass7 = 'grass7',
+    grass24 = 'grass24',
+    rock1 = 'rock1',
+    rock2 = 'rock2',
+    rock3 = 'rock3',
+    rock7 = 'rock7',
+    rock24 = 'rock24',
+    sand1 = 'sand1',
+    sand2 = 'sand2',
+    sand3 = 'sand3',
+    sand7 = 'sand7',
+    sand24 = 'sand24',
+    dungeon1 = 'dungeon1',
+    dungeon2 = 'dungeon2',
+    dungeon3 = 'dungeon3',
+    dungeon7 = 'dungeon7',
+    dungeon24 = 'dungeon24',
+    swamp1 = 'swamp1',
+    swamp2 = 'swamp2',
+    swamp3 = 'swamp3',
+    swamp7 = 'swamp7',
+    swamp24 = 'swamp24',
+    lavaField1 = 'lavaField1',
+    lavaField2 = 'lavaField2',
+    lavaField7 = 'lavaField7',
+    asphalt1 = 'asphalt1',
+    asphalt2 = 'asphalt2',
+    asphalt7 = 'asphalt7',
+    concrete1 = 'concrete1',
+    concrete2 = 'concrete2',
+    concrete7 = 'concrete7',
+    snow1 = 'snow1',
+    snow2 = 'snow2',
+    road1 = 'road1',
+    road2 = 'road2',
+    road5 = 'road5', // only land piece to have the straight-5 template, it's a bridge
+    // Fluid Land: there will be more sizes, and outcrop/glacier/hive bases can be used as multi-hex shadow/ice/swampWater
+    water1 = 'water1',
+    swampWater1 = 'swampWater1',
+    lava1 = 'lava1',
+    ice1 = 'ice1',
+    shadow1 = 'shadow1',
+    // EdgeAddons
     roadWall = 'roadWall',
     battlement = 'battlement',
     flag = 'castleFlag',
     ladder = 'ladder',
-}
-export enum HexObstacles {
+    // HexObstacles
     tree10 = 'tree10',
     tree11 = 'tree11',
     tree12 = 'tree12',
@@ -110,14 +162,12 @@ export enum HexObstacles {
     glacier4 = 'glacier4',
     glacier6 = 'glacier6',
     hive = 'hive',
-}
-export enum EdgeObstacles {
+    // EdgeObstacles
     ruins2 = 'ruins2',
     ruins3 = 'ruins3',
     marvel = 'marvel',
     marvelBroken = 'marvelBroken',
-}
-export enum CastleObstacles {
+    // CastleObstacles
     wallWalk1 = 'wallWalk1',
     wallWalk7 = 'wallWalk7',
     wallWalk9 = 'wallWalk9',

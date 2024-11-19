@@ -1,5 +1,5 @@
 import { Dictionary } from 'lodash'
-import { CastleObstacles, EdgeAddons, EdgeObstacles, CubeCoordinate, HexObstacles } from '../types'
+import { CubeCoordinate, Pieces } from '../types'
 
 
 
@@ -242,41 +242,40 @@ const tileTemplates: Dictionary<CubeCoordinate[]> = {
   '7': basic7,
   '24': basic24,
   // hex obstructions below
-  [HexObstacles.tree10]: basic1,
-  [HexObstacles.tree11]: basic1,
-  [HexObstacles.tree12]: basic1,
-  [HexObstacles.tree415]: glacier4,
-  [HexObstacles.palm14]: basic1,
-  [HexObstacles.palm15]: basic1,
-  [HexObstacles.palm16]: basic1,
-  [HexObstacles.brush9]: basic1,
-  [HexObstacles.outcrop1]: basic1,
-  [HexObstacles.outcrop3]: basic3,
-  [HexObstacles.glacier1]: basic1,
-  [HexObstacles.glacier3]: basic3,
-  [HexObstacles.glacier4]: glacier4,
-  [HexObstacles.glacier6]: glacier6,
-  [HexObstacles.hive]: glacier6,
-
+  [Pieces.tree10]: basic1,
+  [Pieces.tree11]: basic1,
+  [Pieces.tree12]: basic1,
+  [Pieces.tree415]: glacier4,
+  [Pieces.palm14]: basic1,
+  [Pieces.palm15]: basic1,
+  [Pieces.palm16]: basic1,
+  [Pieces.brush9]: basic1,
+  [Pieces.outcrop1]: basic1,
+  [Pieces.outcrop3]: basic3,
+  [Pieces.glacier1]: basic1,
+  [Pieces.glacier3]: basic3,
+  [Pieces.glacier4]: glacier4,
+  [Pieces.glacier6]: glacier6,
+  [Pieces.hive]: glacier6,
   // edge stuff below
-  [EdgeObstacles.ruins2]: basic2,
-  [EdgeObstacles.ruins3]: straight3,
-  [EdgeObstacles.marvel]: marvel6,
-  [EdgeObstacles.marvelBroken]: marvel6,
+  [Pieces.ruins2]: basic2,
+  [Pieces.ruins3]: straight3,
+  [Pieces.marvel]: marvel6,
+  [Pieces.marvelBroken]: marvel6,
   // castle
-  [CastleObstacles.wallWalk1]: basic1,
-  [CastleObstacles.wallWalk7]: wallWalk7,
-  [CastleObstacles.wallWalk9]: wallWalk9,
-  [CastleObstacles.archDoor3]: straight3,
-  [CastleObstacles.archNoDoor3]: straight3,
-  [CastleObstacles.castleBaseCorner]: basic1,
-  [CastleObstacles.castleBaseStraight]: basic1,
-  [CastleObstacles.castleBaseEnd]: basic1,
-  [CastleObstacles.castleWallCorner]: basic1,
-  [CastleObstacles.castleWallStraight]: basic1,
-  [CastleObstacles.castleWallEnd]: basic1,
+  [Pieces.wallWalk1]: basic1,
+  [Pieces.wallWalk7]: wallWalk7,
+  [Pieces.wallWalk9]: wallWalk9,
+  [Pieces.archDoor3]: straight3,
+  [Pieces.archNoDoor3]: straight3,
+  [Pieces.castleBaseCorner]: basic1,
+  [Pieces.castleBaseStraight]: basic1,
+  [Pieces.castleBaseEnd]: basic1,
+  [Pieces.castleWallCorner]: basic1,
+  [Pieces.castleWallStraight]: basic1,
+  [Pieces.castleWallEnd]: basic1,
 
-  [EdgeAddons.roadWall]: straight4,
+  [Pieces.roadWall]: straight4,
   // TODO
   // start zone
   // glyph

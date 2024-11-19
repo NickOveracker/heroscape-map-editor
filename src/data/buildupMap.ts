@@ -1,15 +1,9 @@
-import { VirtualScapeTile, CastleObstacles, EdgeAddons, EdgeObstacles, HexObstacles, HexTerrain, BoardHexes } from '../types'
+import { Dictionary } from 'lodash';
+import { VirtualScapeTile, Pieces, HexTerrain, BoardHexes, BoardHex, Piece } from '../types'
 import { hexUtilsOddRToCube } from '../utils/hex-utils';
 import { genBoardHexID } from '../utils/map-utils';
 import getVSTileTemplate from './rotationTransforms';
 
-type Piece = {
-  terrain: string;
-  pieceID: string;
-  size: number;
-  template: string;
-  height: number;
-}
 export default function buildupMap(tiles: VirtualScapeTile[]): BoardHexes {
   return tiles.reduce((myBoardHexes, tile) => {
 
@@ -50,142 +44,7 @@ export default function buildupMap(tiles: VirtualScapeTile[]): BoardHexes {
     return myBoardHexes
   }, {})
 }
-function buildupLandPiece({
-  piece,
-  boardHexes,
-}: {
-  piece: Piece,
-  boardHexes: BoardHexes
-}) {
-  const hexIDArr = getVSTileTemplate({
-    clickedHex: { q: hex.q, r: hex.r, s: hex.s },
-    rotation: rotation++ % 6,
-    template: `${pieceSize}`, // DEV: Only land pieces will have their size as their template name, future things will have a string
-  }).map((h) => generateHexID(h))
-  paintGrassTile({ hexIDArr, altitude: hex.altitude })
-}
 
-const nonLandPieceIDs = {
-  [HexObstacles.palm14]: {
-    height: 14,
-    size: 1,
-    // template: 
-  },
-  [HexObstacles.palm15]: {
-    height: 15,
-    size: 1,
-  },
-  [HexObstacles.palm16]: {
-    height: 16,
-    size: 1,
-
-  },
-  [HexObstacles.brush9]: {
-    height: 9,
-    size: 1,
-
-  },
-  [HexObstacles.tree10]: {
-    height: 10,
-    size: 1,
-
-  },
-  [HexObstacles.tree11]: {
-    height: 11,
-    size: 1,
-
-  },
-  [HexObstacles.tree12]: {
-    height: 12,
-    size: 1,
-
-  },
-  [HexObstacles.tree415]: {
-    height: 15,
-    size: 1,
-
-  },
-  [HexObstacles.hive]: {
-    height: 17,
-    size: 1,
-
-  },
-  [HexObstacles.glacier1]: {
-    height: 7,
-    size: 1,
-
-  },
-  [HexObstacles.glacier3]: {
-    height: 9,
-    size: 1,
-
-  },
-  [HexObstacles.glacier4]: {
-    height: 11,
-    size: 1,
-
-  },
-  [HexObstacles.glacier6]: {
-    height: 17,
-    size: 1,
-
-  },
-  [HexObstacles.outcrop1]: {
-    height: 7,
-    size: 1,
-
-  },
-  [HexObstacles.outcrop3]: {
-    height: 9,
-    size: 1,
-
-  },
-  /* CASTLE CASTLE CASTLE */
-  [CastleObstacles.wallWalk1]: {
-    height: 1,
-    size: 1,
-  },
-  [CastleObstacles.wallWalk7]: {
-    height: 1,
-    size: 1,
-  },
-  [CastleObstacles.wallWalk9]: {
-    height: 1,
-    size: 1,
-  },
-  [CastleObstacles.archDoor3]: {
-    height: 10,
-    size: 1,
-  },
-  [CastleObstacles.archNoDoor3]: {
-    height: 10,
-    size: 1,
-  },
-  [CastleObstacles.castleBaseCorner]: {
-    height: 1,
-    size: 1,
-  },
-  [CastleObstacles.castleBaseStraight]: {
-    height: 1,
-    size: 1,
-  },
-  [CastleObstacles.castleBaseEnd]: {
-    height: 1,
-    size: 1,
-  },
-  [CastleObstacles.castleWallCorner]: {
-    height: 9,
-    size: 1,
-  },
-  [CastleObstacles.castleWallStraight]: {
-    height: 9,
-    size: 1,
-  },
-  [CastleObstacles.castleWallEnd]: {
-    height: 9,
-    size: 1,
-  },
-}
 const solidLandCodes = {
   '10': HexTerrain.grass,
   '20': HexTerrain.rock,
@@ -206,49 +65,49 @@ const fluidLandCodes = {
   '250': HexTerrain.shadow,
 }
 const hexObstacleCodes = {
-  '240014': HexObstacles.palm14,
-  '240015': HexObstacles.palm15,
-  '240016': HexObstacles.palm16,
-  '240002': HexObstacles.brush9,
-  '10011': HexObstacles.tree10,
-  '10012': HexObstacles.tree11,
-  '10013': HexObstacles.tree12,
-  '10004': HexObstacles.tree415,
-  '230006': HexObstacles.hive,
-  '13001': HexObstacles.glacier1,
-  '13003': HexObstacles.glacier3,
-  '13004': HexObstacles.glacier4,
-  '13006': HexObstacles.glacier6,
-  '27003': HexObstacles.outcrop1,
-  '27001': HexObstacles.outcrop3,
+  '240014': Pieces.palm14,
+  '240015': Pieces.palm15,
+  '240016': Pieces.palm16,
+  '240002': Pieces.brush9,
+  '10011': Pieces.tree10,
+  '10012': Pieces.tree11,
+  '10013': Pieces.tree12,
+  '10004': Pieces.tree415,
+  '230006': Pieces.hive,
+  '13001': Pieces.glacier1,
+  '13003': Pieces.glacier3,
+  '13004': Pieces.glacier4,
+  '13006': Pieces.glacier6,
+  '27003': Pieces.outcrop1,
+  '27001': Pieces.outcrop3,
 }
 const edgeObstacleCodes = {
-  '11002': EdgeObstacles.ruins2,
-  '11003': EdgeObstacles.ruins3,
+  '11002': Pieces.ruins2,
+  '11003': Pieces.ruins3,
   // edge/hex obstacle
-  '11006': EdgeObstacles.marvel, // marvel ruins also create two elevated spaces/boardHexes
-  '11007': EdgeObstacles.marvelBroken, // marvel ruins also create two elevated spaces/boardHexes
+  '11006': Pieces.marvel, // marvel ruins also create two elevated spaces/boardHexes
+  '11007': Pieces.marvelBroken, // marvel ruins also create two elevated spaces/boardHexes
 }
 const edgeAddonCodes = {
   // edge add-ons
-  '12004': EdgeAddons.roadWall,
-  '16301': EdgeAddons.battlement,
-  '16402': EdgeAddons.ladder,
-  '16403': EdgeAddons.flag,
+  '12004': Pieces.roadWall,
+  '16301': Pieces.battlement,
+  '16402': Pieces.ladder,
+  '16403': Pieces.flag,
 }
 const castleCodes = {
   // castle
-  '16001': CastleObstacles.wallWalk1,
-  '16007': CastleObstacles.wallWalk7,
-  '16009': CastleObstacles.wallWalk9,
-  '16101': CastleObstacles.castleBaseCorner,
-  '16102': CastleObstacles.castleBaseStraight,
-  '16103': CastleObstacles.castleBaseEnd,
-  '16201': CastleObstacles.castleWallCorner,
-  '16202': CastleObstacles.castleWallStraight,
-  '16203': CastleObstacles.castleWallEnd,
-  '16401': CastleObstacles.archDoor3,
-  '16404': CastleObstacles.archNoDoor3,
+  '16001': Pieces.wallWalk1,
+  '16007': Pieces.wallWalk7,
+  '16009': Pieces.wallWalk9,
+  '16101': Pieces.castleBaseCorner,
+  '16102': Pieces.castleBaseStraight,
+  '16103': Pieces.castleBaseEnd,
+  '16201': Pieces.castleWallCorner,
+  '16202': Pieces.castleWallStraight,
+  '16203': Pieces.castleWallEnd,
+  '16401': Pieces.archDoor3,
+  '16404': Pieces.archNoDoor3,
 }
 const personalAndFigureTypeCodes = {
   // Tiles that people could customize in Virtualscape
