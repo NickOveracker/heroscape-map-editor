@@ -49,16 +49,21 @@ export default function buildupMap(tiles: VirtualScapeTile[]): BoardHexes {
     }
     return myBoardHexes
   }, {})
-
 }
-// function buildupLandPiece(piece: Piece) {
-//   const hexIDArr = getVSTileTemplate({
-//     clickedHex: { q: hex.q, r: hex.r, s: hex.s },
-//     rotation: rotation++ % 6,
-//     template: `${pieceSize}`, // DEV: Only land pieces will have their size as their template name, future things will have a string
-//   }).map((h) => generateHexID(h))
-//   paintGrassTile({ hexIDArr, altitude: hex.altitude })
-// }
+function buildupLandPiece({
+  piece,
+  boardHexes,
+}: {
+  piece: Piece,
+  boardHexes: BoardHexes
+}) {
+  const hexIDArr = getVSTileTemplate({
+    clickedHex: { q: hex.q, r: hex.r, s: hex.s },
+    rotation: rotation++ % 6,
+    template: `${pieceSize}`, // DEV: Only land pieces will have their size as their template name, future things will have a string
+  }).map((h) => generateHexID(h))
+  paintGrassTile({ hexIDArr, altitude: hex.altitude })
+}
 
 const nonLandPieceIDs = {
   [HexObstacles.palm14]: {
