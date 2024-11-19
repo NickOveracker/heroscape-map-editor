@@ -34,15 +34,15 @@ const createUISlice: StateCreator<
     })),
     flatPieceSizes: landSizes?.[initialPenMode] ?? [],
     pieceSize: 1,
-    togglePieceSize: (n: number) => set(produce((s => s.pieceSize = n))),
+    togglePieceSize: (n: number) => set(produce((s => { s.pieceSize = n }))),
     pieceRotation: 0,
-    togglePieceRotation: (n: number) => set(produce((s => s.pieceRotation = n))),
+    togglePieceRotation: (n: number) => set(produce((s => { s.pieceRotation = n }))),
     isShowStartZones: true,
-    toggleIsShowStartZones: (b: boolean) => set(produce((s => s.isShowStartZones = b))),
+    toggleIsShowStartZones: (b: boolean) => set(produce((s => { s.isShowStartZones = b }))),
     isTakingPicture: false,
-    toggleIsTakingPicture: (b: boolean) => set(produce((s => s.isTakingPicture = b))),
+    toggleIsTakingPicture: (b: boolean) => set(produce((s => { s.isTakingPicture = b }))),
 })
-const landSizes = { // This should be derived, it is duplicate data
+const landSizes = { // This should be derived, it is duplicate dat
     // solid terrain below
     [HexTerrain.grass]: [1, 2, 3, 7, 24],
     [HexTerrain.rock]: [1, 2, 3, 7, 24],
