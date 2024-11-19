@@ -1,12 +1,21 @@
 import { StateCreator } from "zustand"
-import { HexTerrain, MapState } from "../types"
+import { CubeCoordinate, MapState, Piece } from "../types"
 import { AppState } from "./store"
 import { rectangleScenario } from "../utils/map-gen"
 import { produce } from "immer"
+import { mutateBoardHexesWithPiece } from "../data/buildupMap"
+import { clone } from "lodash"
 
 export interface MapSlice extends MapState {
-    paintGrassTile: (boardHexID: string) => void
+    paintTile: (args: PaintTileArgs) => void
     loadMap: (map: MapState) => void
+}
+
+type PaintTileArgs = {
+    piece: Piece,
+    clickedHex: CubeCoordinate,
+    rotation: number,
+    altitude: number
 }
 
 const createMapSlice: StateCreator<
@@ -17,19 +26,23 @@ const createMapSlice: StateCreator<
 > = (set) => ({
     boardHexes: rectangleScenario.boardHexes,
     hexMap: rectangleScenario.hexMap,
-    paintGrassTile: (boardHexID: string) => set(produce((state) => {
-        state.boardHexes[boardHexID].terrain = HexTerrain.grass
-        state.boardHexes[boardHexID].altitude += 1
-        // produce
-        // return {
-        //     ...state,
-        //     [boardHexID]: {
-        //         ...state[boardHexID],
-        //         terrain: HexTerrain.grass,
-        //         altitude: state[boardHexID].altitude + 1
-        //     }
-        // }
-    })),
+    paintTile: ({
+        piece,
+        clickedHex,
+        rotation,
+        altitude,
+    }: PaintTileArgs) => set((state) => {
+        const boardHexesClone = clone(state.boardHexes)
+        const newBoardHexes = mutateBoardHexesWithPiece({
+            piece,
+            boardHexes: boardHexesClone,
+            cubeCoords: clickedHex,
+            altitude,
+            rotation,
+        })
+        console.log("🚀 ~ newBoardHexes:", newBoardHexes)
+        return { ...state, boardHexes: newBoardHexes }
+    }),
     loadMap: (mapState: MapState) => set((state) => {
         return { ...state, boardHexes: mapState.boardHexes, hexMap: mapState.hexMap }
     }),

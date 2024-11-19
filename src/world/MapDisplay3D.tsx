@@ -15,6 +15,7 @@ import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
 import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
 import { produce } from 'immer'
 import { Dictionary } from 'lodash'
+import { getPieceByTerrainAndSize } from '../data/pieces.ts'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -23,6 +24,7 @@ export default function MapDisplay3D({
 }) {
     const boardHexes = useBoundStore((state) => state.boardHexes)
     const penMode = useBoundStore((state) => state.penMode)
+    const paintTile = useBoundStore((state) => state.paintTile)
     const pieceSize = useBoundStore((state) => state.pieceSize)
     const pieceRotation = useBoundStore((state) => state.pieceRotation)
     const hoverID = React.useRef('')
@@ -55,22 +57,29 @@ export default function MapDisplay3D({
         // Early out if camera is active
         if (cameraControlsRef.current.active) return
         cameraControlsRef.current
-        const isVoidTerrainHex = hex.terrain === HexTerrain.empty
-        if (penMode === PenMode.eraser && !isVoidTerrainHex) {
-            // voidHex({ hexID: hex.id })
+        const isEmptyHex = hex.terrain === HexTerrain.empty
+        if (penMode === PenMode.select) {
+            // select hex / piece
+        }
+        if (penMode === PenMode.eraser && !isEmptyHex) {
+            // erase tile
         }
         if (penMode === PenMode.eraserStartZone) {
-            // voidStartZone({ hexID: hex.id })
-        }
-        if (penMode === PenMode.grass) {
-            // paintGrassTile({ hexIDArr, altitude: hex.altitude })
+            // erase start zone
         }
         // last letter in string is playerID
         if (penMode.slice(0, -1) === 'startZone') {
             // paintStartZone({ hexID: hex.id, playerID: penMode.slice(-1) })
         }
-        // if (penMode === PenMode.water) {
-        //     paintWaterHex({ hexID: hex.id })
+        // OTHERWISE, PAINT TILE
+        // if (penMode === PenMode.grass) {
+        const piece = getPieceByTerrainAndSize(penMode, pieceSize)
+        paintTile({
+            piece,
+            clickedHex: hex,
+            rotation: pieceRotation,
+            altitude: hex.altitude + 1,
+        })
         // }
     }
     const onPointerEnter = (_e: ThreeEvent<PointerEvent>, hex: BoardHex) => {

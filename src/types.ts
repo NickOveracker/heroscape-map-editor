@@ -36,7 +36,7 @@ export type CubeCoordinate = {
 export interface BoardHex extends CubeCoordinate {
     id: string
     altitude: number
-    terrain: string
+    terrain: string // copied from piece (duplicate state)
     pieceID: string // tileID=qraID + piece-UID
     isCap: boolean
     baseHexID: string // the hexID at the bottom of the sub-terrain for this hex (if it's a Cap hex)
@@ -213,6 +213,11 @@ export type VirtualScapeMap = {
     printStartAreaAsLevel: boolean
     tileCount: number
     tiles: VirtualScapeTile[]
+}
+export type HexoscapeTile = CubeCoordinate & {
+    type: number
+    rotation: number
+    altitude: number
 }
 export type VirtualScapeTile = {
     type: number

@@ -1,3 +1,4 @@
+import { Dictionary } from "lodash"
 import { Pieces, CubeCoordinate } from "../types"
 import { hexUtilsAdd, hexUtilsRotate } from "../utils/hex-utils"
 import tileTemplates from "./tileTemplates"
@@ -6,10 +7,12 @@ export default function getVSTileTemplate({
   clickedHex,
   rotation,
   template,
+  isVsTile,
 }: {
   clickedHex: CubeCoordinate
   rotation: number
   template: string
+  isVsTile: boolean
 }): CubeCoordinate[] {
   const originOfTileTransform =
     rotationTransforms[template][rotation]
@@ -126,7 +129,7 @@ const marvel6 = [
   { q: -1, r: 4, s: -3 },
   { q: -4, r: 3, s: 1 },
 ]
-const rotationTransforms = {
+const rotationTransforms: Dictionary<CubeCoordinate[]> = {
   // land tiles (solid and fluid) will use their size to lookup their rotations
   '1': t1,
   '2': straight2,
