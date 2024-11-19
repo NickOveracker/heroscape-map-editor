@@ -16,7 +16,7 @@ export default function buildupMap(tiles: VirtualScapeTile[]): BoardHexes {
     let piece = solidPieceId || fluidPieceId ? landPieces[(solidPieceId || fluidPieceId)] : undefined
     if (piece) {
       // 0. THE EXTRACT
-      const newBoardHexes = mutateBoardHexesWithPiece({
+      const newBoardHexes = getBoardHexesWithPieceAdded({
         piece,
         boardHexes,
         cubeCoords: tileCoords,
@@ -30,7 +30,7 @@ export default function buildupMap(tiles: VirtualScapeTile[]): BoardHexes {
 }
 
 
-export function mutateBoardHexesWithPiece({
+export function getBoardHexesWithPieceAdded({
   piece,
   boardHexes,
   cubeCoords,
@@ -43,7 +43,7 @@ export function mutateBoardHexesWithPiece({
   altitude: number
   rotation: number
 }) {
-  const newBoardHexes = clone(boardHexes)
+  let newBoardHexes = clone(boardHexes)
   const isSolidTile = isSolidTerrainHex(piece.terrain)
   const isFluidTile = isFluidTerrainHex(piece.terrain)
   // 1.1: GATHER DATA ON TILE
@@ -57,7 +57,7 @@ export function mutateBoardHexesWithPiece({
   const underHexIds = piecePlaneCoords.map((cubeCoord) => (genBoardHexID({ ...cubeCoord, altitude: altitude - 1 })))
   const overHexIds = piecePlaneCoords.map((cubeCoord) => (genBoardHexID({ ...cubeCoord, altitude: altitude + 1 })))
   // 2: VALIDATE DATA
-  const isPlacingOnTable = altitude === 1
+  const isPlacingOnTable = (isSolidTile && altitude === 1) || (isFluidTile && altitude === 0)
   const isSpaceFree = newHexIds.every(id => !newBoardHexes[id])
   const isSolidUnderAtLeastOne = underHexIds.some(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? '')) // fluids will need one under every hex (no multi hex fluids yet)
   const isSolidUnderAllForFluidPieces = underHexIds.every(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''))

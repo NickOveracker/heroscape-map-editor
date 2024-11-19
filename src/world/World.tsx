@@ -20,7 +20,8 @@ const World = () => {
         >
             <Canvas camera={{
                 fov: CAMERA_FOV,
-            }}>
+            }}
+            >
                 {/* Stats displays the fps */}
                 <Stats className='stats-panel' />
                 <MapDisplay3D

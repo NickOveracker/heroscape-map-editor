@@ -1,6 +1,7 @@
+import { Dictionary } from "lodash"
 import { Pieces } from "../types"
 
-export const solidLandCodes = {
+export const solidLandCodes: Dictionary<string> = {
   '1001': Pieces.grass1,
   '1002': Pieces.grass2,
   '1003': Pieces.grass3,
@@ -50,7 +51,7 @@ export const solidLandCodes = {
   '9001': Pieces.snow1,
   '9002': Pieces.snow2,
 }
-export const fluidLandCodes = {
+export const fluidLandCodes: Dictionary<string> = {
   '4001': Pieces.water1,
   '5001': Pieces.ice1,
   '6001': Pieces.lava1,

@@ -1,9 +1,8 @@
 import { StateCreator } from "zustand"
-import { CubeCoordinate, MapState, Piece } from "../types"
+import { BoardHex, MapState, Piece } from "../types"
 import { AppState } from "./store"
 import { rectangleScenario } from "../utils/map-gen"
-import { produce } from "immer"
-import { mutateBoardHexesWithPiece } from "../data/buildupMap"
+import { getBoardHexesWithPieceAdded } from "../data/buildupMap"
 
 export interface MapSlice extends MapState {
     paintTile: (args: PaintTileArgs) => void
@@ -12,9 +11,8 @@ export interface MapSlice extends MapState {
 
 type PaintTileArgs = {
     piece: Piece,
-    clickedHex: CubeCoordinate,
+    clickedHex: BoardHex,
     rotation: number,
-    altitude: number
 }
 
 const createMapSlice: StateCreator<
@@ -29,13 +27,12 @@ const createMapSlice: StateCreator<
         piece,
         clickedHex,
         rotation,
-        altitude,
     }: PaintTileArgs) => set((state) => {
-        const newBoardHexes = mutateBoardHexesWithPiece({
+        const newBoardHexes = getBoardHexesWithPieceAdded({
             piece,
             boardHexes: state.boardHexes,
             cubeCoords: clickedHex,
-            altitude,
+            altitude: clickedHex.altitude,
             rotation,
         })
         return { ...state, boardHexes: newBoardHexes }

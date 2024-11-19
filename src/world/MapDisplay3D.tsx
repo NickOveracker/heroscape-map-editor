@@ -13,7 +13,6 @@ import buildupMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isSolidTerrainHex } from '../utils/board-utils.ts'
 import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
 import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
-import { produce } from 'immer'
 import { Dictionary } from 'lodash'
 import { getPieceByTerrainAndSize } from '../data/pieces.ts'
 
@@ -72,15 +71,13 @@ export default function MapDisplay3D({
             // paintStartZone({ hexID: hex.id, playerID: penMode.slice(-1) })
         }
         // OTHERWISE, PAINT TILE
-        // if (penMode === PenMode.grass) {
         const piece = getPieceByTerrainAndSize(penMode, pieceSize)
+        const isSolid = isSolidTerrainHex(piece.terrain)
         paintTile({
             piece,
             clickedHex: hex,
             rotation: pieceRotation,
-            altitude: hex.altitude + 1,
         })
-        // }
     }
     const onPointerEnter = (_e: ThreeEvent<PointerEvent>, hex: BoardHex) => {
         hoverID.current = hex.id
@@ -117,7 +114,7 @@ export default function MapDisplay3D({
 
             <InstanceSubTerrainWrapper
                 glKey={'InstanceSubTerrain-'}
-                boardHexes={instanceBoardHexes.hexCaps}
+                boardHexes={instanceBoardHexes.subTerrainHexes}
             />
             {Object.values(boardHexes).map((bh => {
                 return (
@@ -131,8 +128,8 @@ export default function MapDisplay3D({
     )
 }
 
-function getInstanceBoardHexes(boardHexes: BoardHex[]): Dictionary<BoardHex[]> {
-    return boardHexes.reduce((result, current) => {
+function getInstanceBoardHexes(boardHexes: BoardHex[]) {
+    return boardHexes.reduce((result: Dictionary<BoardHex[]>, current) => {
         const isEmpty = current.terrain === HexTerrain.empty
         const isCap = current.isCap
         const isSolidCap = isCap && !isEmpty && isSolidTerrainHex(current.terrain)
@@ -143,18 +140,20 @@ function getInstanceBoardHexes(boardHexes: BoardHex[]): Dictionary<BoardHex[]> {
         }
         if (isSolidCap) {
             result.solidHexCaps.push(current)
-            result.hexCaps.push(current)
+            result.subTerrainHexes.push(current)
         }
         if (isFluidCap) {
             result.fluidHexCaps.push(current)
-            result.hexCaps.push(current)
+            if (current.altitude > 0) {
+                result.subTerrainHexes.push(current)
+            }
         }
         return result
     }, {
         emptyHexCaps: [],
         solidHexCaps: [],
         fluidHexCaps: [],
-        hexCaps: []
+        subTerrainHexes: []
     });
 
 }
