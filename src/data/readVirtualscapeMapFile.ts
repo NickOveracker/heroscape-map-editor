@@ -8,7 +8,6 @@ const isLittleEndian = true
 let offset = 0
 export function processVirtualScapeArrayBuffer(arrayBuffer: ArrayBuffer) {
   const dataView = new DataView(arrayBuffer as ArrayBuffer)
-  console.log("🚀 ~ processVirtualScapeArrayBuffer ~ dataView:", dataView.byteLength)
   offset = 0
   const virtualScapeMap: VirtualScapeMap = {
     version: 0,
@@ -145,8 +144,6 @@ function getUint16(dataView: DataView): number {
 }
 function getUint8(dataView: DataView): number {
   const val = dataView.getUint8(offset)
-  console.log("🚀 ~ getUint8 ~ val:", val)
-  console.log("🚀 ~ getUint8 ~ val:", val.toString(16))
   offset += 1
   return val
 }

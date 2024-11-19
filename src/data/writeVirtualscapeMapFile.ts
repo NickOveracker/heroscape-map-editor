@@ -5,7 +5,7 @@ const myFile = {
   name: '', // gets written blank
   author: '', // gets written blank
   playerNumber: '', // gets written blank
-  scenario: 'This is all about my scenario!',
+  scenario: '', // gets written blank, but is not a C-string
   levelPerPage: 6,
   printingTransparency: 80,
   printingGrid: true,
@@ -36,7 +36,6 @@ export function writeVirtualScapeArrayBuffer(length?: number) {
     arrayBuffer = new ArrayBuffer(length)
   }
   const dataView = new DataView(arrayBuffer)
-  console.log("🚀 ~ writeVirtualScapeArrayBuffer ~ dataView:", dataView)
   offset = 0
   setFloat64(dataView, myFile.version)
   writeBlankCString(dataView, myFile.name)
