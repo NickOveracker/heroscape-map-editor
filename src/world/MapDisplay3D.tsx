@@ -10,9 +10,10 @@ import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import buildupMap from '../data/buildupMap.ts'
-import { isFluidTerrainHex } from '../utils/board-utils.ts'
+import { isFluidTerrainHex, isSolidTerrainHex } from '../utils/board-utils.ts'
 import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
 import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
+import { produce } from 'immer'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -44,16 +45,40 @@ export default function MapDisplay3D({
                 console.log(`🚀 ~ React.useEffect ~ myBuiltup: ${fileName}`, myBuiltup)
             });
     }, [])
+    const instanceBoardHexes = Object.values(boardHexes).reduce((result, current) => {
+        const isEmpty = current.terrain === HexTerrain.empty
+        const isCap = current.isCap
+        const isSolidCap = isCap && !isEmpty && isSolidTerrainHex(current.terrain)
+        const isFluidCap = isCap && !isEmpty && isFluidTerrainHex(current.terrain)
+        if (isEmpty) {
+            result.emptyHexCaps.push(current)
+        }
+        if (isSolidCap) {
+            result.solidHexCaps.push(current)
+            result.hexCaps.push(current)
+        }
+        if (isFluidCap) {
+            result.fluidHexCaps.push(current)
+            result.hexCaps.push(current)
+        }
+        return result
+    }, {
+        emptyHexCaps: [],
+        solidHexCaps: [],
+        fluidHexCaps: [],
+        hexCaps: []
+    });
 
-    const emptyHexCaps = Object.values(boardHexes).filter((bh) => {
-        return bh.terrain === HexTerrain.empty
-    })
-    const fluidHexCaps = Object.values(boardHexes).filter((bh) => {
-        return bh.terrain !== HexTerrain.empty && isFluidTerrainHex(bh.terrain)
-    })
-    const solidHexCaps = Object.values(boardHexes).filter((bh) => {
-        return bh.terrain !== HexTerrain.empty && !isFluidTerrainHex(bh.terrain)
-    })
+    // empty caps should all be altitude 0, also
+    // const emptyHexCaps = Object.values(boardHexes).filter((bh) => {
+    //     return bh.terrain === HexTerrain.empty
+    // })
+    // const fluidHexCaps = Object.values(boardHexes).filter((bh) => {
+    //     return bh.terrain !== HexTerrain.empty && isFluidTerrainHex(bh.terrain)
+    // })
+    // const solidHexCaps = Object.values(boardHexes).filter((bh) => {
+    //     return bh.terrain !== HexTerrain.empty && isSolidTerrainHex(bh.terrain)
+    // })
     const onPointerDown = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
         if (event.button === 2) return // ignore right clicks
         event.stopPropagation()
@@ -87,7 +112,7 @@ export default function MapDisplay3D({
     return (
         <>
             <InstanceCapWrapper
-                capHexesArray={emptyHexCaps}
+                capHexesArray={instanceBoardHexes.emptyHexCaps}
                 glKey={'InstanceEmptyHexCap-'}
                 component={InstanceEmptyHexCap}
                 onPointerEnter={onPointerEnter}
@@ -95,25 +120,25 @@ export default function MapDisplay3D({
                 onPointerDown={onPointerDown}
             />
             <InstanceCapWrapper
-                capHexesArray={fluidHexCaps}
+                capHexesArray={instanceBoardHexes.fluidHexCaps}
                 glKey={'InstanceFluidHexCap-'}
                 component={InstanceFluidHexCap}
                 onPointerEnter={onPointerEnter}
                 onPointerOut={onPointerOut}
                 onPointerDown={onPointerDown}
             />
-
             <InstanceCapWrapper
-                capHexesArray={solidHexCaps}
+                capHexesArray={instanceBoardHexes.solidHexCaps}
                 glKey={'InstanceSolidHexCap-'}
                 component={InstanceSolidHexCap}
                 onPointerEnter={onPointerEnter}
                 onPointerOut={onPointerOut}
                 onPointerDown={onPointerDown}
             />
+
             <InstanceSubTerrainWrapper
                 glKey={'InstanceSubTerrain-'}
-                boardHexes={Object.values(boardHexes).filter(bh => !(bh.terrain === HexTerrain.empty))}
+                boardHexes={instanceBoardHexes.hexCaps}
             />
             {Object.values(boardHexes).map((bh => {
                 return (
