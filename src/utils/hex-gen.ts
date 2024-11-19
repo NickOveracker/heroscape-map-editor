@@ -54,12 +54,13 @@ function hexesToEmptyBoardHexes(hexgridHexes: CubeCoordinate[]): BoardHexes {
     (prev: BoardHexes, curr: CubeCoordinate): BoardHexes => {
       const altitude = 0
       const terrain = HexTerrain.empty
+
       const boardHex = {
         ...curr,
         id: genBoardHexID({ ...curr, altitude }),
         terrain,
         altitude,
-        tileID: '',
+        pieceID: '',
       }
       return {
         ...prev,

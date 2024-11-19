@@ -49,6 +49,9 @@ export const getBoardHex3DCoords = (hex: CubeCoordinate & { altitude: number }) 
     }
 }
 
+export function genPieceID(qraID: string, pieceID: string) {
+    return `${qraID},${pieceID}`
+}
 export function genBoardHexID(hex: CubeCoordinate & { altitude: number }) {
     /* Hex world global coords (q,r,altitude) => (x,y,z)
     1. In cube coords, "s" in (qrs) is redundant for cartesian (xy) calculation
@@ -56,8 +59,3 @@ export function genBoardHexID(hex: CubeCoordinate & { altitude: number }) {
     */
     return `${hex.altitude},${hex.q},${hex.r}`
 }
-export function genPieceID(hex: CubeCoordinate & { altitude: string }, pieceID: string) {
-    // this will keep each piece unique
-    return `${hex.altitude},${hex.q},${hex.r},${pieceID}`
-}
-

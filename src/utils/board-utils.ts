@@ -12,3 +12,19 @@ export function isFluidTerrainHex(terrain: string) {
         return false
     }
 }
+export function isSolidTerrainHex(terrain: string) {
+    if (
+        terrain === HexTerrain.grass ||
+        terrain === HexTerrain.rock ||
+        terrain === HexTerrain.sand ||
+        terrain === HexTerrain.lavaField ||
+        terrain === HexTerrain.concrete ||
+        terrain === HexTerrain.asphalt ||
+        terrain === HexTerrain.dungeon ||
+        terrain === HexTerrain.swamp
+    ) {
+        return true
+    } else {
+        return false
+    }
+}

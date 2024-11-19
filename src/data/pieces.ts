@@ -1,7 +1,7 @@
 import { Dictionary } from "lodash"
 import { HexTerrain, Piece, Pieces } from "../types"
 
-const landPieces: Dictionary<Piece> = {
+export const landPieces: Dictionary<Piece> = {
   [Pieces.grass1]: {
     id: Pieces.grass1,
     terrain: HexTerrain.grass,
@@ -282,37 +282,38 @@ const landPieces: Dictionary<Piece> = {
     terrain: HexTerrain.water,
     size: 1,
     template: '1',
-    height: 1,
+    height: 0,
   },
   [Pieces.lava1]: {
     id: Pieces.lava1,
     terrain: HexTerrain.lava,
     size: 1,
     template: '1',
-    height: 1,
+    height: 0,
   },
   [Pieces.swampWater1]: {
     id: Pieces.swampWater1,
     terrain: HexTerrain.swampWater,
     size: 1,
     template: '1',
-    height: 1,
+    height: 0,
   },
   [Pieces.ice1]: {
     id: Pieces.ice1,
     terrain: HexTerrain.ice,
     size: 1,
     template: '1',
-    height: 1,
+    height: 0,
   },
   [Pieces.shadow1]: {
     id: Pieces.shadow1,
     terrain: HexTerrain.shadow,
     size: 1,
     template: '1',
-    height: 1,
+    height: 0,
   },
 }
+
 const nonLandPieceIDs = {
   [Pieces.palm14]: {
     height: 14,

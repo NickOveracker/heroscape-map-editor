@@ -38,6 +38,7 @@ export interface BoardHex extends CubeCoordinate {
     altitude: number
     terrain: string
     pieceID: string // tileID=qraID + piece-UID
+    underID?: string // the heXID under this one, if there is one
 }
 export type BoardHexes = {
     [qraID: string]: BoardHex
@@ -137,8 +138,8 @@ export enum Pieces {
     road5 = 'road5', // only land piece to have the straight-5 template, it's a bridge
     // Fluid Land: there will be more sizes, and outcrop/glacier/hive bases can be used as multi-hex shadow/ice/swampWater
     water1 = 'water1',
-    swampWater1 = 'swampWater1',
     lava1 = 'lava1',
+    swampWater1 = 'swampWater1',
     ice1 = 'ice1',
     shadow1 = 'shadow1',
     // EdgeAddons
