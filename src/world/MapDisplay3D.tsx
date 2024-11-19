@@ -14,6 +14,7 @@ import { isFluidTerrainHex, isSolidTerrainHex } from '../utils/board-utils.ts'
 import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
 import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
 import { produce } from 'immer'
+import { Dictionary } from 'lodash'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -45,40 +46,9 @@ export default function MapDisplay3D({
                 console.log(`🚀 ~ React.useEffect ~ myBuiltup: ${fileName}`, myBuiltup)
             });
     }, [])
-    const instanceBoardHexes = Object.values(boardHexes).reduce((result, current) => {
-        const isEmpty = current.terrain === HexTerrain.empty
-        const isCap = current.isCap
-        const isSolidCap = isCap && !isEmpty && isSolidTerrainHex(current.terrain)
-        const isFluidCap = isCap && !isEmpty && isFluidTerrainHex(current.terrain)
-        if (isEmpty) {
-            result.emptyHexCaps.push(current)
-        }
-        if (isSolidCap) {
-            result.solidHexCaps.push(current)
-            result.hexCaps.push(current)
-        }
-        if (isFluidCap) {
-            result.fluidHexCaps.push(current)
-            result.hexCaps.push(current)
-        }
-        return result
-    }, {
-        emptyHexCaps: [],
-        solidHexCaps: [],
-        fluidHexCaps: [],
-        hexCaps: []
-    });
 
-    // empty caps should all be altitude 0, also
-    // const emptyHexCaps = Object.values(boardHexes).filter((bh) => {
-    //     return bh.terrain === HexTerrain.empty
-    // })
-    // const fluidHexCaps = Object.values(boardHexes).filter((bh) => {
-    //     return bh.terrain !== HexTerrain.empty && isFluidTerrainHex(bh.terrain)
-    // })
-    // const solidHexCaps = Object.values(boardHexes).filter((bh) => {
-    //     return bh.terrain !== HexTerrain.empty && isSolidTerrainHex(bh.terrain)
-    // })
+    const instanceBoardHexes = getInstanceBoardHexes(Object.values(boardHexes))
+
     const onPointerDown = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
         if (event.button === 2) return // ignore right clicks
         event.stopPropagation()
@@ -150,4 +120,32 @@ export default function MapDisplay3D({
             }))}
         </>
     )
+}
+
+function getInstanceBoardHexes(boardHexes: BoardHex[]): Dictionary<BoardHex[]> {
+    return boardHexes.reduce((result, current) => {
+        const isEmpty = current.terrain === HexTerrain.empty
+        const isCap = current.isCap
+        const isSolidCap = isCap && !isEmpty && isSolidTerrainHex(current.terrain)
+        const isFluidCap = isCap && !isEmpty && isFluidTerrainHex(current.terrain)
+        if (isEmpty) {
+            // empty caps should all be altitude 0, also
+            result.emptyHexCaps.push(current)
+        }
+        if (isSolidCap) {
+            result.solidHexCaps.push(current)
+            result.hexCaps.push(current)
+        }
+        if (isFluidCap) {
+            result.fluidHexCaps.push(current)
+            result.hexCaps.push(current)
+        }
+        return result
+    }, {
+        emptyHexCaps: [],
+        solidHexCaps: [],
+        fluidHexCaps: [],
+        hexCaps: []
+    });
+
 }
