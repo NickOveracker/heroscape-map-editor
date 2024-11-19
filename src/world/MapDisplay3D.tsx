@@ -13,8 +13,6 @@ import buildupMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex } from '../utils/board-utils.ts'
 import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
 import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
-import getVSTileTemplate from '../data/rotationTransforms.ts'
-import { genBoardHexID } from '../utils/map-utils.ts'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -70,11 +68,6 @@ export default function MapDisplay3D({
             // voidStartZone({ hexID: hex.id })
         }
         if (penMode === PenMode.grass) {
-            const hexIDArr = getVSTileTemplate({
-                clickedHex: { q: hex.q, r: hex.r, s: hex.s },
-                rotation: pieceRotation % 6,
-                template: `${pieceSize}`, // DEV: Only land pieces will have their size as their template name, future things will have a string
-            }).map((h) => genBoardHexID({ ...h, altitude: hex.altitude }))
             // paintGrassTile({ hexIDArr, altitude: hex.altitude })
         }
         // last letter in string is playerID

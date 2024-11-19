@@ -1,4 +1,4 @@
-import { CastleObstacles, CubeCoordinate, EdgeAddons, EdgeObstacles, HexObstacles } from "../types"
+import { Pieces, CubeCoordinate } from "../types"
 import { hexUtilsAdd, hexUtilsRotate } from "../utils/hex-utils"
 import tileTemplates from "./tileTemplates"
 
@@ -24,17 +24,17 @@ export default function getVSTileTemplate({
 const origin = { q: 0, r: 0, s: 0 }
 const t1 = [origin, origin, origin, origin, origin, origin]
 const straight2 = [
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
+  origin,
+  origin,
+  origin,
   { q: 1, r: 0, s: -1 },
   { q: 0, r: 1, s: -1 },
   { q: -1, r: 1, s: 0 },
 ]
 const t3 = [
   // glacier3, outcrop3
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
+  origin,
+  origin,
   { q: 1, r: 0, s: -1 },
   { q: 0, r: 1, s: -1 },
   { q: 0, r: 1, s: -1 },
@@ -42,7 +42,7 @@ const t3 = [
 ]
 const t7 = [
   // rose/circle style 7
-  { q: 0, r: 0, s: 0 },
+  origin,
   { q: 1, r: 0, s: -1 },
   { q: 1, r: 1, s: -2 },
   { q: 0, r: 2, s: -2 },
@@ -50,7 +50,7 @@ const t7 = [
   { q: -1, r: 1, s: 0 },
 ]
 const t24 = [
-  { q: 0, r: 0, s: 0 },
+  origin,
   { q: 1, r: 0, s: -1 },
   { q: 2, r: 3, s: -5 },
   { q: 2, r: 5, s: -7 },
@@ -59,34 +59,34 @@ const t24 = [
 ]
 const straight3 = [
   // straight3, arch3/door3
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
+  origin,
+  origin,
+  origin,
   { q: 2, r: 0, s: -2 },
   { q: 0, r: 2, s: -2 },
   { q: -2, r: 2, s: 0 },
 ]
 const straight4 = [
   // straight4, roadWall4
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
+  origin,
+  origin,
+  origin,
   { q: 3, r: 0, s: -3 },
   { q: 0, r: 3, s: -3 },
   { q: -3, r: 3, s: 0 },
 ]
 const straight5 = [
   //  road5: road is the only land tile with a 5-hex piece
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
+  origin,
+  origin,
+  origin,
   { q: 4, r: 0, s: -4 },
   { q: 0, r: 4, s: -4 },
   { q: -4, r: 4, s: 0 },
 ]
 const glacier6 = [
   // glacier6, hive
-  { q: 0, r: 0, s: 0 },
+  origin,
   { q: 1, r: 0, s: -1 },
   { q: 0, r: 1, s: -1 },
   { q: 1, r: 1, s: -2 },
@@ -95,32 +95,32 @@ const glacier6 = [
 ]
 const glacier4 = [
   // glacier4
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
+  origin,
+  origin,
   { q: 1, r: 0, s: -1 },
   { q: 1, r: 1, s: -2 },
   { q: -1, r: 2, s: -1 },
   { q: -1, r: 1, s: 0 },
 ]
 const castle7 = [
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
+  origin,
+  origin,
   { q: 1, r: 0, s: -1 },
   { q: 2, r: 1, s: -3 },
   { q: 0, r: 3, s: -3 },
   { q: -3, r: 3, s: 0 },
 ]
 const castle9 = [
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
+  origin,
+  origin,
   { q: 1, r: 0, s: -1 },
   { q: 3, r: 1, s: -4 },
   { q: 0, r: 4, s: -4 },
   { q: -4, r: 4, s: 0 },
 ]
 const marvel6 = [
-  { q: 0, r: 0, s: 0 },
-  { q: 0, r: 0, s: 0 },
+  origin,
+  origin,
   { q: 1, r: 0, s: -1 },
   { q: 3, r: 1, s: -4 },
   { q: -1, r: 4, s: -3 },
@@ -135,39 +135,39 @@ const rotationTransforms = {
   '7': t7,
   '24': t24,
   // obstacles will use their template name to lookup their rotations
-  [HexObstacles.tree10]: t1,
-  [HexObstacles.tree11]: t1,
-  [HexObstacles.tree12]: t1,
-  [HexObstacles.tree415]: glacier4,
-  [HexObstacles.palm14]: t1,
-  [HexObstacles.palm15]: t1,
-  [HexObstacles.palm16]: t1,
-  [HexObstacles.brush9]: t1,
-  [HexObstacles.outcrop1]: t1,
-  [HexObstacles.outcrop3]: t3,
-  [HexObstacles.glacier1]: t1,
-  [HexObstacles.glacier3]: t3,
-  [HexObstacles.glacier4]: glacier4,
-  [HexObstacles.glacier6]: glacier6,
-  [HexObstacles.hive]: glacier6,
+  [Pieces.tree10]: t1,
+  [Pieces.tree11]: t1,
+  [Pieces.tree12]: t1,
+  [Pieces.tree415]: glacier4,
+  [Pieces.palm14]: t1,
+  [Pieces.palm15]: t1,
+  [Pieces.palm16]: t1,
+  [Pieces.brush9]: t1,
+  [Pieces.outcrop1]: t1,
+  [Pieces.outcrop3]: t3,
+  [Pieces.glacier1]: t1,
+  [Pieces.glacier3]: t3,
+  [Pieces.glacier4]: glacier4,
+  [Pieces.glacier6]: glacier6,
+  [Pieces.hive]: glacier6,
   // EDGE OBSTACLES
-  [EdgeObstacles.ruins2]: straight2,
-  [EdgeObstacles.ruins3]: straight3,
+  [Pieces.ruins2]: straight2,
+  [Pieces.ruins3]: straight3,
   // HEX/EDGE
-  [EdgeObstacles.marvel]: marvel6,
-  [EdgeObstacles.marvelBroken]: marvel6,
+  [Pieces.marvel]: marvel6,
+  [Pieces.marvelBroken]: marvel6,
   // ADDONS
-  [EdgeAddons.roadWall]: straight4,
+  [Pieces.roadWall]: straight4,
   // CASTLE
-  [CastleObstacles.archDoor3]: straight3,
-  [CastleObstacles.archNoDoor3]: straight3,
-  [CastleObstacles.wallWalk1]: t1,
-  [CastleObstacles.wallWalk7]: castle7,
-  [CastleObstacles.wallWalk9]: castle9,
-  [CastleObstacles.castleBaseCorner]: t1, // THESE FACE LEFT THOUGH!
-  [CastleObstacles.castleBaseStraight]: t1, // THESE FACE LEFT THOUGH!
-  [CastleObstacles.castleBaseEnd]: t1, // THESE FACE LEFT THOUGH!
-  [CastleObstacles.castleWallCorner]: t1, // THESE FACE LEFT THOUGH!
-  [CastleObstacles.castleWallStraight]: t1, // THESE FACE LEFT THOUGH!
-  [CastleObstacles.castleWallEnd]: t1, // THESE FACE LEFT THOUGH!
+  [Pieces.archDoor3]: straight3,
+  [Pieces.archNoDoor3]: straight3,
+  [Pieces.wallWalk1]: t1,
+  [Pieces.wallWalk7]: castle7,
+  [Pieces.wallWalk9]: castle9,
+  [Pieces.castleBaseCorner]: t1, // THESE FACE LEFT THOUGH!
+  [Pieces.castleBaseStraight]: t1, // THESE FACE LEFT THOUGH!
+  [Pieces.castleBaseEnd]: t1, // THESE FACE LEFT THOUGH!
+  [Pieces.castleWallCorner]: t1, // THESE FACE LEFT THOUGH!
+  [Pieces.castleWallStraight]: t1, // THESE FACE LEFT THOUGH!
+  [Pieces.castleWallEnd]: t1, // THESE FACE LEFT THOUGH!
 }

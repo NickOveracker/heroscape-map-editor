@@ -42,7 +42,7 @@ const createUISlice: StateCreator<
     isTakingPicture: false,
     toggleIsTakingPicture: (b: boolean) => set(produce((s => s.isTakingPicture = b))),
 })
-const landSizes = {
+const landSizes = { // This should be derived, it is duplicate data
     // solid terrain below
     [HexTerrain.grass]: [1, 2, 3, 7, 24],
     [HexTerrain.rock]: [1, 2, 3, 7, 24],
