@@ -38,7 +38,8 @@ export interface BoardHex extends CubeCoordinate {
     altitude: number
     terrain: string
     pieceID: string // tileID=qraID + piece-UID
-    underID?: string // the heXID under this one, if there is one
+    isCap: boolean
+    baseHexID: string // the hexID at the bottom of the sub-terrain for this hex (if it's a Cap hex)
 }
 export type BoardHexes = {
     [qraID: string]: BoardHex
