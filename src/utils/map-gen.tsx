@@ -9,19 +9,21 @@ const MAX_HEXAGON_DIMENSION = 17 // 921
 type RectangleScenarioOptions = {
     mapWidth?: number
     mapLength?: number
+    mapName?: string
+    mapShape?: string
 }
 
 export const rectangleScenario = makeRectangleScenario({
     mapLength: 10,
     mapWidth: 10,
 })
-function makeRectangleScenario(options?: RectangleScenarioOptions): MapState {
+export function makeRectangleScenario(options?: RectangleScenarioOptions): MapState {
     const mapHeight = Math.min(options?.mapLength ?? 12, MAX_RECTANGLE_DIMENSION)
     const mapWidth = Math.min(options?.mapWidth ?? 12, MAX_RECTANGLE_DIMENSION)
     const hexMap = {
         id: generateTimestampID(),
-        name: 'default rectangle map',
-        shape: 'rectangle',
+        name: options?.mapName ?? 'default rectangle map',
+        shape: options?.mapName ?? 'rectangle',
         size: Math.max(mapHeight, mapWidth),
         glyphs: {},
     }

@@ -7,8 +7,21 @@ import { genBoardHexID, genPieceID } from '../utils/map-utils';
 import { fluidLandCodes, solidLandCodes } from './pieceCodes';
 import { landPieces } from './pieces';
 import getVSTileTemplate from './rotationTransforms';
+import { makeRectangleScenario } from '../utils/map-gen';
 
-export default function buildupMap(tiles: VirtualScapeTile[]): BoardHexes {
+export default function buildupMap(tiles: VirtualScapeTile[], fileName: string): BoardHexes {
+  const mapLength = Math.max(...tiles.map(t => t.posX + 1))
+  console.log("🚀 ~ buildupMap ~ mapLength:", mapLength)
+  const mapWidth = Math.max(...tiles.map(t => t.posY + 1))
+  console.log("🚀 ~ buildupMap ~ mapWidth:", mapWidth)
+  const newRectangleScenario = makeRectangleScenario({
+    mapLength,
+    mapWidth,
+    mapName: `VirtualScapeMap: ${fileName}`,
+  })
+  const initialBoardHexes = newRectangleScenario.boardHexes
+  const newHexMap = newRectangleScenario.hexMap
+  const newHexPieces = newRectangleScenario.boardPieces
   return tiles.reduce((boardHexes: BoardHexes, tile) => {
     const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
     const solidPieceId = solidLandCodes?.[tile.type] ?? ''
@@ -26,7 +39,7 @@ export default function buildupMap(tiles: VirtualScapeTile[]): BoardHexes {
     } else {
       return boardHexes // Should probably handle this different, errors etc.
     }
-  }, {})
+  }, initialBoardHexes)
 }
 
 type PieceAddArgs = {
