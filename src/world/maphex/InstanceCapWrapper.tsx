@@ -1,13 +1,9 @@
 import { ThreeEvent } from "@react-three/fiber"
 import { BoardHex } from "../../types"
 import { JSXElementConstructor } from "react"
+import { InstanceCapProps } from "./instance-hex"
 
-export type InstanceCapProps = {
-  capHexesArray: BoardHex[]
-  onPointerEnter: (hex: BoardHex) => void
-  onPointerOut: () => void
-  onPointerDown: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
-}
+
 
 type InstanceCapWrapperProps = {
   capHexesArray: BoardHex[]

@@ -30,6 +30,7 @@ function makeRectangleScenario(options?: RectangleScenarioOptions): MapState {
     return {
         boardHexes,
         hexMap,
+        boardPieces: {}
     }
 }
 type HexagonScenarioOptions = {
@@ -52,6 +53,7 @@ function makeHexagonScenario(options?: HexagonScenarioOptions): MapState {
     return {
         boardHexes,
         hexMap,
+        boardPieces: {}
     }
 }
 

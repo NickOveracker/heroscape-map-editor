@@ -10,12 +10,12 @@ import {
     Object3D,
 } from 'three'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
-import { InstanceCapProps } from './InstanceCapWrapper'
 import { hexTerrainColor } from './hexColors'
-import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
+import { HEXGRID_EMPTYHEX_HEIGHT, HEXGRID_HEX_HEIGHT } from '../../utils/constants'
+import { CylinderGeometryArgs, InstanceCapProps } from './instance-hex'
 
 
-
+const baseEmptyCapCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, HEXGRID_EMPTYHEX_HEIGHT, 6, undefined, false, undefined, undefined]
 const tempColor = new Color()
 const InstanceEmptyHexCap = ({
     capHexesArray,
@@ -40,11 +40,8 @@ const InstanceEmptyHexCap = ({
         const placeholder = new Object3D()
         capHexesArray.forEach((boardHex, i) => {
             const { x, z } = getBoardHex3DCoords(boardHex)
-            const scaleY = 0.1 // wafer thin
-            const y = boardHex.altitude * HEXGRID_HEX_HEIGHT - (scaleY / 2)
-
+            const y = boardHex.altitude * HEXGRID_HEX_HEIGHT
             placeholder.position.set(x, y, z)
-            placeholder.scale.set(1, scaleY, 1)
             placeholder.updateMatrix()
             instanceRef.current.setMatrixAt(i, placeholder.matrix)
         })
@@ -81,7 +78,8 @@ const InstanceEmptyHexCap = ({
             onPointerEnter={handleEnter}
             onPointerOut={handleOut}
         >
-            <cylinderGeometry args={[1, 1, 0.25, 6]}>
+            {/* <cylinderGeometry args={[1, 1, 0.25, 6]}> */}
+            <cylinderGeometry args={baseEmptyCapCylinderArgs}>
                 <instancedBufferAttribute attach="attributes-color" args={[colorArray, 3]} />
             </cylinderGeometry>
             <meshLambertMaterial

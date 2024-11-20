@@ -15,12 +15,11 @@ export default function buildupMap(tiles: VirtualScapeTile[]): BoardHexes {
     const fluidPieceId = fluidLandCodes?.[tile.type] ?? ''
     let piece = solidPieceId || fluidPieceId ? landPieces[(solidPieceId || fluidPieceId)] : undefined
     if (piece) {
-      // 0. THE EXTRACT
-      const newBoardHexes = getBoardHexesWithPieceAdded({
+      const { newBoardHexes } = getBoardHexesWithPieceAdded({
         piece,
         boardHexes,
         cubeCoords: tileCoords,
-        placementAltitude: tile.posZ,// z is altitude is virtualscape, y is altitude in our app
+        placementAltitude: tile.posZ, // z is altitude is virtualscape, y is altitude in our app
         rotation: tile.rotation,
       })
       return newBoardHexes
@@ -30,22 +29,22 @@ export default function buildupMap(tiles: VirtualScapeTile[]): BoardHexes {
   }, {})
 }
 
-
+type PieceAddArgs = {
+  piece: Piece,
+  boardHexes: BoardHexes,
+  cubeCoords: CubeCoordinate,
+  placementAltitude: number
+  rotation: number
+}
 export function getBoardHexesWithPieceAdded({
   piece,
   boardHexes,
   cubeCoords,
   placementAltitude,
   rotation,
-}: {
-  piece: Piece,
-  boardHexes: BoardHexes,
-  cubeCoords: CubeCoordinate,
-  placementAltitude: number
-  rotation: number
-}) {
+}: PieceAddArgs): PieceAddReturn {
   let newBoardHexes = clone(boardHexes)
-  console.log("🚀 ~ newBoardHexes:", newBoardHexes)
+  let pieceID = '' // will get mutated after we validate, but we need to return it from this scope
   const isSolidTile = isSolidTerrainHex(piece.terrain)
   const isFluidTile = isFluidTerrainHex(piece.terrain)
   // 1.1: GATHER DATA ON TILE
@@ -113,7 +112,7 @@ export function getBoardHexesWithPieceAdded({
         // copy old cap baseHexID, we are building off of it
         baseHexID = newBoardHexes[hexUnderneath.id].baseHexID
       }
-
+      pieceID = genPieceID(newHexID, piece.id)
       newBoardHexes[newHexID] = {
         id: newHexID,
         q: piecePlaneCoords[iForEach].q,
@@ -121,15 +120,15 @@ export function getBoardHexesWithPieceAdded({
         s: piecePlaneCoords[iForEach].s,
         altitude: newPieceAltitude,
         terrain: piece.terrain,
-        pieceID: genPieceID(newHexID, piece.id),
+        pieceID,
         isCap,
         baseHexID
       }
     })
   }
-  // console.log("🚀 ~ newBoardHexes:", newBoardHexes)
-  return newBoardHexes
+  return { newBoardHexes, newPieceID: pieceID }
 }
+type PieceAddReturn = { newBoardHexes: BoardHexes, newPieceID: string }
 
 
 

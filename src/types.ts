@@ -1,6 +1,7 @@
 export interface MapState {
     boardHexes: BoardHexes
     hexMap: HexMap
+    boardPieces: BoardPieces
 }
 export interface UIState {
     penMode: PenMode
@@ -40,6 +41,9 @@ export interface BoardHex extends CubeCoordinate {
     pieceID: string // tileID=qraID + piece-UID
     isCap: boolean
     baseHexID: string // the hexID at the bottom of the sub-terrain for this hex (if it's a Cap hex)
+}
+export type BoardPieces = {
+    [id: string]: Pieces
 }
 export type BoardHexes = {
     [qraID: string]: BoardHex
@@ -92,7 +96,8 @@ export enum HexTerrain {
     _vsFigure = '_vsFigure',
 }
 export type Piece = {
-    id: string;
+    id: string; // aqr+pieceID
+    pieceID: Pieces
     terrain: string;
     size: number;
     template: string;

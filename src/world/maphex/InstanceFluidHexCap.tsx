@@ -12,8 +12,10 @@ import {
 } from 'three'
 import { hexTerrainColor } from './hexColors'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
-import { InstanceCapProps } from './InstanceCapWrapper'
+import { CylinderGeometryArgs, InstanceCapProps } from './instance-hex'
+import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_FLUID_HEIGHT } from '../../utils/constants'
 
+const baseFluidCapCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, HEXGRID_HEXCAP_FLUID_HEIGHT, 6, undefined, false, undefined, undefined]
 const tempColor = new Color()
 const capFluidOpacity = 0.85
 const InstanceFluidHexCap = ({
@@ -37,12 +39,10 @@ const InstanceFluidHexCap = ({
   useLayoutEffect(() => {
     const placeholder = new Object3D()
     capHexesArray.forEach((boardHex, i) => {
-      const altitude = boardHex.altitude
-      const yAdjustFluidCap = altitude / 2
       const { x, z } = getBoardHex3DCoords(boardHex)
-      const capPosition = new Vector3(x, yAdjustFluidCap, z)
-      placeholder.position.set(capPosition.x, capPosition.y, capPosition.z)
-      placeholder.scale.set(1, 0.25, 1)
+      const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT
+
+      placeholder.position.set(x, y, z)
       placeholder.updateMatrix()
       instanceRef.current.setMatrixAt(i, placeholder.matrix)
     })
@@ -84,7 +84,7 @@ const InstanceFluidHexCap = ({
         vertexColors
         toneMapped={false}
       />
-      <cylinderGeometry args={[1, 1, 0.25, 6]}>
+      <cylinderGeometry args={baseFluidCapCylinderArgs}>
         <instancedBufferAttribute attach="attributes-color" args={[colorArray, 3]} />
       </cylinderGeometry>
     </instancedMesh>
