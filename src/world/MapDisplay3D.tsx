@@ -36,7 +36,7 @@ export default function MapDisplay3D({
 
     // USE EFFECT: automatically load up the map while devving
     React.useEffect(() => {
-        const fileName = '/buildup.hsc'
+        const fileName = '/land.hsc'
         fetch(fileName)
             .then(response => {
                 return response.arrayBuffer()

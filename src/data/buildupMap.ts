@@ -10,8 +10,10 @@ import getVSTileTemplate from './rotationTransforms';
 import { makeRectangleScenario } from '../utils/map-gen';
 
 export default function buildupMap(tiles: VirtualScapeTile[], fileName: string): MapState {
-  const mapLength = Math.max(...tiles.map(t => t.posX + 1))
-  const mapWidth = Math.max(...tiles.map(t => t.posY + 1))
+  const mapLength = Math.max(...tiles.map(t => t.posX + 7)) // We have to assume the map is large enough for largest tile laid the longest way?
+  console.log("🚀 ~ buildupMap ~ mapLength:", mapLength)
+  const mapWidth = Math.max(...tiles.map(t => t.posY + 7))
+  console.log("🚀 ~ buildupMap ~ mapWidth:", mapWidth)
   const newRectangleScenario = makeRectangleScenario({
     mapLength,
     mapWidth,
@@ -123,7 +125,7 @@ export function getBoardHexesWithPieceAdded({
           }
         }
       }
-      if (!isSolidAbove && (isSolidUnderneath || isPlacingOnTable)) { // solids and fluids can replace the cap below
+      if ((!isSolidAbove && isSolidUnderneath) || isPlacingOnTable) { // solids and fluids can replace the cap below
         // remove old cap
         newBoardHexes[hexUnderneath.id].isCap = false
         // copy old cap baseHexID, we are building off of it

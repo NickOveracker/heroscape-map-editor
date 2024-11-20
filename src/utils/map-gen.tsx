@@ -4,7 +4,7 @@ import { generateHexagon, generateRectangle } from "./hex-gen"
 /* 
 MAX_DIMENSION this will limit hexes to about 900 board hexes, a good limit for now on desktop
 */
-const MAX_RECTANGLE_DIMENSION = 30
+const MAX_RECTANGLE_DIMENSION = 50
 const MAX_HEXAGON_DIMENSION = 17 // 921
 type RectangleScenarioOptions = {
     mapWidth?: number
