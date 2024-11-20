@@ -14,6 +14,7 @@ import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
 import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
 import { Dictionary } from 'lodash'
 import { getPieceByTerrainAndSize } from '../data/pieces.ts'
+import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -23,6 +24,7 @@ export default function MapDisplay3D({
     const boardHexes = useBoundStore((state) => state.boardHexes)
     const penMode = useBoundStore((state) => state.penMode)
     const paintTile = useBoundStore((state) => state.paintTile)
+    const loadMap = useBoundStore((state) => state.loadMap)
     const pieceSize = useBoundStore((state) => state.pieceSize)
     const pieceRotation = useBoundStore((state) => state.pieceRotation)
     const hoverID = React.useRef('')
@@ -33,19 +35,18 @@ export default function MapDisplay3D({
     })
 
     // USE EFFECT: automatically load up the map while devving
-    // React.useEffect(() => {
-    //     const fileName = '/buildup.hsc'
-    //     fetch(fileName)
-    //         .then(response => {
-    //             return response.arrayBuffer()
-    //         })
-    //         .then(arrayBuffer => {
-    //             const myMap = processVirtualScapeArrayBuffer(arrayBuffer)
-    //             const myBuiltup = buildupMap(myMap.tiles)
-    //             console.log(`🚀 ~ React.useEffect ~ myMap: ${fileName}`, myMap)
-    //             console.log(`🚀 ~ React.useEffect ~ myBuiltup: ${fileName}`, myBuiltup)
-    //         });
-    // }, [])
+    React.useEffect(() => {
+        const fileName = '/buildup.hsc'
+        fetch(fileName)
+            .then(response => {
+                return response.arrayBuffer()
+            })
+            .then(arrayBuffer => {
+                const myMap = processVirtualScapeArrayBuffer(arrayBuffer)
+                const myVirtualscapeMap = buildupMap(myMap.tiles, fileName)
+                loadMap(myVirtualscapeMap)
+            });
+    }, [])
 
     const instanceBoardHexes = getInstanceBoardHexes(boardHexes)
 

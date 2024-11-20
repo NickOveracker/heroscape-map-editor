@@ -1,5 +1,5 @@
 import { clone } from 'lodash';
-import { VirtualScapeTile, BoardHexes, Piece, CubeCoordinate, } from '../types'
+import { VirtualScapeTile, BoardHexes, Piece, CubeCoordinate, MapState, } from '../types'
 import { isFluidTerrainHex, isSolidTerrainHex } from '../utils/board-utils';
 import { HEXGRID_MAX_ALTITUDE } from '../utils/constants';
 import { hexUtilsOddRToCube } from '../utils/hex-utils';
@@ -9,11 +9,9 @@ import { landPieces } from './pieces';
 import getVSTileTemplate from './rotationTransforms';
 import { makeRectangleScenario } from '../utils/map-gen';
 
-export default function buildupMap(tiles: VirtualScapeTile[], fileName: string): BoardHexes {
+export default function buildupMap(tiles: VirtualScapeTile[], fileName: string): MapState {
   const mapLength = Math.max(...tiles.map(t => t.posX + 1))
-  console.log("🚀 ~ buildupMap ~ mapLength:", mapLength)
   const mapWidth = Math.max(...tiles.map(t => t.posY + 1))
-  console.log("🚀 ~ buildupMap ~ mapWidth:", mapWidth)
   const newRectangleScenario = makeRectangleScenario({
     mapLength,
     mapWidth,
@@ -21,8 +19,8 @@ export default function buildupMap(tiles: VirtualScapeTile[], fileName: string):
   })
   const initialBoardHexes = newRectangleScenario.boardHexes
   const newHexMap = newRectangleScenario.hexMap
-  const newHexPieces = newRectangleScenario.boardPieces
-  return tiles.reduce((boardHexes: BoardHexes, tile) => {
+  const newBoardPieces = newRectangleScenario.boardPieces
+  const newBoardHexes = tiles.reduce((boardHexes: BoardHexes, tile) => {
     const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
     const solidPieceId = solidLandCodes?.[tile.type] ?? ''
     const fluidPieceId = fluidLandCodes?.[tile.type] ?? ''
@@ -35,12 +33,17 @@ export default function buildupMap(tiles: VirtualScapeTile[], fileName: string):
         placementAltitude: tile.posZ, // z is altitude is virtualscape, y is altitude in our app
         rotation: tile.rotation,
       })
-      newHexPieces[newPieceID] = piece.inventoryID
+      newBoardPieces[newPieceID] = piece.inventoryID
       return newBoardHexes
     } else {
       return boardHexes // Should probably handle this different, errors etc.
     }
   }, initialBoardHexes)
+  return {
+    boardHexes: newBoardHexes,
+    hexMap: newHexMap,
+    boardPieces: newBoardPieces,
+  }
 }
 
 type PieceAddArgs = {

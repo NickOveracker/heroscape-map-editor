@@ -108,7 +108,7 @@ const createMapSlice: StateCreator<
         })
     }),
     loadMap: (mapState: MapState) => set((state) => {
-        return { ...state, boardHexes: mapState.boardHexes, hexMap: mapState.hexMap }
+        return { ...state, boardHexes: mapState.boardHexes, hexMap: mapState.hexMap, boardPieces: mapState.boardPieces }
     }),
 })
 
