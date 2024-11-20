@@ -97,7 +97,7 @@ export enum HexTerrain {
 }
 export type Piece = {
     id: string; // aqr+pieceID
-    pieceID: Pieces
+    inventoryID: Pieces
     terrain: string;
     size: number;
     template: string;

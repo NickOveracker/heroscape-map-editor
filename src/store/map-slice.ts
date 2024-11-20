@@ -102,7 +102,7 @@ const createMapSlice: StateCreator<
                 rotation,
             })
             draft.boardHexes = newBoardHexes
-            draft.boardPieces[newPieceID] = piece.pieceID
+            draft.boardPieces[newPieceID] = piece.inventoryID
             // if the boardHexes check out, then we can consider the piece added
             // return { ...state, boardHexes: newBoardHexes, boardPieces: { [newPieceID]: piece.pieceID } }
         })

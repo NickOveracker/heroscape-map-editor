@@ -28,13 +28,14 @@ export default function buildupMap(tiles: VirtualScapeTile[], fileName: string):
     const fluidPieceId = fluidLandCodes?.[tile.type] ?? ''
     let piece = solidPieceId || fluidPieceId ? landPieces[(solidPieceId || fluidPieceId)] : undefined
     if (piece) {
-      const { newBoardHexes } = getBoardHexesWithPieceAdded({
+      const { newBoardHexes, newPieceID } = getBoardHexesWithPieceAdded({
         piece,
         boardHexes,
         cubeCoords: tileCoords,
         placementAltitude: tile.posZ, // z is altitude is virtualscape, y is altitude in our app
         rotation: tile.rotation,
       })
+      newHexPieces[newPieceID] = piece.inventoryID
       return newBoardHexes
     } else {
       return boardHexes // Should probably handle this different, errors etc.
