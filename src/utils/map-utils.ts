@@ -44,7 +44,6 @@ export const getBoardHexesRectangularMapDimensions = (
 export const getBoardHex3DCoords = (hex: CubeCoordinate & { altitude: number }) => {
     return {
         x: cubeToPixel(hex).x * HEXGRID_SPACING,
-        y: hex.altitude * HEXGRID_HEX_HEIGHT,
         z: cubeToPixel(hex).y * HEXGRID_SPACING,
     }
 }

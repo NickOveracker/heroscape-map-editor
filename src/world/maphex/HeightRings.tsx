@@ -19,15 +19,16 @@ declare global {
 
 
 export const HeightRings = ({
-  bottomRingYPos,
-  topRingYPos,
+  bottom,
+  top,
   position,
 }: {
-  bottomRingYPos: number
-  topRingYPos: number
+  bottom: number
+  top: number
   position: Vector3
 }) => {
-  const heightRingsForThisHex = genHeightRings(topRingYPos, bottomRingYPos)
+
+  const heightRingsForThisHex = genHeightRings(top, bottom)
   return (
     <>
       {heightRingsForThisHex.map((height, i) => {

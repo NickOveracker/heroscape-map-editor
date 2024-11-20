@@ -8,7 +8,7 @@ import GridHelper from "./GridHelper"
 import { CAMERA_FOV } from "../utils/constants"
 
 const World = () => {
-    const cameraControlsRef = React.useRef(undefined)
+    const cameraControlsRef = React.useRef(undefined!)
     return (
         <div
             id="canvas-container"

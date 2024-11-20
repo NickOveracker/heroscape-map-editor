@@ -28,7 +28,7 @@ const InstanceFluidHexCap = ({
       Material | Material[],
       InstancedMeshEventMap
     >
-  >(undefined)
+  >(null!)
   const countOfCapHexes = capHexesArray.length
   const colorArray = useMemo(
     () => Float32Array.from(new Array(capHexesArray.length).fill(0).flatMap((_, i) => tempColor.set(hexTerrainColor[capHexesArray[i].terrain]).toArray())),
@@ -50,17 +50,23 @@ const InstanceFluidHexCap = ({
   }, [capHexesArray])
 
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
-    onPointerEnter(e, capHexesArray[e.instanceId])
-    tempColor.set('#fff').toArray(colorArray, e.instanceId * 3)
-    instanceRef.current.geometry.attributes.color.needsUpdate = true
+    if (e.instanceId === 0 || !!e.instanceId) {
+      onPointerEnter(capHexesArray[e.instanceId])
+      tempColor.set('#fff').toArray(colorArray, e.instanceId * 3)
+      instanceRef.current.geometry.attributes.color.needsUpdate = true
+    }
   }
   const handleOut = (e: ThreeEvent<PointerEvent>) => {
-    onPointerOut(e)
-    tempColor.set(hexTerrainColor[capHexesArray[e.instanceId].terrain]).toArray(colorArray, e.instanceId * 3)
-    instanceRef.current.geometry.attributes.color.needsUpdate = true
+    onPointerOut()
+    if (e.instanceId === 0 || !!e.instanceId) {
+      tempColor.set(hexTerrainColor[capHexesArray[e.instanceId].terrain]).toArray(colorArray, e.instanceId * 3)
+      instanceRef.current.geometry.attributes.color.needsUpdate = true
+    }
   }
   const handleDown = (e: ThreeEvent<PointerEvent>) => {
-    onPointerDown(e, capHexesArray[e.instanceId])
+    if (e.instanceId === 0 || !!e.instanceId) {
+      onPointerDown(e, capHexesArray[e.instanceId])
+    }
   }
 
 

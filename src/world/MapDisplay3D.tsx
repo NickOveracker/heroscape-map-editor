@@ -5,10 +5,9 @@ import { MapHex3D } from './maphex/MapHex3D.tsx'
 import InstanceSubTerrainWrapper from './maphex/InstanceSubTerrain.tsx'
 import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
-import { BoardHex, HexTerrain, PenMode } from '../types.ts'
+import { BoardHex, BoardHexes, HexTerrain, PenMode } from '../types.ts'
 import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
-import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import buildupMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isSolidTerrainHex } from '../utils/board-utils.ts'
 import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
@@ -34,21 +33,21 @@ export default function MapDisplay3D({
     })
 
     // USE EFFECT: automatically load up the map while devving
-    React.useEffect(() => {
-        const fileName = '/buildup.hsc'
-        fetch(fileName)
-            .then(response => {
-                return response.arrayBuffer()
-            })
-            .then(arrayBuffer => {
-                const myMap = processVirtualScapeArrayBuffer(arrayBuffer)
-                const myBuiltup = buildupMap(myMap.tiles)
-                console.log(`🚀 ~ React.useEffect ~ myMap: ${fileName}`, myMap)
-                console.log(`🚀 ~ React.useEffect ~ myBuiltup: ${fileName}`, myBuiltup)
-            });
-    }, [])
+    // React.useEffect(() => {
+    //     const fileName = '/buildup.hsc'
+    //     fetch(fileName)
+    //         .then(response => {
+    //             return response.arrayBuffer()
+    //         })
+    //         .then(arrayBuffer => {
+    //             const myMap = processVirtualScapeArrayBuffer(arrayBuffer)
+    //             const myBuiltup = buildupMap(myMap.tiles)
+    //             console.log(`🚀 ~ React.useEffect ~ myMap: ${fileName}`, myMap)
+    //             console.log(`🚀 ~ React.useEffect ~ myBuiltup: ${fileName}`, myBuiltup)
+    //         });
+    // }, [])
 
-    const instanceBoardHexes = getInstanceBoardHexes(Object.values(boardHexes))
+    const instanceBoardHexes = getInstanceBoardHexes(boardHexes)
 
     const onPointerDown = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
         if (event.button === 2) return // ignore right clicks
@@ -72,6 +71,7 @@ export default function MapDisplay3D({
         }
         // OTHERWISE, PAINT TILE
         const piece = getPieceByTerrainAndSize(penMode, pieceSize)
+        console.log("🚀 ~ onPointerDown ~ piece:", piece)
         const isSolid = isSolidTerrainHex(piece.terrain)
         paintTile({
             piece,
@@ -79,10 +79,10 @@ export default function MapDisplay3D({
             rotation: pieceRotation,
         })
     }
-    const onPointerEnter = (_e: ThreeEvent<PointerEvent>, hex: BoardHex) => {
+    const onPointerEnter = (hex: BoardHex) => {
         hoverID.current = hex.id
     }
-    const onPointerOut = (_e: ThreeEvent<PointerEvent>) => {
+    const onPointerOut = () => {
         hoverID.current = ''
     }
     return (
@@ -114,27 +114,30 @@ export default function MapDisplay3D({
 
             <InstanceSubTerrainWrapper
                 glKey={'InstanceSubTerrain-'}
-                boardHexes={instanceBoardHexes.subTerrainHexes}
+                subTerrainHexes={instanceBoardHexes.subTerrainHexes}
             />
             {Object.values(boardHexes).map((bh => {
+                console.log("🚀 ~ {Object.values ~ bh:", bh)
                 return (
                     <MapHex3D
                         key={bh.id}
                         boardHex={bh}
+                        baseHexAltitude={boardHexes[bh.baseHexID].altitude}
                     />
                 )
             }))}
         </>
     )
 }
-
-function getInstanceBoardHexes(boardHexes: BoardHex[]) {
-    return boardHexes.reduce((result: Dictionary<BoardHex[]>, current) => {
-        const isEmpty = current.terrain === HexTerrain.empty
+export type SubTerrainHex = BoardHex & { baseHexAltitude?: number }
+function getInstanceBoardHexes(boardHexes: BoardHexes) {
+    const boardHexArr = Object.values(boardHexes)
+    return boardHexArr.reduce((result: Dictionary<SubTerrainHex[]>, current) => {
         const isCap = current.isCap
-        const isSolidCap = isCap && !isEmpty && isSolidTerrainHex(current.terrain)
-        const isFluidCap = isCap && !isEmpty && isFluidTerrainHex(current.terrain)
-        if (isEmpty) {
+        const isEmptyCap = isCap && current.terrain === HexTerrain.empty
+        const isSolidCap = isCap && !isEmptyCap && isSolidTerrainHex(current.terrain)
+        const isFluidCap = isCap && !isEmptyCap && isFluidTerrainHex(current.terrain)
+        if (isEmptyCap) {
             // empty caps should all be altitude 0, also
             result.emptyHexCaps.push(current)
         }
@@ -144,8 +147,8 @@ function getInstanceBoardHexes(boardHexes: BoardHex[]) {
         }
         if (isFluidCap) {
             result.fluidHexCaps.push(current)
-            if (current.altitude > 0) {
-                result.subTerrainHexes.push(current)
+            if (current.altitude > 1) {
+                result.subTerrainHexes.push({ ...current, baseHexAltitude: boardHexes[current.baseHexID].altitude })
             }
         }
         return result

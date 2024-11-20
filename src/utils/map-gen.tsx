@@ -13,7 +13,7 @@ type RectangleScenarioOptions = {
 
 export const rectangleScenario = makeRectangleScenario({
     mapLength: 2,
-    mapWidth: 2,
+    mapWidth: 1,
 })
 function makeRectangleScenario(options?: RectangleScenarioOptions): MapState {
     const mapHeight = Math.min(options?.mapLength ?? 12, MAX_RECTANGLE_DIMENSION)

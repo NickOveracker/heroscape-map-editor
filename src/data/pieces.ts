@@ -3,7 +3,6 @@ import { HexTerrain, Piece, Pieces } from "../types"
 
 export const getPieceByTerrainAndSize = (terrain: string, size: number) => {
   const piece = landPieces[`${terrain}${size}`]
-  console.log("🚀 ~ getPieceByTerrainAndSize ~ piece:", piece)
   return piece
 }
 

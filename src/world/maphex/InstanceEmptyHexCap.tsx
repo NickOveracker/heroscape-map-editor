@@ -12,6 +12,7 @@ import {
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { InstanceCapProps } from './InstanceCapWrapper'
 import { hexTerrainColor } from './hexColors'
+import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 
 
 
@@ -27,7 +28,7 @@ const InstanceEmptyHexCap = ({
         Material | Material[],
         InstancedMeshEventMap
     >
-    >(undefined)
+    >(null!)
     const countOfCapHexes = capHexesArray.length
 
     const colorArray = useMemo(() => {
@@ -38,10 +39,12 @@ const InstanceEmptyHexCap = ({
     useLayoutEffect(() => {
         const placeholder = new Object3D()
         capHexesArray.forEach((boardHex, i) => {
-            const { x, z, y } = getBoardHex3DCoords(boardHex)
-            const waferThin = 0.1
+            const { x, z } = getBoardHex3DCoords(boardHex)
+            const scaleY = 0.1 // wafer thin
+            const y = boardHex.altitude * HEXGRID_HEX_HEIGHT - (scaleY / 2)
+
             placeholder.position.set(x, y, z)
-            placeholder.scale.set(1, waferThin, 1)
+            placeholder.scale.set(1, scaleY, 1)
             placeholder.updateMatrix()
             instanceRef.current.setMatrixAt(i, placeholder.matrix)
         })
@@ -49,17 +52,23 @@ const InstanceEmptyHexCap = ({
     }, [capHexesArray])
 
     const handleEnter = (e: ThreeEvent<PointerEvent>) => {
-        onPointerEnter(e, capHexesArray[e.instanceId])
-        tempColor.set('#fff').toArray(colorArray, e.instanceId * 3)
-        instanceRef.current.geometry.attributes.color.needsUpdate = true
+        if (e.instanceId === 0 || !!e.instanceId) {
+            onPointerEnter(capHexesArray[e.instanceId])
+            tempColor.set('#fff').toArray(colorArray, e.instanceId * 3)
+            instanceRef.current.geometry.attributes.color.needsUpdate = true
+        }
     }
     const handleOut = (e: ThreeEvent<PointerEvent>) => {
-        onPointerOut(e)
-        tempColor.set(hexTerrainColor[capHexesArray[e.instanceId].terrain]).toArray(colorArray, e.instanceId * 3)
-        instanceRef.current.geometry.attributes.color.needsUpdate = true
+        onPointerOut()
+        if (e.instanceId === 0 || !!e.instanceId) {
+            tempColor.set(hexTerrainColor[capHexesArray[e.instanceId].terrain]).toArray(colorArray, e.instanceId * 3)
+            instanceRef.current.geometry.attributes.color.needsUpdate = true
+        }
     }
     const handleDown = (e: ThreeEvent<PointerEvent>) => {
-        onPointerDown(e, capHexesArray[e.instanceId])
+        if (e.instanceId === 0 || !!e.instanceId) {
+            onPointerDown(e, capHexesArray[e.instanceId])
+        }
     }
 
 

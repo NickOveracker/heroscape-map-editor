@@ -4,15 +4,15 @@ import { JSXElementConstructor } from "react"
 
 export type InstanceCapProps = {
   capHexesArray: BoardHex[]
-  onPointerEnter: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
-  onPointerOut: (e: ThreeEvent<PointerEvent>) => void
+  onPointerEnter: (hex: BoardHex) => void
+  onPointerOut: () => void
   onPointerDown: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }
 
 type InstanceCapWrapperProps = {
   capHexesArray: BoardHex[]
-  onPointerEnter: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
-  onPointerOut: (e: ThreeEvent<PointerEvent>) => void
+  onPointerEnter: (hex: BoardHex) => void
+  onPointerOut: () => void
   onPointerDown: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
   component: JSXElementConstructor<InstanceCapProps>
   glKey: string

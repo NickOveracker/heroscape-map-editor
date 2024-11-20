@@ -54,6 +54,7 @@ export enum HexTerrain {
     grass = 'grass',
     rock = 'rock',
     sand = 'sand',
+    dirt = 'dirt', // dirt is just the subTerrain for grass/rock/sand
     road = 'road',
     snow = 'snow',
     lavaField = 'lavaField',

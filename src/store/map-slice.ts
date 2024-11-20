@@ -32,7 +32,7 @@ const createMapSlice: StateCreator<
             piece,
             boardHexes: state.boardHexes,
             cubeCoords: clickedHex,
-            altitude: clickedHex.altitude,
+            placementAltitude: clickedHex.altitude,
             rotation,
         })
         return { ...state, boardHexes: newBoardHexes }

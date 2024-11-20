@@ -4,7 +4,7 @@ import useBoundStore from '../store/store'
 const DEVLogSomethingCoolButton = () => {
   const appState = useBoundStore((state) => state)
   const onClick = () => {
-    console.log("🚀 ~ DEVLogSomethingCoolButton ~ appState:", appState)
+    console.dir(appState.boardHexes)
   }
   return (
     <Button variant="contained" onClick={onClick}>

@@ -2,6 +2,7 @@ import { StateCreator } from "zustand"
 import { HexTerrain, PenMode, UIState } from "../types"
 import { AppState } from "./store"
 import { produce } from "immer"
+import { Dictionary } from "lodash"
 
 export interface UISlice extends UIState {
     togglePenMode: (mode: PenMode) => void
@@ -42,7 +43,7 @@ const createUISlice: StateCreator<
     isTakingPicture: false,
     toggleIsTakingPicture: (b: boolean) => set(produce((s => { s.isTakingPicture = b }))),
 })
-const landSizes = { // This should be derived, it is duplicate dat
+const landSizes: Dictionary<number[]> = { // This should be derived, it is duplicate dat
     // solid terrain below
     [HexTerrain.grass]: [1, 2, 3, 7, 24],
     [HexTerrain.rock]: [1, 2, 3, 7, 24],
