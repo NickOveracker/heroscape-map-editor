@@ -106,7 +106,7 @@ export function getBoardHexesWithPieceAdded({
           }
         }
       }
-      if (!isSolidAbove && isSolidUnderneath) { // solids and fluids can replace the cap below
+      if (!isSolidAbove && (isSolidUnderneath || isPlacingOnTable)) { // solids and fluids can replace the cap below
         // remove old cap
         newBoardHexes[hexUnderneath.id].isCap = false
         // copy old cap baseHexID, we are building off of it

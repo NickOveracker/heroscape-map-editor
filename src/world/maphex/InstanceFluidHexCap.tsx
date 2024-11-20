@@ -40,7 +40,7 @@ const InstanceFluidHexCap = ({
     const placeholder = new Object3D()
     capHexesArray.forEach((boardHex, i) => {
       const { x, z } = getBoardHex3DCoords(boardHex)
-      const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT
+      const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT + (HEXGRID_HEXCAP_FLUID_HEIGHT / 2)
 
       placeholder.position.set(x, y, z)
       placeholder.updateMatrix()

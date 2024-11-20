@@ -1,6 +1,6 @@
 import { Color } from "three"
-import { StartZones } from "../types"
-import { hexoscapePlayerColors } from "../layout/theme"
+import { StartZones } from "../../types"
+import { hexoscapePlayerColors } from "../../layout/theme"
 
 const highlightWhiteStyle = { color: 'white', opacity: 1, lineWidth: 2 }
 const nonTopRingGrayStyle = {

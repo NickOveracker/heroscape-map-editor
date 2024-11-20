@@ -14,8 +14,8 @@ export const MapHexIDDisplay = ({
   position: Vector3
 }) => {
   return (
-    <Billboard position={[position.x, position.y + HEXGRID_HEX_HEIGHT / 4, position.z]}>
-      <Text fontSize={0.3} color={new Color('white')}>
+    <Billboard position={[position.x, position.y, position.z]}>
+      <Text fontSize={0.2} color={new Color('white')}>
         {text}
       </Text>
     </Billboard>

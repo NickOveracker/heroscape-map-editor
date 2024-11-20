@@ -71,7 +71,6 @@ export default function MapDisplay3D({
         }
         // OTHERWISE, PAINT TILE
         const piece = getPieceByTerrainAndSize(penMode, pieceSize)
-        console.log("🚀 ~ onPointerDown ~ piece:", piece)
         const isSolid = isSolidTerrainHex(piece.terrain)
         paintTile({
             piece,
@@ -117,7 +116,6 @@ export default function MapDisplay3D({
                 subTerrainHexes={instanceBoardHexes.subTerrainHexes}
             />
             {Object.values(boardHexes).map((bh => {
-                console.log("🚀 ~ {Object.values ~ bh:", bh)
                 return (
                     <MapHex3D
                         key={bh.id}

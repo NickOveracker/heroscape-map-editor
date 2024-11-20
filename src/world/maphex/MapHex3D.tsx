@@ -20,7 +20,7 @@ export const MapHex3D = ({
   const hexBottomPosition = new Vector3(x, baseHexAltitude, z)
   return (
     <>
-      {boardHex.isCap ? <MapHexIDDisplay text={boardHex.id} position={new Vector3(x, boardHex.altitude * HEXGRID_HEX_HEIGHT + 0.2, z)} /> : <></>}
+      {boardHex.isCap ? <MapHexIDDisplay text={boardHex.id} position={new Vector3(x, y + 0.2, z)} /> : <></>}
       <HeightRings
         bottom={baseY}
         top={y}
