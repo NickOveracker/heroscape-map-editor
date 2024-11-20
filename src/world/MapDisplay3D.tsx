@@ -87,7 +87,8 @@ export default function MapDisplay3D({
             })
         }
     }
-    const onPointerEnter = (hex: BoardHex) => {
+    const onPointerEnter = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
+        event.stopPropagation()
         hoverID.current = hex.id
     }
     const onPointerOut = () => {

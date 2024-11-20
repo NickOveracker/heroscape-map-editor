@@ -51,7 +51,7 @@ const InstanceFluidHexCap = ({
 
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
     if (e.instanceId === 0 || !!e.instanceId) {
-      onPointerEnter(capHexesArray[e.instanceId])
+      onPointerEnter(e, capHexesArray[e.instanceId])
       tempColor.set('#fff').toArray(colorArray, e.instanceId * 3)
       instanceRef.current.geometry.attributes.color.needsUpdate = true
     }

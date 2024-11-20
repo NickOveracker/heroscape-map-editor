@@ -5,7 +5,7 @@ export type CylinderGeometryArgs = [radiusTop?: number | undefined, radiusBottom
 
 export type InstanceCapProps = {
   capHexesArray: BoardHex[]
-  onPointerEnter: (hex: BoardHex) => void
+  onPointerEnter: (event: ThreeEvent<PointerEvent>, hex: BoardHex) => void
   onPointerOut: () => void
   onPointerDown: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }

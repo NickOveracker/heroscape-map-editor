@@ -5,14 +5,11 @@ import { InstanceCapProps } from "./instance-hex"
 
 
 
-type InstanceCapWrapperProps = {
-  capHexesArray: BoardHex[]
-  onPointerEnter: (hex: BoardHex) => void
-  onPointerOut: () => void
-  onPointerDown: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
+type InstanceCapWrapperProps = InstanceCapProps & {
   component: JSXElementConstructor<InstanceCapProps>
   glKey: string
 }
+
 export default function InstanceCapWrapper(props: InstanceCapWrapperProps) {
   const InstanceCap = props.component
   const numInstances = props.capHexesArray.length
