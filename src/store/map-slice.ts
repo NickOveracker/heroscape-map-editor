@@ -64,8 +64,8 @@ const createMapSlice: StateCreator<
             "r": 0,
             "s": -1,
             "altitude": 1,
-            "terrain": "grass",
-            "pieceID": "1,1,0,grass1",
+            "terrain": "asphalt",
+            "pieceID": "1,1,0,asphalt1",
             "isCap": false,
             "baseHexID": "0,1,0"
         },
@@ -75,8 +75,8 @@ const createMapSlice: StateCreator<
             "r": 0,
             "s": -1,
             "altitude": 2,
-            "terrain": "water",
-            "pieceID": "1,1,0,water1",
+            "terrain": "grass",
+            "pieceID": "1,1,0,grass1",
             "isCap": true,
             "baseHexID": "0,1,0"
         },
@@ -84,8 +84,8 @@ const createMapSlice: StateCreator<
     hexMap: rectangleScenario.hexMap,
     boardPieces: {
         ["1,0,0,water1"]: Pieces.water1,
-        ["1,1,0,grass1"]: Pieces.grass1,
-        ["2,1,0,water1"]: Pieces.water1,
+        ["1,1,0,asphalt1"]: Pieces.asphalt1,
+        ["2,1,0,grass1"]: Pieces.grass1,
     },
     // boardPieces: rectangleScenario.boardPieces,
     paintTile: ({

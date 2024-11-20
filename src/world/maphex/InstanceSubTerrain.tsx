@@ -1,15 +1,14 @@
 import { useRef, useLayoutEffect } from 'react'
 import * as THREE from 'three'
-import { HexTerrain } from '../../types'
+import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from './hexColors'
-import { SubTerrainHex } from '../MapDisplay3D'
 import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 import { CylinderGeometryArgs } from './instance-hex'
 
 
 type InstanceSubTerrainWrapperProps = {
-    subTerrainHexes: SubTerrainHex[]
+    subTerrainHexes: BoardHex[]
     glKey: string
 }
 
@@ -22,7 +21,7 @@ const InstanceSubTerrainWrapper = (props: InstanceSubTerrainWrapperProps) => {
 
 const baseSubTerrainCylinderArgs: CylinderGeometryArgs = [1, 1, 1, 6, undefined, true, undefined, undefined]
 const dirtColor = new THREE.Color(hexTerrainColor[HexTerrain.dirt])
-const InstanceSubTerrain = ({ subTerrainHexes }: { subTerrainHexes: SubTerrainHex[] }) => {
+const InstanceSubTerrain = ({ subTerrainHexes }: { subTerrainHexes: BoardHex[] }) => {
     const instanceRef = useRef<any>(undefined!)
     const countOfSubTerrains = subTerrainHexes.length
 
@@ -32,7 +31,7 @@ const InstanceSubTerrain = ({ subTerrainHexes }: { subTerrainHexes: SubTerrainHe
         subTerrainHexes.forEach((boardHex, i) => {
             const { x, z } = getBoardHex3DCoords(boardHex)
             const top = boardHex.altitude * HEXGRID_HEX_HEIGHT
-            const bottom = (boardHex?.baseHexAltitude ?? 0) * HEXGRID_HEX_HEIGHT
+            const bottom = top - HEXGRID_HEX_HEIGHT
             const y = ((top + bottom) / 2) // place it halfway between top and bottom
             const scaleY = top - bottom // since cylinder's base height is 1
 

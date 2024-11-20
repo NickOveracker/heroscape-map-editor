@@ -127,27 +127,26 @@ export default function MapDisplay3D({
         </>
     )
 }
-export type SubTerrainHex = BoardHex & { baseHexAltitude?: number }
+
 function getInstanceBoardHexes(boardHexes: BoardHexes) {
     const boardHexArr = Object.values(boardHexes)
-    return boardHexArr.reduce((result: Dictionary<SubTerrainHex[]>, current) => {
+    return boardHexArr.reduce((result: Dictionary<BoardHex[]>, current) => {
         const isCap = current.isCap
         const isEmptyCap = isCap && current.terrain === HexTerrain.empty
-        const isSolidCap = isCap && !isEmptyCap && isSolidTerrainHex(current.terrain)
-        const isFluidCap = isCap && !isEmptyCap && isFluidTerrainHex(current.terrain)
+        const isSolidCap = isCap && isSolidTerrainHex(current.terrain)
+        const isFluidCap = isCap && isFluidTerrainHex(current.terrain)
+        const isSubTerrain = isSolidTerrainHex(current.terrain)
         if (isEmptyCap) {
-            // empty caps should all be altitude 0, also
             result.emptyHexCaps.push(current)
         }
         if (isSolidCap) {
             result.solidHexCaps.push(current)
-            result.subTerrainHexes.push(current)
         }
         if (isFluidCap) {
             result.fluidHexCaps.push(current)
-            if (current.altitude > 1) {
-                result.subTerrainHexes.push({ ...current, baseHexAltitude: boardHexes[current.baseHexID].altitude })
-            }
+        }
+        if (isSubTerrain) {
+            result.subTerrainHexes.push(current)
         }
         return result
     }, {
