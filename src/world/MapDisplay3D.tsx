@@ -62,6 +62,9 @@ export default function MapDisplay3D({
         if (penMode === PenMode.eraser && !isEmptyHex) {
             // erase tile
         }
+        if (penMode === PenMode.eraser && isEmptyHex) {
+            return
+        }
         if (penMode === PenMode.eraserStartZone) {
             // erase start zone
         }
@@ -69,14 +72,20 @@ export default function MapDisplay3D({
         if (penMode.slice(0, -1) === 'startZone') {
             // paintStartZone({ hexID: hex.id, playerID: penMode.slice(-1) })
         }
-        // OTHERWISE, PAINT TILE
-        const piece = getPieceByTerrainAndSize(penMode, pieceSize)
-        const isSolid = isSolidTerrainHex(piece.terrain)
-        paintTile({
-            piece,
-            clickedHex: hex,
-            rotation: pieceRotation,
-        })
+        if (penMode === PenMode.grass ||
+            penMode === PenMode.rock ||
+            penMode === PenMode.sand ||
+            penMode === PenMode.water
+        ) {
+            // OTHERWISE, PAINT TILE
+            const piece = getPieceByTerrainAndSize(penMode, pieceSize)
+            const isSolid = isSolidTerrainHex(piece.terrain)
+            paintTile({
+                piece,
+                clickedHex: hex,
+                rotation: pieceRotation,
+            })
+        }
     }
     const onPointerEnter = (hex: BoardHex) => {
         hoverID.current = hex.id
@@ -115,6 +124,7 @@ export default function MapDisplay3D({
                 glKey={'InstanceSubTerrain-'}
                 subTerrainHexes={instanceBoardHexes.subTerrainHexes}
             />
+
             {Object.values(boardHexes).map((bh => {
                 return (
                     <MapHex3D
