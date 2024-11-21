@@ -17,6 +17,7 @@ export const HEXGRID_HEX_APOTHEM = Math.sqrt(3) / 2 * HEXGRID_HEX_RADIUS // we a
 // hex side female plug width: 6/32"
 export const HEXGRID_HEX_HEIGHT = 0.5 // Altitude thickness
 export const HEXGRID_HEXCAP_HEIGHT = HEXGRID_HEX_HEIGHT / 7
+export const TREE_BASE_HEIGHT = HEXGRID_HEX_HEIGHT / 7
 export const HEXGRID_HEXCAP_FLUID_HEIGHT = HEXGRID_HEX_HEIGHT * 3 / 7
 export const HEXGRID_EMPTYHEX_HEIGHT = HEXGRID_HEX_HEIGHT / 20
 export const HEXGRID_MAX_ALTITUDE = 25 // Altitude thickness
