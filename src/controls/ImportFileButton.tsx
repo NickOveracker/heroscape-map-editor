@@ -3,6 +3,8 @@ import { Button } from '@mui/material'
 import { MdFileOpen } from 'react-icons/md'
 import { GiDevilMask } from 'react-icons/gi'
 import readVirtualscapeMapFile from '../data/readVirtualscapeMapFile'
+import buildupMap from '../data/buildupMap'
+import useBoundStore from '../store/store'
 
 const hiddenStyle = {
   clip: 'rect(0 0 0 0)',
@@ -18,6 +20,7 @@ const hiddenStyle = {
 
 
 const ImportFileButton = () => {
+  const loadMap = useBoundStore((state) => state.loadMap)
   const uploadElementID = 'upload'
   const virtualScapeUploadElementID = 'vsupload'
   const handleClickFileSelect = () => {
@@ -71,7 +74,8 @@ const ImportFileButton = () => {
 
     try {
       const myMap: any = await readVirtualscapeMapFile(file)
-      console.log('🚀 ~ readVSFile ~ myMap:', myMap)
+      const myVirtualscapeMap = buildupMap(myMap.tiles, file.name)
+      loadMap(myVirtualscapeMap)
     } catch (error) {
       console.error(error)
     }
