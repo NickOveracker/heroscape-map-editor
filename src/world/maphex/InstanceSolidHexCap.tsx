@@ -79,6 +79,8 @@ const InstanceSolidHexCap = ({
       onPointerDown={handleDown}
       onPointerEnter={handleEnter}
       onPointerOut={handleOut}
+      castShadow
+      receiveShadow
     >
       <cylinderGeometry args={baseSolidCapCylinderArgs}>
         <instancedBufferAttribute attach="attributes-color" args={[colorArray, 3]} />

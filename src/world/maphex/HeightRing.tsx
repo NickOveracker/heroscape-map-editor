@@ -38,7 +38,7 @@ export default function HeightRing({
         // warning, opacity can be a bit fps expensive
         // transparent
         // opacity={0.3}
-        color={new Color('#dbdbdb')}
+        color={new Color('#a4a4a4')}
         linewidth={3}
         linecap={'round'}
         linejoin={'round'}

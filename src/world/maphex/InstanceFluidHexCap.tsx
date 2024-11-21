@@ -77,6 +77,8 @@ const InstanceFluidHexCap = ({
       onPointerEnter={handleEnter}
       onPointerOut={handleOut}
       onPointerDown={handleDown}
+      castShadow
+      receiveShadow
     >
       <meshLambertMaterial
         transparent

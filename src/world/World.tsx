@@ -21,6 +21,7 @@ const World = () => {
             <Canvas camera={{
                 fov: CAMERA_FOV,
             }}
+                shadows
             >
                 {/* Stats displays the fps */}
                 <Stats className='stats-panel' />

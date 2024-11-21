@@ -35,14 +35,10 @@ const InstanceSubTerrain = ({ subTerrainHexes }: { subTerrainHexes: BoardHex[] }
             const y = ((top + bottom) / 2) // place it halfway between top and bottom
             const scaleY = top - bottom // since cylinder's base height is 1
 
-            const subTerrainPosition = new THREE.Vector3(x, y, z)
             placeholder.scale.set(1, scaleY, 1)
             const isDirtSubterrain = boardHex.terrain === HexTerrain.grass || boardHex.terrain === HexTerrain.sand || boardHex.terrain === HexTerrain.rock
             const subTerrainColor = isDirtSubterrain ? dirtColor : new THREE.Color(hexTerrainColor[boardHex.terrain])
-            placeholder.position.set(
-                subTerrainPosition.x,
-                subTerrainPosition.y,
-                subTerrainPosition.z)
+            placeholder.position.set(x, y, z)
             placeholder.updateMatrix()
             instanceRef.current.setColorAt(i, subTerrainColor)
             instanceRef.current.setMatrixAt(i, placeholder.matrix)
@@ -54,9 +50,11 @@ const InstanceSubTerrain = ({ subTerrainHexes }: { subTerrainHexes: BoardHex[] }
         <instancedMesh
             ref={instanceRef}
             args={[undefined, undefined, countOfSubTerrains]} //args:[geometry, material, count]
+            castShadow
+            receiveShadow
         >
             <cylinderGeometry args={baseSubTerrainCylinderArgs} />
-            <meshBasicMaterial />
+            <meshLambertMaterial />
         </instancedMesh>
     )
 }
