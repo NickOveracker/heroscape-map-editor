@@ -51,7 +51,7 @@ export default function MapDisplay3D({
     const instanceBoardHexes = getInstanceBoardHexes(boardHexes)
 
     const onPointerDown = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
-        if (event.button === 2) return // ignore right clicks
+        if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
         event.stopPropagation()
         // Early out if camera is active
         if (cameraControlsRef.current.active) return
