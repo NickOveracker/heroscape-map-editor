@@ -11,9 +11,7 @@ import { makeRectangleScenario } from '../utils/map-gen';
 
 export default function buildupMap(tiles: VirtualScapeTile[], fileName: string): MapState {
   const mapLength = Math.max(...tiles.map(t => t.posX + 7)) // We have to assume the map is large enough for largest tile laid the longest way?
-  console.log("🚀 ~ buildupMap ~ mapLength:", mapLength)
   const mapWidth = Math.max(...tiles.map(t => t.posY + 7))
-  console.log("🚀 ~ buildupMap ~ mapWidth:", mapWidth)
   const newRectangleScenario = makeRectangleScenario({
     mapLength,
     mapWidth,

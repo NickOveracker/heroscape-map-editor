@@ -18,7 +18,7 @@ export const MapHex3D = ({
   const isHeightRingedHex = isSolidTerrainHex(boardHex.terrain)
   return (
     <>
-      {boardHex.isCap ? <MapHexIDDisplay text={boardHex.id} position={new Vector3(x, y + 0.2, z)} /> : <></>}
+      {boardHex.isCap ? <MapHexIDDisplay text={`${boardHex.id},${boardHex.s}`} position={new Vector3(x, y + 0.2, z)} /> : <></>}
       {isHeightRingedHex && <HeightRing
         position={new Vector3(x, y, z)}
       />}
