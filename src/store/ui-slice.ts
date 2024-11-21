@@ -12,7 +12,7 @@ export interface UISlice extends UIState {
     toggleIsTakingPicture: (s: boolean) => void
 }
 
-const initialPenMode = PenMode.grass
+const initialPenMode = PenMode.select
 
 const createUISlice: StateCreator<
     // https://immerjs.github.io/immer/#with-immer
