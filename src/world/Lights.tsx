@@ -15,7 +15,7 @@ export default function Lights() {
         position={[0, 0, 1000]}
         // position={[50, 50, -50]}
         lookAt={() => new Vector3(0, 30, -1000)}
-        color={"#0xf2f2e8"}
+        color={"#f2f2e8"}
         intensity={3} />
       <directionalLight
         position={[0, 0, 1000]}
@@ -43,7 +43,7 @@ export default function Lights() {
         position={[0, 30, 1000]}
         // position={[-50, 0, -50]}
         lookAt={() => new Vector3(0, -30, -1000)}
-        color={"#0xf2f2e8"}
+        color={"#f2f2e8"}
         intensity={3} />
       <directionalLight
         position={[0, 30, 1000]}
