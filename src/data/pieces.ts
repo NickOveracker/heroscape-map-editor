@@ -14,7 +14,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
-
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.grass2]: {
     id: Pieces.grass2,// will get overwritten in game
@@ -23,6 +25,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.grass3]: {
     id: Pieces.grass3,// will get overwritten in game
@@ -31,6 +36,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.grass7]: {
     id: Pieces.grass7,// will get overwritten in game
@@ -39,6 +47,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.grass24]: {
     id: Pieces.grass24,// will get overwritten in game
@@ -47,6 +58,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 24,
     template: '24',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.rock1]: {
     id: Pieces.rock1,// will get overwritten in game
@@ -55,6 +69,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.rock2]: {
     id: Pieces.rock2,// will get overwritten in game
@@ -63,6 +80,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.rock3]: {
     id: Pieces.rock3,// will get overwritten in game
@@ -71,6 +91,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.rock7]: {
     id: Pieces.rock7,// will get overwritten in game
@@ -79,6 +102,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.rock24]: {
     id: Pieces.rock24,// will get overwritten in game
@@ -87,6 +113,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 24,
     template: '24',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.sand1]: {
     id: Pieces.sand1,// will get overwritten in game
@@ -95,6 +124,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.sand2]: {
     id: Pieces.sand2,// will get overwritten in game
@@ -103,6 +135,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.sand3]: {
     id: Pieces.sand3,// will get overwritten in game
@@ -111,6 +146,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.sand7]: {
     id: Pieces.sand7,// will get overwritten in game
@@ -119,6 +157,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.sand24]: {
     id: Pieces.sand24,// will get overwritten in game
@@ -127,6 +168,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 24,
     template: '24',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.dungeon1]: {
     id: Pieces.dungeon1,// will get overwritten in game
@@ -135,6 +179,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.dungeon2]: {
     id: Pieces.dungeon2,// will get overwritten in game
@@ -143,6 +190,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.dungeon3]: {
     id: Pieces.dungeon3,// will get overwritten in game
@@ -151,6 +201,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.dungeon7]: {
     id: Pieces.dungeon7,// will get overwritten in game
@@ -159,6 +212,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.dungeon24]: {
     id: Pieces.dungeon24,// will get overwritten in game
@@ -167,6 +223,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 24,
     template: '24',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.swamp1]: {
     id: Pieces.swamp1,// will get overwritten in game
@@ -175,6 +234,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.swamp2]: {
     id: Pieces.swamp2,// will get overwritten in game
@@ -183,6 +245,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.swamp3]: {
     id: Pieces.swamp3,// will get overwritten in game
@@ -191,6 +256,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.swamp7]: {
     id: Pieces.swamp7,// will get overwritten in game
@@ -199,6 +267,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.swamp24]: {
     id: Pieces.swamp24,// will get overwritten in game
@@ -207,6 +278,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 24,
     template: '24',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.lavaField1]: {
     id: Pieces.lavaField1,// will get overwritten in game
@@ -215,6 +289,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.lavaField2]: {
     id: Pieces.lavaField2,// will get overwritten in game
@@ -223,6 +300,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.lavaField7]: {
     id: Pieces.lavaField7,// will get overwritten in game
@@ -231,6 +311,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.asphalt1]: {
     id: Pieces.asphalt1,// will get overwritten in game
@@ -239,6 +322,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.asphalt2]: {
     id: Pieces.asphalt2,// will get overwritten in game
@@ -247,6 +333,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.asphalt7]: {
     id: Pieces.asphalt7,// will get overwritten in game
@@ -255,6 +344,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.concrete1]: {
     id: Pieces.concrete1,// will get overwritten in game
@@ -263,6 +355,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.concrete2]: {
     id: Pieces.concrete2,// will get overwritten in game
@@ -271,6 +366,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.concrete7]: {
     id: Pieces.concrete7,// will get overwritten in game
@@ -279,6 +377,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.snow1]: {
     id: Pieces.snow1,// will get overwritten in game
@@ -287,6 +388,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.snow2]: {
     id: Pieces.snow2,// will get overwritten in game
@@ -295,6 +399,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.road1]: {
     id: Pieces.road1,// will get overwritten in game
@@ -303,6 +410,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.road2]: {
     id: Pieces.road2,// will get overwritten in game
@@ -311,6 +421,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.road5]: {
     id: Pieces.road5,// will get overwritten in game
@@ -319,6 +432,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 5,
     template: '5',
     height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   /* FLUID FLUID FLUID */
   [Pieces.water1]: {
@@ -328,6 +444,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 0,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.lava1]: {
     id: Pieces.lava1,// will get overwritten in game
@@ -336,6 +455,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 0,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.swampWater1]: {
     id: Pieces.swampWater1,// will get overwritten in game
@@ -344,6 +466,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 0,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.ice1]: {
     id: Pieces.ice1,// will get overwritten in game
@@ -352,6 +477,9 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 0,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
   [Pieces.shadow1]: {
     id: Pieces.shadow1,// will get overwritten in game
@@ -360,126 +488,267 @@ export const landPieces: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 0,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
   },
 }
-
-const nonLandinventoryIDs = {
-  [Pieces.palm14]: {
-    height: 14,
-    size: 1,
-  },
-  [Pieces.palm15]: {
-    height: 15,
-    size: 1,
-  },
-  [Pieces.palm16]: {
-    height: 16,
-    size: 1,
-
-  },
-  [Pieces.brush9]: {
-    height: 9,
-    size: 1,
-
-  },
+export const obstaclePieces: Dictionary<Piece> = {
   [Pieces.tree10]: {
-    height: 10,
+    id: Pieces.tree10,// will get overwritten in game
+    inventoryID: Pieces.tree10,
+    terrain: HexTerrain.tree,
     size: 1,
-
+    template: Pieces.tree10,
+    height: 10,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
   },
   [Pieces.tree11]: {
-    height: 11,
+    id: Pieces.tree11,
+    inventoryID: Pieces.tree11,
+    terrain: HexTerrain.grass,
     size: 1,
-
+    template: Pieces.tree11,
+    height: 11,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
   },
   [Pieces.tree12]: {
-    height: 12,
+    id: Pieces.tree12,
+    inventoryID: Pieces.tree12,
+    terrain: HexTerrain.grass,
     size: 1,
-
+    template: Pieces.tree12,
+    height: 12,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
   },
   [Pieces.tree415]: {
-    height: 15,
+    id: Pieces.tree415,
+    inventoryID: Pieces.tree415,
+    terrain: HexTerrain.grass,
     size: 1,
-
+    template: Pieces.tree415,
+    height: 15,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
+  [Pieces.palm14]: {
+    id: Pieces.palm14,
+    inventoryID: Pieces.palm14,
+    terrain: HexTerrain.grass,
+    size: 1,
+    template: Pieces.palm14,
+    height: 14,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
+  [Pieces.palm15]: {
+    id: Pieces.palm15,
+    inventoryID: Pieces.palm15,
+    terrain: HexTerrain.grass,
+    size: 1,
+    template: Pieces.palm15,
+    height: 15,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
+  [Pieces.palm16]: {
+    id: Pieces.palm16,
+    inventoryID: Pieces.palm16,
+    terrain: HexTerrain.grass,
+    size: 1,
+    template: Pieces.palm16,
+    height: 16,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
+  [Pieces.brush9]: {
+    id: Pieces.brush9,
+    inventoryID: Pieces.brush9,
+    terrain: HexTerrain.grass,
+    size: 1,
+    template: Pieces.brush9,
+    height: 9,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
   },
   [Pieces.hive]: {
-    height: 17,
+    id: Pieces.hive,
+    inventoryID: Pieces.hive,
+    terrain: HexTerrain.grass,
     size: 1,
-
+    template: Pieces.hive,
+    height: 17,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
   },
   [Pieces.glacier1]: {
-    height: 7,
+    id: Pieces.glacier1,
+    inventoryID: Pieces.glacier1,
+    terrain: HexTerrain.grass,
     size: 1,
-
+    template: Pieces.glacier1,
+    height: 7,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
   },
   [Pieces.glacier3]: {
-    height: 9,
+    id: Pieces.glacier3,
+    inventoryID: Pieces.glacier3,
+    terrain: HexTerrain.grass,
     size: 1,
-
+    template: Pieces.glacier3,
+    height: 9,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
   },
   [Pieces.glacier4]: {
-    height: 11,
+    id: Pieces.glacier4,
+    inventoryID: Pieces.glacier4,
+    terrain: HexTerrain.grass,
     size: 1,
-
+    template: Pieces.glacier4,
+    height: 11,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
   },
   [Pieces.glacier6]: {
-    height: 17,
+    id: Pieces.glacier6,
+    inventoryID: Pieces.glacier6,
+    terrain: HexTerrain.grass,
     size: 1,
-
+    template: Pieces.glacier6,
+    height: 17,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
   },
   [Pieces.outcrop1]: {
-    height: 7,
+    id: Pieces.outcrop1,
+    inventoryID: Pieces.outcrop1,
+    terrain: HexTerrain.grass,
     size: 1,
-
+    template: Pieces.outcrop1,
+    height: 7,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
   },
   [Pieces.outcrop3]: {
+    id: Pieces.outcrop3,
+    inventoryID: Pieces.outcrop3,
+    terrain: HexTerrain.grass,
+    size: 1,
+    template: Pieces.outcrop3,
     height: 9,
-    size: 1,
-
-  },
-  /* CASTLE CASTLE CASTLE */
-  [Pieces.wallWalk1]: {
-    height: 1,
-    size: 1,
-  },
-  [Pieces.wallWalk7]: {
-    height: 1,
-    size: 1,
-  },
-  [Pieces.wallWalk9]: {
-    height: 1,
-    size: 1,
-  },
-  [Pieces.archDoor3]: {
-    height: 10,
-    size: 1,
-  },
-  [Pieces.archNoDoor3]: {
-    height: 10,
-    size: 1,
-  },
-  [Pieces.castleBaseCorner]: {
-    height: 1,
-    size: 1,
-  },
-  [Pieces.castleBaseStraight]: {
-    height: 1,
-    size: 1,
-  },
-  [Pieces.castleBaseEnd]: {
-    height: 1,
-    size: 1,
-  },
-  [Pieces.castleWallCorner]: {
-    height: 9,
-    size: 1,
-  },
-  [Pieces.castleWallStraight]: {
-    height: 9,
-    size: 1,
-  },
-  [Pieces.castleWallEnd]: {
-    height: 9,
-    size: 1,
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
   },
 }
+
+// const castlePieces = {
+/* CASTLE CASTLE CASTLE */
+// [Pieces.wallWalk1]: {
+//   id: Pieces.wallWalk1,
+//   inventoryID: Pieces.wallWalk1,
+//   terrain: HexTerrain.grass,
+//   size: 1,
+//   template: Pieces.wallWalk1,
+//   height: 1,
+// },
+// [Pieces.wallWalk7]: {
+//   id: Pieces.wallWalk7,
+//   inventoryID: Pieces.wallWalk7,
+//   terrain: HexTerrain.grass,
+//   size: 1,
+//   template: Pieces.wallWalk7,
+//   height: 1,
+// },
+// [Pieces.wallWalk9]: {
+//   id: Pieces.wallWalk9,
+//   inventoryID: Pieces.wallWalk9,
+//   terrain: HexTerrain.grass,
+//   size: 1,
+//   template: Pieces.wallWalk9,
+//   height: 1,
+// },
+// [Pieces.archDoor3]: {
+//   id: Pieces.archDoor3,
+//   inventoryID: Pieces.archDoor3,
+//   terrain: HexTerrain.grass,
+//   size: 1,
+//   template: Pieces.archDoor3,
+//   height: 10,
+// },
+// [Pieces.archNoDoor3]: {
+//   id: Pieces.archNoDoor3,
+//   inventoryID: Pieces.archNoDoor3,
+//   terrain: HexTerrain.grass,
+//   size: 1,
+//   template: Pieces.archNoDoor3,
+//   height: 10,
+// },
+// [Pieces.castleBaseCorner]: {
+//   id: Pieces.castleBaseCorner,
+//   inventoryID: Pieces.castleBaseCorner,
+//   terrain: HexTerrain.grass,
+//   size: 1,
+//   template: Pieces.castleBaseCorner,
+//   height: 1,
+// },
+// [Pieces.castleBaseStraight]: {
+//   id: Pieces.castleBaseStraight,
+//   inventoryID: Pieces.castleBaseStraight,
+//   terrain: HexTerrain.grass,
+//   size: 1,
+//   template: Pieces.castleBaseStraight,
+//   height: 1,
+// },
+// [Pieces.castleBaseEnd]: {
+//   id: Pieces.castleBaseEnd,
+//   inventoryID: Pieces.castleBaseEnd,
+//   terrain: HexTerrain.grass,
+//   size: 1,
+//   template: Pieces.castleBaseEnd,
+//   height: 1,
+// },
+// [Pieces.castleWallCorner]: {
+//   id: Pieces.castleWallCorner,
+//   inventoryID: Pieces.castleWallCorner,
+//   terrain: HexTerrain.grass,
+//   size: 1,
+//   template: Pieces.castleWallCorner,
+//   height: 9,
+// },
+// [Pieces.castleWallStraight]: {
+//   id: Pieces.castleWallStraight,
+//   inventoryID: Pieces.castleWallStraight,
+//   terrain: HexTerrain.grass,
+//   size: 1,
+//   template: Pieces.castleWallStraight,
+//   height: 9,
+// },
+// [Pieces.castleWallEnd]: {
+//   id: Pieces.castleWallEnd,
+//   inventoryID: Pieces.castleWallEnd,
+//   terrain: HexTerrain.grass,
+//   size: 1,
+//   template: Pieces.castleWallEnd,
+//   height: 9,
+// },
+// }
