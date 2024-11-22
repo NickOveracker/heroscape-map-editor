@@ -100,6 +100,7 @@ const createMapSlice: StateCreator<
                 cubeCoords: clickedHex,
                 placementAltitude: clickedHex.altitude,
                 rotation,
+                isVsTile: false
             })
             draft.boardHexes = newBoardHexes
             draft.boardPieces[newPieceID] = piece.inventoryID

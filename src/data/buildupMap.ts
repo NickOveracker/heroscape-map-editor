@@ -44,6 +44,7 @@ export default function buildupMap(tiles: VirtualScapeTile[], fileName: string):
         cubeCoords: tileCoords,
         placementAltitude: tile.posZ, // z is altitude is virtualscape, y is altitude in our app
         rotation: tile.rotation,
+        isVsTile: true
       })
       newBoardPieces[newPieceID] = piece.inventoryID
       return newBoardHexes
@@ -64,6 +65,7 @@ type PieceAddArgs = {
   cubeCoords: CubeCoordinate,
   placementAltitude: number
   rotation: number
+  isVsTile: boolean
 }
 export function getBoardHexesWithPieceAdded({
   piece,
@@ -71,6 +73,7 @@ export function getBoardHexesWithPieceAdded({
   cubeCoords,
   placementAltitude,
   rotation,
+  isVsTile
 }: PieceAddArgs): PieceAddReturn {
   let newBoardHexes = clone(boardHexes)
   let pieceID = '' // will get mutated after we validate, but we need to return it from this scope
@@ -81,7 +84,7 @@ export function getBoardHexesWithPieceAdded({
     clickedHex: { q: cubeCoords.q, r: cubeCoords.r, s: cubeCoords.s },
     rotation: rotation,
     template: piece.template,
-    isVsTile: true
+    isVsTile
   })
   const genIds = (altitude: number) => {
     return piecePlaneCoords.map((cubeCoord) => (
