@@ -1,5 +1,5 @@
 import { clone } from 'lodash';
-import { VirtualScapeTile, BoardHexes, Piece, CubeCoordinate, MapState, } from '../types'
+import { VirtualScapeTile, BoardHexes, Piece, CubeCoordinate, MapState, HexTerrain, } from '../types'
 import { isFluidTerrainHex, isSolidTerrainHex } from '../utils/board-utils';
 import { HEXGRID_MAX_ALTITUDE } from '../utils/constants';
 import { hexUtilsOddRToCube } from '../utils/hex-utils';
@@ -98,7 +98,7 @@ export function getBoardHexesWithPieceAdded({
   const newHexIds = genIds(newPieceAltitude)
   const overHexIds = genIds(newPieceAltitude + 1)
   // 2: VALIDATE DATA
-  const isPlacingOnTable = placementAltitude === 0
+  const isPlacingOnTable = placementAltitude === 0 && underHexIds.every(id => (newBoardHexes?.[id]?.terrain ?? '') === HexTerrain.empty)
   const isSpaceFree = newHexIds.every(id => !newBoardHexes[id])
   const isSolidUnderAtLeastOne = underHexIds.some(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? '')) // fluids will need one under every hex (no multi hex fluids yet)
   const isSolidUnderAll = underHexIds.every(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''))
@@ -135,7 +135,7 @@ export function getBoardHexesWithPieceAdded({
     }
   }
   if (piece.isObstacle) {
-    const isObstaclePieceSupported = isSolidUnderAll
+    const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
     const isVerticalClearanceForObstacle = newHexIds.every((_, i) => {
       const clearanceHexIds = Array(piece.height).fill(0).map((_, j) => {
         const altitude = newPieceAltitude + 1 + j;
