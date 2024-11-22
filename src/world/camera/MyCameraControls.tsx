@@ -2,6 +2,7 @@ import { CameraControls } from "@react-three/drei"
 import { useThree } from "@react-three/fiber"
 import { useControls, button, buttonGroup, folder } from 'leva'
 import { MathUtils } from "three"
+import useBoundStore from "../../store/store"
 
 type MyTuple = [number, number, number]
 const { DEG2RAD } = MathUtils
@@ -10,6 +11,7 @@ export default function MyCameraControls({
     cameraControlsRef
 }: { cameraControlsRef: React.MutableRefObject<CameraControls> }) {
     const { camera } = useThree()
+    const isCameraDisabled = useBoundStore(s => s.isCameraDisabled)
     // const { minDistance, enabled, verticalDragToForward, dollyToCursor, infinityDolly } = useControls({
     //     thetaGrp: buttonGroup({
     //         label: 'rotate theta',
@@ -110,6 +112,7 @@ export default function MyCameraControls({
         <CameraControls
             ref={cameraControlsRef}
             makeDefault
+            enabled={!isCameraDisabled}
             // camera: Persp | Ortho
             // domElement: HTML element
             // onStart

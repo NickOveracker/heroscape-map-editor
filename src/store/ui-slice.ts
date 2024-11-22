@@ -10,6 +10,8 @@ export interface UISlice extends UIState {
     togglePieceRotation: (s: number) => void
     toggleIsShowStartZones: (s: boolean) => void
     toggleIsTakingPicture: (s: boolean) => void
+    isCameraDisabled: false
+    toggleIsCameraDisabled: (b: boolean) => void
 }
 
 const initialPenMode = PenMode.select
@@ -42,6 +44,8 @@ const createUISlice: StateCreator<
     toggleIsShowStartZones: (b: boolean) => set(produce((s => { s.isShowStartZones = b }))),
     isTakingPicture: false,
     toggleIsTakingPicture: (b: boolean) => set(produce((s => { s.isTakingPicture = b }))),
+    isCameraDisabled: false,
+    toggleIsCameraDisabled: (b: boolean) => set(produce((s => { s.isCameraDisabled = b }))),
 })
 const landSizes: Dictionary<number[]> = { // This should be derived, it is duplicate dat
     // solid terrain below

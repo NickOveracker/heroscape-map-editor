@@ -5,6 +5,7 @@ import MapLensToggles from './MapLensToggles'
 import PieceSizeSelect from './PieceSizeSelect'
 import PenTerrainSelect from './PenTerrainSelect'
 import TakePictureButtonGroup from './TakePictureButtonGroup'
+import ToggleCameraButton from './ToggleCameraButton'
 
 const Controls = () => {
     return (
@@ -14,6 +15,7 @@ const Controls = () => {
             <MapLensToggles />
             <FileButtonGroup />
             <TakePictureButtonGroup />
+            <ToggleCameraButton />
             <DEVLogSomethingCoolButton />
         </Container>
     )
