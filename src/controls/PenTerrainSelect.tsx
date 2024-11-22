@@ -69,11 +69,79 @@ export default function PenTerrainSelect() {
           </ListItemIcon>
           <span>Sand</span>
         </MenuItem>
+        <MenuItem value={PenMode.road}>
+          <ListItemIcon>
+            <GiIsland />
+          </ListItemIcon>
+          <span>Road</span>
+        </MenuItem>
+        <MenuItem value={PenMode.lavaField}>
+          <ListItemIcon>
+            <GiIsland />
+          </ListItemIcon>
+          <span>Lava Field</span>
+        </MenuItem>
+        <MenuItem value={PenMode.snow}>
+          <ListItemIcon>
+            <GiIsland />
+          </ListItemIcon>
+          <span>Snow</span>
+        </MenuItem>
+        <MenuItem value={PenMode.concrete}>
+          <ListItemIcon>
+            <GiIsland />
+          </ListItemIcon>
+          <span>Concrete</span>
+        </MenuItem>
+        <MenuItem value={PenMode.asphalt}>
+          <ListItemIcon>
+            <GiIsland />
+          </ListItemIcon>
+          <span>Asphalt</span>
+        </MenuItem>
+        <MenuItem value={PenMode.swamp}>
+          <ListItemIcon>
+            <GiIsland />
+          </ListItemIcon>
+          <span>Swamp</span>
+        </MenuItem>
+        <MenuItem value={PenMode.dungeon}>
+          <ListItemIcon>
+            <GiIsland />
+          </ListItemIcon>
+          <span>Dungeon</span>
+        </MenuItem>
+        <Divider />
+        {/* FLUID LAND BEGIN */}
         <MenuItem value={PenMode.water}>
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
           <span>Water</span>
+        </MenuItem>
+        <MenuItem value={PenMode.ice}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Ice</span>
+        </MenuItem>
+        <MenuItem value={PenMode.lava}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Lava</span>
+        </MenuItem>
+        <MenuItem value={PenMode.swampWater}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Swamp Water</span>
+        </MenuItem>
+        <MenuItem value={PenMode.shadow}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Shadow</span>
         </MenuItem>
 
         <Divider />

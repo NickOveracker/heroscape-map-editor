@@ -36,7 +36,7 @@ export default function MapDisplay3D({
 
     // USE EFFECT: automatically load up the map while devving
     React.useEffect(() => {
-        const fileName = '/land.hsc'
+        const fileName = '/buildup.hsc'
         fetch(fileName)
             .then(response => {
                 return response.arrayBuffer()
@@ -73,11 +73,7 @@ export default function MapDisplay3D({
         if (penMode.slice(0, -1) === 'startZone') {
             // paintStartZone({ hexID: hex.id, playerID: penMode.slice(-1) })
         }
-        if (penMode === PenMode.grass ||
-            penMode === PenMode.rock ||
-            penMode === PenMode.sand ||
-            penMode === PenMode.water
-        ) {
+        if (isSolidTerrainHex(penMode) || isFluidTerrainHex(penMode)) {
             // OTHERWISE, PAINT TILE
             const piece = getPieceByTerrainAndSize(penMode, pieceSize)
             const isSolid = isSolidTerrainHex(piece.terrain)
