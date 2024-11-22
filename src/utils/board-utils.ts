@@ -1,4 +1,4 @@
-import { HexTerrain } from '../types'
+import { HexTerrain, Pieces } from '../types'
 export function isFluidTerrainHex(terrain: string) {
     if (
         terrain === HexTerrain.water ||
@@ -24,6 +24,39 @@ export function isSolidTerrainHex(terrain: string) {
         terrain === HexTerrain.asphalt ||
         terrain === HexTerrain.dungeon ||
         terrain === HexTerrain.swamp
+    ) {
+        return true
+    } else {
+        return false
+    }
+}
+export function isTreePieceID(inventoryID: string) {
+    if (
+        inventoryID === Pieces.tree10 ||
+        inventoryID === Pieces.tree11 ||
+        inventoryID === Pieces.tree12
+        // inventoryID === Pieces.tree415 ||
+        // inventoryID === Pieces.brush9 ||
+        // inventoryID === Pieces.palm14 ||
+        // inventoryID === Pieces.palm15 ||
+        // inventoryID === Pieces.palm16
+    ) {
+        return true
+    } else {
+        return false
+    }
+}
+export function isObstaclePieceID(inventoryID: string) {
+    if (
+        isTreePieceID(inventoryID)
+        // inventoryID === Pieces.tree10 ||
+        // inventoryID === Pieces.tree11 ||
+        // inventoryID === Pieces.tree12 ||
+        // inventoryID === Pieces.tree415 ||
+        // inventoryID === Pieces.brush9 ||
+        // inventoryID === Pieces.palm14 ||
+        // inventoryID === Pieces.palm15 ||
+        // inventoryID === Pieces.palm16
     ) {
         return true
     } else {

@@ -15,10 +15,11 @@ const ForestTree10WithBase = ({ position }: Props) => {
   const treeBottom: CylinderGeometryArgs = [0.1, 0.8, heightBottom, 12, undefined, false, undefined, undefined]
   const treeColor = new Color(hexTerrainColor[HexTerrain.tree])
   const treeBaseColor = new Color(hexTerrainColor['treeBase'])
+  const yBase = TREE_BASE_HEIGHT / 2
   const yBottom = heightBottom / 2 + TREE_BASE_HEIGHT
   return (
     <group position={position} castShadow receiveShadow>
-      <mesh position={[0, TREE_BASE_HEIGHT / 2, 0]}>
+      <mesh position={[0, yBase, 0]}>
         <cylinderGeometry args={treeBase} />
         <meshLambertMaterial color={treeBaseColor} />
       </mesh>

@@ -27,7 +27,7 @@ const World = () => {
             >
                 {/* Stats displays the fps */}
                 <Stats className='stats-panel' />
-                <ForestTree10WithBase position={new Vector3(0, 1, 0)} />
+                {/* <ForestTree10WithBase position={new Vector3(0, 1, 0)} /> */}
                 <MapDisplay3D
                     cameraControlsRef={cameraControlsRef}
                 />

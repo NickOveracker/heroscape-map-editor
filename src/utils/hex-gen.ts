@@ -60,7 +60,6 @@ function hexesToEmptyBoardHexes(hexgridHexes: CubeCoordinate[]): BoardHexes {
         altitude: 0,
         pieceID: '',
         isCap: true,
-        baseHexID: id,
       }
       return {
         ...prev,

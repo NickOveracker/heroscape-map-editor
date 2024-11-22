@@ -9,12 +9,13 @@ import { BoardHex, BoardHexes, HexTerrain, PenMode } from '../types.ts'
 import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
 import buildupVSFileMap from '../data/buildupMap.ts'
-import { isFluidTerrainHex, isSolidTerrainHex } from '../utils/board-utils.ts'
+import { isFluidTerrainHex, isObstaclePieceID, isSolidTerrainHex, isTreePieceID } from '../utils/board-utils.ts'
 import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
 import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
 import { Dictionary } from 'lodash'
-import { getPieceByTerrainAndSize } from '../data/pieces.ts'
+import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
+import InstanceForestTreeWrapper from './maphex/InstanceForestTree.tsx'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -74,9 +75,15 @@ export default function MapDisplay3D({
             // paintStartZone({ hexID: hex.id, playerID: penMode.slice(-1) })
         }
         if (isSolidTerrainHex(penMode) || isFluidTerrainHex(penMode)) {
-            // OTHERWISE, PAINT TILE
             const piece = getPieceByTerrainAndSize(penMode, pieceSize)
-            const isSolid = isSolidTerrainHex(piece.terrain)
+            paintTile({
+                piece,
+                clickedHex: hex,
+                rotation: pieceRotation,
+            })
+        }
+        if (isObstaclePieceID(penMode)) {
+            const piece = piecesSoFar[penMode]
             paintTile({
                 piece,
                 clickedHex: hex,
@@ -122,13 +129,16 @@ export default function MapDisplay3D({
                 glKey={'InstanceSubTerrain-'}
                 subTerrainHexes={instanceBoardHexes.subTerrainHexes}
             />
+            <InstanceForestTreeWrapper
+                glKey={'InstanceForestTree-'}
+                treeHexes={instanceBoardHexes.treeHexes}
+            />
 
             {Object.values(boardHexes).map((bh => {
                 return (
                     <MapHex3D
                         key={bh.id}
                         boardHex={bh}
-                        baseHexAltitude={boardHexes[bh.baseHexID].altitude}
                     />
                 )
             }))}
@@ -144,6 +154,7 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         const isSolidCap = isCap && isSolidTerrainHex(current.terrain)
         const isFluidCap = isCap && isFluidTerrainHex(current.terrain)
         const isSubTerrain = isSolidTerrainHex(current.terrain)
+        const isTreeHex = current.terrain === HexTerrain.tree && current.isObstacleOrigin
         if (isEmptyCap) {
             result.emptyHexCaps.push(current)
         }
@@ -156,12 +167,17 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         if (isSubTerrain) {
             result.subTerrainHexes.push(current)
         }
+        if (isTreeHex) {
+            result.treeHexes.push(current)
+        }
         return result
     }, {
         emptyHexCaps: [],
         solidHexCaps: [],
         fluidHexCaps: [],
-        subTerrainHexes: []
+        subTerrainHexes: [],
+        treeHexes: [],
+
     });
 
 }

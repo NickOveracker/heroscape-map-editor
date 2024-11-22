@@ -40,7 +40,8 @@ export interface BoardHex extends CubeCoordinate {
     terrain: string // copied from piece (duplicate state)
     pieceID: string // tileID=qraID + piece-UID
     isCap: boolean
-    baseHexID: string // the hexID at the bottom of the sub-terrain for this hex (if it's a Cap hex)
+    isObstacleOrigin?: boolean
+    obstacleHeight?: number
 }
 export type BoardPieces = {
     [id: string]: Pieces
@@ -210,6 +211,7 @@ export enum PenMode {
     lava = HexTerrain.lava,
     swampWater = HexTerrain.swampWater,
     shadow = HexTerrain.shadow,
+    tree10 = Pieces.tree10,
     startZone0 = 'startZone0',
     startZone1 = 'startZone1',
     startZone2 = 'startZone2',

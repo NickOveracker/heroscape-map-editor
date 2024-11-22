@@ -145,6 +145,15 @@ export default function PenTerrainSelect() {
         </MenuItem>
 
         <Divider />
+        {/* OBSTACLES */}
+        <MenuItem value={PenMode.tree10}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Tree10</span>
+        </MenuItem>
+
+        <Divider />
         {/* START ZONES BEGIN */}
 
         <MenuItem value={PenMode.startZone0}>

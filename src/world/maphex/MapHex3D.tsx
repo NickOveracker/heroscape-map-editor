@@ -11,7 +11,6 @@ export const MapHex3D = ({
   boardHex,
 }: {
   boardHex: BoardHex
-  baseHexAltitude: number
 }) => {
   const { x, z } = getBoardHex3DCoords(boardHex)
   const y = boardHex.altitude * HEXGRID_HEX_HEIGHT

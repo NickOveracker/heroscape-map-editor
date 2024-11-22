@@ -506,7 +506,7 @@ export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.tree11]: {
     id: Pieces.tree11,
     inventoryID: Pieces.tree11,
-    terrain: HexTerrain.grass,
+    terrain: HexTerrain.tree,
     size: 1,
     template: Pieces.tree11,
     height: 11,
@@ -517,7 +517,7 @@ export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.tree12]: {
     id: Pieces.tree12,
     inventoryID: Pieces.tree12,
-    terrain: HexTerrain.grass,
+    terrain: HexTerrain.tree,
     size: 1,
     template: Pieces.tree12,
     height: 12,
@@ -528,7 +528,7 @@ export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.tree415]: {
     id: Pieces.tree415,
     inventoryID: Pieces.tree415,
-    terrain: HexTerrain.grass,
+    terrain: HexTerrain.tree,
     size: 1,
     template: Pieces.tree415,
     height: 15,
@@ -539,7 +539,7 @@ export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.palm14]: {
     id: Pieces.palm14,
     inventoryID: Pieces.palm14,
-    terrain: HexTerrain.grass,
+    terrain: HexTerrain.palm,
     size: 1,
     template: Pieces.palm14,
     height: 14,
@@ -550,7 +550,7 @@ export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.palm15]: {
     id: Pieces.palm15,
     inventoryID: Pieces.palm15,
-    terrain: HexTerrain.grass,
+    terrain: HexTerrain.palm,
     size: 1,
     template: Pieces.palm15,
     height: 15,
@@ -561,7 +561,7 @@ export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.palm16]: {
     id: Pieces.palm16,
     inventoryID: Pieces.palm16,
-    terrain: HexTerrain.grass,
+    terrain: HexTerrain.palm,
     size: 1,
     template: Pieces.palm16,
     height: 16,
@@ -572,7 +572,7 @@ export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.brush9]: {
     id: Pieces.brush9,
     inventoryID: Pieces.brush9,
-    terrain: HexTerrain.grass,
+    terrain: HexTerrain.brush,
     size: 1,
     template: Pieces.brush9,
     height: 9,
