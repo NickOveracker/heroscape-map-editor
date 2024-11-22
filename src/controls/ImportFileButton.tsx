@@ -3,7 +3,7 @@ import { Button } from '@mui/material'
 import { MdFileOpen } from 'react-icons/md'
 import { GiDevilMask } from 'react-icons/gi'
 import readVirtualscapeMapFile from '../data/readVirtualscapeMapFile'
-import buildupMap from '../data/buildupMap'
+import buildupVSFileMap from '../data/buildupMap'
 import useBoundStore from '../store/store'
 
 const hiddenStyle = {
@@ -74,7 +74,7 @@ const ImportFileButton = () => {
 
     try {
       const myMap: any = await readVirtualscapeMapFile(file)
-      const myVirtualscapeMap = buildupMap(myMap.tiles, file.name)
+      const myVirtualscapeMap = buildupVSFileMap(myMap.tiles, file.name)
       loadMap(myVirtualscapeMap)
     } catch (error) {
       console.error(error)

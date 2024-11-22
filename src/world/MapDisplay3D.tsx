@@ -8,7 +8,7 @@ import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx
 import { BoardHex, BoardHexes, HexTerrain, PenMode } from '../types.ts'
 import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
-import buildupMap from '../data/buildupMap.ts'
+import buildupVSFileMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isSolidTerrainHex } from '../utils/board-utils.ts'
 import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
 import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
@@ -43,7 +43,7 @@ export default function MapDisplay3D({
             })
             .then(arrayBuffer => {
                 const myMap = processVirtualScapeArrayBuffer(arrayBuffer)
-                const myVirtualscapeMap = buildupMap(myMap.tiles, fileName)
+                const myVirtualscapeMap = buildupVSFileMap(myMap.tiles, fileName)
                 loadMap(myVirtualscapeMap)
             });
     }, [])
