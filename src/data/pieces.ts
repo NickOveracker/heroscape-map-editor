@@ -582,6 +582,8 @@ export const obstaclePieces: Dictionary<Piece> = {
     isEdge: false,
     isObstacle: true,
   },
+}
+const basedObstacles = {
   [Pieces.hive]: {
     id: Pieces.hive,
     inventoryID: Pieces.hive,
@@ -660,7 +662,6 @@ export const obstaclePieces: Dictionary<Piece> = {
     isObstacle: true,
   },
 }
-
 // const castlePieces = {
 /* CASTLE CASTLE CASTLE */
 // [Pieces.wallWalk1]: {

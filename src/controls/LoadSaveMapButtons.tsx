@@ -168,7 +168,7 @@ function SplitButton({
   handleLoadRectangleMap,
 }: SplitButtonProps) {
   const [open, setOpen] = useState(false)
-  const anchorRef = useRef(null)
+  const anchorRef = useRef<HTMLButtonElement>(null!)
   const options: SaveLoadMapOption[] = [
     {
       title: 'Save Map 1',
@@ -230,13 +230,13 @@ function SplitButton({
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)
   }
-  const handleClose = (event: Event) => {
+  const handleClose = (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
     if (anchorRef?.current?.contains?.(event.target as HTMLElement)) {
       return
     }
     setOpen(false)
   }
-  const onClickMenuItem = (event, option: SaveLoadMapOption) => {
+  const onClickMenuItem = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, option: SaveLoadMapOption) => {
     option.onClick()
     handleClose(event)
   }
@@ -272,7 +272,7 @@ function SplitButton({
             }}
           >
             <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
+              <ClickAwayListener onClickAway={(e: Event) => handleClose(e as unknown as React.MouseEvent<HTMLLIElement, MouseEvent>)}>
                 <MenuList id="split-button-menu" autoFocusItem>
                   {options.map((option) => (
                     <MenuItem

@@ -29,7 +29,8 @@ const InstanceForestTree = ({ treeHexes }: { treeHexes: BoardHex[] }) => {
     treeHexes.forEach((treeHex, i) => {
       const { x, z } = getBoardHex3DCoords(treeHex)
       const treeHeight = 10 * HEXGRID_HEX_HEIGHT // 5
-      const y = treeHeight / 2
+      const yHex = treeHex.altitude * HEXGRID_HEX_HEIGHT
+      const y = yHex + (treeHeight / 2)
       placeholder.scale.set(1, treeHeight, 1)
       placeholder.position.set(x, y, z)
       placeholder.updateMatrix()

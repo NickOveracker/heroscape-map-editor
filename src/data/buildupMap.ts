@@ -85,64 +85,65 @@ export function getBoardHexesWithPieceAdded({
   const isSpaceFree = newHexIds.every(id => !newBoardHexes[id])
   const isSolidUnderAtLeastOne = underHexIds.some(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? '')) // fluids will need one under every hex (no multi hex fluids yet)
   const isSolidUnderAllForFluidPieces = underHexIds.every(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''))
-  const isPieceSupported = isPlacingOnTable || (isSolidTile && isSolidUnderAtLeastOne) || (isFluidTile && isSolidUnderAllForFluidPieces)
+  const isLandPieceSupported = isPlacingOnTable || (isSolidTile && isSolidUnderAtLeastOne) || (isFluidTile && isSolidUnderAllForFluidPieces)
   // 3. PLACE THE PIECE
-  if (isSpaceFree && isPieceSupported) {
-    newHexIds.forEach((newHexID, iForEach) => {
-      const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
-      const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
-      const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
-      const isSolidUnderneath = isSolidTerrainHex(hexUnderneath?.terrain)
-      let baseHexID = newHexID // this will get updated if there is a hex below, and copied if there's hex(es) above
-      let isCap = true
-      if (isSolidTile && isSolidAbove && !isSolidUnderneath) { // solids meld with above
-        let isCap = false // we are not a cap if there is a solid above us
-        // edit above hex(es) to now have our new hex as their baseHexID
-        for (let i = 1; i <= (HEXGRID_MAX_ALTITUDE - newPieceAltitude); i++) {
-          const nextID = genBoardHexID({ ...piecePlaneCoords[iForEach], altitude: newPieceAltitude + i })
-          if (newBoardHexes[nextID]) {
-            newBoardHexes[nextID].baseHexID = baseHexID
-            if (newBoardHexes[nextID].isCap) {
-              // reached the cap, we can stop
-              break
+  if (piece.isLand)
+    if (isSpaceFree && isLandPieceSupported) {
+      newHexIds.forEach((newHexID, iForEach) => {
+        const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
+        const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
+        const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
+        const isSolidUnderneath = isSolidTerrainHex(hexUnderneath?.terrain)
+        let baseHexID = newHexID // this will get updated if there is a hex below, and copied if there's hex(es) above
+        let isCap = true
+        if (isSolidTile && isSolidAbove && !isSolidUnderneath) { // solids meld with above
+          let isCap = false // we are not a cap if there is a solid above us
+          // edit above hex(es) to now have our new hex as their baseHexID
+          for (let i = 1; i <= (HEXGRID_MAX_ALTITUDE - newPieceAltitude); i++) {
+            const nextID = genBoardHexID({ ...piecePlaneCoords[iForEach], altitude: newPieceAltitude + i })
+            if (newBoardHexes[nextID]) {
+              newBoardHexes[nextID].baseHexID = baseHexID
+              if (newBoardHexes[nextID].isCap) {
+                // reached the cap, we can stop
+                break
+              }
             }
           }
         }
-      }
-      if (isSolidTile && isSolidAbove && isSolidUnderneath) { // solids meld above with below
-        isCap = false // we are not a cap if there is a solid above us
-        baseHexID = hexUnderneath.baseHexID
-        // edit above hex(es) to now have underneath hex baseHexID as their baseHexID
-        for (let i = 1; i <= (HEXGRID_MAX_ALTITUDE - newPieceAltitude); i++) {
-          const nextID = genBoardHexID({ ...piecePlaneCoords[iForEach], altitude: newPieceAltitude + i })
-          if (newBoardHexes[nextID]) {
-            newBoardHexes[nextID].baseHexID = baseHexID
-            if (newBoardHexes[nextID].isCap) {
-              break // reached the cap, we can stop
+        if (isSolidTile && isSolidAbove && isSolidUnderneath) { // solids meld above with below
+          isCap = false // we are not a cap if there is a solid above us
+          baseHexID = hexUnderneath.baseHexID
+          // edit above hex(es) to now have underneath hex baseHexID as their baseHexID
+          for (let i = 1; i <= (HEXGRID_MAX_ALTITUDE - newPieceAltitude); i++) {
+            const nextID = genBoardHexID({ ...piecePlaneCoords[iForEach], altitude: newPieceAltitude + i })
+            if (newBoardHexes[nextID]) {
+              newBoardHexes[nextID].baseHexID = baseHexID
+              if (newBoardHexes[nextID].isCap) {
+                break // reached the cap, we can stop
+              }
             }
           }
         }
-      }
-      if ((!isSolidAbove && isSolidUnderneath) || isPlacingOnTable) { // solids and fluids can replace the cap below
-        // remove old cap
-        newBoardHexes[hexUnderneath.id].isCap = false
-        // copy old cap baseHexID, we are building off of it
-        baseHexID = newBoardHexes[hexUnderneath.id].baseHexID
-      }
-      pieceID = genPieceID(newHexID, piece.id)
-      newBoardHexes[newHexID] = {
-        id: newHexID,
-        q: piecePlaneCoords[iForEach].q,
-        r: piecePlaneCoords[iForEach].r,
-        s: piecePlaneCoords[iForEach].s,
-        altitude: newPieceAltitude,
-        terrain: piece.terrain,
-        pieceID,
-        isCap,
-        baseHexID
-      }
-    })
-  }
+        if ((!isSolidAbove && isSolidUnderneath) || isPlacingOnTable) { // solids and fluids can replace the cap below
+          // remove old cap
+          newBoardHexes[hexUnderneath.id].isCap = false
+          // copy old cap baseHexID, we are building off of it
+          baseHexID = newBoardHexes[hexUnderneath.id].baseHexID
+        }
+        pieceID = genPieceID(newHexID, piece.id)
+        newBoardHexes[newHexID] = {
+          id: newHexID,
+          q: piecePlaneCoords[iForEach].q,
+          r: piecePlaneCoords[iForEach].r,
+          s: piecePlaneCoords[iForEach].s,
+          altitude: newPieceAltitude,
+          terrain: piece.terrain,
+          pieceID,
+          isCap,
+          baseHexID
+        }
+      })
+    }
   return { newBoardHexes, newPieceID: pieceID }
 }
 type PieceAddReturn = { newBoardHexes: BoardHexes, newPieceID: string }
