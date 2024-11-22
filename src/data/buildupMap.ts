@@ -10,8 +10,20 @@ import getVSTileTemplate from './rotationTransforms';
 import { makeRectangleScenario } from '../utils/map-gen';
 
 export default function buildupMap(tiles: VirtualScapeTile[], fileName: string): MapState {
-  const mapLength = Math.max(...tiles.map(t => t.posX + 7)) // We have to assume the map is large enough for largest tile laid the longest way?
-  const mapWidth = Math.max(...tiles.map(t => t.posY + 7))
+  const cushionToPad = 8 // this has to be an even number or tile coords will break
+  const mapLength = Math.max(...tiles.map(t => t.posX + 6)) // We have to assume the map is large enough for largest tile laid the longest way?(7, the 24 hexer in rotation 3,4, or 5)
+  const mapWidth = Math.max(...tiles.map(t => t.posY + cushionToPad))
+
+  // const xMin = Math.min(...tiles.map(t => t.posX - cushionToPad))
+  // const yMin = Math.min(...tiles.map(t => t.posY - cushionToPad))
+  // mutate the tiles down to minimum size map needed
+  // tiles.forEach(t => {
+  //   t.posX -= xMin;
+  //   t.posY -= yMin
+  // })
+  // const mapLength = Math.max(...tiles.map(t => t.posX)) // We have to assume the map is large enough for largest tile laid the longest way?(7, the 24 hexer in rotation 3,4, or 5)
+  // const mapWidth = Math.max(...tiles.map(t => t.posY))
+
   const newRectangleScenario = makeRectangleScenario({
     mapLength,
     mapWidth,
