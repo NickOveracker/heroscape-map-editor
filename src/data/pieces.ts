@@ -2,11 +2,10 @@ import { Dictionary } from "lodash"
 import { HexTerrain, Piece, Pieces } from "../types"
 
 export const getPieceByTerrainAndSize = (terrain: string, size: number) => {
-  const piece = landPieces[`${terrain}${size}`]
+  const piece = piecesSoFar[`${terrain}${size}`]
   return piece
 }
-
-export const landPieces: Dictionary<Piece> = {
+export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.grass1]: {
     id: Pieces.grass1,// will get overwritten in game
     inventoryID: Pieces.grass1,
@@ -492,8 +491,7 @@ export const landPieces: Dictionary<Piece> = {
     isEdge: false,
     isObstacle: false,
   },
-}
-export const obstaclePieces: Dictionary<Piece> = {
+  // HEX OBSTACLES
   [Pieces.tree10]: {
     id: Pieces.tree10,// will get overwritten in game
     inventoryID: Pieces.tree10,

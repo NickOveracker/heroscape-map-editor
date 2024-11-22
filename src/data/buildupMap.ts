@@ -4,25 +4,28 @@ import { isFluidTerrainHex, isSolidTerrainHex } from '../utils/board-utils';
 import { HEXGRID_MAX_ALTITUDE } from '../utils/constants';
 import { hexUtilsOddRToCube } from '../utils/hex-utils';
 import { genBoardHexID, genPieceID } from '../utils/map-utils';
-import { fluidLandCodes, solidLandCodes } from './pieceCodes';
-import { landPieces } from './pieces';
 import getVSTileTemplate from './rotationTransforms';
 import { makeRectangleScenario } from '../utils/map-gen';
+import { pieceCodes } from './pieceCodes';
+import { piecesSoFar } from './pieces';
 
-export default function buildupMap(tiles: VirtualScapeTile[], fileName: string): MapState {
-  const cushionToPad = 8 // this has to be an even number or tile coords will break
-  const mapLength = Math.max(...tiles.map(t => t.posX + 6)) // We have to assume the map is large enough for largest tile laid the longest way?(7, the 24 hexer in rotation 3,4, or 5)
-  const mapWidth = Math.max(...tiles.map(t => t.posY + cushionToPad))
-
-  // const xMin = Math.min(...tiles.map(t => t.posX - cushionToPad))
-  // const yMin = Math.min(...tiles.map(t => t.posY - cushionToPad))
-  // mutate the tiles down to minimum size map needed
-  // tiles.forEach(t => {
-  //   t.posX -= xMin;
-  //   t.posY -= yMin
-  // })
-  // const mapLength = Math.max(...tiles.map(t => t.posX)) // We have to assume the map is large enough for largest tile laid the longest way?(7, the 24 hexer in rotation 3,4, or 5)
-  // const mapWidth = Math.max(...tiles.map(t => t.posY))
+export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: string): MapState {
+  const cushionToPadY = 8 // this has to be an even number or tile coords will break, I eyeballed a 24-hexer's max Y displacement in vscape
+  const cushionToPadX = 6 // this has to be an even number or tile coords will break, I eyeballed a 24-hexer's max X displacement in vscape
+  const mapLength = Math.max(...tiles.map(t => t.posX + cushionToPadX)) // We have to assume the map is large enough for largest tile laid the longest way?(7, the 24 hexer in rotation 3,4, or 5)
+  const mapWidth = Math.max(...tiles.map(t => t.posY + cushionToPadY))
+  /* 
+    This broke maps:
+    // const xMin = Math.min(...tiles.map(t => t.posX - cushionToPad))
+    // const yMin = Math.min(...tiles.map(t => t.posY - cushionToPad))
+    // mutate the tiles down to minimum size map needed
+    // tiles.forEach(t => {
+    //   t.posX -= xMin;
+    //   t.posY -= yMin
+    // })
+    // const mapLength = Math.max(...tiles.map(t => t.posX)) // We have to assume the map is large enough for largest tile laid the longest way?(7, the 24 hexer in rotation 3,4, or 5)
+    // const mapWidth = Math.max(...tiles.map(t => t.posY))
+  */
 
   const newRectangleScenario = makeRectangleScenario({
     mapLength,
@@ -34,9 +37,8 @@ export default function buildupMap(tiles: VirtualScapeTile[], fileName: string):
   const newBoardPieces = newRectangleScenario.boardPieces
   const newBoardHexes = tiles.reduce((boardHexes: BoardHexes, tile) => {
     const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
-    const solidPieceId = solidLandCodes?.[tile.type] ?? ''
-    const fluidPieceId = fluidLandCodes?.[tile.type] ?? ''
-    let piece = solidPieceId || fluidPieceId ? landPieces[(solidPieceId || fluidPieceId)] : undefined
+    const inventoryID = pieceCodes?.[tile.type] ?? ''
+    let piece = piecesSoFar[inventoryID]
     if (piece) {
       const { newBoardHexes, newPieceID } = getBoardHexesWithPieceAdded({
         piece,
