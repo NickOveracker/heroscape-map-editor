@@ -183,7 +183,7 @@ function rtfToText(rtf: string) {
     .trim()
 }
 
-export default function readVirtualscapeMapFile(file: File) {
+export default function readVirtualscapeMapFile(file: File): Promise<VirtualScapeMap> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onloadend = () => {

@@ -1,7 +1,6 @@
 import { clone } from 'lodash';
 import { VirtualScapeTile, BoardHexes, Piece, CubeCoordinate, MapState, HexTerrain, } from '../types'
 import { isFluidTerrainHex, isSolidTerrainHex } from '../utils/board-utils';
-import { HEXGRID_MAX_ALTITUDE } from '../utils/constants';
 import { hexUtilsOddRToCube } from '../utils/hex-utils';
 import { genBoardHexID, genPieceID } from '../utils/map-utils';
 import getVSTileTemplate from './rotationTransforms';
@@ -10,22 +9,28 @@ import { pieceCodes } from './pieceCodes';
 import { piecesSoFar } from './pieces';
 
 export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: string): MapState {
-  const cushionToPadY = 8 // this has to be an even number or tile coords will break, I eyeballed a 24-hexer's max Y displacement in vscape
-  const cushionToPadX = 6 // this has to be an even number or tile coords will break, I eyeballed a 24-hexer's max X displacement in vscape
-  const mapLength = Math.max(...tiles.map(t => t.posX + cushionToPadX)) // We have to assume the map is large enough for largest tile laid the longest way?(7, the 24 hexer in rotation 3,4, or 5)
+  // cushions have to be an even number because of the coordinate system used in virtualscape
+  const cushionToPadY = 8 // 24-hexer's max Y displacement in vscape
+  const cushionToPadX = 6 // 24-hexer's max X displacement in vscape
+  const xMin = Math.min(...tiles.map(t => t.posX - cushionToPadX))
+  const yMin = Math.min(...tiles.map(t => t.posY - cushionToPadY))
+  // remove as many empty hexes as possible from the empty grid we are going to generate
+  const xIncrementsWorthEmpty = Math.floor(xMin / 2)
+  const yIncrementsWorthEmpty = Math.floor(yMin / 2)
+  // MUTATE TILES TO MAKE MAP SMALL AS POSSIBLE
+  if (xIncrementsWorthEmpty > 0) {
+    tiles.forEach(t => {
+      t.posX -= xIncrementsWorthEmpty * 2;
+    })
+  }
+  if (yIncrementsWorthEmpty > 0) {
+    tiles.forEach(t => {
+      t.posY -= yIncrementsWorthEmpty * 2;
+    })
+  }
+  // these are the dimensions of the empty map to generate
+  const mapLength = Math.max(...tiles.map(t => t.posX + cushionToPadX))
   const mapWidth = Math.max(...tiles.map(t => t.posY + cushionToPadY))
-  /* 
-    This broke maps:
-    // const xMin = Math.min(...tiles.map(t => t.posX - cushionToPad))
-    // const yMin = Math.min(...tiles.map(t => t.posY - cushionToPad))
-    // mutate the tiles down to minimum size map needed
-    // tiles.forEach(t => {
-    //   t.posX -= xMin;
-    //   t.posY -= yMin
-    // })
-    // const mapLength = Math.max(...tiles.map(t => t.posX)) // We have to assume the map is large enough for largest tile laid the longest way?(7, the 24 hexer in rotation 3,4, or 5)
-    // const mapWidth = Math.max(...tiles.map(t => t.posY))
-  */
 
   const newRectangleScenario = makeRectangleScenario({
     mapLength,
@@ -38,7 +43,7 @@ export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: st
   const newBoardHexes = tiles.reduce((boardHexes: BoardHexes, tile) => {
     const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
     const inventoryID = pieceCodes?.[tile.type] ?? ''
-    let piece = piecesSoFar[inventoryID]
+    const piece = piecesSoFar[inventoryID]
     if (piece) {
       const { newBoardHexes, newPieceID } = getBoardHexesWithPieceAdded({
         piece,
@@ -77,8 +82,7 @@ export function getBoardHexesWithPieceAdded({
   rotation,
   isVsTile
 }: PieceAddArgs): PieceAddReturn {
-  let newBoardHexes = clone(boardHexes)
-  let pieceID = '' // will get mutated after we validate, but we need to return it from this scope
+  const newBoardHexes = clone(boardHexes)
   const isSolidTile = isSolidTerrainHex(piece.terrain)
   const isFluidTile = isFluidTerrainHex(piece.terrain)
   // 1.1: GATHER DATA ON TILE
@@ -88,6 +92,8 @@ export function getBoardHexesWithPieceAdded({
     template: piece.template,
     isVsTile
   })
+  const clickedHexIDOrTileCoordsPresumedID = genBoardHexID({ ...cubeCoords, altitude: placementAltitude })
+  const pieceID = genPieceID(clickedHexIDOrTileCoordsPresumedID, piece.id)
   const genIds = (altitude: number) => {
     return piecePlaneCoords.map((cubeCoord) => (
       genBoardHexID({ ...cubeCoord, altitude: altitude })
@@ -111,16 +117,15 @@ export function getBoardHexesWithPieceAdded({
         const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
         const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
         const isSolidUnderneath = isSolidTerrainHex(hexUnderneath?.terrain)
-        let baseHexID = newHexID // this will get updated if there is a hex below, and copied if there's hex(es) above
         let isCap = true
         if (isSolidTile && isSolidAbove) {
-          let isCap = false // we are not a cap if there is a solid above our solid
+          isCap = false // we are not a cap if there is a solid above our solid
         }
         if (isSolidUnderneath || isPlacingOnTable) { // solids and fluids can replace the cap below
           // remove old cap
           newBoardHexes[hexUnderneath.id].isCap = false
         }
-        pieceID = genPieceID(newHexID, piece.id)
+
         newBoardHexes[newHexID] = {
           id: newHexID,
           q: piecePlaneCoords[iForEach].q,
@@ -135,6 +140,7 @@ export function getBoardHexesWithPieceAdded({
     }
   }
   if (piece.isObstacle) {
+    const isCap = false // obstacles are not caps
     const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
     const isVerticalClearanceForObstacle = newHexIds.every((_, i) => {
       const clearanceHexIds = Array(piece.height).fill(0).map((_, j) => {
@@ -145,11 +151,9 @@ export function getBoardHexesWithPieceAdded({
     });
     if (isSpaceFree && isVerticalClearanceForObstacle && isObstaclePieceSupported) {
       newHexIds.forEach((newHexID, iForEach) => {
-        let isCap = false
         const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
-        // remove old cap
+        // remove caps covered by this obstacle
         newBoardHexes[hexUnderneath.id].isCap = false
-        pieceID = genPieceID(newHexID, piece.id)
         newBoardHexes[newHexID] = {
           id: newHexID,
           q: piecePlaneCoords[iForEach].q,

@@ -33,14 +33,17 @@ export function writeVirtualScapeArrayBuffer(length?: number) {
   if (isToGetOffsetOnly) {
     arrayBuffer = new ArrayBuffer(10000000)
   } else {
-    arrayBuffer = new ArrayBuffer(length)
+    arrayBuffer = new ArrayBuffer(length ?? 0)
   }
   const dataView = new DataView(arrayBuffer)
   offset = 0
   setFloat64(dataView, myFile.version)
-  writeBlankCString(dataView, myFile.name)
-  writeBlankCString(dataView, myFile.author)
-  writeBlankCString(dataView, myFile.playerNumber)
+  // writeBlankCString(dataView, myFile.name)
+  writeBlankCString(dataView)
+  // writeBlankCString(dataView, myFile.author)
+  writeBlankCString(dataView)
+  // writeBlankCString(dataView, myFile.playerNumber)
+  writeBlankCString(dataView)
   setInt32(dataView, myFile.scenario.length)
   const encoder = new TextEncoder();
   const encodedData = encoder.encode(myFile.scenario);
@@ -62,9 +65,11 @@ export function writeVirtualScapeArrayBuffer(length?: number) {
     setInt32(dataView, tile.posX)
     setInt32(dataView, tile.posY)
     setInt32(dataView, tile.posZ)
-    setInt8(dataView, (tile.glyphLetter).charCodeAt[0])
-    writeBlankCString(dataView, tile.glyphName)
-    writeBlankCString(dataView, tile.startName)
+    setInt8(dataView, 68)
+    // writeBlankCString(dataView, tile.glyphName)
+    writeBlankCString(dataView)
+    // writeBlankCString(dataView, tile.startName)
+    writeBlankCString(dataView)
     setInt8(dataView, tile.colorf.r)
     setInt8(dataView, tile.colorf.g)
     setInt8(dataView, tile.colorf.b)
@@ -98,7 +103,7 @@ function setInt8(dataView: DataView, value: number) {
   offset += 1
 }
 
-function writeBlankCString(dataView: DataView, _argValue: string) {
+function writeBlankCString(dataView: DataView) {
   // Cannot figure out how to write strings, so they all get written as empty
   const length = 0
   // FEFF 00FF : for empty strings

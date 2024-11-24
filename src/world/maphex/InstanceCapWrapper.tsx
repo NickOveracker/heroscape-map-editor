@@ -1,5 +1,3 @@
-import { ThreeEvent } from "@react-three/fiber"
-import { BoardHex } from "../../types"
 import { JSXElementConstructor } from "react"
 import { InstanceCapProps } from "./instance-hex"
 

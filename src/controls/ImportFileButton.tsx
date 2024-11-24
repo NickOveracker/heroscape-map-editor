@@ -73,7 +73,7 @@ const ImportFileButton = () => {
     }
 
     try {
-      const myMap: any = await readVirtualscapeMapFile(file)
+      const myMap = await readVirtualscapeMapFile(file)
       const myVirtualscapeMap = buildupVSFileMap(myMap.tiles, file.name)
       loadMap(myVirtualscapeMap)
     } catch (error) {

@@ -1,6 +1,5 @@
 import { BufferGeometry, Color, Line, Vector3 } from 'three'
 import { extend, Object3DNode } from '@react-three/fiber'
-import { BoardHex } from '../../types'
 
 // this extension for line_ is because, if we just use <line></line> then we get an error:
 // Property 'geometry' does not exist on type 'SVGProps<SVGLineElement>'

@@ -9,7 +9,7 @@ import { BoardHex, BoardHexes, HexTerrain, PenMode } from '../types.ts'
 import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
 import buildupVSFileMap from '../data/buildupMap.ts'
-import { isFluidTerrainHex, isObstaclePieceID, isSolidTerrainHex, isTreePieceID } from '../utils/board-utils.ts'
+import { isFluidTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
 import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
 import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
 import { Dictionary } from 'lodash'
@@ -47,6 +47,7 @@ export default function MapDisplay3D({
                 const myVirtualscapeMap = buildupVSFileMap(myMap.tiles, fileName)
                 loadMap(myVirtualscapeMap)
             });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const instanceBoardHexes = getInstanceBoardHexes(boardHexes)
@@ -56,7 +57,6 @@ export default function MapDisplay3D({
         event.stopPropagation()
         // Early out if camera is active
         if (cameraControlsRef.current.active) return
-        cameraControlsRef.current
         const isEmptyHex = hex.terrain === HexTerrain.empty
         if (penMode === PenMode.select) {
             // select hex / piece

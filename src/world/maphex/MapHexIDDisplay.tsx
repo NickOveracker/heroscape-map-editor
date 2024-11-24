@@ -1,6 +1,5 @@
 import { Billboard, Text } from '@react-three/drei'
 import { Color, Vector3 } from 'three'
-import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 
 /* 
   MapHexIDDisplay

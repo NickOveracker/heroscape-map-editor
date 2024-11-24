@@ -1,9 +1,8 @@
 import { StateCreator } from "zustand"
-import { BoardHex, MapState, Piece, Pieces } from "../types"
+import { BoardHex, MapState, Piece } from "../types"
 import { AppState } from "./store"
 import { rectangleScenario } from "../utils/map-gen"
 import { getBoardHexesWithPieceAdded } from "../data/buildupMap"
-import { genPieceID } from "../utils/map-utils"
 import { produce } from "immer"
 
 export interface MapSlice extends MapState {

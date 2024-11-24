@@ -1,18 +1,19 @@
 import { Button, ButtonGroup } from '@mui/material'
 import { MdPhotoCamera } from 'react-icons/md'
-import { useEvent } from '../hooks/useEvent'
 import { EVENTS } from '../utils/constants'
+import useEvent from '../hooks/useEvent'
+import useBoundStore from '../store/store'
 
 const TakePictureButtonGroup = () => {
   const { publish } = useEvent()
-  // const { toggleIsTakingPicture } = useUIContext()
+  const toggleIsTakingPicture = useBoundStore(s => s.toggleIsTakingPicture)
   const handleTakePicturePng = () => {
-    // toggleIsTakingPicture(true)
-    publish(EVENTS.savePng, undefined)
+    toggleIsTakingPicture(true)
+    publish(EVENTS.savePng)
   }
   const handleTakePictureJpg = () => {
-    // toggleIsTakingPicture(true)
-    publish(EVENTS.saveJpg, undefined)
+    toggleIsTakingPicture(true)
+    publish(EVENTS.saveJpg)
   }
 
   return (

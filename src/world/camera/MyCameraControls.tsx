@@ -1,16 +1,15 @@
 import { CameraControls } from "@react-three/drei"
-import { useThree } from "@react-three/fiber"
-import { useControls, button, buttonGroup, folder } from 'leva'
-import { MathUtils } from "three"
 import useBoundStore from "../../store/store"
-
-type MyTuple = [number, number, number]
-const { DEG2RAD } = MathUtils
+// import { useThree } from "@react-three/fiber"
+// import { useControls, button, buttonGroup, folder } from 'leva'
+// import { MathUtils } from "three"
+// type MyTuple = [number, number, number]
+// const { DEG2RAD } = MathUtils
 
 export default function MyCameraControls({
     cameraControlsRef
 }: { cameraControlsRef: React.MutableRefObject<CameraControls> }) {
-    const { camera } = useThree()
+    // const { camera } = useThree()
     const isCameraDisabled = useBoundStore(s => s.isCameraDisabled)
     // const { minDistance, enabled, verticalDragToForward, dollyToCursor, infinityDolly } = useControls({
     //     thetaGrp: buttonGroup({

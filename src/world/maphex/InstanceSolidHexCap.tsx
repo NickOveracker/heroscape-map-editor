@@ -8,7 +8,6 @@ import {
   Material,
   NormalBufferAttributes,
   Object3D,
-  Vector3,
 } from 'three'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from './hexColors'

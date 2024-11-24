@@ -1,25 +1,25 @@
-import { createContext, useContext, useState } from 'react'
+import { Dictionary } from 'lodash'
+import { createContext, PropsWithChildren, useContext, useState } from 'react'
 
-const EventContext = createContext<
-  | {
-      publish: (eventName: string, data: any) => void
-      subscribe: (eventName: string, callback: any) => void
-      unsubscribe: (eventName: string, callback: any) => void
-    }
-  | undefined
->(undefined)
+type EventContextType = {
+  publish: (eventName: string) => void
+  subscribe: (eventName: string, callback: () => void) => void
+  unsubscribe: (eventName: string, callback: () => void) => void
+}
 
-export const EventProvider = ({ children }) => {
-  const [events, setEvents] = useState({})
+const EventContext = createContext<EventContextType>(undefined!)
 
-  const subscribe = (eventName, callback) => {
+export const EventProvider = ({ children }: PropsWithChildren) => {
+  const [events, setEvents] = useState<Dictionary<(() => void)[]>>({})
+
+  const subscribe = (eventName: string, callback: () => void) => {
     setEvents((prevEvents) => ({
       ...prevEvents,
       [eventName]: [...(prevEvents[eventName] || []), callback],
     }))
   }
 
-  const unsubscribe = (eventName, callback) => {
+  const unsubscribe = (eventName: string, callback: () => void) => {
     setEvents((prevEvents) => ({
       ...prevEvents,
       [eventName]: (prevEvents[eventName] || []).filter(
@@ -28,9 +28,9 @@ export const EventProvider = ({ children }) => {
     }))
   }
 
-  const publish = (eventName, data) => {
+  const publish = (eventName: string) => {
     const arr = events?.[eventName] ?? []
-    arr.forEach((callback) => callback(data))
+    arr.forEach((callback) => callback())
   }
 
   return (
@@ -40,4 +40,7 @@ export const EventProvider = ({ children }) => {
   )
 }
 
-export const useEvent = () => useContext(EventContext)
+// eslint-disable-next-line react-refresh/only-export-components
+export default function useEvent() {
+  return useContext(EventContext)
+}  

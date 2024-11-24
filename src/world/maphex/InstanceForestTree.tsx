@@ -4,7 +4,7 @@ import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from './hexColors'
 import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
-import { CylinderGeometryArgs } from './instance-hex'
+import { CylinderGeometryArgs, InstanceRefType } from './instance-hex'
 
 
 type InstanceSubTerrainWrapperProps = {
@@ -20,7 +20,7 @@ const InstanceForestTreeWrapper = (props: InstanceSubTerrainWrapperProps) => {
 }
 const treeCylinderGeometryArgs: CylinderGeometryArgs = [0.1, 0.8, 1, 12, undefined, false, undefined, undefined]
 const InstanceForestTree = ({ treeHexes }: { treeHexes: BoardHex[] }) => {
-  const instanceRef = useRef<any>(undefined!)
+  const instanceRef = useRef<InstanceRefType>(undefined!)
   const countOfTrees = treeHexes.length
 
   // effect where we create and update instance mesh for each tree mesh

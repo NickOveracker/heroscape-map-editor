@@ -4,7 +4,7 @@ import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from './hexColors'
 import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
-import { CylinderGeometryArgs } from './instance-hex'
+import { CylinderGeometryArgs, InstanceRefType } from './instance-hex'
 
 
 type InstanceSubTerrainWrapperProps = {
@@ -22,7 +22,7 @@ const InstanceSubTerrainWrapper = (props: InstanceSubTerrainWrapperProps) => {
 const baseSubTerrainCylinderArgs: CylinderGeometryArgs = [1, 1, 1, 6, undefined, true, undefined, undefined]
 const dirtColor = new THREE.Color(hexTerrainColor[HexTerrain.dirt])
 const InstanceSubTerrain = ({ subTerrainHexes }: { subTerrainHexes: BoardHex[] }) => {
-    const instanceRef = useRef<any>(undefined!)
+    const instanceRef = useRef<InstanceRefType>(undefined!)
     const countOfSubTerrains = subTerrainHexes.length
 
     // effect where we create and update instance mesh for each subterrain mesh

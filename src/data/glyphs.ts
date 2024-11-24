@@ -1,26 +1,26 @@
-const vsGlyphLetterToName = {
-  '?': 'unknown', // tile.type: 14063="unknown"
-  A: 'astrid',
-  G: 'gerda',
-  I: 'ivor',
-  V: 'valda',
-  D: 'dragmar',
-  B: 'brandar',
-  K: 'kelda',
-  E: 'erland',
-  M: 'mitonsoul',
-  L: 'lodin',
-  S: 'sturla',
-  R: 'rannveig',
-  J: 'jalgard',
-  W: 'wannok',
-  P: 'proftaka',
-  O: 'oreld',
-  N: 'nilrend',
-  C: 'crevcor',
-  T: 'thorian',
-  U: 'ulaniva',
-}
+// const vsGlyphLetterToName = {
+//   '?': 'unknown', // tile.type: 14063="unknown"
+//   A: 'astrid',
+//   G: 'gerda',
+//   I: 'ivor',
+//   V: 'valda',
+//   D: 'dragmar',
+//   B: 'brandar',
+//   K: 'kelda',
+//   E: 'erland',
+//   M: 'mitonsoul',
+//   L: 'lodin',
+//   S: 'sturla',
+//   R: 'rannveig',
+//   J: 'jalgard',
+//   W: 'wannok',
+//   P: 'proftaka',
+//   O: 'oreld',
+//   N: 'nilrend',
+//   C: 'crevcor',
+//   T: 'thorian',
+//   U: 'ulaniva',
+// }
 
 type HexoscapeGlyphs = {
   [key: string]: {
@@ -153,33 +153,33 @@ export const powerGlyphs: HexoscapeGlyphs = {
   },
 }
 
-const _temporaryGlyphs: HexoscapeGlyphs = {
-  healer: {
-    id: 'healer',
-    name: 'Glyph of Kelda',
-    shortName: 'Healer',
-    type: 'temporary',
-    effect: 'Heal hero',
-    description:
-      'When a Hero you control lands on this Glyph, remove all wound markers from it. If a Squad figure lands here, nothing happens.',
-  },
-  summoner: {
-    id: 'summoner',
-    name: 'Glyph of Erland',
-    shortName: 'Summoner',
-    type: 'temporary',
-    effect: 'Summon figure',
-    description: `When a figure lands on this Glyph, choose any one figure (yours, a teammate's or an opponent's) and to place on an adjacent space.`,
-  },
-  curse: {
-    id: 'curse',
-    name: 'Glyph of Mitonsoul',
-    shortName: 'Curse',
-    type: 'temporary',
-    effect: 'Massive Curse',
-    description: `When a figure lands on this Glyph, all players must roll the 20 sided die for all their own figures. If a 1 is rolled, than that figure is destroyed, 2 or higher and the figure is safe.`,
-  },
-}
+// const _temporaryGlyphs: HexoscapeGlyphs = {
+//   healer: {
+//     id: 'healer',
+//     name: 'Glyph of Kelda',
+//     shortName: 'Healer',
+//     type: 'temporary',
+//     effect: 'Heal hero',
+//     description:
+//       'When a Hero you control lands on this Glyph, remove all wound markers from it. If a Squad figure lands here, nothing happens.',
+//   },
+//   summoner: {
+//     id: 'summoner',
+//     name: 'Glyph of Erland',
+//     shortName: 'Summoner',
+//     type: 'temporary',
+//     effect: 'Summon figure',
+//     description: `When a figure lands on this Glyph, choose any one figure (yours, a teammate's or an opponent's) and to place on an adjacent space.`,
+//   },
+//   curse: {
+//     id: 'curse',
+//     name: 'Glyph of Mitonsoul',
+//     shortName: 'Curse',
+//     type: 'temporary',
+//     effect: 'Massive Curse',
+//     description: `When a figure lands on this Glyph, all players must roll the 20 sided die for all their own figures. If a 1 is rolled, than that figure is destroyed, 2 or higher and the figure is safe.`,
+//   },
+// }
 
 
 // Temporary Glyphs
