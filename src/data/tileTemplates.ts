@@ -1,5 +1,6 @@
 import { Dictionary } from 'lodash'
 import { CubeCoordinate, Pieces } from '../types'
+import { hexUtilsAdd } from '../utils/hex-utils'
 
 
 
@@ -234,6 +235,60 @@ const wallWalk9 = [
   },
 ]
 
+const ruinsExtraBackHex = {
+  q: 0,
+  r: -1,
+  s: 1,
+}
+const ruins2 = [ // the ruins have one extra hex at the end of their short leg that is blocked for a few hexes vertically and ASSUMED to require flat ground
+  ...wallWalk7.map(c => hexUtilsAdd(c, { q: -1, r: 0, s: 1 })), // the ruins template is shifted one hex to the left
+  ruinsExtraBackHex
+]
+const ruins3 = [ // the ruins have one extra hex at the end of their short leg that is blocked for a few hexes vertically and ASSUMED to require flat ground
+  ...wallWalk9.map(c => hexUtilsAdd(c, { q: -1, r: 0, s: 1 })), // the ruins template is shifted one hex to the left
+  ruinsExtraBackHex
+]
+export const verticalObstructionTemplates: Dictionary<number[]> = {
+  /* 
+   The order really matters here.
+   These number arrays' indices must line up with the templates' indices, as each hex in a terrain model might have a different height.
+   And WORSE, we shifted left one hex up there ^^^ in the tile templates, so keep it straight that the
+   height arrays are "starting" from the first "9" on line 2 of each comment-template below
+  */
+  [Pieces.ruins2]: [
+    // Played with this in virtualscape, and here's how much I think each hex in the template requires for clearance:
+    /* Ruins2, 10 on line 2 is the origin for rotation=0
+    --3--
+    9--10--7---4
+   --10--10--7--
+    */
+    // first the basic3
+    9, 10, 10,
+    // then the two to the right
+    7, 4,
+    // then the two down to the right
+    10, 7,
+    // then the extra back hex
+    3
+  ],
+  [Pieces.ruins3]: [
+    /* Ruins3, second 9 on line 2 is the origin for rotation=0
+    --3--
+    9---9---8---7---3
+    ---9---8---8---7--
+    */
+    // so first the basic-3
+    9, 9, 9,
+    // then the two to the right
+    8, 7,
+    // then the two down to the right
+    8, 8,
+    // then the far right and far down-right of wallWalk9
+    3, 7,
+    // then the extra back hex
+    3
+  ]
+}
 const tileTemplates: Dictionary<CubeCoordinate[]> = {
   '1': basic1,
   '2': basic2,
@@ -258,8 +313,8 @@ const tileTemplates: Dictionary<CubeCoordinate[]> = {
   [Pieces.glacier6]: glacier6,
   [Pieces.hive]: glacier6,
   // edge stuff below
-  [Pieces.ruins2]: basic2,
-  [Pieces.ruins3]: straight3,
+  [Pieces.ruins2]: ruins2,
+  [Pieces.ruins3]: ruins3,
   [Pieces.marvel]: marvel6,
   [Pieces.marvelBroken]: marvel6,
   // castle

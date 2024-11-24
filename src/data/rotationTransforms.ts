@@ -62,7 +62,7 @@ const t24 = [
   { q: -5, r: 2, s: 3 },
 ]
 const straight3 = [
-  // straight3, arch3/door3
+  // straight3, arch3/door3, ruins3
   origin,
   origin,
   origin,
