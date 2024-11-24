@@ -41,24 +41,23 @@ export const hexTerrainColor: Dictionary<string> = {
     [HexTerrain.empty]: '#040404',
     [HexTerrain.dirt]: '#5B3734',
     [HexTerrain.tree]: '#003a0f',
+    'treeBase': '#944c00', // unused?
     [HexTerrain.jungle]: '#50d373',
-    'treeBase': '#944c00',
+    [HexTerrain.ruin]: '#98abbc',
+    // LAND
     [HexTerrain.grass]: '#60840d',
     [HexTerrain.rock]: '#475776',
     [HexTerrain.sand]: 'rgb(206,172,40)',
     [HexTerrain.road]: '#868686',
     [HexTerrain.snow]: '#fffafa', // "snow" from https://www.colorhexa.com/color-names
-    [HexTerrain.water]: '#3794fd', // "sea blue":#006994,"pacific blue":#1ca9c9,"oceanboat blue":#0077be,"ultramarine blue":#4166f5
-    [HexTerrain.ice]: '#86D6D8', // https://www.color-hex.com/color/86d6d8
-    [HexTerrain.dungeon]: '#3A2B2B', // https://www.color-hex.com/color/3a2b2b
-    // for below, just using Virtualscape colors
     [HexTerrain.lavaField]: virtualscapeTileColors[HexTerrain.lavaField],
     [HexTerrain.swamp]: virtualscapeTileColors[HexTerrain.swamp],
     [HexTerrain.asphalt]: virtualscapeTileColors[HexTerrain.asphalt],
     [HexTerrain.concrete]: virtualscapeTileColors[HexTerrain.concrete],
-    // [HexTerrain.dungeon]: virtualscapeTileColors[HexTerrain.dungeon],
+    [HexTerrain.dungeon]: '#3A2B2B', // https://www.color-hex.com/color/3a2b2b
+    [HexTerrain.water]: '#3794fd', // "sea blue":#006994,"pacific blue":#1ca9c9,"oceanboat blue":#0077be,"ultramarine blue":#4166f5
+    [HexTerrain.ice]: '#86D6D8', // https://www.color-hex.com/color/86d6d8
     [HexTerrain.lava]: virtualscapeTileColors[HexTerrain.lava],
-    // [HexTerrain.ice]: virtualscapeTileColors[HexTerrain.ice],
     [HexTerrain.swampWater]: virtualscapeTileColors[HexTerrain.swampWater],
     [HexTerrain.shadow]: virtualscapeTileColors[HexTerrain.shadow],
 }
