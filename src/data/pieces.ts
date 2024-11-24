@@ -539,7 +539,8 @@ export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.palm14]: {
     id: Pieces.palm14,
     inventoryID: Pieces.palm14,
-    terrain: HexTerrain.palm,
+    // terrain: HexTerrain.palm,
+    terrain: HexTerrain.jungle,
     size: 1,
     template: Pieces.palm14,
     height: 14,
@@ -550,7 +551,8 @@ export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.palm15]: {
     id: Pieces.palm15,
     inventoryID: Pieces.palm15,
-    terrain: HexTerrain.palm,
+    // terrain: HexTerrain.palm,
+    terrain: HexTerrain.jungle,
     size: 1,
     template: Pieces.palm15,
     height: 15,
@@ -561,7 +563,8 @@ export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.palm16]: {
     id: Pieces.palm16,
     inventoryID: Pieces.palm16,
-    terrain: HexTerrain.palm,
+    // terrain: HexTerrain.palm,
+    terrain: HexTerrain.jungle,
     size: 1,
     template: Pieces.palm16,
     height: 16,
@@ -572,7 +575,8 @@ export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.brush9]: {
     id: Pieces.brush9,
     inventoryID: Pieces.brush9,
-    terrain: HexTerrain.brush,
+    // terrain: HexTerrain.brush,
+    terrain: HexTerrain.jungle,
     size: 1,
     template: Pieces.brush9,
     height: 9,

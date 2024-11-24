@@ -16,6 +16,7 @@ import { Dictionary } from 'lodash'
 import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import InstanceForestTreeWrapper from './maphex/InstanceForestTree.tsx'
+import InstanceJungleWrapper from './maphex/InstanceJungle.tsx'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -43,9 +44,11 @@ export default function MapDisplay3D({
                 return response.arrayBuffer()
             })
             .then(arrayBuffer => {
-                const myMap = processVirtualScapeArrayBuffer(arrayBuffer)
-                const myVirtualscapeMap = buildupVSFileMap(myMap.tiles, fileName)
-                loadMap(myVirtualscapeMap)
+                const vsMap = processVirtualScapeArrayBuffer(arrayBuffer)
+                console.log("🚀 ~ React.useEffect ~ vsMap:", vsMap)
+                const hexoscapeMap = buildupVSFileMap(vsMap.tiles, fileName)
+                console.log("🚀 ~ React.useEffect ~ hexoscapeMap:", hexoscapeMap)
+                loadMap(hexoscapeMap)
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -133,6 +136,10 @@ export default function MapDisplay3D({
                 glKey={'InstanceForestTree-'}
                 treeHexes={instanceBoardHexes.treeHexes}
             />
+            <InstanceJungleWrapper
+                glKey={'InstanceJungle-'}
+                jungleHexes={instanceBoardHexes.jungleHexes}
+            />
 
             {Object.values(boardHexes).map((bh => {
                 return (
@@ -155,6 +162,7 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         const isFluidCap = isCap && isFluidTerrainHex(current.terrain)
         const isSubTerrain = isSolidTerrainHex(current.terrain)
         const isTreeHex = current.terrain === HexTerrain.tree && current.isObstacleOrigin
+        const isJungleHex = current.terrain === HexTerrain.jungle && current.isObstacleOrigin
         if (isEmptyCap) {
             result.emptyHexCaps.push(current)
         }
@@ -170,6 +178,9 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         if (isTreeHex) {
             result.treeHexes.push(current)
         }
+        if (isJungleHex) {
+            result.jungleHexes.push(current)
+        }
         return result
     }, {
         emptyHexCaps: [],
@@ -177,7 +188,7 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         fluidHexCaps: [],
         subTerrainHexes: [],
         treeHexes: [],
-
+        jungleHexes: [],
     });
 
 }

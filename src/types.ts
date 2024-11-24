@@ -75,6 +75,7 @@ export enum HexTerrain {
     shadow = 'shadow',
     // hex obstacle
     tree = 'tree',
+    jungle = 'jungle', // this will become brush and palm ??
     palm = 'palm',
     brush = 'brush',
     outcrop = 'outcrop',
