@@ -2,7 +2,6 @@ import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
 import { MapHex3D } from './maphex/MapHex3D.tsx'
-import InstanceSubTerrainWrapper from './maphex/InstanceSubTerrain.tsx'
 import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
 import { BoardHex, BoardHexes, HexTerrain, PenMode } from '../types.ts'
@@ -18,6 +17,7 @@ import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.
 import InstanceForestTreeWrapper from './maphex/InstanceForestTree.tsx'
 import InstanceJungleWrapper from './maphex/InstanceJungle.tsx'
 import { MergedRuin3 } from './maphex/InstanceRuin3.tsx'
+import SubTerrains from './maphex/instance/SubTerrain.tsx'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -38,21 +38,21 @@ export default function MapDisplay3D({
     })
 
     // USE EFFECT: automatically load up the map while devving
-    React.useEffect(() => {
-        const fileName = '/ruins.hsc'
-        fetch(fileName)
-            .then(response => {
-                return response.arrayBuffer()
-            })
-            .then(arrayBuffer => {
-                const vsMap = processVirtualScapeArrayBuffer(arrayBuffer)
-                console.log("🚀 ~ React.useEffect ~ vsMap:", vsMap)
-                const hexoscapeMap = buildupVSFileMap(vsMap.tiles, fileName)
-                console.log("🚀 ~ React.useEffect ~ hexoscapeMap:", hexoscapeMap)
-                loadMap(hexoscapeMap)
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // React.useEffect(() => {
+    //     const fileName = '/ruins.hsc'
+    //     fetch(fileName)
+    //         .then(response => {
+    //             return response.arrayBuffer()
+    //         })
+    //         .then(arrayBuffer => {
+    //             const vsMap = processVirtualScapeArrayBuffer(arrayBuffer)
+    //             console.log("🚀 ~ React.useEffect ~ vsMap:", vsMap)
+    //             const hexoscapeMap = buildupVSFileMap(vsMap.tiles, fileName)
+    //             console.log("🚀 ~ React.useEffect ~ hexoscapeMap:", hexoscapeMap)
+    //             loadMap(hexoscapeMap)
+    //         });
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
     const instanceBoardHexes = getInstanceBoardHexes(boardHexes)
 
@@ -129,10 +129,7 @@ export default function MapDisplay3D({
                 onPointerDown={onPointerDown}
             />
 
-            <InstanceSubTerrainWrapper
-                glKey={'InstanceSubTerrain-'}
-                subTerrainHexes={instanceBoardHexes.subTerrainHexes}
-            />
+            <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} />
             <InstanceForestTreeWrapper
                 glKey={'InstanceForestTree-'}
                 treeHexes={instanceBoardHexes.treeHexes}
