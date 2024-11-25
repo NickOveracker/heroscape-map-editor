@@ -7,24 +7,28 @@ export default function Lights() {
       {/* 4 in rectangle over top, shop-light style */}
       <directionalLight
         position={[0, 0, 1000]}
+        castShadow
         // position={[50, 50, 50]}
         lookAt={() => new Vector3(0, 30, -1000)}
         color={"#fff"}
         intensity={3} />
       <directionalLight
         position={[0, 0, 1000]}
+        castShadow
         // position={[50, 50, -50]}
         lookAt={() => new Vector3(0, 30, -1000)}
         color={"#f2f2e8"}
         intensity={3} />
       <directionalLight
         position={[0, 0, 1000]}
+        castShadow
         // position={[-50, 50, 50]}
         lookAt={() => new Vector3(0, 30, -1000)}
         color={"#ffcd42"}
         intensity={3} />
       <directionalLight
         position={[0, 0, 1000]}
+        castShadow
         // position={[-50, 50, -50]}
         lookAt={() => new Vector3(0, 30, -1000)}
         color={"#fff5b1"}
@@ -35,24 +39,28 @@ export default function Lights() {
       {/* 4 on sides, picture-day style */}
       <directionalLight
         position={[0, 30, 1000]}
+        castShadow
         // position={[-50, 0, 0]}
         lookAt={() => new Vector3(0, -30, -1000)}
         color={"#fff"}
         intensity={3} />
       <directionalLight
         position={[0, 30, 1000]}
+        castShadow
         // position={[-50, 0, -50]}
         lookAt={() => new Vector3(0, -30, -1000)}
         color={"#f2f2e8"}
         intensity={3} />
       <directionalLight
         position={[0, 30, 1000]}
+        castShadow
         // position={[0, 0, 0]}
         lookAt={() => new Vector3(0, -30, -1000)}
         color={"#ffcd42"}
         intensity={3} />
       <directionalLight
         position={[0, 30, 1000]}
+        castShadow
         // position={[0, 0, -50]}
         lookAt={() => new Vector3(0, -30, -1000)}
         color={"#fff5b1"}
