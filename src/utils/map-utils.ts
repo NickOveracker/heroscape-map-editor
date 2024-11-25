@@ -1,3 +1,4 @@
+import { Vector3 } from "three"
 import { BoardHexes, CubeCoordinate } from "../types"
 import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_HEIGHT, HEXGRID_HEX_RADIUS, HEXGRID_SPACING } from "./constants"
 import { cubeToPixel } from "./hex-utils"
@@ -44,10 +45,19 @@ export const getBoardHexesRectangularMapDimensions = (
 export const getBoardHex3DCoords = (hex: CubeCoordinate & { altitude: number }) => {
     return {
         x: cubeToPixel(hex).x * HEXGRID_SPACING,
+        y: hex.altitude * HEXGRID_HEX_HEIGHT,
         z: cubeToPixel(hex).y * HEXGRID_SPACING,
     }
 }
-
+const halfASideLength = HEXGRID_HEX_RADIUS / 2
+export const hexPointsFromCenter = {
+    topRight: new Vector3(HEXGRID_HEX_APOTHEM, 0, (halfASideLength)), // top-right
+    bottomRight: new Vector3(HEXGRID_HEX_APOTHEM, 0, -(halfASideLength)), // bottom-right
+    bottom: new Vector3(0, 0, -HEXGRID_HEX_RADIUS), // bottom
+    bottomLeft: new Vector3(-HEXGRID_HEX_APOTHEM, 0, -(halfASideLength)), // bottom-left
+    topLeft: new Vector3(-HEXGRID_HEX_APOTHEM, 0, (halfASideLength)), // top-left
+    top: new Vector3(0, 0, HEXGRID_HEX_RADIUS), // top
+}
 export function genPieceID(qraID: string, pieceID: string) {
     return `${qraID},${pieceID}`
 }

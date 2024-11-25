@@ -3,7 +3,6 @@ import { BoardHex } from '../../types'
 import HeightRing from './HeightRing'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { MapHexIDDisplay } from './MapHexIDDisplay'
-import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 import { isSolidTerrainHex } from '../../utils/board-utils'
 
 
@@ -12,8 +11,7 @@ export const MapHex3D = ({
 }: {
   boardHex: BoardHex
 }) => {
-  const { x, z } = getBoardHex3DCoords(boardHex)
-  const y = boardHex.altitude * HEXGRID_HEX_HEIGHT
+  const { x, y, z } = getBoardHex3DCoords(boardHex)
   const isHeightRingedHex = isSolidTerrainHex(boardHex.terrain)
   return (
     <>

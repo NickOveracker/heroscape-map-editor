@@ -11,7 +11,7 @@ import {
 } from 'three'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from './hexColors'
-import { HEXGRID_EMPTYHEX_HEIGHT, HEXGRID_HEX_HEIGHT } from '../../utils/constants'
+import { HEXGRID_EMPTYHEX_HEIGHT } from '../../utils/constants'
 import { CylinderGeometryArgs, InstanceCapProps } from './instance-hex'
 
 
@@ -39,8 +39,7 @@ const InstanceEmptyHexCap = ({
     useLayoutEffect(() => {
         const placeholder = new Object3D()
         capHexesArray.forEach((boardHex, i) => {
-            const { x, z } = getBoardHex3DCoords(boardHex)
-            const y = boardHex.altitude * HEXGRID_HEX_HEIGHT
+            const { x, y, z } = getBoardHex3DCoords(boardHex)
             placeholder.position.set(x, y, z)
             placeholder.updateMatrix()
             instanceRef.current.setMatrixAt(i, placeholder.matrix)

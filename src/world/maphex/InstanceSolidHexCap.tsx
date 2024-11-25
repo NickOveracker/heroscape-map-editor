@@ -11,7 +11,7 @@ import {
 } from 'three'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from './hexColors'
-import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
+import { HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
 import { CylinderGeometryArgs, InstanceCapProps } from './instance-hex'
 
 const baseSolidCapCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, HEXGRID_HEXCAP_HEIGHT, 6, undefined, false, undefined, undefined]
@@ -41,8 +41,7 @@ const InstanceSolidHexCap = ({
   useLayoutEffect(() => {
     const placeholder = new Object3D()
     capHexesArray.forEach((boardHex, i) => {
-      const { x, z } = getBoardHex3DCoords(boardHex)
-      const y = boardHex.altitude * HEXGRID_HEX_HEIGHT
+      const { x, y, z } = getBoardHex3DCoords(boardHex)
 
       placeholder.position.set(x, y, z)
       placeholder.updateMatrix()
@@ -85,7 +84,6 @@ const InstanceSolidHexCap = ({
         <instancedBufferAttribute attach="attributes-color" args={[colorArray, 3]} />
       </cylinderGeometry>
       <meshLambertMaterial toneMapped={false} vertexColors />
-
     </instancedMesh>
   )
 }
