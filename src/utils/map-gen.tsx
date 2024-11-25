@@ -1,5 +1,5 @@
 import { BoardHexes, MapState } from "../types"
-import { MAX_HEXAGON_DIMENSION, MAX_RECTANGLE_DIMENSION } from "./constants"
+import { HEXGRID_MAX_ALTITUDE, MAX_HEXAGON_MAP_DIMENSION, MAX_RECTANGLE_MAP_DIMENSION } from "./constants"
 import { generateHexagon, generateRectangle } from "./hex-gen"
 
 /* 
@@ -18,14 +18,15 @@ export const rectangleScenario = makeRectangleScenario({
     mapWidth: 50,
 })
 export function makeRectangleScenario(options?: RectangleScenarioOptions): MapState {
-    const mapHeight = Math.min(options?.mapLength ?? 12, MAX_RECTANGLE_DIMENSION)
-    const mapWidth = Math.min(options?.mapWidth ?? 12, MAX_RECTANGLE_DIMENSION)
+    const mapHeight = Math.min(options?.mapLength ?? 15, MAX_RECTANGLE_MAP_DIMENSION)
+    const mapWidth = Math.min(options?.mapWidth ?? 15, MAX_RECTANGLE_MAP_DIMENSION)
     const hexMap = {
         id: generateTimestampID(),
         name: options?.mapName ?? 'default rectangle map',
         shape: options?.mapShape ?? 'rectangle',
         width: mapWidth,
         height: mapHeight,
+        maxSubTerrains: mapWidth * mapHeight * HEXGRID_MAX_ALTITUDE,
         glyphs: {},
     }
 
@@ -40,16 +41,17 @@ type HexagonScenarioOptions = {
     size?: number
 }
 export const hexagonScenario = makeHexagonScenario({
-    size: 20,
+    size: 30,
 })
 function makeHexagonScenario(options?: HexagonScenarioOptions): MapState {
-    const size = Math.min(options?.size ?? 6, MAX_HEXAGON_DIMENSION)
+    const size = Math.min(options?.size ?? 12, MAX_HEXAGON_MAP_DIMENSION)
     const hexMap = {
         id: generateTimestampID(),
         name: 'default hexagon map',
         shape: 'hexagon',
         width: size,
         height: size,
+        maxSubTerrains: (1 + 3 * size * (size + 1)) * HEXGRID_MAX_ALTITUDE,
         glyphs: {},
     }
 

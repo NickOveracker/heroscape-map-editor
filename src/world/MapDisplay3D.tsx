@@ -6,7 +6,6 @@ import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
 import { BoardHex, BoardHexes, HexTerrain, PenMode } from '../types.ts'
 import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
-import InstanceEmptyHexCap from './maphex/InstanceEmptyHexCap.tsx'
 import buildupVSFileMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
 import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
@@ -18,6 +17,7 @@ import InstanceForestTreeWrapper from './maphex/InstanceForestTree.tsx'
 import InstanceJungleWrapper from './maphex/InstanceJungle.tsx'
 import { MergedRuin3 } from './maphex/InstanceRuin3.tsx'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
+import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -104,14 +104,14 @@ export default function MapDisplay3D({
     }
     return (
         <>
-            <InstanceCapWrapper
+            {/* <InstanceCapWrapper
                 capHexesArray={instanceBoardHexes.emptyHexCaps}
                 glKey={'InstanceEmptyHexCap-'}
                 component={InstanceEmptyHexCap}
                 onPointerEnter={onPointerEnter}
                 onPointerOut={onPointerOut}
                 onPointerDown={onPointerDown}
-            />
+            /> */}
             <InstanceCapWrapper
                 capHexesArray={instanceBoardHexes.fluidHexCaps}
                 glKey={'InstanceFluidHexCap-'}
@@ -130,6 +130,12 @@ export default function MapDisplay3D({
             />
 
             <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} />
+            <EmptyHexes
+                boardHexArr={instanceBoardHexes.emptyHexCaps}
+                onPointerEnter={onPointerEnter}
+                onPointerOut={onPointerOut}
+                onPointerDown={onPointerDown}
+            />
             <InstanceForestTreeWrapper
                 glKey={'InstanceForestTree-'}
                 treeHexes={instanceBoardHexes.treeHexes}
