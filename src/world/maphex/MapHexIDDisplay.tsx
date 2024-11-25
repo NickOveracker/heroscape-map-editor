@@ -11,10 +11,11 @@ export const MapHexIDDisplay = ({ position, boardHex }: {
   boardHex: BoardHex
 }) => {
   if (!boardHex.isCap) return null
+  return null
   return (
     <Billboard position={[position.x, position.y, position.z]}>
       <Text fontSize={0.2} color={new Color('white')}>
-        {`${boardHex.terrain},${boardHex.altitude}`}
+        {`${boardHex.terrain}:${boardHex.id}`}
       </Text>
     </Billboard>
   )
