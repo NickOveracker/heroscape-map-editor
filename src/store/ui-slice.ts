@@ -57,7 +57,7 @@ const landSizes: Dictionary<number[]> = { // This should be derived, it is dupli
     [HexTerrain.lavaField]: [1, 2, 7],
     [HexTerrain.concrete]: [1, 2, 7],
     [HexTerrain.asphalt]: [1, 2, 7],
-    [HexTerrain.road]: [1, 2],
+    [HexTerrain.road]: [1, 2, 5],
     [HexTerrain.snow]: [1, 2],
     // fluid terrain below
     [HexTerrain.water]: [1],

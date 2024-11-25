@@ -34,12 +34,12 @@ export function isTreePieceID(inventoryID: string) {
     if (
         inventoryID === Pieces.tree10 ||
         inventoryID === Pieces.tree11 ||
-        inventoryID === Pieces.tree12
+        inventoryID === Pieces.tree12 ||
+        inventoryID === Pieces.brush9 ||
+        inventoryID === Pieces.palm14 ||
+        inventoryID === Pieces.palm15 ||
+        inventoryID === Pieces.palm16
         // inventoryID === Pieces.tree415 ||
-        // inventoryID === Pieces.brush9 ||
-        // inventoryID === Pieces.palm14 ||
-        // inventoryID === Pieces.palm15 ||
-        // inventoryID === Pieces.palm16
     ) {
         return true
     } else {
@@ -49,14 +49,6 @@ export function isTreePieceID(inventoryID: string) {
 export function isObstaclePieceID(inventoryID: string) {
     if (
         isTreePieceID(inventoryID)
-        // inventoryID === Pieces.tree10 ||
-        // inventoryID === Pieces.tree11 ||
-        // inventoryID === Pieces.tree12 ||
-        // inventoryID === Pieces.tree415 ||
-        // inventoryID === Pieces.brush9 ||
-        // inventoryID === Pieces.palm14 ||
-        // inventoryID === Pieces.palm15 ||
-        // inventoryID === Pieces.palm16
     ) {
         return true
     } else {
