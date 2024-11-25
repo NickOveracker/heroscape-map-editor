@@ -1,18 +1,13 @@
 import { useRef, useLayoutEffect, useMemo } from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import {
-  BufferGeometry,
   Color,
-  InstancedMesh,
-  InstancedMeshEventMap,
-  Material,
-  NormalBufferAttributes,
   Object3D,
 } from 'three'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from './hexColors'
 import { HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
-import { CylinderGeometryArgs, InstanceCapProps } from './instance-hex'
+import { CylinderGeometryArgs, InstanceCapProps, InstanceRefType } from './instance-hex'
 
 const baseSolidCapCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, HEXGRID_HEXCAP_HEIGHT, 6, undefined, false, undefined, undefined]
 const tempColor = new Color()
@@ -22,13 +17,7 @@ const InstanceSolidHexCap = ({
   onPointerOut,
   onPointerDown,
 }: InstanceCapProps) => {
-  const instanceRef = useRef<
-    InstancedMesh<
-      BufferGeometry<NormalBufferAttributes>,
-      Material | Material[],
-      InstancedMeshEventMap
-    >
-  >(null!)
+  const instanceRef = useRef<InstanceRefType>(null!)
   const countOfCapHexes = capHexesArray.length
   const colorArray = useMemo(
     () => {
@@ -83,7 +72,7 @@ const InstanceSolidHexCap = ({
       <cylinderGeometry args={baseSolidCapCylinderArgs}>
         <instancedBufferAttribute attach="attributes-color" args={[colorArray, 3]} />
       </cylinderGeometry>
-      <meshLambertMaterial toneMapped={false} vertexColors />
+      <meshLambertMaterial vertexColors />
     </instancedMesh>
   )
 }

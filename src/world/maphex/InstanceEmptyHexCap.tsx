@@ -1,18 +1,13 @@
 import { useRef, useLayoutEffect, useMemo } from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import {
-    BufferGeometry,
     Color,
-    InstancedMesh,
-    InstancedMeshEventMap,
-    Material,
-    NormalBufferAttributes,
     Object3D,
 } from 'three'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from './hexColors'
 import { HEXGRID_EMPTYHEX_HEIGHT } from '../../utils/constants'
-import { CylinderGeometryArgs, InstanceCapProps } from './instance-hex'
+import { CylinderGeometryArgs, InstanceCapProps, InstanceRefType } from './instance-hex'
 
 
 const baseEmptyCapCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, HEXGRID_EMPTYHEX_HEIGHT, 6, undefined, false, undefined, undefined]
@@ -23,12 +18,7 @@ const InstanceEmptyHexCap = ({
     onPointerOut,
     onPointerDown,
 }: InstanceCapProps) => {
-    const instanceRef = useRef<InstancedMesh<
-        BufferGeometry<NormalBufferAttributes>,
-        Material | Material[],
-        InstancedMeshEventMap
-    >
-    >(null!)
+    const instanceRef = useRef<InstanceRefType>(null!)
     const countOfCapHexes = capHexesArray.length
 
     const colorArray = useMemo(() => {
