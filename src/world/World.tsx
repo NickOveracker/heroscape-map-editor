@@ -1,6 +1,6 @@
 import React from "react"
 import { Canvas } from "@react-three/fiber"
-import { Stats } from "@react-three/drei"
+import { Stars, Stats } from "@react-three/drei"
 import Lights from "./Lights"
 import MyCameraControls from "./camera/MyCameraControls"
 import MapDisplay3D from "./MapDisplay3D"
@@ -23,6 +23,15 @@ const World = () => {
             }}
                 shadows
             >
+                <Stars
+                    radius={100}
+                    depth={50}
+                    count={5000}
+                    factor={4}
+                    saturation={0}
+                    fade
+                    speed={0.1}
+                />
                 {/* Stats displays the fps */}
                 <Stats className='stats-panel' />
                 {/* <ForestTree10WithBase position={new Vector3(0, 1, 0)} /> */}
