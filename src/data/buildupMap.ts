@@ -1,7 +1,7 @@
 import { clone } from 'lodash';
 import { VirtualScapeTile, BoardHexes, Piece, CubeCoordinate, MapState, HexTerrain, } from '../types'
 import { isFluidTerrainHex, isSolidTerrainHex } from '../utils/board-utils';
-import { hexUtilsOddRToCube } from '../utils/hex-utils';
+import { hexUtilsEquals, hexUtilsOddRToCube } from '../utils/hex-utils';
 import { genBoardHexID, genPieceID } from '../utils/map-utils';
 import getVSTileTemplate from './rotationTransforms';
 import { makeRectangleScenario } from '../utils/map-gen';
@@ -201,8 +201,42 @@ export function getBoardHexesWithPieceAdded({
       });
       return clearanceHexIds.every(clearanceHexId => !newBoardHexes[clearanceHexId]);
     })
+
     if (isSpaceFree && isRuinSupported && isVerticalClearanceForObstacle) {
-      // first check current space is clear
+      newHexIds.forEach((newHexID, i) => {
+        const isPieceOrigin = hexUtilsEquals(piecePlaneCoords[i], cubeCoords)
+        // write in the new clearances, this will block some pieces at these coordinates
+        Array(verticalObstructionTemplates[piece.inventoryID][i]).fill(0).forEach((_, j) => {
+          const clearanceHexAltitude = newPieceAltitude + j; // this includes our newHexIDs, as well as upper hexes
+          const clearanceID = genBoardHexID({ ...piecePlaneCoords[i], altitude: clearanceHexAltitude });
+          newBoardHexes[clearanceID] = {
+            id: clearanceID,
+            q: piecePlaneCoords[i].q,
+            r: piecePlaneCoords[i].r,
+            s: piecePlaneCoords[i].s,
+            altitude: clearanceHexAltitude,
+            terrain: piece.terrain,
+            pieceID,
+            isCap: false,
+          }
+        });
+
+        // write in the new ruin hex only for one, the one that will get drawn, all the rest are simply marked as occupied
+        if (isPieceOrigin) {
+          newBoardHexes[newHexID] = {
+            id: newHexID,
+            q: piecePlaneCoords[i].q,
+            r: piecePlaneCoords[i].r,
+            s: piecePlaneCoords[i].s,
+            altitude: newPieceAltitude,
+            terrain: piece.terrain,
+            pieceID,
+            isObstacleOrigin: true,
+            obstacleHeight: piece.height, // unsure if this will be right, it has one height for in-game, but separate heights for physical piece allowance
+            isCap: false,
+          }
+        }
+      })
     }
   }
   return { newBoardHexes, newPieceID: pieceID }

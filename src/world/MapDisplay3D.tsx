@@ -17,6 +17,7 @@ import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import InstanceForestTreeWrapper from './maphex/InstanceForestTree.tsx'
 import InstanceJungleWrapper from './maphex/InstanceJungle.tsx'
+import { MergedRuin3 } from './maphex/InstanceRuin3.tsx'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -149,6 +150,14 @@ export default function MapDisplay3D({
                     />
                 )
             }))}
+            {(instanceBoardHexes?.ruin3Hexes ?? []).map((bh => {
+                return (
+                    <MergedRuin3
+                        key={bh.id}
+                        ruinHex={bh}
+                    />
+                )
+            }))}
         </>
     )
 }
@@ -163,6 +172,7 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         const isSubTerrain = isSolidTerrainHex(current.terrain)
         const isTreeHex = current.terrain === HexTerrain.tree && current.isObstacleOrigin
         const isJungleHex = current.terrain === HexTerrain.jungle && current.isObstacleOrigin
+        const isRuinHex = current.terrain === HexTerrain.ruin && current.isObstacleOrigin
         if (isEmptyCap) {
             result.emptyHexCaps.push(current)
         }
@@ -181,6 +191,9 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         if (isJungleHex) {
             result.jungleHexes.push(current)
         }
+        if (isRuinHex) {
+            result.ruin3Hexes.push(current)
+        }
         return result
     }, {
         emptyHexCaps: [],
@@ -189,6 +202,7 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         subTerrainHexes: [],
         treeHexes: [],
         jungleHexes: [],
+        ruin3Hexes: [],
     });
 
 }

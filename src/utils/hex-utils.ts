@@ -4,7 +4,12 @@ import {
 import {
   CubeCoordinate,
 } from '../types'
-
+export const hexUtilsEquals = (
+  a: CubeCoordinate,
+  b: CubeCoordinate
+): boolean => {
+  return a.q === b.q && a.r === b.r && a.s === b.s
+}
 export const hexUtilsAdd = (
   a: CubeCoordinate,
   b: CubeCoordinate

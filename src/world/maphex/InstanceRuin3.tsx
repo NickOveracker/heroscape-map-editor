@@ -1,49 +1,32 @@
-import { useRef, useLayoutEffect } from 'react'
-import * as THREE from 'three'
-import { BoardHex, HexTerrain } from '../../types'
-import { hexTerrainColor } from './hexColors'
-import { InstanceRefType } from './instance-hex'
+import { DoubleSide } from 'three'
+import { BoardHex } from '../../types'
+import { getBoardHex3DCoords, hexPointsFromCenter } from '../../utils/map-utils'
+import { Plane } from '@react-three/drei'
+import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 
-
-type InstanceRuin3WrapperProps = {
-  ruin3Hexes: BoardHex[]
-  glKey: string
-}
-
-const InstanceRuin3Wrapper = (props: InstanceRuin3WrapperProps) => {
-  const numInstances = props.ruin3Hexes.length
-  if (numInstances < 1) return null
-  const key = `${props.glKey}${numInstances}` // IMPORTANT: to include numInstances in key, otherwise gl will crash on change
-  return <InstanceRuin3 key={key} ruin3Hexes={props.ruin3Hexes} />
-}
-const InstanceRuin3 = ({ ruin3Hexes }: { ruin3Hexes: BoardHex[] }) => {
-  const instanceRef = useRef<InstanceRefType>(undefined!)
-  const countOfJungles = ruin3Hexes.length
-
-  // effect where we create and update instance mesh for each tree mesh
-  useLayoutEffect(() => {
-    const placeholder = new THREE.Object3D()
-    ruin3Hexes.forEach((ruinHex, i) => {
-      // const { x, z } = getBoardHex3DCoords(ruinHex)
-      // placeholder.scale.set(1, treeHeight, 1)
-      // placeholder.position.set(x, y, z)
-      placeholder.updateMatrix()
-      const ruinColor = new THREE.Color(hexTerrainColor[HexTerrain.ruin])
-      instanceRef.current.setColorAt(i, ruinColor)
-      instanceRef.current.setMatrixAt(i, placeholder.matrix)
-    })
-    instanceRef.current.instanceMatrix.needsUpdate = true
-  }, [ruin3Hexes])
+export const MergedRuin3 = ({ ruinHex }: { ruinHex: BoardHex }) => {
+  const { x, y, z } = getBoardHex3DCoords(ruinHex)
+  console.log("🚀 ~ MergedRuin ~ y", y)
+  const wallHeight = 6 * HEXGRID_HEX_HEIGHT
   return (
-    <instancedMesh
-      ref={instanceRef}
-      args={[undefined, undefined, countOfJungles]} //args:[geometry, material, count]
-      castShadow
-      receiveShadow
-    >
-      {/* <cylinderGeometry args={jungleCylinderGeometryArgs} /> */}
-      <meshLambertMaterial />
-    </instancedMesh>
+    <group>
+      <Plane
+        args={[1, wallHeight]}
+        position={[x + hexPointsFromCenter.topLeft.x, y - HEXGRID_HEX_HEIGHT + wallHeight / 2, z + hexPointsFromCenter.topLeft.y]}
+        rotation={[0, Math.PI / 2, 0]}
+      >
+        <meshLambertMaterial side={DoubleSide} />
+      </Plane>
+    </group>
   )
 }
-export default InstanceRuin3Wrapper
+
+// const ruin3Vertices = new Float32Array([
+//   hexPointsFromCenter.topLeft.x, hexPointsFromCenter.topLeft.y, hexPointsFromCenter.topLeft.z, // v0
+//   hexPointsFromCenter.bottomLeft.x, hexPointsFromCenter.bottomLeft.y, hexPointsFromCenter.bottomLeft.z, // v1
+//   hexPointsFromCenter.topLeft.x, hexPointsFromCenter.topLeft.y, 9, // v2
+
+//   hexPointsFromCenter.topLeft.x, hexPointsFromCenter.topLeft.y, 9, // v3
+//   hexPointsFromCenter.topLeft.x, hexPointsFromCenter.topLeft.y, 9, // v4
+//   hexPointsFromCenter.bottomLeft.x, hexPointsFromCenter.bottomLeft.y, hexPointsFromCenter.bottomLeft.z,  // v5
+// ]);
