@@ -14,6 +14,15 @@ declare global {
     }
   }
 }
+const ringGeo = new BufferGeometry().setFromPoints([
+  hexPointsFromCenter.topRight,
+  hexPointsFromCenter.bottomRight,
+  hexPointsFromCenter.bottom,
+  hexPointsFromCenter.bottomLeft,
+  hexPointsFromCenter.topLeft,
+  hexPointsFromCenter.top,
+  hexPointsFromCenter.topRight,
+])
 export default function HeightRing({
   position,
 }: {
@@ -21,15 +30,7 @@ export default function HeightRing({
 }) {
   return (
     <line_
-      geometry={new BufferGeometry().setFromPoints([
-        hexPointsFromCenter.topRight,
-        hexPointsFromCenter.bottomRight,
-        hexPointsFromCenter.bottom,
-        hexPointsFromCenter.bottomLeft,
-        hexPointsFromCenter.topLeft,
-        hexPointsFromCenter.top,
-        hexPointsFromCenter.topRight,
-      ])}
+      geometry={ringGeo}
       position={position}
     >
       <lineBasicMaterial
