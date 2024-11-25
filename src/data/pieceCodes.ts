@@ -50,19 +50,30 @@ export const pieceCodes: Dictionary<string> = {
 
   '9001': Pieces.snow1,
   '9002': Pieces.snow2,
+
   '4001': Pieces.water1,
+
   '5001': Pieces.ice1,
+
   '6001': Pieces.lava1,
+
   '19001': Pieces.swampWater1,
+
   '25001': Pieces.shadow1,
+
   '24014': Pieces.palm14,
   '24015': Pieces.palm15,
   '24016': Pieces.palm16,
   '24002': Pieces.brush9,
+
   '10011': Pieces.tree10,
   '10012': Pieces.tree11,
   '10013': Pieces.tree12,
   '10004': Pieces.tree415,
+
+  '11002': Pieces.ruins2,
+  '11003': Pieces.ruins3,
+
   '23006': Pieces.hive,
   '13001': Pieces.glacier1,
   '13003': Pieces.glacier3,
@@ -70,22 +81,14 @@ export const pieceCodes: Dictionary<string> = {
   '13006': Pieces.glacier6,
   '27003': Pieces.outcrop1,
   '27001': Pieces.outcrop3,
-}
-export const edgeObstacleCodes = {
-  '11002': Pieces.ruins2,
-  '11003': Pieces.ruins3,
-  // edge/hex obstacle
+  // marvel ruin
   '11006': Pieces.marvel, // marvel ruins also create two elevated spaces/boardHexes
   '11007': Pieces.marvelBroken, // marvel ruins also create two elevated spaces/boardHexes
-}
-export const edgeAddonCodes = {
   // edge add-ons
   '12004': Pieces.roadWall,
   '16301': Pieces.battlement,
   '16402': Pieces.ladder,
   '16403': Pieces.flag,
-}
-export const castleCodes = {
   // castle
   '16001': Pieces.wallWalk1,
   '16007': Pieces.wallWalk7,
@@ -98,16 +101,14 @@ export const castleCodes = {
   '16203': Pieces.castleWallEnd,
   '16401': Pieces.archDoor3,
   '16404': Pieces.archNoDoor3,
+  // startzone
+  '15001': 'startArea',
 }
 export const personalAndFigureTypeCodes = {
   // Tiles that people could customize in Virtualscape
   '170': 'TYPE_PERSONAL',
   // The MasterSet 1 figures (colored/textured too!), and Wave 1 figures (unpainted & incomplete but many of the meshes)
   '180': 'TYPE_FIGURE',
-}
-export const startAreaCodes = {
-  // startzone
-  '15001': 'startArea',
 }
 export const startAreaColorsToPlayerID = {
   // Keys are the colorf values of StartAreaTiles from virtualscape (the colorf values are these tiles only differentiating property)

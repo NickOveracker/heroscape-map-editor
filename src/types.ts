@@ -213,6 +213,8 @@ export enum PenMode {
     swampWater = HexTerrain.swampWater,
     shadow = HexTerrain.shadow,
     tree10 = Pieces.tree10,
+    tree11 = Pieces.tree11,
+    tree12 = Pieces.tree12,
     startZone0 = 'startZone0',
     startZone1 = 'startZone1',
     startZone2 = 'startZone2',

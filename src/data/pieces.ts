@@ -584,6 +584,30 @@ export const piecesSoFar: Dictionary<Piece> = {
     isEdge: false,
     isObstacle: true,
   },
+  [Pieces.ruins2]: {
+    id: Pieces.ruins2,
+    inventoryID: Pieces.ruins2,
+    // terrain: HexTerrain.brush,
+    terrain: HexTerrain.ruin,
+    size: 8,
+    template: Pieces.ruins2,
+    height: 6,
+    isLand: false,
+    isEdge: true,
+    isObstacle: false,
+  },
+  [Pieces.ruins3]: {
+    id: Pieces.ruins3,
+    inventoryID: Pieces.ruins3,
+    // terrain: HexTerrain.brush,
+    terrain: HexTerrain.ruin,
+    size: 10,
+    template: Pieces.ruins3,
+    height: 6,
+    isLand: false,
+    isEdge: true,
+    isObstacle: false,
+  },
 }
 // const basedObstacles = {
 //   [Pieces.hive]: {

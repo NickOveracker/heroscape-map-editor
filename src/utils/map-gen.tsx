@@ -23,7 +23,7 @@ export function makeRectangleScenario(options?: RectangleScenarioOptions): MapSt
     const hexMap = {
         id: generateTimestampID(),
         name: options?.mapName ?? 'default rectangle map',
-        shape: options?.mapName ?? 'rectangle',
+        shape: options?.mapShape ?? 'rectangle',
         size: Math.max(mapHeight, mapWidth),
         glyphs: {},
     }

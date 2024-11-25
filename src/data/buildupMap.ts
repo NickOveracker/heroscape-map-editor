@@ -7,6 +7,7 @@ import getVSTileTemplate from './rotationTransforms';
 import { makeRectangleScenario } from '../utils/map-gen';
 import { pieceCodes } from './pieceCodes';
 import { piecesSoFar } from './pieces';
+import { verticalObstructionTemplates } from './tileTemplates';
 
 export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: string): MapState {
   // cushions have to be an even number because of the coordinate system used in virtualscape
@@ -36,6 +37,7 @@ export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: st
     mapLength,
     mapWidth,
     mapName: `VirtualScapeMap: ${fileName}`,
+    mapShape: 'rectangle'
   })
   const initialBoardHexes = newRectangleScenario.boardHexes
   const newHexMap = newRectangleScenario.hexMap
@@ -45,6 +47,7 @@ export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: st
     const inventoryID = pieceCodes?.[tile.type] ?? ''
     const piece = piecesSoFar[inventoryID]
     if (piece) {
+      // get the new board hexes and new board pieces
       const { newBoardHexes, newPieceID } = getBoardHexesWithPieceAdded({
         piece,
         boardHexes,
@@ -53,6 +56,7 @@ export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: st
         rotation: tile.rotation,
         isVsTile: true
       })
+      // mark every new piece on the board
       newBoardPieces[newPieceID] = piece.inventoryID
       return newBoardHexes
     } else {
@@ -154,6 +158,7 @@ export function getBoardHexesWithPieceAdded({
         const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
         // remove caps covered by this obstacle
         newBoardHexes[hexUnderneath.id].isCap = false
+        // write in the new hex
         newBoardHexes[newHexID] = {
           id: newHexID,
           q: piecePlaneCoords[iForEach].q,
@@ -166,6 +171,7 @@ export function getBoardHexesWithPieceAdded({
           isObstacleOrigin: true,
           obstacleHeight: piece.height
         }
+        // write in the new clearances, this will block some pieces at these coordinates
         Array(piece.height).fill(0).forEach((_, j) => {
           const clearanceHexAltitude = newPieceAltitude + 1 + j;
           const clearanceID = genBoardHexID({ ...piecePlaneCoords[iForEach], altitude: clearanceHexAltitude });
@@ -181,6 +187,22 @@ export function getBoardHexesWithPieceAdded({
           }
         });
       })
+    }
+  }
+  if (piece.terrain === HexTerrain.ruin) {
+    // an edge type piece
+    // it is a plane the will be position perpindicular to the X,Z plane, and its seven points will be the corners of the hexes
+    // The tiles blocked from further building for a ruin is actually a large footprint of all adjacent tiles
+    const isRuinSupported = isSolidUnderAll || isPlacingOnTable
+    const isVerticalClearanceForObstacle = newHexIds.every((_, i) => {
+      const clearanceHexIds = Array(verticalObstructionTemplates[piece.inventoryID][i]).fill(0).map((_, j) => {
+        const altitude = newPieceAltitude + 1 + j;
+        return genBoardHexID({ ...piecePlaneCoords[i], altitude });
+      });
+      return clearanceHexIds.every(clearanceHexId => !newBoardHexes[clearanceHexId]);
+    })
+    if (isSpaceFree && isRuinSupported && isVerticalClearanceForObstacle) {
+      // first check current space is clear
     }
   }
   return { newBoardHexes, newPieceID: pieceID }
