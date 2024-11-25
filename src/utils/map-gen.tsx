@@ -1,11 +1,11 @@
 import { BoardHexes, MapState } from "../types"
+import { MAX_HEXAGON_DIMENSION, MAX_RECTANGLE_DIMENSION } from "./constants"
 import { generateHexagon, generateRectangle } from "./hex-gen"
 
 /* 
 MAX_DIMENSION this will limit hexes to about 900 board hexes, a good limit for now on desktop
 */
-const MAX_RECTANGLE_DIMENSION = 50
-const MAX_HEXAGON_DIMENSION = 17 // 921
+
 type RectangleScenarioOptions = {
     mapWidth?: number
     mapLength?: number
@@ -14,8 +14,8 @@ type RectangleScenarioOptions = {
 }
 
 export const rectangleScenario = makeRectangleScenario({
-    mapLength: 20,
-    mapWidth: 20,
+    mapLength: 50,
+    mapWidth: 50,
 })
 export function makeRectangleScenario(options?: RectangleScenarioOptions): MapState {
     const mapHeight = Math.min(options?.mapLength ?? 12, MAX_RECTANGLE_DIMENSION)
@@ -24,7 +24,8 @@ export function makeRectangleScenario(options?: RectangleScenarioOptions): MapSt
         id: generateTimestampID(),
         name: options?.mapName ?? 'default rectangle map',
         shape: options?.mapShape ?? 'rectangle',
-        size: Math.max(mapHeight, mapWidth),
+        width: mapWidth,
+        height: mapHeight,
         glyphs: {},
     }
 
@@ -39,7 +40,7 @@ type HexagonScenarioOptions = {
     size?: number
 }
 export const hexagonScenario = makeHexagonScenario({
-    size: 0,
+    size: 20,
 })
 function makeHexagonScenario(options?: HexagonScenarioOptions): MapState {
     const size = Math.min(options?.size ?? 6, MAX_HEXAGON_DIMENSION)
@@ -47,7 +48,8 @@ function makeHexagonScenario(options?: HexagonScenarioOptions): MapState {
         id: generateTimestampID(),
         name: 'default hexagon map',
         shape: 'hexagon',
-        size,
+        width: size,
+        height: size,
         glyphs: {},
     }
 

@@ -21,6 +21,8 @@ export const TREE_BASE_HEIGHT = HEXGRID_HEX_HEIGHT / 7
 export const HEXGRID_HEXCAP_FLUID_HEIGHT = HEXGRID_HEX_HEIGHT * 3 / 7
 export const HEXGRID_EMPTYHEX_HEIGHT = HEXGRID_HEX_HEIGHT / 20
 export const HEXGRID_MAX_ALTITUDE = 25 // Altitude thickness
+export const MAX_RECTANGLE_DIMENSION = 50 // 2500
+export const MAX_HEXAGON_DIMENSION = 17 // 921
 export const CAMERA_FOV = 65
 export const EVENTS = {
     savePng: 'savePng',

@@ -17,9 +17,8 @@ export type HexMap = {
     name: string
     shape: string // 'hexagon' | 'rectangle'
     glyphs: Glyphs
-    size?: number // for hexagon shaped maps
-    height?: number // for rectangle shaped maps
-    width?: number // for rectangle shaped maps
+    height: number // for hexagon shaped maps width=height=size
+    width: number // for hexagon shaped maps width=height=size
 }
 export type Glyphs = {
     [boardHexID: string]: Glyph
