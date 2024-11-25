@@ -25,7 +25,8 @@ const EmptyHexes = ({
     <Instances limit={hexMap.maxSubTerrains} ref={ref} position={[0, 0, 0]}>
       <cylinderGeometry args={baseEmptyCapCylinderArgs} />
       <meshLambertMaterial
-      // transparent
+        transparent
+        opacity={0.5}
       />
       {boardHexArr.map((hex, i) => (
         <EmptyHex

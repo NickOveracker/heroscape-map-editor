@@ -1,5 +1,5 @@
 import { Vector3, } from 'three'
-import { BoardHex } from '../../types'
+import { BoardHex, HexTerrain } from '../../types'
 import HeightRing from './HeightRing'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { MapHexIDDisplay } from './MapHexIDDisplay'
@@ -12,7 +12,7 @@ export const MapHex3D = ({
   boardHex: BoardHex
 }) => {
   const { x, y, z } = getBoardHex3DCoords(boardHex)
-  const isHeightRingedHex = isSolidTerrainHex(boardHex.terrain)
+  const isHeightRingedHex = isSolidTerrainHex(boardHex.terrain) || boardHex.terrain === HexTerrain.empty
   return (
     <>
       <MapHexIDDisplay boardHex={boardHex} position={new Vector3(x, y + 0.2, z)} />

@@ -31,15 +31,15 @@ export default function HeightRing({
   return (
     <line_
       geometry={ringGeo}
-      position={position}
+      position={position.y === 0 ? new Vector3(position.x, position.y + 0.2, position.z) : position} // hacky
     >
       <lineBasicMaterial
         attach="material"
         // warning, opacity can be a bit fps expensive
-        // transparent
-        // opacity={0.3}
+        transparent
+        opacity={0.3}
         color={new Color('#a4a4a4')}
-        linewidth={3}
+        linewidth={position.y === 0 ? 1 : 3} // hacky
         linecap={'round'}
         linejoin={'round'}
       />
