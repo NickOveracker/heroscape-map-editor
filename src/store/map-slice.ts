@@ -22,9 +22,6 @@ const createMapSlice: StateCreator<
     [],
     MapSlice
 > = (set) => ({
-    // boardHexes: hexagonScenario.boardHexes,
-    // hexMap: hexagonScenario.hexMap,
-    // boardPieces: hexagonScenario.boardPieces,
     boardHexes: rectangleScenario.boardHexes,
     hexMap: rectangleScenario.hexMap,
     boardPieces: rectangleScenario.boardPieces,

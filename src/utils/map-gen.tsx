@@ -14,8 +14,8 @@ type RectangleScenarioOptions = {
 }
 
 export const rectangleScenario = makeRectangleScenario({
-    mapLength: 50,
-    mapWidth: 50,
+    mapLength: 25,
+    mapWidth: 25,
 })
 export function makeRectangleScenario(options?: RectangleScenarioOptions): MapState {
     const mapHeight = Math.min(options?.mapLength ?? 15, MAX_RECTANGLE_MAP_DIMENSION)
@@ -41,7 +41,7 @@ type HexagonScenarioOptions = {
     size?: number
 }
 export const hexagonScenario = makeHexagonScenario({
-    size: 30,
+    size: 15,
 })
 function makeHexagonScenario(options?: HexagonScenarioOptions): MapState {
     const size = Math.min(options?.size ?? 12, MAX_HEXAGON_MAP_DIMENSION)
