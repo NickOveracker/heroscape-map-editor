@@ -6,12 +6,14 @@ import PieceSizeSelect from './PieceSizeSelect'
 import PenTerrainSelect from './PenTerrainSelect'
 import TakePictureButtonGroup from './TakePictureButtonGroup'
 import ToggleCameraButton from './ToggleCameraButton'
+import RotationSelect from './RotationSelect'
 
 const Controls = () => {
     return (
         <Container sx={{ padding: 1 }}>
             <PenTerrainSelect />
             <PieceSizeSelect />
+            <RotationSelect />
             <MapLensToggles />
             <FileButtonGroup />
             <TakePictureButtonGroup />

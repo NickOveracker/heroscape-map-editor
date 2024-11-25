@@ -7,8 +7,8 @@ export default function PieceSizeSelect() {
   const pieceSize = useBoundStore(s => s.pieceSize)
   const togglePieceSize = useBoundStore(s => s.togglePieceSize)
   const flatPieceSizes = useBoundStore(s => s.flatPieceSizes)
-  const handleChange = (event) => {
-    togglePieceSize(parseInt(event?.target?.value ?? '1'))
+  const handleChange = (_event: React.MouseEvent<HTMLElement>, value: string) => {
+    togglePieceSize(parseInt(value))
   }
   const isSizes = flatPieceSizes?.length > 0
   return (
