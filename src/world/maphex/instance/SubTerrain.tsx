@@ -5,7 +5,6 @@ import { CylinderGeometryArgs, InstanceRefType } from "../instance-hex"
 import { getBoardHex3DCoords } from "../../../utils/map-utils"
 import { HEXGRID_HEX_HEIGHT } from "../../../utils/constants"
 import { hexTerrainColor } from "../hexColors"
-import { DoubleSide } from "three"
 import useBoundStore from "../../../store/store"
 
 type Props = {
@@ -20,11 +19,12 @@ const SubTerrains = ({ boardHexArr }: Props) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
   if (boardHexArr.length === 0) return null
   return (
-    <Instances limit={hexMap.maxSubTerrains} ref={ref} castShadow receiveShadow position={[0, 0, 0]}>
+    <Instances limit={hexMap.maxSubTerrains} ref={ref} >
       <cylinderGeometry args={baseSubTerrainCylinderArgs} />
-      <meshLambertMaterial side={DoubleSide} />
+      <meshLambertMaterial
+      />
       {boardHexArr.map((hex, i) => (
-        <SubTerrain key={i} boardHex={hex} />
+        <SubTerrain key={hex.id + i + 'sub'} boardHex={hex} />
       ))}
     </Instances>
   )
@@ -39,13 +39,11 @@ function SubTerrain({ boardHex }: { boardHex: BoardHex }) {
     const { x, z, y } = getBoardHex3DCoords(boardHex)
     const bottom = y - HEXGRID_HEX_HEIGHT
     const posY = ((y + bottom) / 2) // place it halfway between top and bottom
-    // const scaleY = y - bottom // since cylinder's base height is 1
 
     const isDirtSubterrain = boardHex.terrain === HexTerrain.grass || boardHex.terrain === HexTerrain.sand || boardHex.terrain === HexTerrain.rock
     const subTerrainColor = isDirtSubterrain ? dirtColor : hexTerrainColor[boardHex.terrain]
     ref.current.color.set(subTerrainColor)
     ref.current.position.set(x, posY, z)
-    // ref.current.scale.set(1, scaleY, 1)
   }, [boardHex])
   return <Instance onPointerDown={(e) => e.stopPropagation()} ref={ref} />
 }

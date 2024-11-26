@@ -8,7 +8,6 @@ import { BoardHex, BoardHexes, HexTerrain, PenMode } from '../types.ts'
 import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import buildupVSFileMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
-import InstanceFluidHexCap from './maphex/InstanceFluidHexCap.tsx'
 import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
 import { Dictionary } from 'lodash'
 import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
@@ -18,6 +17,7 @@ import InstanceJungleWrapper from './maphex/InstanceJungle.tsx'
 import { MergedRuin3 } from './maphex/InstanceRuin3.tsx'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
+import FluidCaps from './maphex/instance/FluidCap.tsx'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -38,21 +38,21 @@ export default function MapDisplay3D({
     })
 
     // USE EFFECT: automatically load up the map while devving
-    // React.useEffect(() => {
-    //     const fileName = '/ruins.hsc'
-    //     fetch(fileName)
-    //         .then(response => {
-    //             return response.arrayBuffer()
-    //         })
-    //         .then(arrayBuffer => {
-    //             const vsMap = processVirtualScapeArrayBuffer(arrayBuffer)
-    //             console.log("🚀 ~ React.useEffect ~ vsMap:", vsMap)
-    //             const hexoscapeMap = buildupVSFileMap(vsMap.tiles, fileName)
-    //             console.log("🚀 ~ React.useEffect ~ hexoscapeMap:", hexoscapeMap)
-    //             loadMap(hexoscapeMap)
-    //         });
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [])
+    React.useEffect(() => {
+        const fileName = '/ruins.hsc'
+        fetch(fileName)
+            .then(response => {
+                return response.arrayBuffer()
+            })
+            .then(arrayBuffer => {
+                const vsMap = processVirtualScapeArrayBuffer(arrayBuffer)
+                console.log("🚀 ~ React.useEffect ~ vsMap:", vsMap)
+                const hexoscapeMap = buildupVSFileMap(vsMap.tiles, fileName)
+                console.log("🚀 ~ React.useEffect ~ hexoscapeMap:", hexoscapeMap)
+                loadMap(hexoscapeMap)
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const instanceBoardHexes = getInstanceBoardHexes(boardHexes)
 
@@ -104,22 +104,6 @@ export default function MapDisplay3D({
     }
     return (
         <>
-            {/* <InstanceCapWrapper
-                capHexesArray={instanceBoardHexes.emptyHexCaps}
-                glKey={'InstanceEmptyHexCap-'}
-                component={InstanceEmptyHexCap}
-                onPointerEnter={onPointerEnter}
-                onPointerOut={onPointerOut}
-                onPointerDown={onPointerDown}
-            /> */}
-            <InstanceCapWrapper
-                capHexesArray={instanceBoardHexes.fluidHexCaps}
-                glKey={'InstanceFluidHexCap-'}
-                component={InstanceFluidHexCap}
-                onPointerEnter={onPointerEnter}
-                onPointerOut={onPointerOut}
-                onPointerDown={onPointerDown}
-            />
             <InstanceCapWrapper
                 capHexesArray={instanceBoardHexes.solidHexCaps}
                 glKey={'InstanceSolidHexCap-'}
@@ -132,6 +116,12 @@ export default function MapDisplay3D({
             <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} />
             <EmptyHexes
                 boardHexArr={instanceBoardHexes.emptyHexCaps}
+                onPointerEnter={onPointerEnter}
+                onPointerOut={onPointerOut}
+                onPointerDown={onPointerDown}
+            />
+            <FluidCaps
+                boardHexArr={instanceBoardHexes.fluidHexCaps}
                 onPointerEnter={onPointerEnter}
                 onPointerOut={onPointerOut}
                 onPointerDown={onPointerDown}
@@ -173,6 +163,7 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         const isSolidCap = isCap && isSolidTerrainHex(current.terrain)
         const isFluidCap = isCap && isFluidTerrainHex(current.terrain)
         const isSubTerrain = isSolidTerrainHex(current.terrain)
+        // const isSubTerrain = isSolidTerrainHex(current.terrain) || isFluidTerrainHex(current.terrain)
         const isTreeHex = current.terrain === HexTerrain.tree && current.isObstacleOrigin
         const isJungleHex = current.terrain === HexTerrain.jungle && current.isObstacleOrigin
         const isRuinHex = current.terrain === HexTerrain.ruin && current.isObstacleOrigin

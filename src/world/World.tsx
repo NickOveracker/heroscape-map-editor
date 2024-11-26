@@ -6,6 +6,7 @@ import MyCameraControls from "./camera/MyCameraControls"
 import MapDisplay3D from "./MapDisplay3D"
 import GridHelper from "./GridHelper"
 import { CAMERA_FOV } from "../utils/constants"
+// import { CAMERA_FOV } from "../utils/constants"
 // import { ColorManagement } from "three"
 
 // ColorManagement.enabled = true
@@ -20,11 +21,14 @@ const World = () => {
                 position: 'relative',
             }}
         >
-            <Canvas camera={{
-                fov: CAMERA_FOV,
-            }}
+            <Canvas
+                // orthographic // looks really cool, but cannot figure out camera switching yet
+                camera={{
+                    fov: CAMERA_FOV,
+                }}
                 shadows
             >
+                {/* <Sky /> */}
                 <Stars
                     radius={100}
                     depth={50}

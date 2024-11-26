@@ -1,18 +1,16 @@
 import { Instance, Instances } from "@react-three/drei"
 import React from 'react'
-import { HexTerrain } from "../../../types"
 import { CylinderGeometryArgs, DreiCapProps, DreiInstanceCapProps, InstanceRefType } from "../instance-hex"
 import { getBoardHex3DCoords } from "../../../utils/map-utils"
-import { HEXGRID_EMPTYHEX_HEIGHT } from "../../../utils/constants"
+import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_FLUID_HEIGHT } from "../../../utils/constants"
 import { hexTerrainColor } from "../hexColors"
 import useBoundStore from "../../../store/store"
 import { ThreeEvent } from "@react-three/fiber"
 
 
-const baseEmptyCapCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, HEXGRID_EMPTYHEX_HEIGHT, 6, undefined, false, undefined, undefined]
-const emptyHexColor = hexTerrainColor[HexTerrain.empty]
+const baseFluidCapCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, HEXGRID_HEXCAP_FLUID_HEIGHT, 6, undefined, false, undefined, undefined]
 
-const EmptyHexes = ({
+const FluidCaps = ({
   boardHexArr,
   onPointerEnter,
   onPointerOut,
@@ -22,15 +20,17 @@ const EmptyHexes = ({
   const ref = React.useRef<InstanceRefType>(undefined!)
   if (boardHexArr.length === 0) return null
   return (
-    <Instances limit={hexMap.maxSubTerrains} ref={ref} position={[0, 0, 0]}>
-      <cylinderGeometry args={baseEmptyCapCylinderArgs} />
+    <Instances
+      limit={hexMap.maxSubTerrains / 2} // no way there would be this many fluid caps, but with an overhang on every other hex, maybe
+      ref={ref} position={[0, 0, 0]}>
+      <cylinderGeometry args={baseFluidCapCylinderArgs} />
       <meshLambertMaterial
         transparent
-        opacity={0.5}
+        opacity={0.85}
       />
       {boardHexArr.map((hex, i) => (
-        <EmptyHex
-          key={hex.id + i + 'empty'}
+        <FluidCap
+          key={hex.id + i}
           boardHex={hex}
           boardHexArr={boardHexArr}
           onPointerEnter={onPointerEnter}
@@ -42,9 +42,9 @@ const EmptyHexes = ({
   )
 }
 
-export default EmptyHexes
+export default FluidCaps
 
-function EmptyHex({
+function FluidCap({
   boardHex,
   boardHexArr,
   onPointerEnter,
@@ -55,8 +55,9 @@ function EmptyHex({
   const ref = React.useRef<any>(undefined!)
 
   React.useLayoutEffect(() => {
-    const { x, z, y } = getBoardHex3DCoords(boardHex)
-    ref.current.color.set(emptyHexColor)
+    const { x, z } = getBoardHex3DCoords(boardHex)
+    const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT + (HEXGRID_HEXCAP_FLUID_HEIGHT / 2)
+    ref.current.color.set(hexTerrainColor[boardHex.terrain])
     ref.current.position.set(x, y, z)
   }, [boardHex])
 
