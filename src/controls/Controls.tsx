@@ -1,7 +1,7 @@
 import { Container } from '@mui/material'
 import DEVLogSomethingCoolButton from './DEVLogSomethingCoolButton'
 import FileButtonGroup from './FileButtonGroup'
-import MapLensToggles from './MapLensToggles'
+// import MapLensToggles from './MapLensToggles'
 import PieceSizeSelect from './PieceSizeSelect'
 import PenTerrainSelect from './PenTerrainSelect'
 import TakePictureButtonGroup from './TakePictureButtonGroup'
@@ -14,7 +14,7 @@ const Controls = () => {
             <PenTerrainSelect />
             <PieceSizeSelect />
             <RotationSelect />
-            <MapLensToggles />
+            {/* <MapLensToggles /> */}
             <FileButtonGroup />
             <TakePictureButtonGroup />
             <ToggleCameraButton />
