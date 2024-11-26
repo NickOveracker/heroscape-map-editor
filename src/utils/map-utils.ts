@@ -50,6 +50,7 @@ export const getBoardHex3DCoords = (hex: CubeCoordinate & { altitude: number }) 
     }
 }
 const halfASideLength = HEXGRID_HEX_RADIUS / 2
+const threeQuarterSideLength = HEXGRID_HEX_RADIUS * 3 / 4
 export const hexPointsFromCenter = {
     topRight: new Vector3(HEXGRID_HEX_APOTHEM, 0, (halfASideLength)), // top-right
     bottomRight: new Vector3(HEXGRID_HEX_APOTHEM, 0, -(halfASideLength)), // bottom-right
@@ -57,6 +58,14 @@ export const hexPointsFromCenter = {
     bottomLeft: new Vector3(-HEXGRID_HEX_APOTHEM, 0, -(halfASideLength)), // bottom-left
     topLeft: new Vector3(-HEXGRID_HEX_APOTHEM, 0, (halfASideLength)), // top-left
     top: new Vector3(0, 0, HEXGRID_HEX_RADIUS), // top
+}
+export const hexSidesFromCenter = {
+    left: new Vector3(-HEXGRID_HEX_APOTHEM, 0, 0),
+    topLeft: new Vector3(-HEXGRID_HEX_APOTHEM / 2, 0, -(threeQuarterSideLength)),
+    topRight: new Vector3(HEXGRID_HEX_APOTHEM / 2, 0, -(threeQuarterSideLength)),
+    right: new Vector3(HEXGRID_HEX_APOTHEM, 0, 0),
+    bottomRight: new Vector3(HEXGRID_HEX_APOTHEM / 2, 0, threeQuarterSideLength),
+    bottomLeft: new Vector3(-HEXGRID_HEX_APOTHEM / 2, 0, threeQuarterSideLength),
 }
 export function genPieceID(qraID: string, pieceID: string) {
     return `${qraID},${pieceID}`

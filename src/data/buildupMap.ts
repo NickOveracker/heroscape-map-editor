@@ -1,7 +1,7 @@
 import { clone } from 'lodash';
 import { VirtualScapeTile, BoardHexes, Piece, CubeCoordinate, MapState, HexTerrain, } from '../types'
-import { isFluidTerrainHex, isSolidTerrainHex } from '../utils/board-utils';
-import { hexUtilsEquals, hexUtilsOddRToCube } from '../utils/hex-utils';
+import { isFluidTerrainHex, isObstacleTerrain, isSolidTerrainHex } from '../utils/board-utils';
+import { hexUtilsOddRToCube } from '../utils/hex-utils';
 import { genBoardHexID, genPieceID } from '../utils/map-utils';
 import getVSTileTemplate from './rotationTransforms';
 import { makeRectangleScenario } from '../utils/map-gen';
@@ -144,6 +144,7 @@ export function getBoardHexesWithPieceAdded({
       })
     }
   }
+
   if (piece.isObstacle) {
     const isCap = false // obstacles are not caps
     const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
@@ -192,6 +193,7 @@ export function getBoardHexesWithPieceAdded({
       })
     }
   }
+
   if (piece.terrain === HexTerrain.ruin) {
     /* 
     an edge type piece
@@ -199,21 +201,36 @@ export function getBoardHexesWithPieceAdded({
     The tiles blocked from further building for a ruin is actually a large footprint of all adjacent tiles
     */
     const isSolidUnderAllSupportHexes = underHexIds.every((_, i) => {
+      // Ruins only need to be supported under their center of mass, and we could be more liberal than this (allowing combinations of certain hexes)
       const isRequiredToSupportThisOne = verticalSupportTemplates[piece.inventoryID][i]
       const altitude = placementAltitude;
       genBoardHexID({ ...piecePlaneCoords[i], altitude });
       return isRequiredToSupportThisOne ? isSolidTerrainHex(newBoardHexes?.[underHexIds[i]]?.terrain) : true
     });
 
-
     const isVerticalClearanceForObstacle = newHexIds.every((_, i) => {
+      // Ruins obstruct the placement of some land/obstacles
       const clearanceHexIds = Array(verticalObstructionTemplates[piece.inventoryID][i]).fill(0).map((_, j) => {
         const altitude = newPieceAltitude + j;
         return genBoardHexID({ ...piecePlaneCoords[i], altitude });
       });
-      return clearanceHexIds.every(clearanceHexId => !newBoardHexes[clearanceHexId]);
+      return clearanceHexIds.every(clearanceHexId => {
+        const hex = newBoardHexes?.[clearanceHexId]
+        if (!hex) return true
+        const terrain = hex?.terrain
+        const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstacleTerrain(terrain)
+        return !isBlocked;
+      });
     })
-    if (isSpaceFree && isSolidUnderAllSupportHexes && isVerticalClearanceForObstacle) {
+    const isSpaceFreeForRuin = newHexIds.every((newID) => {
+      // While they block other pieces, Ruins are small enough to share a space with eachother but not land/obstacles
+      const hex = newBoardHexes?.[newID]
+      if (!hex) return true
+      const terrain = hex?.terrain
+      const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstacleTerrain(terrain)
+      return !isBlocked;
+    })
+    if (isSpaceFreeForRuin && isSolidUnderAllSupportHexes && isVerticalClearanceForObstacle) {
       newHexIds.forEach((newHexID, i) => {
         const isPieceOrigin = i === 1 // hacking off the template order, should be 0 but we shift for ruins' vertical clearance
         // write in the new clearances, this will block some pieces at these coordinates

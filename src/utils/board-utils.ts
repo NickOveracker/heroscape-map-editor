@@ -30,6 +30,16 @@ export function isSolidTerrainHex(terrain: string) {
         return false
     }
 }
+export function isObstacleTerrain(terrain: string) {
+    if (
+        terrain === HexTerrain.tree ||
+        terrain === HexTerrain.jungle
+    ) {
+        return true
+    } else {
+        return false
+    }
+}
 export function isTreePieceID(inventoryID: string) {
     if (
         inventoryID === Pieces.tree10 ||
