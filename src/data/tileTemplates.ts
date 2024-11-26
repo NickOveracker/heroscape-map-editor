@@ -258,9 +258,10 @@ export const verticalObstructionTemplates: Dictionary<number[]> = {
   [Pieces.ruins2]: [
     // Played with this in virtualscape, and here's how much I think each hex in the template requires for clearance:
     /* Ruins2, 10 on line 2 is the origin for rotation=0
+    the X's mark Critical support hexes, these must be supported by solid underneath
     --3--
-    9--10--7---4
-   --10--10--7--
+    9--10x--7x---4
+   --10--10x--7--
     */
     // first the basic3
     9, 10, 10,
@@ -273,9 +274,10 @@ export const verticalObstructionTemplates: Dictionary<number[]> = {
   ],
   [Pieces.ruins3]: [
     /* Ruins3, second 9 on line 2 is the origin for rotation=0
+    the X's mark Critical support hexes, these must be supported by solid underneath
     --3--
-    9---9---8---7---3
-    ---9---8---8---7--
+    9---9x----8x---7---3
+    ---9---8x---8x---7--
     */
     // so first the basic-3
     9, 9, 9,
