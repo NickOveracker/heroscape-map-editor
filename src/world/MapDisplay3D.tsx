@@ -13,7 +13,7 @@ import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import InstanceForestTreeWrapper from './maphex/InstanceForestTree.tsx'
 import InstanceJungleWrapper from './maphex/InstanceJungle.tsx'
-import { MergedRuin3 } from './maphex/InstanceRuin3.tsx'
+import Ruin from './maphex/Ruin.tsx'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
@@ -142,7 +142,7 @@ export default function MapDisplay3D({
             }))}
             {(instanceBoardHexes?.ruin3Hexes ?? []).map((bh => {
                 return (
-                    <MergedRuin3
+                    <Ruin
                         key={bh.id}
                         ruinHex={bh}
                     />

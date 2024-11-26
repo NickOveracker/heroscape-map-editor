@@ -7,7 +7,7 @@ import getVSTileTemplate from './rotationTransforms';
 import { makeRectangleScenario } from '../utils/map-gen';
 import { pieceCodes } from './pieceCodes';
 import { piecesSoFar } from './pieces';
-import { verticalObstructionTemplates } from './tileTemplates';
+import { verticalObstructionTemplates, verticalSupportTemplates } from './tileTemplates';
 
 export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: string): MapState {
   // cushions have to be an even number because of the coordinate system used in virtualscape
@@ -193,22 +193,29 @@ export function getBoardHexesWithPieceAdded({
     }
   }
   if (piece.terrain === HexTerrain.ruin) {
-    // an edge type piece
-    // it is a plane the will be position perpindicular to the X,Z plane, and its seven points will be the corners of the hexes
-    // The tiles blocked from further building for a ruin is actually a large footprint of all adjacent tiles
-    const isRuinSupported = isSolidUnderAll || isPlacingOnTable
+    /* 
+    an edge type piece
+    it is a plane the will be position perpindicular to the X,Z plane, and its seven points will be the corners of the hexes
+    The tiles blocked from further building for a ruin is actually a large footprint of all adjacent tiles
+    */
+    const isSolidUnderAllSupportHexes = underHexIds.every((_, i) => {
+      const isRequiredToSupportThisOne = verticalSupportTemplates[piece.inventoryID][i]
+      const altitude = placementAltitude;
+      genBoardHexID({ ...piecePlaneCoords[i], altitude });
+      return isRequiredToSupportThisOne ? isSolidTerrainHex(newBoardHexes?.[underHexIds[i]]?.terrain) : true
+    });
+
+
     const isVerticalClearanceForObstacle = newHexIds.every((_, i) => {
       const clearanceHexIds = Array(verticalObstructionTemplates[piece.inventoryID][i]).fill(0).map((_, j) => {
-        const altitude = newPieceAltitude + 1 + j;
+        const altitude = newPieceAltitude + j;
         return genBoardHexID({ ...piecePlaneCoords[i], altitude });
       });
       return clearanceHexIds.every(clearanceHexId => !newBoardHexes[clearanceHexId]);
     })
-
-    if (isSpaceFree && isRuinSupported && isVerticalClearanceForObstacle) {
+    if (isSpaceFree && isSolidUnderAllSupportHexes && isVerticalClearanceForObstacle) {
       newHexIds.forEach((newHexID, i) => {
         const isPieceOrigin = hexUtilsEquals(piecePlaneCoords[i], cubeCoords)
-        console.log("🚀 ~ newHexIds.forEach ~ isPieceOrigin:", isPieceOrigin)
         // write in the new clearances, this will block some pieces at these coordinates
         Array(verticalObstructionTemplates[piece.inventoryID][i]).fill(0).forEach((_, j) => {
           const clearanceHexAltitude = newPieceAltitude + j; // this includes our newHexIDs, as well as upper hexes

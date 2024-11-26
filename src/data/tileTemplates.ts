@@ -277,7 +277,7 @@ export const verticalObstructionTemplates: Dictionary<number[]> = {
     the X's mark Critical support hexes, these must be supported by solid underneath
     --3--
     9---9x----8x---7---3
-    ---9---8x---8x---7--
+    ---9---8x---8---7--
     */
     // so first the basic-3
     9, 9, 9,
@@ -289,6 +289,47 @@ export const verticalObstructionTemplates: Dictionary<number[]> = {
     3, 7,
     // then the extra back hex
     3
+  ]
+}
+export const verticalSupportTemplates: Dictionary<number[]> = {
+  /* 
+   The order really matters here.
+   These number arrays' indices must line up with the templates' indices, much like the verticalObstructionTemplates and implemented shortly after them.
+  */
+  [Pieces.ruins2]: [
+    // Eyeballed this and performed a physical thought experiment remembering all the times I built a map with ruins and how the middle just needed to be supported
+    /* Ruins2, 10 on line 2 is the origin for rotation=0
+    the X's mark Critical support hexes, these must be supported by solid underneath
+    --3--
+    9--10x--7x---4
+   --10--10x--7--
+    */
+    // first the basic3
+    0, 1, 0,
+    // then the two to the right
+    1, 0,
+    // then the two down to the right
+    1, 0,
+    // then the extra back hex
+    0
+  ],
+  [Pieces.ruins3]: [
+    /* Ruins3, second 9 on line 2 is the origin for rotation=0
+    the X's mark Critical support hexes, these must be supported by solid underneath
+    --3--
+    9---9x----8x---7---3
+    ---9---8x---8---7--
+    */
+    // so first the basic-3
+    0, 1, 0,
+    // then the two to the right
+    1, 0,
+    // then the two down to the right
+    1, 0,
+    // then the far right and far down-right of wallWalk9
+    0, 0,
+    // then the extra back hex
+    0
   ]
 }
 const tileTemplates: Dictionary<CubeCoordinate[]> = {
