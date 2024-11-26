@@ -1,15 +1,14 @@
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
+import { Dictionary } from 'lodash'
+
 import { MapHex3D } from './maphex/MapHex3D.tsx'
 import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
 import { BoardHex, BoardHexes, HexTerrain, PenMode } from '../types.ts'
-import InstanceCapWrapper from './maphex/InstanceCapWrapper.tsx'
 import buildupVSFileMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
-import InstanceSolidHexCap from './maphex/InstanceSolidHexCap.tsx'
-import { Dictionary } from 'lodash'
 import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import InstanceForestTreeWrapper from './maphex/InstanceForestTree.tsx'
@@ -18,6 +17,7 @@ import { MergedRuin3 } from './maphex/InstanceRuin3.tsx'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
+import SolidCaps from './maphex/instance/SolidCaps.tsx'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -104,18 +104,15 @@ export default function MapDisplay3D({
     }
     return (
         <>
-            <InstanceCapWrapper
-                capHexesArray={instanceBoardHexes.solidHexCaps}
-                glKey={'InstanceSolidHexCap-'}
-                component={InstanceSolidHexCap}
+            <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} />
+            <EmptyHexes
+                boardHexArr={instanceBoardHexes.emptyHexCaps}
                 onPointerEnter={onPointerEnter}
                 onPointerOut={onPointerOut}
                 onPointerDown={onPointerDown}
             />
-
-            <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} />
-            <EmptyHexes
-                boardHexArr={instanceBoardHexes.emptyHexCaps}
+            <SolidCaps
+                boardHexArr={instanceBoardHexes.solidHexCaps}
                 onPointerEnter={onPointerEnter}
                 onPointerOut={onPointerOut}
                 onPointerDown={onPointerDown}
