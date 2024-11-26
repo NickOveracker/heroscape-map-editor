@@ -40,6 +40,7 @@ export interface BoardHex extends CubeCoordinate {
     terrain: string // copied from piece (duplicate state)
     pieceID: string // tileID=qraID + piece-UID
     isCap: boolean
+    pieceRotation: number
     isObstacleOrigin?: boolean
     obstacleHeight?: number
 }

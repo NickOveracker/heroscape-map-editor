@@ -59,6 +59,7 @@ function hexesToEmptyBoardHexes(hexgridHexes: CubeCoordinate[]): BoardHexes {
         terrain: HexTerrain.empty,
         altitude: 0,
         pieceID: '',
+        pieceRotation: 0,
         isCap: true,
       }
       return {

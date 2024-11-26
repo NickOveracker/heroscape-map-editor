@@ -92,7 +92,7 @@ export function getBoardHexesWithPieceAdded({
   // 1.1: GATHER DATA ON TILE
   const piecePlaneCoords = getVSTileTemplate({
     clickedHex: { q: cubeCoords.q, r: cubeCoords.r, s: cubeCoords.s },
-    rotation: rotation,
+    rotation,
     template: piece.template,
     isVsTile
   })
@@ -138,6 +138,7 @@ export function getBoardHexesWithPieceAdded({
           altitude: newPieceAltitude,
           terrain: piece.terrain,
           pieceID,
+          pieceRotation: rotation,
           isCap,
         }
       })
@@ -167,6 +168,7 @@ export function getBoardHexesWithPieceAdded({
           altitude: newPieceAltitude,
           terrain: piece.terrain,
           pieceID,
+          pieceRotation: rotation,
           isCap,
           isObstacleOrigin: true,
           obstacleHeight: piece.height
@@ -183,6 +185,7 @@ export function getBoardHexesWithPieceAdded({
             altitude: clearanceHexAltitude,
             terrain: piece.terrain,
             pieceID,
+            pieceRotation: rotation,
             isCap,
           }
         });
@@ -205,6 +208,7 @@ export function getBoardHexesWithPieceAdded({
     if (isSpaceFree && isRuinSupported && isVerticalClearanceForObstacle) {
       newHexIds.forEach((newHexID, i) => {
         const isPieceOrigin = hexUtilsEquals(piecePlaneCoords[i], cubeCoords)
+        console.log("🚀 ~ newHexIds.forEach ~ isPieceOrigin:", isPieceOrigin)
         // write in the new clearances, this will block some pieces at these coordinates
         Array(verticalObstructionTemplates[piece.inventoryID][i]).fill(0).forEach((_, j) => {
           const clearanceHexAltitude = newPieceAltitude + j; // this includes our newHexIDs, as well as upper hexes
@@ -217,6 +221,7 @@ export function getBoardHexesWithPieceAdded({
             altitude: clearanceHexAltitude,
             terrain: piece.terrain,
             pieceID,
+            pieceRotation: rotation,
             isCap: false,
           }
         });
@@ -231,6 +236,7 @@ export function getBoardHexesWithPieceAdded({
             altitude: newPieceAltitude,
             terrain: piece.terrain,
             pieceID,
+            pieceRotation: rotation,
             isObstacleOrigin: true,
             obstacleHeight: piece.height, // unsure if this will be right, it has one height for in-game, but separate heights for physical piece allowance
             isCap: false,
