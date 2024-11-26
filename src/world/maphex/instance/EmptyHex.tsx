@@ -3,9 +3,8 @@ import React from 'react'
 import { HexTerrain } from "../../../types"
 import { CylinderGeometryArgs, DreiCapProps, DreiInstanceCapProps, InstanceRefType } from "../instance-hex"
 import { getBoardHex3DCoords } from "../../../utils/map-utils"
-import { HEXGRID_EMPTYHEX_HEIGHT } from "../../../utils/constants"
+import { HEXGRID_EMPTYHEX_HEIGHT, INSTANCE_LIMIT } from "../../../utils/constants"
 import { hexTerrainColor } from "../hexColors"
-import useBoundStore from "../../../store/store"
 import { ThreeEvent } from "@react-three/fiber"
 
 
@@ -18,11 +17,14 @@ const EmptyHexes = ({
   onPointerOut,
   onPointerDown
 }: DreiCapProps) => {
-  const hexMap = useBoundStore(s => s.hexMap)
   const ref = React.useRef<InstanceRefType>(undefined!)
   if (boardHexArr.length === 0) return null
   return (
-    <Instances limit={hexMap.maxSubTerrains} ref={ref} position={[0, 0, 0]}>
+    <Instances
+      ref={ref}
+      range={boardHexArr.length}
+      limit={INSTANCE_LIMIT}
+    >
       <cylinderGeometry args={baseEmptyCapCylinderArgs} />
       <meshLambertMaterial
         transparent

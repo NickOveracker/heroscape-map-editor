@@ -3,9 +3,8 @@ import React from 'react'
 import { BoardHex, HexTerrain } from "../../../types"
 import { CylinderGeometryArgs, InstanceRefType } from "../instance-hex"
 import { getBoardHex3DCoords } from "../../../utils/map-utils"
-import { HEXGRID_HEX_HEIGHT } from "../../../utils/constants"
+import { HEXGRID_HEX_HEIGHT, INSTANCE_LIMIT } from "../../../utils/constants"
 import { hexTerrainColor } from "../hexColors"
-import useBoundStore from "../../../store/store"
 
 type Props = {
   boardHexArr: BoardHex[]
@@ -15,11 +14,13 @@ const baseSubTerrainCylinderArgs: CylinderGeometryArgs = [1, 1, HEXGRID_HEX_HEIG
 const dirtColor = hexTerrainColor[HexTerrain.dirt]
 
 const SubTerrains = ({ boardHexArr }: Props) => {
-  const hexMap = useBoundStore(s => s.hexMap)
   const ref = React.useRef<InstanceRefType>(undefined!)
   if (boardHexArr.length === 0) return null
   return (
-    <Instances limit={hexMap.maxSubTerrains} ref={ref} >
+    <Instances
+      limit={INSTANCE_LIMIT}
+      range={boardHexArr.length}
+      ref={ref} >
       <cylinderGeometry args={baseSubTerrainCylinderArgs} />
       <meshLambertMaterial
       />

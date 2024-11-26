@@ -2,9 +2,8 @@ import { Instance, Instances } from "@react-three/drei"
 import React from 'react'
 import { CylinderGeometryArgs, DreiCapProps, DreiInstanceCapProps, InstanceRefType } from "../instance-hex"
 import { getBoardHex3DCoords } from "../../../utils/map-utils"
-import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_FLUID_HEIGHT } from "../../../utils/constants"
+import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_FLUID_HEIGHT, INSTANCE_LIMIT } from "../../../utils/constants"
 import { hexTerrainColor } from "../hexColors"
-import useBoundStore from "../../../store/store"
 import { ThreeEvent } from "@react-three/fiber"
 
 
@@ -16,12 +15,12 @@ const FluidCaps = ({
   onPointerOut,
   onPointerDown
 }: DreiCapProps) => {
-  const hexMap = useBoundStore(s => s.hexMap)
   const ref = React.useRef<InstanceRefType>(undefined!)
   if (boardHexArr.length === 0) return null
   return (
     <Instances
-      limit={hexMap.maxSubTerrains / 2} // no way there would be this many fluid caps, but with an overhang on every other hex, maybe
+      limit={INSTANCE_LIMIT}
+      range={boardHexArr.length} // no way there would be this many fluid caps, but with an overhang on every other hex, maybe
       ref={ref} position={[0, 0, 0]}>
       <cylinderGeometry args={baseFluidCapCylinderArgs} />
       <meshLambertMaterial

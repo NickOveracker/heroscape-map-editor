@@ -26,7 +26,7 @@ export function makeRectangleScenario(options?: RectangleScenarioOptions): MapSt
         shape: options?.mapShape ?? 'rectangle',
         width: mapWidth,
         height: mapHeight,
-        maxSubTerrains: mapWidth * mapHeight * HEXGRID_MAX_ALTITUDE,
+        // maxSubTerrains: mapWidth * mapHeight * HEXGRID_MAX_ALTITUDE,
         glyphs: {},
     }
 
@@ -51,7 +51,7 @@ function makeHexagonScenario(options?: HexagonScenarioOptions): MapState {
         shape: 'hexagon',
         width: size,
         height: size,
-        maxSubTerrains: (1 + 3 * size * (size + 1)) * HEXGRID_MAX_ALTITUDE,
+        // maxSubTerrains: (1 + 3 * size * (size + 1)) * HEXGRID_MAX_ALTITUDE,
         glyphs: {},
     }
 

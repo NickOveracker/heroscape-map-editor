@@ -19,7 +19,6 @@ export type HexMap = {
     glyphs: Glyphs
     height: number // for hexagon shaped maps width=height=size
     width: number // for hexagon shaped maps width=height=size
-    maxSubTerrains: number
 }
 export type Glyphs = {
     [boardHexID: string]: Glyph

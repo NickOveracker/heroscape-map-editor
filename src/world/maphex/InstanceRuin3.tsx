@@ -6,7 +6,6 @@ import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 
 export const MergedRuin3 = ({ ruinHex }: { ruinHex: BoardHex }) => {
   const { x, y, z } = getBoardHex3DCoords(ruinHex)
-  console.log("🚀 ~ MergedRuin ~ y", y)
   const wallHeight = 6 * HEXGRID_HEX_HEIGHT
   return (
     <group>
