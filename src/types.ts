@@ -41,6 +41,7 @@ export interface BoardHex extends CubeCoordinate {
     isCap: boolean
     pieceRotation: number
     isObstacleOrigin?: boolean
+    isRuinInterior?: boolean
     obstacleHeight?: number
 }
 export type BoardPieces = {
@@ -219,6 +220,8 @@ export enum PenMode {
     palm14 = Pieces.palm14,
     palm15 = Pieces.palm15,
     palm16 = Pieces.palm16,
+    ruins2 = Pieces.ruins2,
+    ruins3 = Pieces.ruins3,
     startZone0 = 'startZone0',
     startZone1 = 'startZone1',
     startZone2 = 'startZone2',

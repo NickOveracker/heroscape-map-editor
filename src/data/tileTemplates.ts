@@ -332,6 +332,44 @@ export const verticalSupportTemplates: Dictionary<number[]> = {
     0
   ]
 }
+export const interiorHexTemplates: Dictionary<number[]> = {
+  /* 
+   The order really matters here.
+   These number arrays' indices must line up with the templates' indices, much like the verticalObstructionTemplates and implemented shortly after them.
+  */
+  [Pieces.ruins2]: [
+    /* the i's mark the interior hexes
+    --3--
+    9--10i--7i---4
+   --10--10--7--
+    */
+    // first the basic3
+    0, 2, 0,
+    // then the two to the right
+    1, 0,
+    // then the two down to the right
+    0, 0,
+    // then the extra back hex
+    0
+  ],
+  [Pieces.ruins3]: [
+    /* the i's mark the interior hexes
+    --3--
+    9---9i----8i---7i---3
+    ---9---8---8---7--
+    */
+    // so first the basic-3
+    0, 2, 0,
+    // then the two to the right
+    1, 1,
+    // then the two down to the right
+    0, 0,
+    // then the far right and far down-right of wallWalk9
+    0, 0,
+    // then the extra back hex
+    0
+  ]
+}
 const tileTemplates: Dictionary<CubeCoordinate[]> = {
   '1': basic1,
   '2': basic2,

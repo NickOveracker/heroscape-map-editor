@@ -7,7 +7,7 @@ import getVSTileTemplate from './rotationTransforms';
 import { makeRectangleScenario } from '../utils/map-gen';
 import { pieceCodes } from './pieceCodes';
 import { piecesSoFar } from './pieces';
-import { verticalObstructionTemplates, verticalSupportTemplates } from './tileTemplates';
+import { interiorHexTemplates, verticalObstructionTemplates, verticalSupportTemplates } from './tileTemplates';
 
 export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: string): MapState {
   // cushions have to be an even number because of the coordinate system used in virtualscape
@@ -222,31 +222,36 @@ export function getBoardHexesWithPieceAdded({
         return !isBlocked;
       });
     })
-    const isSpaceFreeForRuin = newHexIds.every((newID) => {
+    const isSpaceFreeForRuin = newHexIds.every((newID, i) => {
       // While they block other pieces, Ruins are small enough to share a space with eachother but not land/obstacles
       const hex = newBoardHexes?.[newID]
       if (!hex) return true
       const terrain = hex?.terrain
-      const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstacleTerrain(terrain)
+      const isForNewInterior = interiorHexTemplates[piece.inventoryID][i] > 0
+      const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstacleTerrain(terrain) || (isForNewInterior && hex.isObstacleOrigin) || (isForNewInterior && hex.isRuinInterior)
       return !isBlocked;
     })
     if (isSpaceFreeForRuin && isSolidUnderAllSupportHexes && isVerticalClearanceForObstacle) {
       newHexIds.forEach((newHexID, i) => {
+        const isRuinInterior = interiorHexTemplates[piece.inventoryID][i] === 1
         const isPieceOrigin = i === 1 // hacking off the template order, should be 0 but we shift for ruins' vertical clearance
         // write in the new clearances, this will block some pieces at these coordinates
         Array(verticalObstructionTemplates[piece.inventoryID][i]).fill(0).forEach((_, j) => {
           const clearanceHexAltitude = newPieceAltitude + j; // this includes our newHexIDs, as well as upper hexes
           const clearanceID = genBoardHexID({ ...piecePlaneCoords[i], altitude: clearanceHexAltitude });
-          newBoardHexes[clearanceID] = {
-            id: clearanceID,
-            q: piecePlaneCoords[i].q,
-            r: piecePlaneCoords[i].r,
-            s: piecePlaneCoords[i].s,
-            altitude: clearanceHexAltitude,
-            terrain: piece.terrain,
-            pieceID,
-            pieceRotation: rotation,
-            isCap: false,
+          if (!newBoardHexes[clearanceID]) {
+            // we only write to the clearance hex if nothing is there already (we already check to make sure it was ok to place)
+            newBoardHexes[clearanceID] = {
+              id: clearanceID,
+              q: piecePlaneCoords[i].q,
+              r: piecePlaneCoords[i].r,
+              s: piecePlaneCoords[i].s,
+              altitude: clearanceHexAltitude,
+              terrain: piece.terrain,
+              pieceID,
+              pieceRotation: rotation,
+              isCap: false,
+            }
           }
         });
 
@@ -262,6 +267,23 @@ export function getBoardHexesWithPieceAdded({
             pieceID,
             pieceRotation: rotation,
             isObstacleOrigin: true,
+            isRuinInterior: true,
+            obstacleHeight: piece.height, // unsure if this will be right, it has one height for in-game, but separate heights for physical piece allowance
+            isCap: false,
+          }
+        }
+        if (isRuinInterior) {
+          newBoardHexes[newHexID] = {
+            id: newHexID,
+            q: piecePlaneCoords[i].q,
+            r: piecePlaneCoords[i].r,
+            s: piecePlaneCoords[i].s,
+            altitude: newPieceAltitude,
+            terrain: piece.terrain,
+            pieceID,
+            pieceRotation: rotation,
+            isObstacleOrigin: false,
+            isRuinInterior: true,
             obstacleHeight: piece.height, // unsure if this will be right, it has one height for in-game, but separate heights for physical piece allowance
             isCap: false,
           }

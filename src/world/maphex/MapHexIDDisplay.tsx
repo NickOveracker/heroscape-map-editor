@@ -10,9 +10,9 @@ export const MapHexIDDisplay = ({ position, boardHex }: {
   position: Vector3
   boardHex: BoardHex
 }) => {
+  return null
   if (!boardHex.isCap) return null
   if (boardHex.terrain === HexTerrain.empty) return null
-  // return null
   return (
     <Billboard position={[position.x, position.y, position.z]}>
       <Text fontSize={0.2} color={new Color('white')}>

@@ -46,5 +46,8 @@ function SubTerrain({ boardHex }: { boardHex: BoardHex }) {
     ref.current.color.set(subTerrainColor)
     ref.current.position.set(x, posY, z)
   }, [boardHex])
-  return <Instance onPointerDown={(e) => e.stopPropagation()} ref={ref} />
+  return <Instance
+    ref={ref}
+    onPointerDown={(e) => e.stopPropagation()}
+  />
 }

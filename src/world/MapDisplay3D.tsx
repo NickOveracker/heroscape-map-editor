@@ -1,7 +1,6 @@
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
-import { Dictionary } from 'lodash'
 
 import { MapHex3D } from './maphex/MapHex3D.tsx'
 import useBoundStore from '../store/store.ts'
@@ -13,7 +12,7 @@ import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import InstanceForestTreeWrapper from './maphex/InstanceForestTree.tsx'
 import InstanceJungleWrapper from './maphex/InstanceJungle.tsx'
-import Ruin from './maphex/Ruin.tsx'
+import RuinOriginPlane, { RuinInteriorPlanes } from './maphex/Ruin.tsx'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
@@ -86,7 +85,7 @@ export default function MapDisplay3D({
                 rotation: pieceRotation,
             })
         }
-        if (isObstaclePieceID(penMode)) {
+        if (isObstaclePieceID(penMode) || penMode === PenMode.ruins2 || penMode === PenMode.ruins3) {
             const piece = piecesSoFar[penMode]
             paintTile({
                 piece,
@@ -140,9 +139,17 @@ export default function MapDisplay3D({
                     />
                 )
             }))}
-            {(instanceBoardHexes?.ruin3Hexes ?? []).map((bh => {
+            {(instanceBoardHexes?.ruinOriginHexes ?? []).map((bh => {
                 return (
-                    <Ruin
+                    <RuinOriginPlane
+                        key={bh.id}
+                        ruinHex={bh}
+                    />
+                )
+            }))}
+            {(instanceBoardHexes?.ruinInteriorHexes ?? []).map((bh => {
+                return (
+                    <RuinInteriorPlanes
                         key={bh.id}
                         ruinHex={bh}
                     />
@@ -152,9 +159,19 @@ export default function MapDisplay3D({
     )
 }
 
+type InstanceBoardHexes = {
+    subTerrainHexes: BoardHex[],
+    emptyHexCaps: BoardHex[],
+    solidHexCaps: BoardHex[],
+    fluidHexCaps: BoardHex[],
+    treeHexes: BoardHex[],
+    jungleHexes: BoardHex[],
+    ruinOriginHexes: BoardHex[],
+    ruinInteriorHexes: BoardHex[],
+}
 function getInstanceBoardHexes(boardHexes: BoardHexes) {
     const boardHexArr = Object.values(boardHexes)
-    return boardHexArr.reduce((result: Dictionary<BoardHex[]>, current) => {
+    return boardHexArr.reduce((result: InstanceBoardHexes, current) => {
         const isCap = current.isCap
         const isEmptyCap = isCap && current.terrain === HexTerrain.empty
         const isSolidCap = isCap && isSolidTerrainHex(current.terrain)
@@ -163,7 +180,8 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         // const isSubTerrain = isSolidTerrainHex(current.terrain) || isFluidTerrainHex(current.terrain)
         const isTreeHex = current.terrain === HexTerrain.tree && current.isObstacleOrigin
         const isJungleHex = current.terrain === HexTerrain.jungle && current.isObstacleOrigin
-        const isRuinHex = current.terrain === HexTerrain.ruin && current.isObstacleOrigin
+        const isRuinOriginHex = current.terrain === HexTerrain.ruin && current.isObstacleOrigin
+        const isRuinInteriorHex = current.terrain === HexTerrain.ruin && current.isRuinInterior
         if (isEmptyCap) {
             result.emptyHexCaps.push(current)
         }
@@ -182,8 +200,11 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         if (isJungleHex) {
             result.jungleHexes.push(current)
         }
-        if (isRuinHex) {
-            result.ruin3Hexes.push(current)
+        if (isRuinOriginHex) {
+            result.ruinOriginHexes.push(current)
+        }
+        if (isRuinInteriorHex) {
+            result.ruinInteriorHexes.push(current)
         }
         return result
     }, {
@@ -193,7 +214,8 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         subTerrainHexes: [],
         treeHexes: [],
         jungleHexes: [],
-        ruin3Hexes: [],
+        ruinOriginHexes: [],
+        ruinInteriorHexes: [],
     });
 
 }

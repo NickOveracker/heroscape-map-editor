@@ -188,6 +188,18 @@ export default function PenTerrainSelect() {
           </ListItemIcon>
           <span>Palm16</span>
         </MenuItem>
+        <MenuItem value={PenMode.ruins2}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Ruins 2</span>
+        </MenuItem>
+        <MenuItem value={PenMode.ruins3}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Ruins 3</span>
+        </MenuItem>
 
         <Divider />
         {/* START ZONES BEGIN */}
