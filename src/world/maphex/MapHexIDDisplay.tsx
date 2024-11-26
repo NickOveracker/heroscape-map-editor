@@ -1,6 +1,6 @@
 import { Billboard, Text } from '@react-three/drei'
 import { Color, Vector3 } from 'three'
-import { BoardHex } from '../../types'
+import { BoardHex, HexTerrain } from '../../types'
 
 /* 
   MapHexIDDisplay
@@ -11,7 +11,8 @@ export const MapHexIDDisplay = ({ position, boardHex }: {
   boardHex: BoardHex
 }) => {
   if (!boardHex.isCap) return null
-  return null
+  if (boardHex.terrain === HexTerrain.empty) return null
+  // return null
   return (
     <Billboard position={[position.x, position.y, position.z]}>
       <Text fontSize={0.2} color={new Color('white')}>
