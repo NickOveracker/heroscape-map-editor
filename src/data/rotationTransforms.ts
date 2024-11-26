@@ -22,7 +22,7 @@ export default function getVSTileTemplate({
     .map((t) => {
       return hexUtilsRotate(t, origin, rotation)
     })
-    .map((t) => hexUtilsAdd(t, originOfTile))
+    .map((t) => isVsTile ? hexUtilsAdd(t, originOfTile) : hexUtilsAdd(t, clickedHex))
 }
 
 const origin = { q: 0, r: 0, s: 0 }
