@@ -114,6 +114,7 @@ export function getBoardHexesWithPieceAdded({
   const isSolidUnderAll = underHexIds.every(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''))
   // 3. PLACE THE PIECE
   if (piece.isLand) {
+    // in this part, if wallWalk tiles are not placed on castle pieces, they will be in a future part
     const isLandPieceSupported = isPlacingOnTable || (isSolidTile && isSolidUnderAtLeastOne) || (isFluidTile && isSolidUnderAll)
     if (isSpaceFree && isLandPieceSupported) {
       newHexIds.forEach((newHexID, iForEach) => {

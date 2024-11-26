@@ -435,6 +435,39 @@ export const piecesSoFar: Dictionary<Piece> = {
     isEdge: false,
     isObstacle: false,
   },
+  [Pieces.wallWalk1]: {
+    id: Pieces.wallWalk1,// will get overwritten in game
+    inventoryID: Pieces.wallWalk1,
+    terrain: HexTerrain.wallWalk,
+    size: 1,
+    template: '1',
+    height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
+  },
+  [Pieces.wallWalk7]: {
+    id: Pieces.wallWalk7,// will get overwritten in game
+    inventoryID: Pieces.wallWalk7,
+    terrain: HexTerrain.wallWalk,
+    size: 7,
+    template: 'wallWalk7',
+    height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
+  },
+  [Pieces.wallWalk9]: {
+    id: Pieces.wallWalk9,// will get overwritten in game
+    inventoryID: Pieces.wallWalk9,
+    terrain: HexTerrain.wallWalk,
+    size: 9,
+    template: 'wallWalk9',
+    height: 1,
+    isLand: true,
+    isEdge: false,
+    isObstacle: false,
+  },
   /* FLUID FLUID FLUID */
   [Pieces.water1]: {
     id: Pieces.water1,// will get overwritten in game

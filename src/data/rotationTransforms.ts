@@ -7,7 +7,6 @@ export default function getVSTileTemplate({
   clickedHex,
   rotation,
   template,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isVsTile,
 }: {
   clickedHex: CubeCoordinate

@@ -49,6 +49,7 @@ export const hexTerrainColor: Dictionary<string> = {
     [HexTerrain.rock]: '#475776',
     [HexTerrain.sand]: 'rgb(206,172,40)',
     [HexTerrain.road]: '#868686',
+    [HexTerrain.wallWalk]: '#868686',
     [HexTerrain.snow]: '#fff', // "snow" from https://www.colorhexa.com/color-names
     [HexTerrain.lavaField]: virtualscapeTileColors[HexTerrain.lavaField],
     [HexTerrain.swamp]: virtualscapeTileColors[HexTerrain.swamp],

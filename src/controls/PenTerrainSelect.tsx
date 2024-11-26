@@ -10,6 +10,7 @@ import {
   GiIsland,
   GiWaterfall,
   GiBulldozer,
+  GiCastle,
 } from 'react-icons/gi'
 import {
   TbHexagonNumber1Filled,
@@ -199,6 +200,24 @@ export default function PenTerrainSelect() {
             <GiWaterfall />
           </ListItemIcon>
           <span>Ruins 3</span>
+        </MenuItem>
+        <MenuItem value={PenMode.wallWalk1}>
+          <ListItemIcon>
+            <GiCastle />
+          </ListItemIcon>
+          <span>Wall Walk 1</span>
+        </MenuItem>
+        <MenuItem value={PenMode.wallWalk7}>
+          <ListItemIcon>
+            <GiCastle />
+          </ListItemIcon>
+          <span>Wall Walk 7</span>
+        </MenuItem>
+        <MenuItem value={PenMode.wallWalk9}>
+          <ListItemIcon>
+            <GiCastle />
+          </ListItemIcon>
+          <span>Wall Walk 9</span>
         </MenuItem>
 
         <Divider />
