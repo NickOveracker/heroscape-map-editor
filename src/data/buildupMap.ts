@@ -215,7 +215,7 @@ export function getBoardHexesWithPieceAdded({
     })
     if (isSpaceFree && isSolidUnderAllSupportHexes && isVerticalClearanceForObstacle) {
       newHexIds.forEach((newHexID, i) => {
-        const isPieceOrigin = hexUtilsEquals(piecePlaneCoords[i], cubeCoords)
+        const isPieceOrigin = i === 1 // hacking off the template order, should be 0 but we shift for ruins' vertical clearance
         // write in the new clearances, this will block some pieces at these coordinates
         Array(verticalObstructionTemplates[piece.inventoryID][i]).fill(0).forEach((_, j) => {
           const clearanceHexAltitude = newPieceAltitude + j; // this includes our newHexIDs, as well as upper hexes
