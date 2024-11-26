@@ -1,6 +1,6 @@
 import { DoubleSide } from 'three'
 import { BoardHex } from '../../types'
-import { getBoardHex3DCoords, hexPointsFromCenter } from '../../utils/map-utils'
+import { getBoardHex3DCoords, hexSidesFromCenter } from '../../utils/map-utils'
 import { Plane } from '@react-three/drei'
 import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 
@@ -9,12 +9,12 @@ export default function Ruin({ ruinHex }: { ruinHex: BoardHex }) {
   const wallHeight = 6 * HEXGRID_HEX_HEIGHT
   const y = (ruinHex.altitude - 1) * HEXGRID_HEX_HEIGHT + (wallHeight / 2)
   const rotationToSomething: { [key: number]: { x: number, z: number, rotation: number } } = {
-    0: { x: hexPointsFromCenter.topLeft.x, z: hexPointsFromCenter.topLeft.y, rotation: Math.PI / 2 },
-    1: { x: hexPointsFromCenter.top.x, z: hexPointsFromCenter.top.y, rotation: Math.PI / 2 },
-    2: { x: hexPointsFromCenter.topRight.x, z: hexPointsFromCenter.topRight.y, rotation: Math.PI / 2 },
-    3: { x: hexPointsFromCenter.bottomRight.x, z: hexPointsFromCenter.bottomRight.y, rotation: Math.PI / 2 },
-    4: { x: hexPointsFromCenter.bottom.x, z: hexPointsFromCenter.bottom.y, rotation: Math.PI / 2 },
-    5: { x: hexPointsFromCenter.bottomLeft.x, z: hexPointsFromCenter.bottomLeft.y, rotation: Math.PI / 2 },
+    0: { x: hexSidesFromCenter.left.x, z: hexSidesFromCenter.left.z, rotation: Math.PI / 2 },
+    1: { x: hexSidesFromCenter.topLeft.x, z: hexSidesFromCenter.topLeft.z, rotation: Math.PI },
+    2: { x: hexSidesFromCenter.topRight.x, z: hexSidesFromCenter.topRight.z, rotation: - Math.PI / 6 },
+    3: { x: hexSidesFromCenter.right.x, z: hexSidesFromCenter.right.z, rotation: -Math.PI / 2 },
+    4: { x: hexSidesFromCenter.bottomRight.x, z: hexSidesFromCenter.bottomRight.z, rotation: Math.PI / 2 },
+    5: { x: hexSidesFromCenter.bottomLeft.x, z: hexSidesFromCenter.bottomLeft.z, rotation: Math.PI / 2 },
   }
   const addX = x + rotationToSomething[ruinHex.pieceRotation].x
   const addZ = z + rotationToSomething[ruinHex.pieceRotation].z
