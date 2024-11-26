@@ -10,7 +10,7 @@ import buildupVSFileMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
 import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
-import InstanceForestTreeWrapper from './maphex/InstanceForestTree.tsx'
+// import InstanceForestTreeWrapper from './maphex/InstanceForestTree.tsx'
 import InstanceJungleWrapper from './maphex/InstanceJungle.tsx'
 import RuinOriginPlane, { RuinInteriorPlanes } from './maphex/Ruin.tsx'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
@@ -124,10 +124,10 @@ export default function MapDisplay3D({
                 onPointerOut={onPointerOut}
                 onPointerDown={onPointerDown}
             />
-            <InstanceForestTreeWrapper
+            {/* <InstanceForestTreeWrapper
                 glKey={'InstanceForestTree-'}
                 treeHexes={instanceBoardHexes.treeHexes}
-            />
+            /> */}
             <InstanceJungleWrapper
                 glKey={'InstanceJungle-'}
                 jungleHexes={instanceBoardHexes.jungleHexes}

@@ -31,7 +31,7 @@ export default function HeightRing({
   return (
     <line_
       geometry={ringGeo}
-      position={position.y === 0 ? new Vector3(position.x, position.y + 0.2, position.z) : position} // hacky
+      position={position.y === 0 ? new Vector3(position.x, position.y + 0.01, position.z) : position} // hacky
     >
       <lineBasicMaterial
         attach="material"
