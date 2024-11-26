@@ -36,7 +36,7 @@ const GridHelper = () => {
 const AxesLevelHelper = () => {
     return (
         <group>
-            {(new Array(20).fill(0)).map((_, i) => (
+            {(new Array(14).fill(0)).map((_, i) => (
                 <axesHelper key={i} scale={[10, HEXGRID_HEX_HEIGHT, 10]} position={new Vector3(0, HEXGRID_HEX_HEIGHT * i, 0)} />
             ))}
         </group>

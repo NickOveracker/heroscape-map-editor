@@ -6,11 +6,30 @@ import React from 'react'
 import { useGLTF } from '@react-three/drei'
 import { BoardHex } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
-import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
+import { HEXGRID_HEX_HEIGHT, TREE_BASE_HEIGHT } from '../../utils/constants'
+import { CylinderGeometryArgs } from '../maphex/instance-hex'
+import { hexTerrainColor } from '../maphex/hexColors'
+
+const treeBase: CylinderGeometryArgs = [0.999, 0.997, TREE_BASE_HEIGHT, 6, undefined, false, undefined, undefined]
 
 export function Tree10ColoredLowPoly({ boardHex }: { boardHex: BoardHex }) {
-  const { x, y, z } = getBoardHex3DCoords(boardHex)
   const { nodes, materials } = useGLTF('/forgotten-forest-tree-low-poly-colored.glb') as any
+  const { x, z } = getBoardHex3DCoords(boardHex)
+  const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT
+  const yTree = y + TREE_BASE_HEIGHT / 2
+  const yBase = y + TREE_BASE_HEIGHT / 2
+  const options = getOptionsForTreeHeight(boardHex?.obstacleHeight ?? 10)
+  function getOptionsForTreeHeight(treeHeight: number) {
+    switch (treeHeight) {
+      case 11:
+        return { scaleX: 0.039, scaleY: 0.040, y: yTree }
+      case 12:
+        return { scaleX: 0.040, scaleY: 0.044, y: yTree + HEXGRID_HEX_HEIGHT / 10 }
+      case 10:
+      default:
+        return { scaleX: 0.038, scaleY: 0.038, y: yTree }
+    }
+  }
   return (
     <group
       dispose={null}
@@ -20,10 +39,13 @@ export function Tree10ColoredLowPoly({ boardHex }: { boardHex: BoardHex }) {
         receiveShadow
         geometry={nodes.Tree10_scanned.geometry}
         material={materials.ForestTree}
-        scale={0.040}
-        position={[x, y - HEXGRID_HEX_HEIGHT, z]}
-      // rotation={[-Math.PI / 2, 0, 0]}
+        scale={[options.scaleX, options.scaleY, options.scaleX]}
+        position={[x, options.y, z]}
       />
+      <mesh position={[x, yBase, z]}>
+        <cylinderGeometry args={treeBase} />
+        <meshLambertMaterial color={hexTerrainColor['treeBase']} />
+      </mesh>
     </group>
   )
 }
