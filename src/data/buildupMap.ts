@@ -154,7 +154,13 @@ export function getBoardHexesWithPieceAdded({
         const altitude = newPieceAltitude + 1 + j;
         return genBoardHexID({ ...piecePlaneCoords[i], altitude });
       });
-      return clearanceHexIds.every(clearanceHexId => !newBoardHexes[clearanceHexId]);
+      return clearanceHexIds.every(clearanceHexId => {
+        const hex = newBoardHexes?.[clearanceHexId]
+        if (!hex) return true
+        const terrain = hex?.terrain
+        const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstacleTerrain(terrain)
+        return !isBlocked;
+      });
     });
     if (isSpaceFree && isVerticalClearanceForObstacle && isObstaclePieceSupported) {
       newHexIds.forEach((newHexID, iForEach) => {
