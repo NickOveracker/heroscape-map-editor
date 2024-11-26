@@ -43,6 +43,14 @@ export const getBoardHexesRectangularMapDimensions = (
     return { height, width, apex }
 }
 export const getBoardHex3DCoords = (hex: CubeCoordinate & { altitude: number }) => {
+    if (!hex.altitude) {
+        // for when we just pass CubeCoordinate as BoardHex
+        return {
+            x: cubeToPixel(hex).x * HEXGRID_SPACING,
+            y: 0,
+            z: cubeToPixel(hex).y * HEXGRID_SPACING,
+        }
+    }
     return {
         x: cubeToPixel(hex).x * HEXGRID_SPACING,
         y: hex.altitude * HEXGRID_HEX_HEIGHT,
