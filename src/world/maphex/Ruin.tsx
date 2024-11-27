@@ -11,15 +11,20 @@ type Props = {
 }
 
 export default function InstanceRuinPlanes({ ruinOriginHexes, ruinInteriorHexes }: Props) {
-
   return (
     <>
       {(ruinOriginHexes).map((bh => {
         return (
-          <RuinOriginPlane
-            key={bh.id}
-            ruinHex={bh}
-          />
+          <>
+            <RuinOriginPlane
+              key={bh.id + 'origin'}
+              ruinHex={bh}
+            />
+            <RuinInteriorPlanes
+              key={bh.id}
+              ruinHex={bh}
+            />
+          </>
         )
       }))}
       {(ruinInteriorHexes).map((bh => {
@@ -54,6 +59,8 @@ function RuinOriginPlane({ ruinHex }: { ruinHex: BoardHex }) {
       args={[1, wallHeight]}
       position={[addX, y, addZ]}
       rotation={[0, rotationToPlacementO[ruinHex.pieceRotation].rotation, 0]}
+      castShadow
+      receiveShadow
     >
       <meshLambertMaterial side={DoubleSide} />
     </Plane>
@@ -84,6 +91,8 @@ export function RuinInteriorPlanes({ ruinHex }: { ruinHex: BoardHex }) {
         args={[1, wallHeight]}
         position={[addX, y, addZ]}
         rotation={[0, rotationToPlacementI[ruinHex.pieceRotation].rotation, 0]}
+        castShadow
+        receiveShadow
       >
         <meshLambertMaterial side={DoubleSide} />
       </Plane>
@@ -91,6 +100,8 @@ export function RuinInteriorPlanes({ ruinHex }: { ruinHex: BoardHex }) {
         args={[1, wallHeight]}
         position={[addX2, y, addZ2]}
         rotation={[0, rotationToPlacementI[(ruinHex.pieceRotation + 1) % 6].rotation, 0]}
+        castShadow
+        receiveShadow
       >
         <meshLambertMaterial side={DoubleSide} />
       </Plane>

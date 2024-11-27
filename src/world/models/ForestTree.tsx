@@ -19,7 +19,7 @@ export default function ForestTree({ boardHex }: { boardHex: BoardHex }) {
   const isBigTree = piece.inventoryID === Pieces.tree415
   return isBigTree ? <BigTree415 boardHex={boardHex} /> : <SingleForestTree boardHex={boardHex} />
 }
-export function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
+function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
   const { nodes, materials } = useGLTF('/forgotten-forest-tree-low-poly-colored.glb') as any
   const { x, z } = getBoardHex3DCoords(boardHex)
   const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT

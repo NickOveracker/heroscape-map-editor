@@ -4,7 +4,7 @@ import HeightRing from './HeightRing'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { MapHexIDDisplay } from './MapHexIDDisplay'
 import { isSolidTerrainHex } from '../../utils/board-utils'
-import ForestTree from '../models/Tree10ColoredLowPoly'
+import ForestTree from '../models/ForestTree'
 import TicallaPalm from '../models/TicallaPalm'
 import TicallaBrush from '../models/TicallaBrush'
 

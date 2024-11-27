@@ -21,9 +21,11 @@ const SolidCaps = ({
     <Instances
       limit={INSTANCE_LIMIT}
       range={boardHexArr.length}
+      castShadow
+      receiveShadow
       ref={ref} position={[0, 0, 0]}>
       <cylinderGeometry args={baseSolidCapCylinderArgs} />
-      <meshLambertMaterial />
+      <meshPhongMaterial />
       {boardHexArr.map((hex, i) => (
         <SolidCap
           key={hex.id + i}
@@ -80,5 +82,7 @@ function SolidCap({
     onPointerDown={handleDown}
     onPointerEnter={handleEnter}
     onPointerOut={handleOut}
+    castShadow
+    receiveShadow
   />
 }
