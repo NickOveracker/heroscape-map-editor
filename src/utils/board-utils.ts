@@ -34,7 +34,8 @@ export function isSolidTerrainHex(terrain: string) {
 export function isObstacleTerrain(terrain: string) {
     if (
         terrain === HexTerrain.tree ||
-        terrain === HexTerrain.jungle
+        terrain === HexTerrain.brush ||
+        terrain === HexTerrain.palm
     ) {
         return true
     } else {

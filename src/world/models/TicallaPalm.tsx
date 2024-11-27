@@ -25,30 +25,27 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
     }
   }
   return (
-    <group dispose={null}>
+    <group
+      scale={[options.scaleX, options.scaleY, options.scaleX]}
+      position={[x, options.y, z]}
+      dispose={null}>
       <mesh
         castShadow
         receiveShadow
         geometry={nodes.AlienGrassUFO_v01_Tuft_a_1.geometry}
         material={materials.PalmGrass}
-        scale={0.038}
-        position={[x, options.y, z]}
       />
       <mesh
         castShadow
         receiveShadow
         geometry={nodes.AlienGrassUFO_v01_Tuft_a_2.geometry}
         material={materials.PalmTrunk}
-        scale={[options.scaleX, options.scaleY, options.scaleX]}
-        position={[x, options.y, z]}
       />
       <mesh
         castShadow
         receiveShadow
         geometry={nodes.AlienGrassUFO_v01_Tuft_a_3.geometry}
         material={materials.PalmLeaf}
-        scale={0.038}
-        position={[x, options.y, z]}
       />
     </group>
   )

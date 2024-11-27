@@ -10,8 +10,6 @@ import buildupVSFileMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
 import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
-// import InstanceForestTreeWrapper from './maphex/InstanceForestTree.tsx'
-import InstanceJungleWrapper from './maphex/InstanceJungle.tsx'
 import RuinOriginPlane, { RuinInteriorPlanes } from './maphex/Ruin.tsx'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
@@ -181,7 +179,7 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         const isSubTerrain = isSolidTerrainHex(current.terrain)
         // const isSubTerrain = isSolidTerrainHex(current.terrain) || isFluidTerrainHex(current.terrain)
         const isTreeHex = current.terrain === HexTerrain.tree && current.isObstacleOrigin
-        const isJungleHex = current.terrain === HexTerrain.jungle && current.isObstacleOrigin
+        const isJungleHex = (current.terrain === HexTerrain.brush || current.terrain === HexTerrain.palm) && current.isObstacleOrigin
         const isRuinOriginHex = current.terrain === HexTerrain.ruin && current.isObstacleOrigin
         const isRuinInteriorHex = current.terrain === HexTerrain.ruin && current.isRuinInterior
         if (isEmptyCap) {
