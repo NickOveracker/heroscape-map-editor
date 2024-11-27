@@ -10,11 +10,11 @@ import buildupVSFileMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isJungleTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
 import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
-import InstanceRuinPlanes from './maphex/Ruin.tsx'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
+import Ruin2 from './models/Ruin2.tsx'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -122,10 +122,14 @@ export default function MapDisplay3D({
                 onPointerOut={onPointerOut}
                 onPointerDown={onPointerDown}
             />
-            <InstanceRuinPlanes
-                ruinOriginHexes={instanceBoardHexes.ruinOriginHexes}
-                ruinInteriorHexes={instanceBoardHexes.ruinInteriorHexes}
-            />
+            {Object.values(instanceBoardHexes.ruinOriginHexes).map((bh => {
+                return (
+                    <Ruin2
+                        key={bh.id}
+                        boardHex={bh}
+                    />
+                )
+            }))}
             {Object.values(boardHexes).map((bh => {
                 return (
                     <MapHex3D
