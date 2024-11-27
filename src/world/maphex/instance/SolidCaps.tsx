@@ -25,7 +25,7 @@ const SolidCaps = ({
       receiveShadow
       ref={ref} position={[0, 0, 0]}>
       <cylinderGeometry args={baseSolidCapCylinderArgs} />
-      <meshPhongMaterial />
+      <meshLambertMaterial />
       {boardHexArr.map((hex, i) => (
         <SolidCap
           key={hex.id + i}

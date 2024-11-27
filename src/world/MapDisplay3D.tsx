@@ -7,7 +7,7 @@ import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
 import { BoardHex, BoardHexes, HexTerrain, PenMode } from '../types.ts'
 import buildupVSFileMap from '../data/buildupMap.ts'
-import { isFluidTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
+import { isFluidTerrainHex, isJungleTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
 import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import InstanceRuinPlanes from './maphex/Ruin.tsx'
@@ -155,7 +155,7 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         const isEmptyCap = isCap && current.terrain === HexTerrain.empty
         const isSolidCap = isCap && isSolidTerrainHex(current.terrain)
         const isFluidCap = isCap && isFluidTerrainHex(current.terrain)
-        const isSubTerrain = isSolidTerrainHex(current.terrain)
+        const isSubTerrain = isSolidTerrainHex(current.terrain) || (isJungleTerrainHex(current.terrain) && current.isObstacleOrigin)
         // const isSubTerrain = isSolidTerrainHex(current.terrain) || isFluidTerrainHex(current.terrain)
         const isTreeHex = current.terrain === HexTerrain.tree && current.isObstacleOrigin
         const isJungleHex = (current.terrain === HexTerrain.brush || current.terrain === HexTerrain.palm) && current.isObstacleOrigin

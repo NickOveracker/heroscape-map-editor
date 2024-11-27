@@ -6,15 +6,16 @@ type ForestTreeBaseProps = {
   x: number
   y: number
   z: number
+  color?: string
 }
 
 const treeBaseCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, TREE_BASE_HEIGHT, 6, undefined, false, undefined, undefined]
 
-export default function ForestTreeBase({ x, y, z }: ForestTreeBaseProps) {
+export default function TreeBase({ x, y, z, color }: ForestTreeBaseProps) {
   return (
     <mesh position={[x, y, z]}>
       <cylinderGeometry args={treeBaseCylinderArgs} />
-      <meshLambertMaterial color={hexTerrainColor['treeBase']} />
+      <meshLambertMaterial color={color || hexTerrainColor['treeBase']} />
     </mesh>
   )
 }

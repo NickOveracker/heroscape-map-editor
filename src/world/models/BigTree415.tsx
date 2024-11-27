@@ -6,7 +6,7 @@ import { useGLTF } from '@react-three/drei'
 import { BoardHex } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { HEXGRID_HEX_HEIGHT, HEXGRID_HEX_RADIUS, TREE_BASE_HEIGHT } from '../../utils/constants'
-import ForestTreeBase from './ForestTreeBase'
+import TreeBase from './TreeBase'
 
 export default function BigTree415({ boardHex }: { boardHex: BoardHex }) {
   const { x, z } = getBoardHex3DCoords(boardHex)
@@ -37,7 +37,7 @@ export default function BigTree415({ boardHex }: { boardHex: BoardHex }) {
   }
   if (boardHex.isAuxiliary) {
     return (
-      <ForestTreeBase x={x} y={yBase} z={z} />
+      <TreeBase x={x} y={yBase} z={z} />
     )
   }
   return (
@@ -63,7 +63,7 @@ export default function BigTree415({ boardHex }: { boardHex: BoardHex }) {
           material={materials.ForestTree}
         />
       </group>
-      <ForestTreeBase x={x} y={yBase} z={z} />
+      <TreeBase x={x} y={yBase} z={z} />
     </group>
 
   )

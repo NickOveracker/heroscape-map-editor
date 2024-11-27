@@ -9,7 +9,7 @@ import { HEXGRID_HEX_HEIGHT, TREE_BASE_HEIGHT } from '../../utils/constants'
 import useBoundStore from '../../store/store'
 import { piecesSoFar } from '../../data/pieces'
 import BigTree415 from './BigTree415'
-import ForestTreeBase from './ForestTreeBase'
+import TreeBase from './TreeBase'
 
 
 
@@ -49,7 +49,7 @@ function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
         scale={[options.scaleX, options.scaleY, options.scaleX]}
         position={[x, options.y, z]}
       />
-      <ForestTreeBase x={x} y={yBase} z={z} />
+      <TreeBase x={x} y={yBase} z={z} />
     </group>
   )
 }

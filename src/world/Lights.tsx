@@ -11,28 +11,28 @@ export default function Lights() {
         // position={[50, 50, 50]}
         lookAt={() => new Vector3(0, 30, -1000)}
         color={"#fff"}
-        intensity={3} />
+        intensity={1} />
       <directionalLight
         position={[0, 0, 1000]}
         castShadow
         // position={[50, 50, -50]}
         lookAt={() => new Vector3(0, 30, -1000)}
         color={"#f2f2e8"}
-        intensity={3} />
+        intensity={1} />
       <directionalLight
         position={[0, 0, 1000]}
         castShadow
         // position={[-50, 50, 50]}
         lookAt={() => new Vector3(0, 30, -1000)}
         color={"#ffcd42"}
-        intensity={3} />
+        intensity={1} />
       <directionalLight
         position={[0, 0, 1000]}
         castShadow
         // position={[-50, 50, -50]}
         lookAt={() => new Vector3(0, 30, -1000)}
         color={"#fff5b1"}
-        intensity={3} />
+        intensity={1} />
       {/* <hemisphereLight args={['#fff5b1', '#ffcd42', 2]} /> */}
 
 
@@ -43,28 +43,28 @@ export default function Lights() {
         // position={[-50, 0, 0]}
         lookAt={() => new Vector3(0, -30, -1000)}
         color={"#fff"}
-        intensity={3} />
+        intensity={1} />
       <directionalLight
         position={[0, 30, 1000]}
         castShadow
         // position={[-50, 0, -50]}
         lookAt={() => new Vector3(0, -30, -1000)}
         color={"#f2f2e8"}
-        intensity={3} />
+        intensity={1} />
       <directionalLight
         position={[0, 30, 1000]}
         castShadow
         // position={[0, 0, 0]}
         lookAt={() => new Vector3(0, -30, -1000)}
         color={"#ffcd42"}
-        intensity={3} />
+        intensity={1} />
       <directionalLight
         position={[0, 30, 1000]}
         castShadow
         // position={[0, 0, -50]}
         lookAt={() => new Vector3(0, -30, -1000)}
         color={"#fff5b1"}
-        intensity={3} />
+        intensity={1} />
     </>
   )
 }
