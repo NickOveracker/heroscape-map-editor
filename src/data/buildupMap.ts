@@ -163,33 +163,34 @@ export function getBoardHexesWithPieceAdded({
       });
     });
     if (isSpaceFree && isVerticalClearanceForObstacle && isObstaclePieceSupported) {
-      newHexIds.forEach((newHexID, iForEach) => {
-        const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
+      newHexIds.forEach((newHexID, i) => {
+        const hexUnderneath = newBoardHexes?.[underHexIds[i]]
         // remove caps covered by this obstacle
         newBoardHexes[hexUnderneath.id].isCap = false
         // write in the new hex
         newBoardHexes[newHexID] = {
           id: newHexID,
-          q: piecePlaneCoords[iForEach].q,
-          r: piecePlaneCoords[iForEach].r,
-          s: piecePlaneCoords[iForEach].s,
+          q: piecePlaneCoords[i].q,
+          r: piecePlaneCoords[i].r,
+          s: piecePlaneCoords[i].s,
           altitude: newPieceAltitude,
           terrain: piece.terrain,
           pieceID,
           pieceRotation: rotation,
           isCap,
-          isObstacleOrigin: true,
+          isObstacleOrigin: i === 0 ? true : false, //only the first hex is an origin (because we made the template arrays this way. with origin hex at index 0)
+          isAuxiliary: i !== 0 ? true : false,
           obstacleHeight: piece.height
         }
         // write in the new clearances, this will block some pieces at these coordinates
         Array(piece.height).fill(0).forEach((_, j) => {
           const clearanceHexAltitude = newPieceAltitude + 1 + j;
-          const clearanceID = genBoardHexID({ ...piecePlaneCoords[iForEach], altitude: clearanceHexAltitude });
+          const clearanceID = genBoardHexID({ ...piecePlaneCoords[i], altitude: clearanceHexAltitude });
           newBoardHexes[clearanceID] = {
             id: clearanceID,
-            q: piecePlaneCoords[iForEach].q,
-            r: piecePlaneCoords[iForEach].r,
-            s: piecePlaneCoords[iForEach].s,
+            q: piecePlaneCoords[i].q,
+            r: piecePlaneCoords[i].r,
+            s: piecePlaneCoords[i].s,
             altitude: clearanceHexAltitude,
             terrain: piece.terrain,
             pieceID,
@@ -235,13 +236,13 @@ export function getBoardHexesWithPieceAdded({
       if (!hex) return true
       const terrain = hex?.terrain
       const isForNewInterior = interiorHexTemplates[piece.inventoryID][i] > 0
-      const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstacleTerrain(terrain) || (isForNewInterior && hex.isObstacleOrigin) || (isForNewInterior && hex.isRuinInterior)
+      const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstacleTerrain(terrain) || (isForNewInterior && hex.isObstacleOrigin) || (isForNewInterior && hex.isAuxiliary)
       return !isBlocked;
     })
     if (isSpaceFreeForRuin && isSolidUnderAllSupportHexes && isVerticalClearanceForObstacle) {
       newHexIds.forEach((newHexID, i) => {
-        const isRuinInterior = interiorHexTemplates[piece.inventoryID][i] === 1
-        const isPieceOrigin = i === 1 // hacking off the template order, should be 0 but we shift for ruins' vertical clearance
+        const isAuxiliary = interiorHexTemplates[piece.inventoryID][i] === 1 // 1 marks auxiliary hexes, 2 marks the origin, in these template arrays
+        const isPieceOrigin = i === 1 // hacking off the template order, should be 0 but we shift the template for ruins, (because then the wallWalk template handily matches the vertical clearance of a ruin)
         // write in the new clearances, this will block some pieces at these coordinates
         Array(verticalObstructionTemplates[piece.inventoryID][i]).fill(0).forEach((_, j) => {
           const clearanceHexAltitude = newPieceAltitude + j; // this includes our newHexIDs, as well as upper hexes
@@ -274,12 +275,12 @@ export function getBoardHexesWithPieceAdded({
             pieceID,
             pieceRotation: rotation,
             isObstacleOrigin: true,
-            isRuinInterior: true,
+            isAuxiliary: false,
             obstacleHeight: piece.height, // unsure if this will be right, it has one height for in-game, but separate heights for physical piece allowance
             isCap: false,
           }
         }
-        if (isRuinInterior) {
+        if (isAuxiliary) {
           newBoardHexes[newHexID] = {
             id: newHexID,
             q: piecePlaneCoords[i].q,
@@ -290,7 +291,7 @@ export function getBoardHexesWithPieceAdded({
             pieceID,
             pieceRotation: rotation,
             isObstacleOrigin: false,
-            isRuinInterior: true,
+            isAuxiliary: true,
             obstacleHeight: piece.height, // unsure if this will be right, it has one height for in-game, but separate heights for physical piece allowance
             isCap: false,
           }

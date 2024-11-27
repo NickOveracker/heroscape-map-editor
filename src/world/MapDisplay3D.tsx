@@ -10,7 +10,7 @@ import buildupVSFileMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
 import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
-import RuinOriginPlane, { RuinInteriorPlanes } from './maphex/Ruin.tsx'
+import InstanceRuinPlanes from './maphex/Ruin.tsx'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
@@ -122,36 +122,15 @@ export default function MapDisplay3D({
                 onPointerOut={onPointerOut}
                 onPointerDown={onPointerDown}
             />
-            {/* <InstanceForestTreeWrapper
-                glKey={'InstanceForestTree-'}
-                treeHexes={instanceBoardHexes.treeHexes}
-            /> */}
-            {/* <InstanceJungleWrapper
-                glKey={'InstanceJungle-'}
-                jungleHexes={instanceBoardHexes.jungleHexes}
-            /> */}
-
+            <InstanceRuinPlanes
+                ruinOriginHexes={instanceBoardHexes.ruinOriginHexes}
+                ruinInteriorHexes={instanceBoardHexes.ruinInteriorHexes}
+            />
             {Object.values(boardHexes).map((bh => {
                 return (
                     <MapHex3D
                         key={bh.id}
                         boardHex={bh}
-                    />
-                )
-            }))}
-            {(instanceBoardHexes?.ruinOriginHexes ?? []).map((bh => {
-                return (
-                    <RuinOriginPlane
-                        key={bh.id}
-                        ruinHex={bh}
-                    />
-                )
-            }))}
-            {(instanceBoardHexes?.ruinInteriorHexes ?? []).map((bh => {
-                return (
-                    <RuinInteriorPlanes
-                        key={bh.id}
-                        ruinHex={bh}
                     />
                 )
             }))}
@@ -181,7 +160,7 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         const isTreeHex = current.terrain === HexTerrain.tree && current.isObstacleOrigin
         const isJungleHex = (current.terrain === HexTerrain.brush || current.terrain === HexTerrain.palm) && current.isObstacleOrigin
         const isRuinOriginHex = current.terrain === HexTerrain.ruin && current.isObstacleOrigin
-        const isRuinInteriorHex = current.terrain === HexTerrain.ruin && current.isRuinInterior
+        const isRuinInteriorHex = current.terrain === HexTerrain.ruin && current.isAuxiliary
         if (isEmptyCap) {
             result.emptyHexCaps.push(current)
         }

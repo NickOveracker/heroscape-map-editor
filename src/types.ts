@@ -41,7 +41,7 @@ export interface BoardHex extends CubeCoordinate {
     isCap: boolean
     pieceRotation: number
     isObstacleOrigin?: boolean
-    isRuinInterior?: boolean
+    isAuxiliary?: boolean
     obstacleHeight?: number
 }
 export type BoardPieces = {

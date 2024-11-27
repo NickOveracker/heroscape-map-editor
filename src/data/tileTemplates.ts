@@ -343,6 +343,7 @@ export const interiorHexTemplates: Dictionary<number[]> = {
     9--10i--7i---4
    --10--10--7--
     */
+    // A value of "2"  means origin, "1" means auxiliary
     // first the basic3
     0, 2, 0,
     // then the two to the right
@@ -358,6 +359,7 @@ export const interiorHexTemplates: Dictionary<number[]> = {
     9---9i----8i---7i---3
     ---9---8---8---7--
     */
+    // A value of "2"  means origin, "1" means auxiliary
     // so first the basic-3
     0, 2, 0,
     // then the two to the right

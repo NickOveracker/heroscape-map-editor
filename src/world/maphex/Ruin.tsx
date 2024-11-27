@@ -1,10 +1,41 @@
 import { DoubleSide } from 'three'
+import { Plane } from '@react-three/drei'
 import { BoardHex } from '../../types'
 import { getBoardHex3DCoords, hexSidesFromCenter } from '../../utils/map-utils'
-import { Plane } from '@react-three/drei'
 import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 
-export default function RuinOriginPlane({ ruinHex }: { ruinHex: BoardHex }) {
+
+type Props = {
+  ruinOriginHexes: BoardHex[]
+  ruinInteriorHexes: BoardHex[]
+}
+
+export default function InstanceRuinPlanes({ ruinOriginHexes, ruinInteriorHexes }: Props) {
+
+  return (
+    <>
+      {(ruinOriginHexes).map((bh => {
+        return (
+          <RuinOriginPlane
+            key={bh.id}
+            ruinHex={bh}
+          />
+        )
+      }))}
+      {(ruinInteriorHexes).map((bh => {
+        return (
+          <RuinInteriorPlanes
+            key={bh.id}
+            ruinHex={bh}
+          />
+        )
+      }))}
+    </>
+  )
+
+}
+
+function RuinOriginPlane({ ruinHex }: { ruinHex: BoardHex }) {
   const rotationToPlacementO: { [key: number]: { x: number, z: number, rotation: number } } = {
     0: { x: hexSidesFromCenter.left.x, z: hexSidesFromCenter.left.z, rotation: Math.PI / 2 },
     1: { x: hexSidesFromCenter.topLeft.x, z: hexSidesFromCenter.topLeft.z, rotation: Math.PI / 6 },
