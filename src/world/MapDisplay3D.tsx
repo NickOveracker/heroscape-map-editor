@@ -128,10 +128,10 @@ export default function MapDisplay3D({
                 glKey={'InstanceForestTree-'}
                 treeHexes={instanceBoardHexes.treeHexes}
             /> */}
-            <InstanceJungleWrapper
+            {/* <InstanceJungleWrapper
                 glKey={'InstanceJungle-'}
                 jungleHexes={instanceBoardHexes.jungleHexes}
-            />
+            /> */}
 
             {Object.values(boardHexes).map((bh => {
                 return (
