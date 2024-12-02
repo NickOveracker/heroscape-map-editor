@@ -15,25 +15,22 @@ export default function Ruins2({ boardHex }: { boardHex: BoardHex }) {
   } = useGLTF('/ruin2-colored-lowpoly.glb') as any
   const { x, z } = getBoardHex3DCoords(boardHex)
   const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT
-  const xLength = HEXGRID_HEX_APOTHEM * 0.7
-  const xLength2 = xLength / 1.5
-  const zLength = HEXGRID_HEX_RADIUS * 0.7
-  const zLength2 = zLength * 1.3
   const options = getOptions(boardHex.pieceRotation)
   function getOptions(rotation: number) {
     switch (rotation) {
       case 0:
-        return { rotationY: Math.PI / 6, xAdd: xLength, zAdd: zLength }
+        // return { rotationY: 0, xAdd: 0, zAdd: 0 }
+        return { rotationY: 0, xAdd: -HEXGRID_HEX_APOTHEM + 0.04, zAdd: 0.7 }
       case 1:
-        return { rotationY: - Math.PI / 6, xAdd: -xLength2, zAdd: zLength2 }
+        return { rotationY: - Math.PI / 3, xAdd: -HEXGRID_HEX_APOTHEM - 0.1, zAdd: -0.4 }
       case 2:
-        return { rotationY: -Math.PI / 2, xAdd: -xLength * 1.5, zAdd: zLength / 5 }
+        return { rotationY: -Math.PI * 2 / 3, xAdd: -0.1, zAdd: -HEXGRID_HEX_RADIUS - 0.03 }
       case 3:
-        return { rotationY: Math.PI / 6, xAdd: 0, zAdd: 0 }
+        return { rotationY: Math.PI, xAdd: HEXGRID_HEX_APOTHEM - 0.04, zAdd: -0.7 }
       case 4:
-        return { rotationY: 0, xAdd: 0, zAdd: 0 }
+        return { rotationY: Math.PI * 2 / 3, xAdd: HEXGRID_HEX_APOTHEM + 0.1, zAdd: 0.4 }
       case 5:
-        return { rotationY: -Math.PI / 6, xAdd: 0, zAdd: 0 }
+        return { rotationY: Math.PI / 3, xAdd: 0.1, zAdd: HEXGRID_HEX_RADIUS + 0.03 }
       default:
         return { rotationY: 0, xAdd: 0, zAdd: 0 }
     }
@@ -43,7 +40,7 @@ export default function Ruins2({ boardHex }: { boardHex: BoardHex }) {
       // position={[x, y, z]}
       position={[x + options.xAdd, y, z + options.zAdd]}
       rotation={[0, options.rotationY, 0]}
-      scale={0.038}
+      scale={0.039}
       dispose={null}
     >
       <mesh
