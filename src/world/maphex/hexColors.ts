@@ -44,7 +44,7 @@ export const hexTerrainColor: Dictionary<string> = {
     'treeBase': '#944c00', // unused?
     [HexTerrain.palm]: '#50d373',
     [HexTerrain.brush]: '#50d373',
-    [HexTerrain.ruin]: '#98abbc',
+    [HexTerrain.ruin]: '#8596a5',
     // LAND
     [HexTerrain.grass]: '#60840d',
     [HexTerrain.rock]: '#475776',

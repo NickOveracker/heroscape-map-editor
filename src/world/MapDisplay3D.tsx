@@ -14,7 +14,6 @@ import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
-import Ruin2 from './models/Ruin2.tsx'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -122,14 +121,6 @@ export default function MapDisplay3D({
                 onPointerOut={onPointerOut}
                 onPointerDown={onPointerDown}
             />
-            {Object.values(instanceBoardHexes.ruinOriginHexes).map((bh => {
-                return (
-                    <Ruin2
-                        key={bh.id}
-                        boardHex={bh}
-                    />
-                )
-            }))}
             {Object.values(boardHexes).map((bh => {
                 return (
                     <MapHex3D
@@ -147,10 +138,6 @@ type InstanceBoardHexes = {
     emptyHexCaps: BoardHex[],
     solidHexCaps: BoardHex[],
     fluidHexCaps: BoardHex[],
-    treeHexes: BoardHex[],
-    jungleHexes: BoardHex[],
-    ruinOriginHexes: BoardHex[],
-    ruinInteriorHexes: BoardHex[],
 }
 function getInstanceBoardHexes(boardHexes: BoardHexes) {
     const boardHexArr = Object.values(boardHexes)
@@ -161,10 +148,6 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         const isFluidCap = isCap && isFluidTerrainHex(current.terrain)
         const isSubTerrain = isSolidTerrainHex(current.terrain) || (isJungleTerrainHex(current.terrain) && current.isObstacleOrigin)
         // const isSubTerrain = isSolidTerrainHex(current.terrain) || isFluidTerrainHex(current.terrain)
-        const isTreeHex = current.terrain === HexTerrain.tree && current.isObstacleOrigin
-        const isJungleHex = (current.terrain === HexTerrain.brush || current.terrain === HexTerrain.palm) && current.isObstacleOrigin
-        const isRuinOriginHex = current.terrain === HexTerrain.ruin && current.isObstacleOrigin
-        const isRuinInteriorHex = current.terrain === HexTerrain.ruin && current.isAuxiliary
         if (isEmptyCap) {
             result.emptyHexCaps.push(current)
         }
@@ -177,28 +160,12 @@ function getInstanceBoardHexes(boardHexes: BoardHexes) {
         if (isSubTerrain) {
             result.subTerrainHexes.push(current)
         }
-        if (isTreeHex) {
-            result.treeHexes.push(current)
-        }
-        if (isJungleHex) {
-            result.jungleHexes.push(current)
-        }
-        if (isRuinOriginHex) {
-            result.ruinOriginHexes.push(current)
-        }
-        if (isRuinInteriorHex) {
-            result.ruinInteriorHexes.push(current)
-        }
         return result
     }, {
         emptyHexCaps: [],
         solidHexCaps: [],
         fluidHexCaps: [],
         subTerrainHexes: [],
-        treeHexes: [],
-        jungleHexes: [],
-        ruinOriginHexes: [],
-        ruinInteriorHexes: [],
     });
 
 }
