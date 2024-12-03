@@ -7,7 +7,7 @@ import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { TREE_BASE_HEIGHT } from '../../utils/constants'
 import { BoardHex, HexTerrain } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
-import TreeBase from './TreeBase'
+import ObstacleBase from './ObstacleBase'
 
 export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
   const { nodes, materials } = useGLTF('/ticalla-palm-colored-lowpoly.glb') as any
@@ -53,7 +53,7 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
           material={materials.PalmLeaf}
         />
       </group>
-      <TreeBase x={x} y={yBase} z={z} color={hexTerrainColor[HexTerrain.palm]} />
+      <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor[HexTerrain.palm]} />
     </group>
   )
 }

@@ -5,7 +5,7 @@ import { useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { TREE_BASE_HEIGHT } from '../../utils/constants'
-import TreeBase from './TreeBase'
+import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 
 export default function TicallaBrush({ boardHex }: { boardHex: BoardHex }) {
@@ -35,7 +35,7 @@ export default function TicallaBrush({ boardHex }: { boardHex: BoardHex }) {
           material={materials.BushArbol}
         />
       </group>
-      <TreeBase x={x} y={yBase} z={z} color={hexTerrainColor[HexTerrain.brush]} />
+      <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor[HexTerrain.brush]} />
     </group>
   )
 }
