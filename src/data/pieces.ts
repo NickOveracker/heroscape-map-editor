@@ -562,7 +562,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     id: Pieces.tree415,
     inventoryID: Pieces.tree415,
     terrain: HexTerrain.tree,
-    size: 1,
+    size: 4,
     template: Pieces.tree415,
     height: 15,
     isLand: false,
@@ -640,6 +640,17 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: false,
     isEdge: true,
     isObstacle: false,
+  },
+  [Pieces.glacier1]: {
+    id: Pieces.glacier1,
+    inventoryID: Pieces.glacier1,
+    terrain: HexTerrain.glacier,
+    size: 1,
+    template: Pieces.glacier1,
+    height: 7, // eventhough it definitely spans 8 hex-heights in reality!
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
   },
 }
 // const basedObstacles = {

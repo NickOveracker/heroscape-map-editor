@@ -4,7 +4,7 @@ export default function Lights() {
     <>
       <ambientLight intensity={2} />
       {/* 4 in rectangle over top, shop-light style */}
-      <directionalLight
+      {/* <directionalLight
         position={[0, 0, 1000]}
         castShadow
         // position={[50, 50, 50]}
@@ -27,12 +27,12 @@ export default function Lights() {
         castShadow
         // position={[-50, 50, -50]}
         color={"#fff5b1"}
-        intensity={1} />
+        intensity={1} /> */}
       <hemisphereLight args={['#fff5b1', '#ffcd42', 2]} />
 
 
       {/* 4 on sides, picture-day style */}
-      <directionalLight
+      {/* <directionalLight
         position={[0, 30, 1000]}
         castShadow
         // position={[-50, 0, 0]}
@@ -55,7 +55,7 @@ export default function Lights() {
         castShadow
         // position={[0, 0, -50]}
         color={"#fff5b1"}
-        intensity={1} />
+        intensity={1} /> */}
     </>
   )
 }

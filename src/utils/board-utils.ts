@@ -41,6 +41,7 @@ export function isJungleTerrainHex(terrain: string) {
         return false
     }
 }
+
 export function isObstacleTerrain(terrain: string) {
     if (
         terrain === HexTerrain.tree ||
@@ -52,25 +53,21 @@ export function isObstacleTerrain(terrain: string) {
         return false
     }
 }
-export function isTreePieceID(inventoryID: string) {
+
+export function isObstaclePieceID(inventoryID: string) {
     if (
         inventoryID === Pieces.tree10 ||
         inventoryID === Pieces.tree11 ||
         inventoryID === Pieces.tree12 ||
+        inventoryID === Pieces.tree415 ||
         inventoryID === Pieces.brush9 ||
         inventoryID === Pieces.palm14 ||
         inventoryID === Pieces.palm15 ||
-        inventoryID === Pieces.palm16
-        // inventoryID === Pieces.tree415 ||
-    ) {
-        return true
-    } else {
-        return false
-    }
-}
-export function isObstaclePieceID(inventoryID: string) {
-    if (
-        isTreePieceID(inventoryID)
+        inventoryID === Pieces.palm16 ||
+        inventoryID === Pieces.glacier1 ||
+        inventoryID === Pieces.glacier3 ||
+        inventoryID === Pieces.glacier4 ||
+        inventoryID === Pieces.glacier6
     ) {
         return true
     } else {

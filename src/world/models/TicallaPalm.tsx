@@ -39,19 +39,27 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
           receiveShadow
           geometry={nodes.AlienGrassUFO_v01_Tuft_a_1.geometry}
           material={materials.PalmGrass}
-        />
+        >
+          <meshMatcapMaterial color={'#A9E718'} />
+        </mesh>
         <mesh
           castShadow
           receiveShadow
           geometry={nodes.AlienGrassUFO_v01_Tuft_a_2.geometry}
           material={materials.PalmTrunk}
-        />
+        >
+          <meshMatcapMaterial color={'#E77D2D'} />
+
+        </mesh>
         <mesh
           castShadow
           receiveShadow
           geometry={nodes.AlienGrassUFO_v01_Tuft_a_3.geometry}
           material={materials.PalmLeaf}
-        />
+        >
+          <meshMatcapMaterial color={'#35E718'} />
+
+        </mesh>
       </group>
       <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor[HexTerrain.palm]} />
     </group>

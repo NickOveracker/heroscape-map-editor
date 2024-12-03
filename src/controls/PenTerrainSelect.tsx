@@ -165,6 +165,12 @@ export default function PenTerrainSelect() {
           </ListItemIcon>
           <span>Tree12</span>
         </MenuItem>
+        <MenuItem value={PenMode.tree415}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Tree415</span>
+        </MenuItem>
         <MenuItem value={PenMode.brush9}>
           <ListItemIcon>
             <GiWaterfall />
@@ -201,6 +207,14 @@ export default function PenTerrainSelect() {
           </ListItemIcon>
           <span>Ruins 3</span>
         </MenuItem>
+        <MenuItem value={PenMode.glacier1}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Glacier 1</span>
+        </MenuItem>
+        <Divider />
+        {/* WALL WALK BEGIN */}
         <MenuItem value={PenMode.wallWalk1}>
           <ListItemIcon>
             <GiCastle />

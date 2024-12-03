@@ -21,15 +21,16 @@ const FluidCaps = ({
     <Instances
       limit={INSTANCE_LIMIT}
       range={boardHexArr.length} // no way there would be this many fluid caps, but with an overhang on every other hex, maybe
-      ref={ref} position={[0, 0, 0]}>
+      ref={ref}
+    >
       <cylinderGeometry args={baseFluidCapCylinderArgs} />
-      <meshLambertMaterial
+      <meshMatcapMaterial
         transparent
         opacity={0.85}
       />
       {boardHexArr.map((hex, i) => (
         <FluidCap
-          key={hex.id + i}
+          key={hex.id + i + 'fluid'}
           boardHex={hex}
           boardHexArr={boardHexArr}
           onPointerEnter={onPointerEnter}
@@ -53,7 +54,7 @@ function FluidCap({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     const { x, z } = getBoardHex3DCoords(boardHex)
     const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT + (HEXGRID_HEXCAP_FLUID_HEIGHT / 2)
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
@@ -83,5 +84,7 @@ function FluidCap({
     onPointerDown={handleDown}
     onPointerEnter={handleEnter}
     onPointerOut={handleOut}
+    castShadow
+    receiveShadow
   />
 }

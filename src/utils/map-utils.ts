@@ -1,6 +1,6 @@
 import { Vector3 } from "three"
 import { BoardHexes, CubeCoordinate } from "../types"
-import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_HEIGHT, HEXGRID_HEX_RADIUS, HEXGRID_SPACING } from "./constants"
+import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_HEIGHT, HEXGRID_HEX_RADIUS, HEXGRID_SPACING, TREE_BASE_HEIGHT } from "./constants"
 import { cubeToPixel } from "./hex-utils"
 
 type MapDimensions = {
@@ -43,18 +43,18 @@ export const getBoardHexesRectangularMapDimensions = (
     return { height, width, apex }
 }
 export const getBoardHex3DCoords = (hex: CubeCoordinate & { altitude: number }) => {
-    if (!hex.altitude) {
-        // for when we just pass CubeCoordinate as BoardHex
-        return {
-            x: cubeToPixel(hex).x * HEXGRID_SPACING,
-            y: 0,
-            z: cubeToPixel(hex).y * HEXGRID_SPACING,
-        }
-    }
+    const altitude = hex?.altitude ?? 0
+    const x = cubeToPixel(hex).x * HEXGRID_SPACING
+    const y = altitude * HEXGRID_HEX_HEIGHT
+    const z = cubeToPixel(hex).y * HEXGRID_SPACING
+    const yWithBase = (y - HEXGRID_HEX_HEIGHT) + TREE_BASE_HEIGHT / 2
+    const yBase = (y - HEXGRID_HEX_HEIGHT) + TREE_BASE_HEIGHT / 2
     return {
-        x: cubeToPixel(hex).x * HEXGRID_SPACING,
-        y: hex.altitude * HEXGRID_HEX_HEIGHT,
-        z: cubeToPixel(hex).y * HEXGRID_SPACING,
+        x,
+        y,
+        z,
+        yWithBase,
+        yBase
     }
 }
 const halfASideLength = HEXGRID_HEX_RADIUS / 2

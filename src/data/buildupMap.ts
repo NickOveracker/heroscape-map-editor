@@ -9,39 +9,14 @@ import { pieceCodes } from './pieceCodes';
 import { piecesSoFar } from './pieces';
 import { interiorHexTemplates, verticalObstructionTemplates, verticalSupportTemplates } from './tileTemplates';
 
-export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: string): MapState {
-  // cushions have to be an even number because of the coordinate system used in virtualscape
-  const cushionToPadY = 8 // 24-hexer's max Y displacement in vscape
-  const cushionToPadX = 6 // 24-hexer's max X displacement in vscape
-  const xMin = Math.min(...tiles.map(t => t.posX - cushionToPadX))
-  const yMin = Math.min(...tiles.map(t => t.posY - cushionToPadY))
-  // remove as many empty hexes as possible from the empty grid we are going to generate
-  const xIncrementsWorthEmpty = Math.floor(xMin / 2)
-  const yIncrementsWorthEmpty = Math.floor(yMin / 2)
-  // MUTATE TILES TO MAKE MAP SMALL AS POSSIBLE
-  if (xIncrementsWorthEmpty > 0) {
-    tiles.forEach(t => {
-      t.posX -= xIncrementsWorthEmpty * 2;
-    })
-  }
-  if (yIncrementsWorthEmpty > 0) {
-    tiles.forEach(t => {
-      t.posY -= yIncrementsWorthEmpty * 2;
-    })
-  }
-  // these are the dimensions of the empty map to generate
-  const mapLength = Math.max(...tiles.map(t => t.posX + cushionToPadX))
-  const mapWidth = Math.max(...tiles.map(t => t.posY + cushionToPadY))
 
-  const newRectangleScenario = makeRectangleScenario({
-    mapLength,
-    mapWidth,
-    mapName: `VirtualScapeMap: ${fileName}`,
-    mapShape: 'rectangle'
-  })
-  const initialBoardHexes = newRectangleScenario.boardHexes
-  const newHexMap = newRectangleScenario.hexMap
-  const newBoardPieces = newRectangleScenario.boardPieces
+export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: string): MapState {
+  const {
+    boardHexes,
+    boardPieces,
+    hexMap
+  } = getBlankHexoscapeMapForVSTiles(tiles, fileName)
+
   const newBoardHexes = tiles.reduce((boardHexes: BoardHexes, tile) => {
     const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
     const inventoryID = pieceCodes?.[tile.type] ?? ''
@@ -57,16 +32,17 @@ export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: st
         isVsTile: true
       })
       // mark every new piece on the board
-      newBoardPieces[newPieceID] = piece.inventoryID
+      boardPieces[newPieceID] = piece.inventoryID
       return newBoardHexes
     } else {
       return boardHexes // Should probably handle this different, errors etc.
     }
-  }, initialBoardHexes)
+  }, boardHexes)
+
   return {
     boardHexes: newBoardHexes,
-    hexMap: newHexMap,
-    boardPieces: newBoardPieces,
+    hexMap: hexMap,
+    boardPieces: boardPieces,
   }
 }
 
@@ -162,6 +138,7 @@ export function getBoardHexesWithPieceAdded({
         return !isBlocked;
       });
     });
+    console.log("🚀 ~ newHexIds.forEach ~ piece:", piece)
     if (isSpaceFree && isVerticalClearanceForObstacle && isObstaclePieceSupported) {
       newHexIds.forEach((newHexID, i) => {
         const hexUnderneath = newBoardHexes?.[underHexIds[i]]
@@ -302,6 +279,38 @@ export function getBoardHexesWithPieceAdded({
   return { newBoardHexes, newPieceID: pieceID }
 }
 type PieceAddReturn = { newBoardHexes: BoardHexes, newPieceID: string }
+
+function getBlankHexoscapeMapForVSTiles(tiles: VirtualScapeTile[], fileName: string): MapState {
+  // cushions have to be an even number because of the coordinate system used in virtualscape
+  const cushionToPadY = 8 // 24-hexer's max Y displacement in vscape
+  const cushionToPadX = 6 // 24-hexer's max X displacement in vscape
+  const xMin = Math.min(...tiles.map(t => t.posX - cushionToPadX))
+  const yMin = Math.min(...tiles.map(t => t.posY - cushionToPadY))
+  // remove as many empty hexes as possible from the empty grid we are going to generate
+  const xIncrementsWorthEmpty = Math.floor(xMin / 2)
+  const yIncrementsWorthEmpty = Math.floor(yMin / 2)
+  // MUTATE TILES TO MAKE MAP SMALL AS POSSIBLE
+  if (xIncrementsWorthEmpty > 0) {
+    tiles.forEach(t => {
+      t.posX -= xIncrementsWorthEmpty * 2;
+    })
+  }
+  if (yIncrementsWorthEmpty > 0) {
+    tiles.forEach(t => {
+      t.posY -= yIncrementsWorthEmpty * 2;
+    })
+  }
+  // these are the dimensions of the empty map to generate
+  const mapLength = Math.max(...tiles.map(t => t.posX + cushionToPadX))
+  const mapWidth = Math.max(...tiles.map(t => t.posY + cushionToPadY))
+
+  return makeRectangleScenario({
+    mapLength,
+    mapWidth,
+    mapName: `VirtualScapeMap: ${fileName}`,
+    mapShape: 'rectangle'
+  })
+}
 
 
 

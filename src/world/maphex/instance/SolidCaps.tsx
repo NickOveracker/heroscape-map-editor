@@ -21,11 +21,9 @@ const SolidCaps = ({
     <Instances
       limit={INSTANCE_LIMIT}
       range={boardHexArr.length}
-      castShadow
-      receiveShadow
       ref={ref} position={[0, 0, 0]}>
       <cylinderGeometry args={baseSolidCapCylinderArgs} />
-      <meshLambertMaterial />
+      <meshMatcapMaterial />
       {boardHexArr.map((hex, i) => (
         <SolidCap
           key={hex.id + i}
@@ -57,6 +55,7 @@ function SolidCap({
     // const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT + (HEXGRID_HEXCAP_FLUID_HEIGHT / 2)
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
     ref.current.position.set(x, y, z)
+    console.log("🚀 ~ React.useLayoutEffect ~ ref.current:", ref.current)
   }, [boardHex])
 
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {

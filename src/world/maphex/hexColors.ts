@@ -38,10 +38,10 @@ const virtualscapeTileColors: Dictionary<string> = {
 }
 
 export const hexTerrainColor: Dictionary<string> = {
+    ...virtualscapeTileColors,
     [HexTerrain.empty]: '#040404',
     [HexTerrain.dirt]: '#5B3734',
-    [HexTerrain.tree]: '#003a0f',
-    'treeBase': '#944c00', // unused?
+    [HexTerrain.tree]: '#006400',
     [HexTerrain.palm]: '#50d373',
     [HexTerrain.brush]: '#50d373',
     [HexTerrain.ruin]: '#8596a5',

@@ -11,6 +11,7 @@ import useBoundStore from '../../store/store'
 import { piecesSoFar } from '../../data/pieces'
 import Ruins2 from '../models/Ruins2'
 import Ruins3 from '../models/Ruins3'
+import { Outcrop1 } from '../models/Outcrop1'
 
 
 export const MapHex3D = ({
@@ -23,6 +24,7 @@ export const MapHex3D = ({
   const isHeightRingedHex = isSolidTerrainHex(boardHex.terrain) || boardHex.terrain === HexTerrain.empty
   const isTreeHex = boardHex.terrain === HexTerrain.tree && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
   const isPalmHex = boardHex.terrain === HexTerrain.palm && boardHex.isObstacleOrigin
+  const isGlacier1Hex = boardHex.terrain === HexTerrain.glacier && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
   const isBrushHex = boardHex.terrain === HexTerrain.brush && boardHex.isObstacleOrigin
   const isRuin2OriginHex = piecesSoFar[boardPieces[boardHex.pieceID]]?.id === Pieces.ruins2 && boardHex.isObstacleOrigin
   const isRuin3OriginHex = piecesSoFar[boardPieces[boardHex.pieceID]]?.id === Pieces.ruins3 && boardHex.isObstacleOrigin
@@ -37,6 +39,7 @@ export const MapHex3D = ({
       {isBrushHex && <TicallaBrush boardHex={boardHex} />}
       {isRuin2OriginHex && <Ruins2 boardHex={boardHex} />}
       {isRuin3OriginHex && <Ruins3 boardHex={boardHex} />}
+      {isGlacier1Hex && <Outcrop1 boardHex={boardHex} isGlacier={true} />}
     </>
   )
 }

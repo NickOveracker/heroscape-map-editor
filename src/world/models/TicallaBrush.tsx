@@ -21,19 +21,25 @@ export default function TicallaBrush({ boardHex }: { boardHex: BoardHex }) {
           receiveShadow
           geometry={nodes.PlankFern1_1.geometry}
           material={materials.BushFern}
-        />
+        >
+          <meshMatcapMaterial color={'#35E718'} />
+        </mesh>
         <mesh
           castShadow
           receiveShadow
           geometry={nodes.PlankFern1_2.geometry}
           material={materials.PalmBush}
-        />
+        >
+          <meshMatcapMaterial color={'#35E718'} />
+        </mesh>
         <mesh
           castShadow
           receiveShadow
           geometry={nodes.PlankFern1_3.geometry}
           material={materials.BushArbol}
-        />
+        >
+          <meshMatcapMaterial color={'#A9E718'} />
+        </mesh>
       </group>
       <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor[HexTerrain.brush]} />
     </group>

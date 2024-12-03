@@ -22,8 +22,7 @@ const SubTerrains = ({ boardHexArr }: Props) => {
       range={boardHexArr.length}
       ref={ref} >
       <cylinderGeometry args={baseSubTerrainCylinderArgs} />
-      <meshLambertMaterial
-      />
+      <meshMatcapMaterial />
       {boardHexArr.map((hex, i) => (
         <SubTerrain key={hex.id + i + 'sub'} boardHex={hex} />
       ))}
@@ -36,7 +35,7 @@ export default SubTerrains
 function SubTerrain({ boardHex }: { boardHex: BoardHex }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     const { x, z, y } = getBoardHex3DCoords(boardHex)
     const bottom = y - HEXGRID_HEX_HEIGHT
     const posY = ((y + bottom) / 2) // place it halfway between top and bottom
