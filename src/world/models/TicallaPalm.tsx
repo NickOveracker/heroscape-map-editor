@@ -33,7 +33,7 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
       <group
         scale={[options.scaleX, options.scaleY, options.scaleX]}
         position={[x, yTree, z]}
-        dispose={null}>
+      >
         <mesh
           castShadow
           receiveShadow

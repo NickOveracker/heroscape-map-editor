@@ -38,7 +38,7 @@ export default function BigTree415({ boardHex }: { boardHex: BoardHex }) {
     )
   }
   return (
-    <group dispose={null}>
+    <group>
       <group
         position={[x + options.xAdd, yWithBase, z + options.zAdd]}
         scale={0.038}

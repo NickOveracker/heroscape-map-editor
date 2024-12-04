@@ -652,6 +652,39 @@ export const piecesSoFar: Dictionary<Piece> = {
     isEdge: false,
     isObstacle: true,
   },
+  [Pieces.glacier3]: {
+    id: Pieces.glacier3,
+    inventoryID: Pieces.glacier3,
+    terrain: HexTerrain.glacier,
+    size: 3,
+    template: Pieces.glacier3,
+    height: 9, // untested in reality
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
+  [Pieces.glacier4]: {
+    id: Pieces.glacier4,
+    inventoryID: Pieces.glacier4,
+    terrain: HexTerrain.glacier,
+    size: 4,
+    template: Pieces.glacier4,
+    height: 9, // untested in reality
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
+  [Pieces.glacier6]: {
+    id: Pieces.glacier6,
+    inventoryID: Pieces.glacier6,
+    terrain: HexTerrain.glacier,
+    size: 6,
+    template: Pieces.glacier6,
+    height: 12, // untested in reality
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
 }
 // const basedObstacles = {
 //   [Pieces.hive]: {

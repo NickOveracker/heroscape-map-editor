@@ -12,6 +12,9 @@ import { piecesSoFar } from '../../data/pieces'
 import Ruins2 from '../models/Ruins2'
 import Ruins3 from '../models/Ruins3'
 import { Outcrop1 } from '../models/Outcrop1'
+import Outcrop3 from '../models/Outcrop3'
+import Outcrop4 from '../models/Outcrop4'
+import Outcrop6 from '../models/Outcrop6'
 
 
 export const MapHex3D = ({
@@ -24,7 +27,10 @@ export const MapHex3D = ({
   const isHeightRingedHex = isSolidTerrainHex(boardHex.terrain) || boardHex.terrain === HexTerrain.empty
   const isTreeHex = boardHex.terrain === HexTerrain.tree && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
   const isPalmHex = boardHex.terrain === HexTerrain.palm && boardHex.isObstacleOrigin
-  const isGlacier1Hex = boardHex.terrain === HexTerrain.glacier && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
+  const isGlacier1Hex = boardPieces[boardHex.pieceID] === Pieces.glacier1 && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
+  const isGlacier3Hex = boardPieces[boardHex.pieceID] === Pieces.glacier3 && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
+  const isGlacier4Hex = boardPieces[boardHex.pieceID] === Pieces.glacier4 && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
+  const isGlacier6Hex = boardPieces[boardHex.pieceID] === Pieces.glacier6 && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
   const isBrushHex = boardHex.terrain === HexTerrain.brush && boardHex.isObstacleOrigin
   const isRuin2OriginHex = piecesSoFar[boardPieces[boardHex.pieceID]]?.id === Pieces.ruins2 && boardHex.isObstacleOrigin
   const isRuin3OriginHex = piecesSoFar[boardPieces[boardHex.pieceID]]?.id === Pieces.ruins3 && boardHex.isObstacleOrigin
@@ -40,6 +46,9 @@ export const MapHex3D = ({
       {isRuin2OriginHex && <Ruins2 boardHex={boardHex} />}
       {isRuin3OriginHex && <Ruins3 boardHex={boardHex} />}
       {isGlacier1Hex && <Outcrop1 boardHex={boardHex} isGlacier={true} />}
+      {isGlacier3Hex && <Outcrop3 boardHex={boardHex} isGlacier={true} />}
+      {isGlacier4Hex && <Outcrop4 boardHex={boardHex} isGlacier={true} />}
+      {isGlacier6Hex && <Outcrop6 boardHex={boardHex} isGlacier={true} />}
     </>
   )
 }

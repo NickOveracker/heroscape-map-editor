@@ -33,11 +33,9 @@ export default function Ruins2({ boardHex }: { boardHex: BoardHex }) {
   }
   return (
     <group
-      // position={[x, y, z]}
       position={[x + options.xAdd, y, z + options.zAdd]}
       rotation={[0, options.rotationY, 0]}
       scale={0.039}
-      dispose={null}
     >
       <mesh
         castShadow

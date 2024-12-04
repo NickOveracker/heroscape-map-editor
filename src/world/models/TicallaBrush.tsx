@@ -15,7 +15,7 @@ export default function TicallaBrush({ boardHex }: { boardHex: BoardHex }) {
   const { nodes, materials } = useGLTF('/ticalla-brush-colored-lowpoly.glb') as any
   return (
     <group>
-      <group position={[x, yTree, z]} dispose={null}>
+      <group position={[x, yTree, z]}>
         <mesh
           castShadow
           receiveShadow

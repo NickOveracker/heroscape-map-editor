@@ -14,16 +14,11 @@ export function Outcrop1({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacie
   const { x, z, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
   return (
-    <group
-      dispose={null}
-    >
+    <group>
       <mesh
         position={[x, yWithBase - HEXGRID_HEX_HEIGHT, z]}
         rotation={[0, rotation * Math.PI / 3, 0]}
         geometry={nodes.glacier_1_with_holes.geometry}
-      // castShadow
-      // receiveShadow
-      // material={nodes.glacier_1_with_holes.material}
       >
         <meshMatcapMaterial
           color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.outcrop]}
@@ -31,7 +26,13 @@ export function Outcrop1({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacie
           opacity={0.99}
         />
       </mesh>
-      <ObstacleBase isTransparent={true} x={x} y={yBase - HEXGRID_HEX_HEIGHT} z={z} color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.shadow]} />
+      <ObstacleBase
+        x={x}
+        y={yBase - HEXGRID_HEX_HEIGHT}
+        z={z}
+        color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.shadow]}
+        isTransparent={isGlacier}
+      />
     </group>
   )
 }

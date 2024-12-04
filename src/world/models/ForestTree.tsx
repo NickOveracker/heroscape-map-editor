@@ -35,9 +35,7 @@ function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
     }
   }
   return (
-    <group
-      dispose={null}
-    >
+    <group>
       <mesh
         castShadow
         receiveShadow

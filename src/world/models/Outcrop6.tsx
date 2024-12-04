@@ -6,15 +6,15 @@ import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 
-export default function Outcrop3({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacier: boolean }) {
+export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacier: boolean }) {
   const { x, z, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
-  const model = useGLTF('/uncolored-decimated-glacier-outcrop-3.glb') as any
+  const model = useGLTF('/uncolored-decimated-glacier-outcrop-6.glb') as any
   const { nodes } = model
   const options = getOptions(boardHex.pieceRotation)
   function getOptions(rotation: number) {
     switch (rotation) {
       case 0:
-        return { rotationY: Math.PI / 2, xAdd: -0.05, zAdd: 0.05 }
+      // return { rotationY: Math.PI / 3, xAdd: xLength, zAdd: zLength }
       case 1:
       // return { rotationY: 0, xAdd: 0, zAdd: 1.5 * HEXGRID_HEX_RADIUS }
       case 2:
@@ -44,11 +44,12 @@ export default function Outcrop3({ boardHex, isGlacier }: { boardHex: BoardHex, 
   return (
     <group>
       <group
-        position={[x + options.xAdd, yWithBase - HEXGRID_HEX_HEIGHT, z + options.zAdd]}
+        // position={[x + options.xAdd, yWithBase, z + options.zAdd]}
+        position={[x, yWithBase - HEXGRID_HEX_HEIGHT, z]}
         rotation={[0, options.rotationY, 0]}
       >
         <mesh
-          geometry={nodes.glacier_3_with_holes.geometry}
+          geometry={nodes.glacier_6_with_holes.geometry}
         >
           <meshMatcapMaterial
             color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.outcrop]}
@@ -68,4 +69,4 @@ export default function Outcrop3({ boardHex, isGlacier }: { boardHex: BoardHex, 
   )
 }
 
-useGLTF.preload('/uncolored-decimated-glacier-outcrop-3.glb')
+useGLTF.preload('/uncolored-decimated-glacier-outcrop-6.glb')
