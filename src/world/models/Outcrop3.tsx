@@ -10,23 +10,23 @@ export default function Outcrop3({ boardHex, isGlacier }: { boardHex: BoardHex, 
   const { x, z, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
   const model = useGLTF('/uncolored-decimated-glacier-outcrop-3.glb') as any
   const { nodes } = model
-  const options = getOptions(boardHex.pieceRotation)
-  function getOptions(rotation: number) {
+  const rotation = getRotation(boardHex.pieceRotation)
+  function getRotation(rotation: number) {
     switch (rotation) {
       case 0:
-        return { rotationY: 0, xAdd: 0, zAdd: 0 }
+        return { rotationY: 0 }
       case 1:
-        return { rotationY: -Math.PI / 3, xAdd: 0, zAdd: 0 }
+        return { rotationY: -Math.PI / 3 }
       case 2:
-        return { rotationY: -2 * Math.PI / 3, xAdd: 0, zAdd: 0 }
+        return { rotationY: -2 * Math.PI / 3 }
       case 3:
-        return { rotationY: -Math.PI, xAdd: 0, zAdd: 0 }
+        return { rotationY: -Math.PI }
       case 4:
-        return { rotationY: 2 * Math.PI / 3, xAdd: 0, zAdd: 0 }
+        return { rotationY: 2 * Math.PI / 3 }
       case 5:
-        return { rotationY: Math.PI / 3, xAdd: 0, zAdd: 0 }
+        return { rotationY: Math.PI / 3 }
       default:
-        return { rotationY: 0, xAdd: 0, zAdd: 0 }
+        return { rotationY: 0 }
     }
   }
   if (boardHex.isAuxiliary) {
@@ -43,8 +43,8 @@ export default function Outcrop3({ boardHex, isGlacier }: { boardHex: BoardHex, 
   return (
     <group>
       <group
-        position={[x + options.xAdd, yWithBase, z + options.zAdd]}
-        rotation={[0, options.rotationY, 0]}
+        position={[x, yWithBase, z]}
+        rotation={[0, rotation.rotationY, 0]}
       >
         <mesh
           geometry={nodes.glacier_3_with_holes.geometry}

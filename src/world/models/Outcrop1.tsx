@@ -22,7 +22,7 @@ export function Outcrop1({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacie
       >
         <meshMatcapMaterial
           color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.outcrop]}
-          transparent
+          transparent={isGlacier}
           opacity={0.99}
         />
       </mesh>

@@ -14,18 +14,17 @@ export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, 
   function getOptions(rotation: number) {
     switch (rotation) {
       case 0:
-      // return { rotationY: Math.PI / 3, xAdd: xLength, zAdd: zLength }
+        return { rotationY: 0, xAdd: 0, zAdd: 0 }
       case 1:
-      // return { rotationY: 0, xAdd: 0, zAdd: 1.5 * HEXGRID_HEX_RADIUS }
+        return { rotationY: -Math.PI / 3, xAdd: 0, zAdd: 0 }
       case 2:
-      // return { rotationY: -Math.PI / 3, xAdd: -xLength, zAdd: zLength }
+        return { rotationY: -2 * Math.PI / 3, xAdd: 0, zAdd: 0 }
       case 3:
-      // return { rotationY: Math.PI / 3, xAdd: -xLength, zAdd: -zLength }
+        return { rotationY: -Math.PI, xAdd: 0, zAdd: 0 }
       case 4:
-      // return { rotationY: 0, xAdd: 0, zAdd: -1.5 * HEXGRID_HEX_RADIUS }
+        return { rotationY: 2 * Math.PI / 3, xAdd: 0, zAdd: 0 }
       case 5:
-      // return { rotationY: -Math.PI / 3, xAdd: xLength, zAdd: -zLength }
-      // return { rotationY: 0, xAdd: 0, zAdd: 0 }
+        return { rotationY: Math.PI / 3, xAdd: 0, zAdd: 0 }
       default:
         return { rotationY: 0, xAdd: 0, zAdd: 0 }
     }
@@ -44,7 +43,6 @@ export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, 
   return (
     <group>
       <group
-        // position={[x + options.xAdd, yWithBase, z + options.zAdd]}
         position={[x, yWithBase, z]}
         rotation={[0, options.rotationY, 0]}
       >
@@ -53,7 +51,7 @@ export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, 
         >
           <meshMatcapMaterial
             color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.outcrop]}
-            transparent
+            transparent={isGlacier}
             opacity={0.99}
           />
         </mesh>

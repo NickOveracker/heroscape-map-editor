@@ -10,24 +10,23 @@ export default function Outcrop4({ boardHex, isGlacier }: { boardHex: BoardHex, 
   const { x, z, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
   const model = useGLTF('/uncolored-decimated-glacier-outcrop-4.glb') as any
   const { nodes } = model
-  const options = getOptions(boardHex.pieceRotation)
-  function getOptions(rotation: number) {
+  const rotation = getRotation(boardHex.pieceRotation)
+  function getRotation(rotation: number) {
     switch (rotation) {
       case 0:
-      // return { rotationY: Math.PI / 3, xAdd: xLength, zAdd: zLength }
+        return { rotationY: 0 }
       case 1:
-      // return { rotationY: 0, xAdd: 0, zAdd: 1.5 * HEXGRID_HEX_RADIUS }
+        return { rotationY: -Math.PI / 3 }
       case 2:
-      // return { rotationY: -Math.PI / 3, xAdd: -xLength, zAdd: zLength }
+        return { rotationY: -2 * Math.PI / 3 }
       case 3:
-      // return { rotationY: Math.PI / 3, xAdd: -xLength, zAdd: -zLength }
+        return { rotationY: -Math.PI }
       case 4:
-      // return { rotationY: 0, xAdd: 0, zAdd: -1.5 * HEXGRID_HEX_RADIUS }
+        return { rotationY: 2 * Math.PI / 3 }
       case 5:
-      // return { rotationY: -Math.PI / 3, xAdd: xLength, zAdd: -zLength }
-      // return { rotationY: 0, xAdd: 0, zAdd: 0 }
+        return { rotationY: Math.PI / 3 }
       default:
-        return { rotationY: 0, xAdd: 0, zAdd: 0 }
+        return { rotationY: 0 }
     }
   }
   if (boardHex.isAuxiliary) {
@@ -46,14 +45,14 @@ export default function Outcrop4({ boardHex, isGlacier }: { boardHex: BoardHex, 
       <group
         // position={[x + options.xAdd, yWithBase, z + options.zAdd]}
         position={[x, yWithBase, z]}
-        rotation={[0, options.rotationY, 0]}
+        rotation={[0, rotation.rotationY, 0]}
       >
         <mesh
           geometry={nodes.glacier_4_with_holes.geometry}
         >
           <meshMatcapMaterial
             color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.outcrop]}
-            transparent
+            transparent={isGlacier}
             opacity={0.99}
           />
         </mesh>
