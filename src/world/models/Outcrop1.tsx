@@ -4,7 +4,7 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
-import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
+
 
 export function Outcrop1({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacier: boolean }) {
   const {
@@ -16,7 +16,7 @@ export function Outcrop1({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacie
   return (
     <group>
       <mesh
-        position={[x, yWithBase - HEXGRID_HEX_HEIGHT, z]}
+        position={[x, yWithBase, z]}
         rotation={[0, rotation * Math.PI / 3, 0]}
         geometry={nodes.glacier_1_with_holes.geometry}
       >
@@ -28,7 +28,7 @@ export function Outcrop1({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacie
       </mesh>
       <ObstacleBase
         x={x}
-        y={yBase - HEXGRID_HEX_HEIGHT}
+        y={yBase}
         z={z}
         color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.shadow]}
         isTransparent={isGlacier}
