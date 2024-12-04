@@ -8,7 +8,7 @@ import { hexTerrainColor } from '../maphex/hexColors'
 
 export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacier: boolean }) {
   const { x, z, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
-  const model = useGLTF('/uncolored-decimated-glacier-outcrop-6.glb') as any
+  const model = useGLTF('/uncolored-decimated-marro-hive-6.glb') as any
   const { nodes } = model
   const options = getOptions(boardHex.pieceRotation)
   function getOptions(rotation: number) {
@@ -47,7 +47,7 @@ export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, 
         rotation={[0, options.rotationY, 0]}
       >
         <mesh
-          geometry={nodes.glacier_6_with_holes.geometry}
+          geometry={nodes.Marro_Hive.geometry}
         >
           <meshMatcapMaterial
             color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.outcrop]}
@@ -67,4 +67,4 @@ export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, 
   )
 }
 
-useGLTF.preload('/uncolored-decimated-glacier-outcrop-6.glb')
+useGLTF.preload('/uncolored-decimated-marro-hive-6.glb')
