@@ -56,12 +56,13 @@ export const hexTerrainColor: Dictionary<string> = {
     [HexTerrain.swamp]: virtualscapeTileColors[HexTerrain.swamp],
     [HexTerrain.asphalt]: virtualscapeTileColors[HexTerrain.asphalt],
     [HexTerrain.concrete]: virtualscapeTileColors[HexTerrain.concrete],
-    [HexTerrain.dungeon]: '#3A2B2B', // https://www.color-hex.com/color/3a2b2b
+    [HexTerrain.dungeon]: '#6f6f78', // https://www.color-hex.com/color/3a2b2b
     [HexTerrain.water]: '#3794fd', // "sea blue":#006994,"pacific blue":#1ca9c9,"oceanboat blue":#0077be,"ultramarine blue":#4166f5
     [HexTerrain.ice]: '#86D6D8', // https://www.color-hex.com/color/86d6d8
     [HexTerrain.lava]: virtualscapeTileColors[HexTerrain.lava],
     [HexTerrain.swampWater]: virtualscapeTileColors[HexTerrain.swampWater],
-    [HexTerrain.shadow]: virtualscapeTileColors[HexTerrain.shadow],
+    [HexTerrain.outcrop]: 'rgb(104, 103, 120)',
+    [HexTerrain.shadow]: 'rgb(85, 84, 96)',
 }
 // const hsColors = {
 //     // selected by color picker on webp image of renegade paint set, so probably horrible

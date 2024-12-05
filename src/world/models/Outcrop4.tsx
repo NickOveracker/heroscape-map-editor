@@ -43,7 +43,6 @@ export default function Outcrop4({ boardHex, isGlacier }: { boardHex: BoardHex, 
   return (
     <group>
       <group
-        // position={[x + options.xAdd, yWithBase, z + options.zAdd]}
         position={[x, yWithBase, z]}
         rotation={[0, rotation.rotationY, 0]}
       >

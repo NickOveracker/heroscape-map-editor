@@ -1,6 +1,6 @@
 import { clone } from 'lodash';
 import { VirtualScapeTile, BoardHexes, Piece, CubeCoordinate, MapState, HexTerrain, } from '../types'
-import { isFluidTerrainHex, isObstacleTerrain, isSolidTerrainHex } from '../utils/board-utils';
+import { isFluidTerrainHex, isObstructingTerrain, isSolidTerrainHex } from '../utils/board-utils';
 import { hexUtilsOddRToCube } from '../utils/hex-utils';
 import { genBoardHexID, genPieceID } from '../utils/map-utils';
 import getVSTileTemplate from './rotationTransforms';
@@ -134,7 +134,7 @@ export function getBoardHexesWithPieceAdded({
         const hex = newBoardHexes?.[clearanceHexId]
         if (!hex) return true
         const terrain = hex?.terrain
-        const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstacleTerrain(terrain)
+        const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstructingTerrain(terrain)
         return !isBlocked;
       });
     });
@@ -202,7 +202,7 @@ export function getBoardHexesWithPieceAdded({
         const hex = newBoardHexes?.[clearanceHexId]
         if (!hex) return true
         const terrain = hex?.terrain
-        const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstacleTerrain(terrain)
+        const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstructingTerrain(terrain)
         return !isBlocked;
       });
     })
@@ -212,7 +212,7 @@ export function getBoardHexesWithPieceAdded({
       if (!hex) return true
       const terrain = hex?.terrain
       const isForNewInterior = interiorHexTemplates[piece.inventoryID][i] > 0
-      const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstacleTerrain(terrain) || (isForNewInterior && hex.isObstacleOrigin) || (isForNewInterior && hex.isAuxiliary)
+      const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstructingTerrain(terrain) || (isForNewInterior && hex.isObstacleOrigin) || (isForNewInterior && hex.isAuxiliary)
       return !isBlocked;
     })
     if (isSpaceFreeForRuin && isSolidUnderAllSupportHexes && isVerticalClearanceForObstacle) {

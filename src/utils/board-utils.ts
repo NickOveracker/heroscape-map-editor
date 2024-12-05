@@ -42,11 +42,18 @@ export function isJungleTerrainHex(terrain: string) {
     }
 }
 
-export function isObstacleTerrain(terrain: string) {
+
+export function isObstructingTerrain(terrain: string) {
+    // This fn and its implementations are a big maybe and WIP
     if (
         terrain === HexTerrain.tree ||
         terrain === HexTerrain.brush ||
         terrain === HexTerrain.palm
+        // terrain === HexTerrain.palm ||
+        // terrain === HexTerrain.hive ||
+        // terrain === HexTerrain.glacier ||
+        // terrain === HexTerrain.outcrop ||
+        // terrain === HexTerrain.ruin
     ) {
         return true
     } else {
@@ -64,6 +71,8 @@ export function isObstaclePieceID(inventoryID: string) {
         inventoryID === Pieces.palm14 ||
         inventoryID === Pieces.palm15 ||
         inventoryID === Pieces.palm16 ||
+        inventoryID === Pieces.outcrop1 ||
+        inventoryID === Pieces.outcrop3 ||
         inventoryID === Pieces.glacier1 ||
         inventoryID === Pieces.glacier3 ||
         inventoryID === Pieces.glacier4 ||

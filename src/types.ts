@@ -223,6 +223,8 @@ export enum PenMode {
     palm16 = Pieces.palm16,
     ruins2 = Pieces.ruins2,
     ruins3 = Pieces.ruins3,
+    outcrop1 = Pieces.outcrop1,
+    outcrop3 = Pieces.outcrop3,
     glacier1 = Pieces.glacier1,
     glacier3 = Pieces.glacier3,
     glacier4 = Pieces.glacier4,

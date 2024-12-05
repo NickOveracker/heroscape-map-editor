@@ -685,6 +685,28 @@ export const piecesSoFar: Dictionary<Piece> = {
     isEdge: false,
     isObstacle: true,
   },
+  [Pieces.outcrop1]: {
+    id: Pieces.outcrop1,
+    inventoryID: Pieces.outcrop1,
+    terrain: HexTerrain.outcrop,
+    size: 1,
+    template: Pieces.outcrop1,
+    height: 7, // eventhough it definitely spans 8 hex-heights in reality!
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
+  [Pieces.outcrop3]: {
+    id: Pieces.outcrop3,
+    inventoryID: Pieces.outcrop3,
+    terrain: HexTerrain.outcrop,
+    size: 3,
+    template: Pieces.outcrop3,
+    height: 9, // untested in reality
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
   [Pieces.hive]: {
     id: Pieces.hive,
     inventoryID: Pieces.hive,

@@ -207,6 +207,18 @@ export default function PenTerrainSelect() {
           </ListItemIcon>
           <span>Ruins 3</span>
         </MenuItem>
+        <MenuItem value={PenMode.outcrop1}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Outcrop 1</span>
+        </MenuItem>
+        <MenuItem value={PenMode.outcrop3}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Outcrop 3</span>
+        </MenuItem>
         <MenuItem value={PenMode.glacier1}>
           <ListItemIcon>
             <GiWaterfall />
