@@ -52,10 +52,8 @@ function SolidCap({
 
   React.useLayoutEffect(() => {
     const { x, y, z } = getBoardHex3DCoords(boardHex)
-    // const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT + (HEXGRID_HEXCAP_FLUID_HEIGHT / 2)
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
     ref.current.position.set(x, y, z)
-    console.log("🚀 ~ React.useLayoutEffect ~ ref.current:", ref.current)
   }, [boardHex])
 
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {

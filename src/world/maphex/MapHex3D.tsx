@@ -8,7 +8,6 @@ import ForestTree from '../models/ForestTree'
 import TicallaPalm from '../models/TicallaPalm'
 import TicallaBrush from '../models/TicallaBrush'
 import useBoundStore from '../../store/store'
-import { piecesSoFar } from '../../data/pieces'
 import Ruins2 from '../models/Ruins2'
 import Ruins3 from '../models/Ruins3'
 import { Outcrop1 } from '../models/Outcrop1'
@@ -24,20 +23,22 @@ export const MapHex3D = ({
   boardHex: BoardHex
 }) => {
   const boardPieces = useBoundStore(s => s.boardPieces)
+  const pieceID = boardPieces[boardHex.pieceID]
   const { x, y, z } = getBoardHex3DCoords(boardHex)
   const isHeightRingedHex = isSolidTerrainHex(boardHex.terrain) || boardHex.terrain === HexTerrain.empty
-  const isTreeHex = boardHex.terrain === HexTerrain.tree && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
+  const isObstacleHex = (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
+  const isTreeHex = boardHex.terrain === HexTerrain.tree && isObstacleHex
   const isPalmHex = boardHex.terrain === HexTerrain.palm && boardHex.isObstacleOrigin
-  const isGlacier1Hex = boardPieces[boardHex.pieceID] === Pieces.glacier1 && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
-  const isOutcrop1Hex = boardPieces[boardHex.pieceID] === Pieces.outcrop1 && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
-  const isOutcrop3Hex = boardPieces[boardHex.pieceID] === Pieces.outcrop3 && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
-  const isGlacier3Hex = boardPieces[boardHex.pieceID] === Pieces.glacier3 && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
-  const isGlacier4Hex = boardPieces[boardHex.pieceID] === Pieces.glacier4 && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
-  const isGlacier6Hex = boardPieces[boardHex.pieceID] === Pieces.glacier6 && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
-  const isHiveHex = boardPieces[boardHex.pieceID] === Pieces.hive && (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
+  const isGlacier1Hex = pieceID === Pieces.glacier1 && isObstacleHex
+  const isOutcrop1Hex = pieceID === Pieces.outcrop1 && isObstacleHex
+  const isOutcrop3Hex = pieceID === Pieces.outcrop3 && isObstacleHex
+  const isGlacier3Hex = pieceID === Pieces.glacier3 && isObstacleHex
+  const isGlacier4Hex = pieceID === Pieces.glacier4 && isObstacleHex
+  const isGlacier6Hex = pieceID === Pieces.glacier6 && isObstacleHex
+  const isHiveHex = boardPieces[boardHex.pieceID] === Pieces.hive && isObstacleHex
   const isBrushHex = boardHex.terrain === HexTerrain.brush && boardHex.isObstacleOrigin
-  const isRuin2OriginHex = piecesSoFar[boardPieces[boardHex.pieceID]]?.id === Pieces.ruins2 && boardHex.isObstacleOrigin
-  const isRuin3OriginHex = piecesSoFar[boardPieces[boardHex.pieceID]]?.id === Pieces.ruins3 && boardHex.isObstacleOrigin
+  const isRuin2OriginHex = pieceID === Pieces.ruins2 && boardHex.isObstacleOrigin
+  const isRuin3OriginHex = pieceID === Pieces.ruins3 && boardHex.isObstacleOrigin
   return (
     <>
       <MapHexIDDisplay boardHex={boardHex} position={new Vector3(x, y + 0.2, z)} />
