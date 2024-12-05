@@ -5,9 +5,9 @@ import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 
 
-export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacier: boolean }) {
+export default function MarroHive6({ boardHex }: { boardHex: BoardHex }) {
   const { x, z, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
-  const model = useGLTF('/uncolored-decimated-glacier-outcrop-6.glb') as any
+  const model = useGLTF('/uncolored-decimated-marro-hive-6.glb') as any
   const { nodes } = model
   const rotation = getRotation(boardHex.pieceRotation)
   function getRotation(rotation: number) {
@@ -34,8 +34,7 @@ export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, 
         x={x}
         y={yBase}
         z={z}
-        color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.shadow]}
-        isTransparent={isGlacier}
+        color={hexTerrainColor[HexTerrain.swamp]}
       />
     )
   }
@@ -46,12 +45,12 @@ export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, 
         rotation={[0, rotation.rotationY, 0]}
       >
         <mesh
-          geometry={nodes.glacier_6_with_holes.geometry}
+          geometry={nodes.Marro_Hive.geometry}
         >
           <meshMatcapMaterial
-            color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.outcrop]}
-            transparent={isGlacier}
-            opacity={0.99}
+            // color={hexTerrainColor[HexTerrain.swamp]}
+            color={'#828c51'}
+          // color={'#555C45'}
           />
         </mesh>
       </group>
@@ -59,11 +58,10 @@ export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, 
         x={x}
         y={yBase}
         z={z}
-        color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.shadow]}
-        isTransparent={isGlacier}
+        color={hexTerrainColor[HexTerrain.swamp]}
       />
     </group>
   )
 }
 
-useGLTF.preload('/uncolored-decimated-glacier-outcrop-6.glb')
+useGLTF.preload('/uncolored-decimated-marro-hive-6.glb')

@@ -33,7 +33,7 @@ export const getMapCenterCameraLookAt = (
   const centerOfMapCamera = {
     x: width / 2,
     z: height,
-    y: y + (apex * 2),
+    y: y + (apex * 1.4),
   }
   const centerOfMapLookAt = {
     x: width / 2,

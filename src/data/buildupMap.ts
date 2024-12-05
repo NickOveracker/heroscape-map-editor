@@ -138,7 +138,6 @@ export function getBoardHexesWithPieceAdded({
         return !isBlocked;
       });
     });
-    console.log("🚀 ~ newHexIds.forEach ~ piece:", piece)
     if (isSpaceFree && isVerticalClearanceForObstacle && isObstaclePieceSupported) {
       newHexIds.forEach((newHexID, i) => {
         const hexUnderneath = newBoardHexes?.[underHexIds[i]]

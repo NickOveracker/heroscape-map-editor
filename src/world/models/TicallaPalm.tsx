@@ -10,7 +10,9 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import ObstacleBase from './ObstacleBase'
 
 export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
-  const { nodes, materials } = useGLTF('/ticalla-palm-colored-lowpoly.glb') as any
+  const { nodes,
+    // materials
+  } = useGLTF('/ticalla-palm-colored-lowpoly.glb') as any
   const { x, y, z } = getBoardHex3DCoords(boardHex)
   const yTree = y + TREE_BASE_HEIGHT / 2
   const yBase = y + TREE_BASE_HEIGHT / 2
@@ -38,7 +40,7 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
           castShadow
           receiveShadow
           geometry={nodes.AlienGrassUFO_v01_Tuft_a_1.geometry}
-          material={materials.PalmGrass}
+        // material={materials.PalmGrass}
         >
           <meshMatcapMaterial color={'#A9E718'} />
         </mesh>
@@ -46,7 +48,7 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
           castShadow
           receiveShadow
           geometry={nodes.AlienGrassUFO_v01_Tuft_a_2.geometry}
-          material={materials.PalmTrunk}
+        // material={materials.PalmTrunk}
         >
           <meshMatcapMaterial color={'#E77D2D'} />
 
@@ -55,7 +57,7 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
           castShadow
           receiveShadow
           geometry={nodes.AlienGrassUFO_v01_Tuft_a_3.geometry}
-          material={materials.PalmLeaf}
+        // material={materials.PalmLeaf}
         >
           <meshMatcapMaterial color={'#35E718'} />
 

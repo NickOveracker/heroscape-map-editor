@@ -680,7 +680,18 @@ export const piecesSoFar: Dictionary<Piece> = {
     terrain: HexTerrain.glacier,
     size: 6,
     template: Pieces.glacier6,
-    height: 12, // untested in reality
+    height: 17, // untested in reality
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
+  [Pieces.hive]: {
+    id: Pieces.hive,
+    inventoryID: Pieces.hive,
+    terrain: HexTerrain.hive,
+    size: 6,
+    template: Pieces.hive,
+    height: 17, // untested in reality
     isLand: false,
     isEdge: false,
     isObstacle: true,

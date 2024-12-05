@@ -213,6 +213,30 @@ export default function PenTerrainSelect() {
           </ListItemIcon>
           <span>Glacier 1</span>
         </MenuItem>
+        <MenuItem value={PenMode.glacier3}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Glacier 3</span>
+        </MenuItem>
+        <MenuItem value={PenMode.glacier4}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Glacier 4</span>
+        </MenuItem>
+        <MenuItem value={PenMode.glacier6}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Glacier 6</span>
+        </MenuItem>
+        <MenuItem value={PenMode.hive}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Marro Hive 6</span>
+        </MenuItem>
         <Divider />
         {/* WALL WALK BEGIN */}
         <MenuItem value={PenMode.wallWalk1}>
