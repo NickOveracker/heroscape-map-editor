@@ -3,7 +3,10 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import { useGLTF } from '@react-three/drei'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
-const scale = [1.02, 0.6, 1.02]
+import { Vector3 } from 'three'
+
+const scale = new Vector3(1.02, 0.6, 1.02)
+
 export function CastleBaseStraight({ boardHex, underHexTerrain }: { boardHex: BoardHex, underHexTerrain: string }) {
   const { nodes } = useGLTF('/decimated-castle-base-straight.glb') as any
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
