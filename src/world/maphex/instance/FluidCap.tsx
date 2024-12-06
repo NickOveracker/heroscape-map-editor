@@ -24,7 +24,7 @@ const FluidCaps = ({
       ref={ref}
     >
       <cylinderGeometry args={baseFluidCapCylinderArgs} />
-      <meshPhongMaterial
+      <meshMatcapMaterial
         transparent
         opacity={0.85}
       />

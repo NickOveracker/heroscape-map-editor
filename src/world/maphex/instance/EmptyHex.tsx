@@ -26,7 +26,7 @@ const EmptyHexes = ({
       limit={INSTANCE_LIMIT}
     >
       <cylinderGeometry args={baseEmptyCapCylinderArgs} />
-      <meshLambertMaterial
+      <meshMatcapMaterial
         transparent
         opacity={0.5}
       />

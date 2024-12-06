@@ -24,7 +24,7 @@ const SolidCaps = ({
       ref={ref}
     >
       <cylinderGeometry args={baseSolidCapCylinderArgs} />
-      <meshPhongMaterial />
+      <meshMatcapMaterial />
       {boardHexArr.map((hex, i) => (
         <SolidCap
           key={hex.id + i}
