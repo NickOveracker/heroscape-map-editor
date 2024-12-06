@@ -79,8 +79,8 @@ export const pieceCodes: Dictionary<string> = {
   '13003': Pieces.glacier3,
   '13004': Pieces.glacier4,
   '13006': Pieces.glacier6,
-  '27003': Pieces.outcrop1,
-  '27001': Pieces.outcrop3,
+  '27001': Pieces.outcrop1,
+  '27003': Pieces.outcrop3,
   // marvel ruin
   '11006': Pieces.marvel, // marvel ruins also create two elevated spaces/boardHexes
   '11007': Pieces.marvelBroken, // marvel ruins also create two elevated spaces/boardHexes
