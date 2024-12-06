@@ -249,8 +249,27 @@ export default function PenTerrainSelect() {
           </ListItemIcon>
           <span>Marro Hive 6</span>
         </MenuItem>
+
         <Divider />
         {/* WALL WALK BEGIN */}
+        <MenuItem value={PenMode.castleBaseEnd}>
+          <ListItemIcon>
+            <GiCastle />
+          </ListItemIcon>
+          <span>Castle Base End</span>
+        </MenuItem>
+        <MenuItem value={PenMode.castleBaseStraight}>
+          <ListItemIcon>
+            <GiCastle />
+          </ListItemIcon>
+          <span>Castle Base Straight</span>
+        </MenuItem>
+        <MenuItem value={PenMode.castleBaseCorner}>
+          <ListItemIcon>
+            <GiCastle />
+          </ListItemIcon>
+          <span>Castle Base Corner</span>
+        </MenuItem>
         <MenuItem value={PenMode.wallWalk1}>
           <ListItemIcon>
             <GiCastle />

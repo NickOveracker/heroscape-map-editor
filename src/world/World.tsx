@@ -26,7 +26,7 @@ const World = () => {
                 camera={{
                     fov: CAMERA_FOV,
                 }}
-                shadows
+            // shadows
             >
                 {/* <Sky /> */}
                 <Stars

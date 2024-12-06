@@ -77,7 +77,10 @@ export function isObstaclePieceID(inventoryID: string) {
         inventoryID === Pieces.glacier3 ||
         inventoryID === Pieces.glacier4 ||
         inventoryID === Pieces.glacier6 ||
-        inventoryID === Pieces.hive
+        inventoryID === Pieces.hive ||
+        inventoryID === Pieces.castleBaseEnd ||
+        inventoryID === Pieces.castleBaseCorner ||
+        inventoryID === Pieces.castleBaseStraight
     ) {
         return true
     } else {

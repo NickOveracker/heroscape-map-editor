@@ -123,6 +123,7 @@ export function getBoardHexesWithPieceAdded({
   }
 
   if (piece.isObstacle) {
+    console.log("🚀 ~ piece:", piece)
     const isCap = false // obstacles are not caps
     const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
     const isVerticalClearanceForObstacle = newHexIds.every((_, i) => {

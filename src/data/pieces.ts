@@ -718,6 +718,39 @@ export const piecesSoFar: Dictionary<Piece> = {
     isEdge: false,
     isObstacle: true,
   },
+  [Pieces.castleBaseEnd]: {
+    id: Pieces.castleBaseEnd,
+    inventoryID: Pieces.castleBaseEnd,
+    terrain: HexTerrain.castle,
+    size: 1,
+    template: Pieces.castleBaseEnd,
+    height: 0, // eventhough it seems to span 3 hex-heights in reality!
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
+  [Pieces.castleBaseStraight]: {
+    id: Pieces.castleBaseStraight,
+    inventoryID: Pieces.castleBaseStraight,
+    terrain: HexTerrain.castle,
+    size: 1,
+    template: Pieces.castleBaseStraight,
+    height: 0, // eventhough it seems to span 3 hex-heights in reality!
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
+  [Pieces.castleBaseCorner]: {
+    id: Pieces.castleBaseCorner,
+    inventoryID: Pieces.castleBaseCorner,
+    terrain: HexTerrain.castle,
+    size: 1,
+    template: Pieces.castleBaseCorner,
+    height: 0, // eventhough it seems to span 3 hex-heights in reality!
+    isLand: false,
+    isEdge: false,
+    isObstacle: true,
+  },
 }
 // const basedObstacles = {
 //   [Pieces.hive]: {

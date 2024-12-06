@@ -3,7 +3,7 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import { useGLTF } from '@react-three/drei'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
-
+const scale = [1.02, 0.6, 1.02]
 export function CastleBaseStraight({ boardHex, underHexTerrain }: { boardHex: BoardHex, underHexTerrain: string }) {
   const { nodes } = useGLTF('/decimated-castle-base-straight.glb') as any
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
@@ -15,7 +15,7 @@ export function CastleBaseStraight({ boardHex, underHexTerrain }: { boardHex: Bo
         castShadow
         receiveShadow
         geometry={nodes.definitiv_base_fortress_straight.geometry}
-        scale={[1.1, 1.1, 1.1]}
+        scale={scale}
         position={[x, yBase, z]}
         rotation={[0, rotation * -Math.PI / 3, 0]}
       >
@@ -41,7 +41,7 @@ export function CastleBaseEnd({ boardHex, underHexTerrain }: { boardHex: BoardHe
         castShadow
         receiveShadow
         geometry={nodes.definitiv_base_fortress_end.geometry}
-        scale={[1.1, 1.1, 1.1]}
+        scale={scale}
         position={[x, yBase, z]}
         rotation={[0, rotation * -Math.PI / 3, 0]}
       >
@@ -59,6 +59,7 @@ export function CastleBaseCorner({ boardHex, underHexTerrain }: { boardHex: Boar
   const { nodes } = useGLTF('/decimated-castle-base-corner.glb') as any
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
+  const oopsNotOrientedInBlenderCorrectly = Math.PI / 3 + 0.025
   return (
     <group
     >
@@ -66,9 +67,9 @@ export function CastleBaseCorner({ boardHex, underHexTerrain }: { boardHex: Boar
         castShadow
         receiveShadow
         geometry={nodes.castle_base_corner.geometry}
-        scale={[1.1, 1.1, 1.1]}
+        scale={scale}
         position={[x, yBase, z]}
-        rotation={[0, rotation * -Math.PI / 3, 0]}
+        rotation={[0, rotation * -Math.PI / 3 + oopsNotOrientedInBlenderCorrectly, 0]}
       >
         <meshMatcapMaterial
           color={hexTerrainColor[HexTerrain.castle]}

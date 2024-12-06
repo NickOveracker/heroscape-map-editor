@@ -40,6 +40,9 @@ export const MapHex3D = ({
   const isBrushHex = boardHex.terrain === HexTerrain.brush && boardHex.isObstacleOrigin
   const isRuin2OriginHex = pieceID === Pieces.ruins2 && boardHex.isObstacleOrigin
   const isRuin3OriginHex = pieceID === Pieces.ruins3 && boardHex.isObstacleOrigin
+  const isCastleBaseEnd = pieceID === Pieces.castleBaseEnd
+  const isCastleBaseStraight = pieceID === Pieces.castleBaseStraight
+  const isCastleBaseCorner = pieceID === Pieces.castleBaseCorner
 
   const boardHexes = useBoundStore(s => s.boardHexes)
   const underHexID = genBoardHexID({ ...boardHex, altitude: boardHex.altitude - 1 });
@@ -51,10 +54,7 @@ export const MapHex3D = ({
       {isHeightRingedHex && <HeightRing
         position={new Vector3(x, y, z)}
       />}
-      {/* {isTreeHex && <CastleBaseCorner boardHex={boardHex} />} */}
-      {/* {isTreeHex && <CastleBaseStraight boardHex={boardHex} />} */}
-      {isTreeHex && <CastleBaseEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
-      {/* {isTreeHex && <ForestTree boardHex={boardHex} />} */}
+      {isTreeHex && <ForestTree boardHex={boardHex} />}
       {isPalmHex && <TicallaPalm boardHex={boardHex} />}
       {isBrushHex && <TicallaBrush boardHex={boardHex} />}
       {isRuin2OriginHex && <Ruins2 boardHex={boardHex} />}
@@ -66,6 +66,9 @@ export const MapHex3D = ({
       {isGlacier4Hex && <Outcrop4 boardHex={boardHex} isGlacier={true} />}
       {isGlacier6Hex && <Outcrop6 boardHex={boardHex} isGlacier={true} />}
       {isHiveHex && <MarroHive6 boardHex={boardHex} />}
+      {isCastleBaseEnd && <CastleBaseEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isCastleBaseStraight && <CastleBaseStraight boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isCastleBaseCorner && <CastleBaseCorner boardHex={boardHex} underHexTerrain={underHexTerrain} />}
     </>
   )
 }
