@@ -55,6 +55,7 @@ function SolidCap({
     const { x, y, z } = getBoardHex3DCoords(boardHex)
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
     ref.current.position.set(x, y, z)
+    ref.current.updateMatrix()
   }, [boardHex])
 
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
@@ -76,10 +77,12 @@ function SolidCap({
   }
 
   return <Instance
+    dispose={null}
     ref={ref}
     onPointerDown={handleDown}
     onPointerEnter={handleEnter}
     onPointerOut={handleOut}
+    frustumCulled={false}
     castShadow
     receiveShadow
   />
