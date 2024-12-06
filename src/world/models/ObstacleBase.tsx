@@ -1,4 +1,4 @@
-import { TREE_BASE_HEIGHT } from "../../utils/constants"
+import { HEXGRID_HEXCAP_HEIGHT } from "../../utils/constants"
 import { hexTerrainColor } from "../maphex/hexColors"
 import { CylinderGeometryArgs } from "../maphex/instance-hex"
 
@@ -10,7 +10,7 @@ type ObstacleBaseProps = {
   isTransparent?: boolean
 }
 
-const treeBaseCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, TREE_BASE_HEIGHT, 6, undefined, false, undefined, undefined]
+const treeBaseCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, HEXGRID_HEXCAP_HEIGHT, 6, undefined, false, undefined, undefined]
 
 export default function ObstacleBase({ x, y, z, color, isTransparent }: ObstacleBaseProps) {
   return (

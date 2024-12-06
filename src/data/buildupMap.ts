@@ -7,7 +7,7 @@ import getVSTileTemplate from './rotationTransforms';
 import { makeRectangleScenario } from '../utils/map-gen';
 import { pieceCodes } from './pieceCodes';
 import { piecesSoFar } from './pieces';
-import { interiorHexTemplates, verticalObstructionTemplates, verticalSupportTemplates } from './tileTemplates';
+import { interiorHexTemplates, verticalObstructionTemplates, verticalSupportTemplates } from './ruins-templates';
 
 
 export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: string): MapState {
@@ -178,12 +178,14 @@ export function getBoardHexesWithPieceAdded({
     }
   }
 
+  /* 
+  RUINS
+  In Virtualscape, the ruins only take 2/3 hexes. They do not account for sideways/vertical obstruction. AKA, it will verify a map that can't be built.
+  Our app does not do this, which hurts backwards compatibility, but remember, we want people to be able to easily build real HS maps!
+  So our app doesn't allow hex tiles to be placed right next to a ruin, because they can't both fit.
+  */
   if (piece.terrain === HexTerrain.ruin) {
-    /* 
-    an edge type piece
-    it is a plane the will be position perpindicular to the X,Z plane, and its seven points will be the corners of the hexes
-    The tiles blocked from further building for a ruin is actually a large footprint of all adjacent tiles
-    */
+
     const isSolidUnderAllSupportHexes = underHexIds.every((_, i) => {
       // Ruins only need to be supported under their center of mass, and we could be more liberal than this (allowing combinations of certain hexes)
       const isRequiredToSupportThisOne = verticalSupportTemplates[piece.inventoryID][i]
@@ -191,7 +193,6 @@ export function getBoardHexesWithPieceAdded({
       genBoardHexID({ ...piecePlaneCoords[i], altitude });
       return isRequiredToSupportThisOne ? isSolidTerrainHex(newBoardHexes?.[underHexIds[i]]?.terrain) : true
     });
-
     const isVerticalClearanceForObstacle = newHexIds.every((_, i) => {
       // Ruins obstruct the placement of some land/obstacles
       const clearanceHexIds = Array(verticalObstructionTemplates[piece.inventoryID][i]).fill(0).map((_, j) => {
@@ -215,6 +216,7 @@ export function getBoardHexesWithPieceAdded({
       const isBlocked = isSolidTerrainHex(terrain) || isFluidTerrainHex(terrain) || isObstructingTerrain(terrain) || (isForNewInterior && hex.isObstacleOrigin) || (isForNewInterior && hex.isAuxiliary)
       return !isBlocked;
     })
+    // const isSpaceFreeForRuin = true // Virtualscape does not check for vertical clearance for ruins
     if (isSpaceFreeForRuin && isSolidUnderAllSupportHexes && isVerticalClearanceForObstacle) {
       newHexIds.forEach((newHexID, i) => {
         const isAuxiliary = interiorHexTemplates[piece.inventoryID][i] === 1 // 1 marks auxiliary hexes, 2 marks the origin, in these template arrays
