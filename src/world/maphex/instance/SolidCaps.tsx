@@ -21,9 +21,10 @@ const SolidCaps = ({
     <Instances
       limit={INSTANCE_LIMIT}
       range={boardHexArr.length}
-      ref={ref} position={[0, 0, 0]}>
+      ref={ref}
+    >
       <cylinderGeometry args={baseSolidCapCylinderArgs} />
-      <meshMatcapMaterial />
+      <meshPhongMaterial />
       {boardHexArr.map((hex, i) => (
         <SolidCap
           key={hex.id + i}
@@ -50,7 +51,7 @@ function SolidCap({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     const { x, y, z } = getBoardHex3DCoords(boardHex)
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
     ref.current.position.set(x, y, z)

@@ -10,7 +10,7 @@ type Props = {
   boardHexArr: BoardHex[]
 }
 
-const baseSubTerrainCylinderArgs: CylinderGeometryArgs = [1, 1, HEXGRID_HEX_HEIGHT, 6, undefined, true, undefined, undefined]
+const baseSubTerrainCylinderArgs: CylinderGeometryArgs = [0.999, 0.999, HEXGRID_HEX_HEIGHT, 6, undefined, true, undefined, undefined]
 const dirtColor = hexTerrainColor[HexTerrain.dirt]
 
 const SubTerrains = ({ boardHexArr }: Props) => {
@@ -20,9 +20,13 @@ const SubTerrains = ({ boardHexArr }: Props) => {
     <Instances
       limit={INSTANCE_LIMIT}
       range={boardHexArr.length}
-      ref={ref} >
+      ref={ref}
+    >
       <cylinderGeometry args={baseSubTerrainCylinderArgs} />
-      <meshMatcapMaterial />
+      <meshPhongMaterial
+        transparent
+        opacity={1}
+      />
       {boardHexArr.map((hex, i) => (
         <SubTerrain key={hex.id + i + 'sub'} boardHex={hex} />
       ))}
