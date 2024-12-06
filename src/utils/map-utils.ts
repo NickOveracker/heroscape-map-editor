@@ -47,12 +47,14 @@ export const getBoardHex3DCoords = (hex: CubeCoordinate & { altitude: number }) 
     const x = cubeToPixel(hex).x * HEXGRID_SPACING
     const y = altitude * HEXGRID_HEX_HEIGHT
     const z = cubeToPixel(hex).y * HEXGRID_SPACING
-    const yWithBase = (y - HEXGRID_HEX_HEIGHT) + HEXGRID_HEXCAP_HEIGHT / 2
-    const yBase = (y - HEXGRID_HEX_HEIGHT) + HEXGRID_HEXCAP_HEIGHT / 2
+    const yBaseCap = y - HEXGRID_HEX_HEIGHT
+    const yWithBase = yBaseCap + HEXGRID_HEXCAP_HEIGHT / 2
+    const yBase = yBaseCap + HEXGRID_HEXCAP_HEIGHT / 2
     return {
         x,
         y,
         z,
+        yBaseCap,
         yWithBase,
         yBase
     }

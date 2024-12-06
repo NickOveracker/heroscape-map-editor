@@ -1,7 +1,7 @@
 import { Vector3, } from 'three'
 import { BoardHex, HexTerrain, Pieces } from '../../types'
 import HeightRing from './HeightRing'
-import { getBoardHex3DCoords } from '../../utils/map-utils'
+import { genBoardHexID, getBoardHex3DCoords } from '../../utils/map-utils'
 import { MapHexIDDisplay } from './MapHexIDDisplay'
 import { isSolidTerrainHex } from '../../utils/board-utils'
 import ForestTree from '../models/ForestTree'
@@ -15,6 +15,7 @@ import Outcrop3 from '../models/Outcrop3'
 import Outcrop4 from '../models/Outcrop4'
 import Outcrop6 from '../models/Outcrop6'
 import MarroHive6 from '../models/MarroHive6'
+import { CastleBaseCorner, CastleBaseEnd, CastleBaseStraight } from '../models/CastleBases'
 
 
 export const MapHex3D = ({
@@ -39,13 +40,21 @@ export const MapHex3D = ({
   const isBrushHex = boardHex.terrain === HexTerrain.brush && boardHex.isObstacleOrigin
   const isRuin2OriginHex = pieceID === Pieces.ruins2 && boardHex.isObstacleOrigin
   const isRuin3OriginHex = pieceID === Pieces.ruins3 && boardHex.isObstacleOrigin
+
+  const boardHexes = useBoundStore(s => s.boardHexes)
+  const underHexID = genBoardHexID({ ...boardHex, altitude: boardHex.altitude - 1 });
+  const underHexTerrain = boardHexes?.[underHexID]?.terrain ?? HexTerrain.grass
+
   return (
     <>
       <MapHexIDDisplay boardHex={boardHex} position={new Vector3(x, y + 0.2, z)} />
       {isHeightRingedHex && <HeightRing
         position={new Vector3(x, y, z)}
       />}
-      {isTreeHex && <ForestTree boardHex={boardHex} />}
+      {/* {isTreeHex && <CastleBaseCorner boardHex={boardHex} />} */}
+      {/* {isTreeHex && <CastleBaseStraight boardHex={boardHex} />} */}
+      {isTreeHex && <CastleBaseEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {/* {isTreeHex && <ForestTree boardHex={boardHex} />} */}
       {isPalmHex && <TicallaPalm boardHex={boardHex} />}
       {isBrushHex && <TicallaBrush boardHex={boardHex} />}
       {isRuin2OriginHex && <Ruins2 boardHex={boardHex} />}

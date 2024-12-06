@@ -19,6 +19,7 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
   // const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT
   // const yTree = y + HEXGRID_HEX_HEIGHT
   const options = getOptionsForTreeHeight(boardHex?.obstacleHeight ?? 14)
+  const rotation = boardHex?.pieceRotation ?? 0
   function getOptionsForTreeHeight(height: number) {
     switch (height) {
       case 14:
@@ -35,6 +36,7 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
       <group
         scale={[options.scaleX, options.scaleY, options.scaleX]}
         position={[x, yTree, z]}
+        rotation={[0, rotation * -Math.PI / 3, 0]}
       >
         <mesh
           castShadow

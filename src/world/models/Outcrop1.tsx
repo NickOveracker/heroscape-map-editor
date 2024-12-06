@@ -17,7 +17,7 @@ export function Outcrop1({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacie
     <group>
       <mesh
         position={[x, yWithBase, z]}
-        rotation={[0, rotation * Math.PI / 3, 0]}
+        rotation={[0, rotation * -Math.PI / 3, 0]}
         geometry={nodes.glacier_1_with_holes.geometry}
       >
         <meshMatcapMaterial

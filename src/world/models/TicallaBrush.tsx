@@ -13,16 +13,19 @@ export default function TicallaBrush({ boardHex }: { boardHex: BoardHex }) {
   const yTree = y + HEXGRID_HEXCAP_HEIGHT / 2
   const yBase = y + HEXGRID_HEXCAP_HEIGHT / 2
   const { nodes, materials } = useGLTF('/ticalla-brush-colored-lowpoly.glb') as any
+  const rotation = boardHex?.pieceRotation ?? 0
   return (
     <group>
-      <group position={[x, yTree, z]}>
+      <group position={[x, yTree, z]}
+        rotation={[0, rotation * -Math.PI / 3, 0]}
+      >
         <mesh
           castShadow
           receiveShadow
           geometry={nodes.PlankFern1_1.geometry}
           material={materials.BushFern}
         >
-          <meshMatcapMaterial color={'#35E718'} />
+          <meshMatcapMaterial color={'#45f529'} />
         </mesh>
         <mesh
           castShadow
