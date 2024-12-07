@@ -61,6 +61,7 @@ export function isObstructingTerrain(terrain: string) {
     }
 }
 
+
 export function isObstaclePieceID(inventoryID: string) {
     if (
         inventoryID === Pieces.tree10 ||
@@ -76,11 +77,7 @@ export function isObstaclePieceID(inventoryID: string) {
         inventoryID === Pieces.glacier1 ||
         inventoryID === Pieces.glacier3 ||
         inventoryID === Pieces.glacier4 ||
-        inventoryID === Pieces.glacier6 ||
-        inventoryID === Pieces.hive ||
-        inventoryID === Pieces.castleBaseEnd ||
-        inventoryID === Pieces.castleBaseCorner ||
-        inventoryID === Pieces.castleBaseStraight
+        inventoryID === Pieces.glacier6
     ) {
         return true
     } else {
