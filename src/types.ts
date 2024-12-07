@@ -106,8 +106,8 @@ export type Piece = {
     template: string;
     height: number;
     isLand: boolean;
-    isEdge: boolean;
     isObstacle: boolean;
+
 }
 export enum Pieces {
     grass1 = 'grass1',
