@@ -20,13 +20,14 @@
 //   C: 'crevcor',
 //   T: 'thorian',
 //   U: 'ulaniva',
-// }
+// }+
 
 type HexoscapeGlyphs = {
   [key: string]: {
     id: string
     name: string
     shortName: string
+    glyphLetter: string
     type: string // power, temporary, ( someday?: permanent, treasure, objective)
     effect: string
     description: string
@@ -34,10 +35,53 @@ type HexoscapeGlyphs = {
 }
 
 export const powerGlyphs: HexoscapeGlyphs = {
+  objective: {
+    id: 'objective',
+    name: 'Brandar',
+    shortName: 'Objective',
+    glyphLetter: 'B',
+    type: 'power',
+    effect: 'Artifact',
+    description: 'The rules for this Glyph changes for each scenario.',
+  },
+  // TEMPORARY GLYPHS
+  // Sturla (Revive): When a figure lands on this Glyph, both players must roll the 20 sided die for all of their previously destroyed figures. If a 19 or 20 is rolled, than that figure is placed on any starting zone.
+  // Nilrend (Negation): When one of your figures stops here, you may choose any opponent's Unique Army Card. Roll the 20-sided die. If you roll a 1 - 4, nothing happens. If you roll a 5 - 20, place the Gold Negation Marker on the chosen figure's Army Card. All of that figure's special powers are negated for the rest of the game.
+  // Oreld (Intercept Order): When one of your figures stops here, roll the 20-sided die. If you roll a 1 - 9, nothing happens. If your roll a 10 - 20, you may remove one random unrevealed Order Marker from an opponent's Army Card.
+  healer: {
+    id: 'healer',
+    name: 'Kelda',
+    shortName: 'Healer',
+    glyphLetter: 'K',
+    type: 'temporary',
+    effect: 'Heal hero',
+    description:
+      'When a Hero you control lands on this Glyph, remove all wound markers from it. If a Squad figure lands here, nothing happens.',
+  },
+  summoner: {
+    id: 'summoner',
+    name: 'Erland',
+    shortName: 'Summoner',
+    glyphLetter: 'E',
+    type: 'temporary',
+    effect: 'Summon figure',
+    description: `When a figure lands on this Glyph, choose any one figure (yours, a teammate's or an opponent's) and to place on an adjacent space.`,
+  },
+  curse: {
+    id: 'curse',
+    name: 'Mitonsoul',
+    shortName: 'Curse',
+    glyphLetter: 'M',
+    type: 'temporary',
+    effect: 'Massive Curse',
+    description: `When a figure lands on this Glyph, all players must roll the 20 sided die for all their own figures. If a 1 is rolled, than that figure is destroyed, 2 or higher and the figure is safe.`,
+  },
+  // PERMANENT GLYPHS
   attack: {
     id: 'attack',
-    name: 'Glyph of Astrid',
+    name: 'Astrid',
     shortName: 'Attack +1',
+    glyphLetter: 'A',
     type: 'power',
     effect: 'Attack +1',
     description:
@@ -45,8 +89,9 @@ export const powerGlyphs: HexoscapeGlyphs = {
   },
   defense: {
     id: 'defense',
-    name: 'Glyph of Gerda',
+    name: 'Gerda',
     shortName: 'Defense +1',
+    glyphLetter: 'G',
     type: 'power',
     effect: 'Defense +1',
     description:
@@ -54,8 +99,9 @@ export const powerGlyphs: HexoscapeGlyphs = {
   },
   move: {
     id: 'move',
-    name: 'Glyph of Valda',
+    name: 'Valda',
     shortName: 'Move +2',
+    glyphLetter: 'V',
     type: 'power',
     effect: 'Move +2',
     description:
@@ -63,25 +109,19 @@ export const powerGlyphs: HexoscapeGlyphs = {
   },
   range: {
     id: 'range',
-    name: 'Glyph of Ivor',
+    name: 'Ivor',
     shortName: 'Range +4',
+    glyphLetter: 'I',
     type: 'power',
     effect: 'Range +4',
     description:
       'Add 4 to the Range limit of every Army Card in your army which already had a Range of 4 or more.',
   },
-  objective: {
-    id: 'objective',
-    name: 'Glyph of Brandar',
-    shortName: 'Objective',
-    type: 'power',
-    effect: 'Artifact',
-    description: 'The rules for this Glyph changes for each scenario.',
-  },
   initiative: {
     id: 'initiative',
-    name: 'Glyph of Dagmar',
+    name: 'Dagmar',
     shortName: 'Initiative +8',
+    glyphLetter: 'D',
     type: 'power',
     effect: 'Initiative +8',
     description:
@@ -89,110 +129,90 @@ export const powerGlyphs: HexoscapeGlyphs = {
   },
   defense2: {
     id: 'defense2',
-    name: 'Glyph of Jalgard',
+    name: 'Jalgard',
     shortName: 'Defense +2',
+    glyphLetter: 'J',
     type: 'power',
     effect: "Defense +2",
     description: "Add two dice to your Defense Roll when any figure in your army is attacked.",
   },
   lucky1: {
     id: 'lucky1',
-    name: 'Glyph of Lodin',
+    name: 'Lodin',
     shortName: 'Lucky 20-Sider',
+    glyphLetter: 'L',
     type: 'power',
     effect: "Lucky 20-Sider",
     description: "Whenever you roll the 20 sided die, you may add one to your die roll."
   },
   wind: {
     id: 'wind',
-    name: 'Glyph of Rannveig',
+    name: 'Rannveig',
     shortName: 'Wind',
+    glyphLetter: 'R',
     type: 'power',
     effect: "Wind",
     description: "When a figure is on this Glyph, no figure may use the 'Flying' power. This includes figures in your own army was well as figures on the other player's team."
   },
   commonAttack: {
     id: 'commonAttack',
-    name: 'Glyph of Crevcor',
+    name: 'Crevcor',
     shortName: 'Common Attack +1',
+    glyphLetter: 'C',
     type: 'power',
     effect: "Common Attack +1",
     description: "All Common Figures in your army may add one additional attack die when attacking normally."
   },
   thorian: {
     id: 'thorian',
-    name: 'Glyph of Thorian',
+    name: 'Thorian',
     shortName: 'Thorian',
+    glyphLetter: 'T',
     type: 'power',
     effect: "Common Attack +1",
     description: "All opponents' figures must be adjacent to your figures to attack your figures with a normal attack."
   },
   pitTrap: {
     id: 'pitTrap',
-    name: 'Glyph of Proftaka',
+    name: 'Proftaka',
     shortName: 'Pit Trap',
+    glyphLetter: 'P',
     type: 'power',
     effect: "Trapped Figure",
-    description: "Your figure is trapped. The trapped figure cannot move from this space. The figure can move off the Glyph of Proftaka only if a friendly figure occupies an adjacent space."
+    description: "Your figure is trapped. The trapped figure cannot move from this space. The figure can move off the Proftaka only if a friendly figure occupies an adjacent space."
   },
   uniqueAttack: {
     id: 'uniqueAttack',
-    name: 'Glyph of Ulaniva',
+    name: 'Ulaniva',
     shortName: 'Unique Attack +1',
+    glyphLetter: 'U',
     type: 'power',
     effect: "Unique Attack +1",
     description: "All Unique Figures in your army may add one extra attack die when attacking normally."
   },
   wound: {
     id: 'wound',
-    name: 'Glyph of Wannok',
+    name: 'Wannok',
     shortName: 'Wound',
+    glyphLetter: 'W',
     type: 'power',
     effect: "Wound",
     description: "At the end of every round, roll the 20-sided die. If you roll a 1, the figure on the Glyph receives one wound. If you roll a 2 or higher, you may choose an opponent who must give one wound to any figure he or she controls on the battlefield."
   },
 }
 
-// const _temporaryGlyphs: HexoscapeGlyphs = {
-//   healer: {
-//     id: 'healer',
-//     name: 'Glyph of Kelda',
-//     shortName: 'Healer',
-//     type: 'temporary',
-//     effect: 'Heal hero',
-//     description:
-//       'When a Hero you control lands on this Glyph, remove all wound markers from it. If a Squad figure lands here, nothing happens.',
-//   },
-//   summoner: {
-//     id: 'summoner',
-//     name: 'Glyph of Erland',
-//     shortName: 'Summoner',
-//     type: 'temporary',
-//     effect: 'Summon figure',
-//     description: `When a figure lands on this Glyph, choose any one figure (yours, a teammate's or an opponent's) and to place on an adjacent space.`,
-//   },
-//   curse: {
-//     id: 'curse',
-//     name: 'Glyph of Mitonsoul',
-//     shortName: 'Curse',
-//     type: 'temporary',
-//     effect: 'Massive Curse',
-//     description: `When a figure lands on this Glyph, all players must roll the 20 sided die for all their own figures. If a 1 is rolled, than that figure is destroyed, 2 or higher and the figure is safe.`,
-//   },
-// }
-
 
 // Temporary Glyphs
 // Remove these Glyphs from the board upon landing on them.
 // Rise of the Valkyrie
-// Glyph of Erland (Summoning): When a figure lands on this Glyph, choose any one figure (yours, a teammate's or an opponent's) and to place on an adjacent space.
-// Glyph of Kelda (Healing): When a Hero you control lands on this Glyph, remove all wound markers from it. If a Squad figure lands here, nothing happens.
-// Glyph of Mitonsol (Massive Curse): When a figure lands on this Glyph, all players must roll the 20 sided die for all their own figures. If a 1 is rolled, than that figure is destroyed, 2 or higher and the figure is safe.
+// Erland (Summoning): When a figure lands on this Glyph, choose any one figure (yours, a teammate's or an opponent's) and to place on an adjacent space.
+// Kelda (Healing): When a Hero you control lands on this Glyph, remove all wound markers from it. If a Squad figure lands here, nothing happens.
+// Mitonsol (Massive Curse): When a figure lands on this Glyph, all players must roll the 20 sided die for all their own figures. If a 1 is rolled, than that figure is destroyed, 2 or higher and the figure is safe.
 // Malliddon's Prophecy
-// Glyph of Sturla (Revive): When a figure lands on this Glyph, both players must roll the 20 sided die for all of their previously destroyed figures. If a 19 or 20 is rolled, than that figure is placed on any starting zone.
+// Sturla (Revive): When a figure lands on this Glyph, both players must roll the 20 sided die for all of their previously destroyed figures. If a 19 or 20 is rolled, than that figure is placed on any starting zone.
 // Swarm of the Marro
-// Glyph of Nilrend (Negation): When one of your figures stops here, you may choose any opponent's Unique Army Card. Roll the 20-sided die. If you roll a 1 - 4, nothing happens. If you roll a 5 - 20, place the Gold Negation Marker on the chosen figure's Army Card. All of that figure's special powers are negated for the rest of the game.
-// Glyph of Oreld (Intercept Order): When one of your figures stops here, roll the 20-sided die. If you roll a 1 - 9, nothing happens. If your roll a 10 - 20, you may remove one random unrevealed Order Marker from an opponent's Army Card.
+// Nilrend (Negation): When one of your figures stops here, you may choose any opponent's Unique Army Card. Roll the 20-sided die. If you roll a 1 - 4, nothing happens. If you roll a 5 - 20, place the Gold Negation Marker on the chosen figure's Army Card. All of that figure's special powers are negated for the rest of the game.
+// Oreld (Intercept Order): When one of your figures stops here, roll the 20-sided die. If you roll a 1 - 9, nothing happens. If your roll a 10 - 20, you may remove one random unrevealed Order Marker from an opponent's Army Card.
 
 // Marvel
 // Marvel had two unique yellow Glyphs of its own, which were infamous for not doing anything specific.
@@ -247,5 +267,5 @@ export const powerGlyphs: HexoscapeGlyphs = {
 // Ancient Artifact Treasure Glyphs
 // Ancient Artifacts are powerful and rare Treasure Glyphs. Ancient Artifact Treasure Glyphs follow all rules for Treasure Glyphs with the following exception: an Army may control more than one Ancient Artifact Treasure Glyph, but an Army can never control more than one copy of each Ancient Artifact Treasure Glyph. If at any point an Army would control more than one copy, all extra copies must be dropped or destroyed.
 
-// Glyph of Bolt of the Witherwood (Ancient Artifact): After moving and before attacking with this figure, you may choose any opponent's figure within 5 clear sight spaces. Roll the 20-sided die. If you roll a 1-15, nothing happens. If you roll a 16 or higher, the chosen figure is destroyed. You may attempt to use this power only once per game.
+// Bolt of the Witherwood (Ancient Artifact): After moving and before attacking with this figure, you may choose any opponent's figure within 5 clear sight spaces. Roll the 20-sided die. If you roll a 1-15, nothing happens. If you roll a 16 or higher, the chosen figure is destroyed. You may attempt to use this power only once per game.
 // Revenant's Tome (Unnatural Revival): This figure may use this tome after revealing an Order Marker on its Army Card. Before taking that turn with this figure, place one previously destroyed Unique figure from your army onto any empty space(s) within five(5) clear sight spaces of this figure. Immediately make a Normal Attack with the placed figure, then immediately destroy that placed figure. While the placed figure is on the board, consider all of its special powers to be negated. The placed figure is considered to have a life of 1, and is not affected by any special power on any Army Card while on the board.
