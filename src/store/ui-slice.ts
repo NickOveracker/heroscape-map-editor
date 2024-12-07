@@ -1,14 +1,21 @@
 import { StateCreator } from "zustand"
-import { HexTerrain, PenMode, UIState } from "../types"
+import { HexTerrain, PenMode } from "../types"
 import { AppState } from "./store"
 import { produce } from "immer"
 import { Dictionary } from "lodash"
 
-export interface UISlice extends UIState {
+
+export interface UISlice {
+    penMode: PenMode
     togglePenMode: (mode: PenMode) => void
-    togglePieceSize: (s: number) => void
+    pieceRotation: number
     togglePieceRotation: (s: number) => void
+    pieceSize: number
+    togglePieceSize: (s: number) => void
+    flatPieceSizes: number[]
+    isShowStartZones: boolean
     toggleIsShowStartZones: (s: boolean) => void
+    isTakingPicture: boolean
     toggleIsTakingPicture: (s: boolean) => void
     isCameraDisabled: false
     toggleIsCameraDisabled: (b: boolean) => void

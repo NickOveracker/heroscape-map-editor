@@ -40,7 +40,6 @@ export function CastleBaseEnd({ boardHex, underHexTerrain }: { boardHex: BoardHe
         castShadow
         receiveShadow
         geometry={nodes.Cylinder.geometry}
-        // scale={scale}
         position={[x, yBase, z]}
         rotation={[0, rotation * -Math.PI / 3, 0]}
       >

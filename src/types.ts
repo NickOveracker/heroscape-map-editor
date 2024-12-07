@@ -2,21 +2,14 @@ export interface MapState {
     boardHexes: BoardHexes
     hexMap: HexMap
     boardPieces: BoardPieces
-}
-export interface UIState {
-    penMode: PenMode
-    pieceRotation: number
-    pieceSize: number
-    flatPieceSizes: number[]
-    isShowStartZones: boolean
-    isTakingPicture: boolean
+    startZones: StartZones
+    glyphs: Glyphs
 }
 
-export type HexMap = {
+type HexMap = {
     id: string
     name: string
     shape: string // 'hexagon' | 'rectangle'
-    glyphs: Glyphs
     height: number // for hexagon shaped maps width=height=size
     width: number // for hexagon shaped maps width=height=size
 }
@@ -42,6 +35,7 @@ export interface BoardHex extends CubeCoordinate {
     pieceRotation: number
     isObstacleOrigin?: boolean
     isAuxiliary?: boolean
+    isCastleBase?: boolean
     obstacleHeight?: number
 }
 export type BoardPieces = {
@@ -53,7 +47,6 @@ export type BoardHexes = {
 export type StartZones = {
     [playerID: string]: string[] // boardHex IDs
 }
-
 export enum HexTerrain {
     empty = 'empty',
     // solid
@@ -106,8 +99,6 @@ export type Piece = {
     template: string;
     height: number;
     isLand: boolean;
-    isObstacle: boolean;
-
 }
 export enum Pieces {
     grass1 = 'grass1',
