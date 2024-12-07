@@ -3,12 +3,9 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import { useGLTF } from '@react-three/drei'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
-import { Vector3 } from 'three'
-
-const scale = new Vector3(1.02, 0.6, 1.02)
 
 export function CastleBaseStraight({ boardHex, underHexTerrain }: { boardHex: BoardHex, underHexTerrain: string }) {
-  const { nodes } = useGLTF('/decimated-castle-base-straight.glb') as any
+  const { nodes } = useGLTF('/castle-base-straight-handmade.glb') as any
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
   return (
@@ -17,8 +14,7 @@ export function CastleBaseStraight({ boardHex, underHexTerrain }: { boardHex: Bo
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes.definitiv_base_fortress_straight.geometry}
-        scale={scale}
+        geometry={nodes.Cylinder002.geometry}
         position={[x, yBase, z]}
         rotation={[0, rotation * -Math.PI / 3, 0]}
       >
@@ -31,10 +27,10 @@ export function CastleBaseStraight({ boardHex, underHexTerrain }: { boardHex: Bo
   )
 }
 
-useGLTF.preload('/decimated-castle-base-straight.glb')
+useGLTF.preload('/castle-base-straight-handmade.glb')
 
 export function CastleBaseEnd({ boardHex, underHexTerrain }: { boardHex: BoardHex, underHexTerrain: string }) {
-  const { nodes } = useGLTF('/decimated-castle-base-end.glb') as any
+  const { nodes } = useGLTF('/castle-base-end-handmade.glb') as any
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
   return (
@@ -43,8 +39,8 @@ export function CastleBaseEnd({ boardHex, underHexTerrain }: { boardHex: BoardHe
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes.definitiv_base_fortress_end.geometry}
-        scale={scale}
+        geometry={nodes.Cylinder.geometry}
+        // scale={scale}
         position={[x, yBase, z]}
         rotation={[0, rotation * -Math.PI / 3, 0]}
       >
@@ -56,23 +52,21 @@ export function CastleBaseEnd({ boardHex, underHexTerrain }: { boardHex: BoardHe
     </group>
   )
 }
-useGLTF.preload('/decimated-castle-base-end.glb')
+useGLTF.preload('/castle-base-end-handmade.glb')
 
 export function CastleBaseCorner({ boardHex, underHexTerrain }: { boardHex: BoardHex, underHexTerrain: string }) {
-  const { nodes } = useGLTF('/decimated-castle-base-corner.glb') as any
+  const { nodes } = useGLTF('/castle-base-corner-handmade.glb') as any
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
-  const oopsNotOrientedInBlenderCorrectly = Math.PI / 3 + 0.025
   return (
     <group
     >
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes.castle_base_corner.geometry}
-        scale={scale}
+        geometry={nodes.CastleWallCorner.geometry}
         position={[x, yBase, z]}
-        rotation={[0, rotation * -Math.PI / 3 + oopsNotOrientedInBlenderCorrectly, 0]}
+        rotation={[0, rotation * -Math.PI / 3, 0]}
       >
         <meshMatcapMaterial
           color={hexTerrainColor[HexTerrain.castle]}
@@ -82,7 +76,7 @@ export function CastleBaseCorner({ boardHex, underHexTerrain }: { boardHex: Boar
     </group>
   )
 }
-useGLTF.preload('/decimated-castle-base-corner.glb')
+useGLTF.preload('/castle-base-corner-handmade.glb')
 
 
 
