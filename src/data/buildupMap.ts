@@ -89,6 +89,16 @@ export function getBoardHexesWithPieceAdded({
   const isSolidUnderAtLeastOne = underHexIds.some(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? '')) // fluids will need one under every hex (no multi hex fluids yet)
   const isSolidUnderAll = underHexIds.every(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''))
   // 3. PLACE THE PIECE
+
+  if (piece.terrain === HexTerrain.wallWalk) {
+    // we can put this on castle walls, or we can put it like regular road, below
+  }
+  if (piece.terrain === HexTerrain.castle) {
+    // wallwalk
+
+    // castle wall
+    // castle base
+  }
   if (piece.isLand) {
     // in this part, if wallWalk tiles are not placed on castle pieces, they will be in a future part
     const isLandPieceSupported = isPlacingOnTable || (isSolidTile && isSolidUnderAtLeastOne) || (isFluidTile && isSolidUnderAll)
@@ -123,7 +133,6 @@ export function getBoardHexesWithPieceAdded({
   }
 
   if (piece.isObstacle) {
-    console.log("🚀 ~ piece:", piece)
     const isCap = false // obstacles are not caps
     const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
     const isVerticalClearanceForObstacle = newHexIds.every((_, i) => {
@@ -181,9 +190,8 @@ export function getBoardHexesWithPieceAdded({
 
   /* 
   RUINS
-  In Virtualscape, the ruins only take 2/3 hexes. They do not account for sideways/vertical obstruction. AKA, it will verify a map that can't be built.
-  Our app does not do this, which hurts backwards compatibility, but remember, we want people to be able to easily build real HS maps!
-  So our app doesn't allow hex tiles to be placed right next to a ruin, because they can't both fit.
+  In Virtualscape, the ruins only take 2/3 hexes. No restrictions on putting land right next to them or through their airspace.
+  Our app uses 7/9 hexes for each ruin's footprint, and implements vertical obstruction.
   */
   if (piece.terrain === HexTerrain.ruin) {
 
