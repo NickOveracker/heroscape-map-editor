@@ -7,7 +7,6 @@ import { piecesSoFar } from '../../data/pieces'
 import BigTree415 from './BigTree415'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
-import { CastleWallCorner, CastleWallEnd, CastleWallStraight } from './CastleWalls'
 
 
 
@@ -15,10 +14,7 @@ export default function ForestTree({ boardHex }: { boardHex: BoardHex }) {
   const boardPieces = useBoundStore(s => s.boardPieces)
   const piece = piecesSoFar[boardPieces[boardHex.pieceID]]
   const isBigTree = piece.inventoryID === Pieces.tree415
-  // return isBigTree ? <BigTree415 boardHex={boardHex} /> : <CastleWallCorner boardHex={boardHex} />
-  return isBigTree ? <BigTree415 boardHex={boardHex} /> : <CastleWallStraight boardHex={boardHex} />
-  // return isBigTree ? <BigTree415 boardHex={boardHex} /> : <CastleWallEnd boardHex={boardHex} />
-  // return isBigTree ? <BigTree415 boardHex={boardHex} /> : <SingleForestTree boardHex={boardHex} />
+  return isBigTree ? <BigTree415 boardHex={boardHex} /> : <SingleForestTree boardHex={boardHex} />
 }
 function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
   const {
