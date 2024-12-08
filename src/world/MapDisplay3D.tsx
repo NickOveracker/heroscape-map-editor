@@ -75,9 +75,10 @@ export default function MapDisplay3D({
             // paintStartZone({ hexID: hex.id, playerID: penMode.slice(-1) })
         }
         const isWallWalkPen = penMode.startsWith('wallWalk')
-        if (isWallWalkPen || isSolidTerrainHex(penMode) || isFluidTerrainHex(penMode)) {
+        const isCastleBase = penMode.startsWith('castleBase')
+        if (isWallWalkPen || isCastleBase || isSolidTerrainHex(penMode) || isFluidTerrainHex(penMode)) {
             // we are painting wallWalks here as normal land, may need update in castle times
-            const piece = isWallWalkPen ? piecesSoFar[penMode] : getPieceByTerrainAndSize(penMode, pieceSize)
+            const piece = (isWallWalkPen || isCastleBase) ? piecesSoFar[penMode] : getPieceByTerrainAndSize(penMode, pieceSize)
             paintTile({
                 piece,
                 clickedHex: hex,
