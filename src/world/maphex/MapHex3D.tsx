@@ -52,6 +52,10 @@ export const MapHex3D = ({
   const boardHexes = useBoundStore(s => s.boardHexes)
   const underHexID = genBoardHexID({ ...boardHex, altitude: boardHex.altitude - 1 });
   const underHexTerrain = boardHexes?.[underHexID]?.terrain ?? HexTerrain.grass
+  const overHexID = genBoardHexID({ ...boardHex, altitude: boardHex.altitude + 9 });
+  const overHex = boardHexes[overHexID]
+  const genOverHexIDForWall = (height: number) => genBoardHexID({ ...boardHex, altitude: boardHex.altitude + height + 1 });
+  const castleWallOverHexTerrain = boardHexes?.[genOverHexIDForWall(boardHex?.obstacleHeight ?? 10)]?.terrain ?? ''
 
   return (
     <>
@@ -74,7 +78,8 @@ export const MapHex3D = ({
       {isCastleBaseEnd && <CastleBaseEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleBaseStraight && <CastleBaseStraight boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleBaseCorner && <CastleBaseCorner boardHex={boardHex} underHexTerrain={underHexTerrain} />}
-      {isCastleWallEnd && <CastleWallEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isCastleWallEnd && <CastleWallEnd boardHex={boardHex} overHexTerrain={castleWallOverHexTerrain} underHexTerrain={underHexTerrain} />}
+      {/* {isCastleWallEnd && <CastleWallEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />} */}
       {isCastleWallStraight && <CastleWallStraight boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleWallCorner && <CastleWallCorner boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleArch && <CastleArch boardHex={boardHex} underHexTerrain={underHexTerrain} />}

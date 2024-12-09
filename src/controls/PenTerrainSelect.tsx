@@ -251,7 +251,6 @@ export default function PenTerrainSelect() {
         </MenuItem>
 
         <Divider />
-        {/* WALL WALK BEGIN */}
         <MenuItem value={PenMode.castleBaseEnd}>
           <ListItemIcon>
             <GiCastle />
@@ -270,6 +269,37 @@ export default function PenTerrainSelect() {
           </ListItemIcon>
           <span>Castle Base Corner</span>
         </MenuItem>
+        <MenuItem value={PenMode.castleWallEnd}>
+          <ListItemIcon>
+            <GiCastle />
+          </ListItemIcon>
+          <span>Castle Wall End</span>
+        </MenuItem>
+        <MenuItem value={PenMode.castleWallStraight}>
+          <ListItemIcon>
+            <GiCastle />
+          </ListItemIcon>
+          <span>Castle Wall Straight</span>
+        </MenuItem>
+        <MenuItem value={PenMode.castleWallCorner}>
+          <ListItemIcon>
+            <GiCastle />
+          </ListItemIcon>
+          <span>Castle Wall Corner</span>
+        </MenuItem>
+        <MenuItem value={PenMode.castleArch}>
+          <ListItemIcon>
+            <GiCastle />
+          </ListItemIcon>
+          <span>Castle Arch</span>
+        </MenuItem>
+        <MenuItem value={PenMode.castleArchNoDoor}>
+          <ListItemIcon>
+            <GiCastle />
+          </ListItemIcon>
+          <span>Castle Arch (No Door)</span>
+        </MenuItem>
+        {/* WALL WALK BEGIN */}
         <MenuItem value={PenMode.wallWalk1}>
           <ListItemIcon>
             <GiCastle />
