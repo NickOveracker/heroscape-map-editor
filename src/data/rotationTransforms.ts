@@ -162,8 +162,7 @@ const rotationTransforms: Dictionary<CubeCoordinate[]> = {
   // ADDONS
   [Pieces.roadWall]: straight4,
   // CASTLE
-  [Pieces.archDoor3]: straight3,
-  [Pieces.archNoDoor3]: straight3,
+  [Pieces.castleArch]: straight3,
   [Pieces.wallWalk1]: t1,
   [Pieces.wallWalk7]: castle7,
   [Pieces.wallWalk9]: castle9,

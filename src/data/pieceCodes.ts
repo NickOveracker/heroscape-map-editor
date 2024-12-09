@@ -99,8 +99,8 @@ export const pieceCodes: Dictionary<string> = {
   '16201': Pieces.castleWallCorner,
   '16202': Pieces.castleWallStraight,
   '16203': Pieces.castleWallEnd,
-  '16401': Pieces.archDoor3,
-  '16404': Pieces.archNoDoor3,
+  '16401': Pieces.castleArch, // with door
+  '16404': Pieces.castleArchNoDoor, // no door
   // startzone
   '15001': 'startArea',
 }

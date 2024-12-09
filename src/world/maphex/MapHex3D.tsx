@@ -16,6 +16,7 @@ import Outcrop4 from '../models/Outcrop4'
 import Outcrop6 from '../models/Outcrop6'
 import MarroHive6 from '../models/MarroHive6'
 import { CastleBaseCorner, CastleBaseEnd, CastleBaseStraight } from '../models/CastleBases'
+import { CastleArch, CastleWallCorner, CastleWallEnd, CastleWallStraight } from '../models/CastleWalls'
 
 
 export const MapHex3D = ({
@@ -43,6 +44,10 @@ export const MapHex3D = ({
   const isCastleBaseEnd = pieceID === Pieces.castleBaseEnd
   const isCastleBaseStraight = pieceID === Pieces.castleBaseStraight
   const isCastleBaseCorner = pieceID === Pieces.castleBaseCorner
+  const isCastleWallEnd = pieceID === Pieces.castleWallEnd && boardHex.isObstacleOrigin
+  const isCastleWallStraight = pieceID === Pieces.castleWallStraight && boardHex.isObstacleOrigin
+  const isCastleWallCorner = pieceID === Pieces.castleWallCorner && boardHex.isObstacleOrigin
+  const isCastleArch = (pieceID === Pieces.castleArch || pieceID === Pieces.castleArchNoDoor)
 
   const boardHexes = useBoundStore(s => s.boardHexes)
   const underHexID = genBoardHexID({ ...boardHex, altitude: boardHex.altitude - 1 });
@@ -69,6 +74,10 @@ export const MapHex3D = ({
       {isCastleBaseEnd && <CastleBaseEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleBaseStraight && <CastleBaseStraight boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleBaseCorner && <CastleBaseCorner boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isCastleWallEnd && <CastleWallEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isCastleWallStraight && <CastleWallStraight boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isCastleWallCorner && <CastleWallCorner boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isCastleArch && <CastleArch boardHex={boardHex} underHexTerrain={underHexTerrain} />}
     </>
   )
 }

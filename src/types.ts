@@ -99,6 +99,7 @@ export type Piece = {
     template: string;
     height: number;
     isLand: boolean;
+    buddyID?: string; // castle walls and bases, laur walls and bases, glaciers, outcrops, hive, etc
 }
 export enum Pieces {
     grass1 = 'grass1',
@@ -176,14 +177,14 @@ export enum Pieces {
     wallWalk1 = 'wallWalk1',
     wallWalk7 = 'wallWalk7',
     wallWalk9 = 'wallWalk9',
-    archDoor3 = 'archDoor3',
-    archNoDoor3 = 'archNoDoor3',
     castleBaseCorner = 'castleBaseCorner',
     castleBaseStraight = 'castleBaseStraight',
     castleBaseEnd = 'castleBaseEnd',
     castleWallCorner = 'castleWallCorner',
     castleWallStraight = 'castleWallStraight',
     castleWallEnd = 'castleWallEnd',
+    castleArch = 'castleArch',
+    castleArchNoDoor = 'castleArchNoDoor',
 }
 export enum PenMode {
     select = 'select',

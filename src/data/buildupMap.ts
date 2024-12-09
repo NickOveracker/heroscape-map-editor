@@ -76,6 +76,7 @@ export function getBoardHexesWithPieceAdded({
   })
   const clickedHexIDOrTileCoordsPresumedID = genBoardHexID({ ...cubeCoords, altitude: placementAltitude })
   const pieceID = genPieceID(clickedHexIDOrTileCoordsPresumedID, piece.id)
+  let pieceIDOfBase = '' // this may get updated if we place something requiring a base
   const genIds = (altitude: number) => {
     return piecePlaneCoords.map((cubeCoord) => (
       genBoardHexID({ ...cubeCoord, altitude: altitude })
@@ -88,7 +89,7 @@ export function getBoardHexesWithPieceAdded({
   // 2: VALIDATE DATA
   const isPlacingOnTable = placementAltitude === 0 && underHexIds.every(id => (newBoardHexes?.[id]?.terrain ?? '') === HexTerrain.empty)
   const isSpaceFree = newHexIds.every(id => !newBoardHexes[id])
-  const isSolidUnderAtLeastOne = underHexIds.some(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? '')) // fluids will need one under every hex (no multi hex fluids yet)
+  const isSolidUnderAtLeastOne = underHexIds.some(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''))
   const isSolidUnderAll = underHexIds.every(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''))
   const isVerticalClearanceForObstacle = newHexIds.every((_, i) => {
     const clearanceHexIds = Array(piece.height).fill(0).map((_, j) => {
@@ -108,53 +109,21 @@ export function getBoardHexesWithPieceAdded({
   // CASTLE FIRST!
   if (piece.terrain === HexTerrain.castle) {
     const isCastleBaseSupported = isPlacingOnTable || isSolidUnderAtLeastOne // only works because all castle bases are 1-hex currently
-    const isCastleBaseUnderAll = underHexIds.every(id => newBoardHexes?.[id]?.isCastleBase)
-    const isCastleWallSupported = isSolidUnderAll || isCastleBaseUnderAll // Our app will place a base for you if not present(virtualscape has bases and walls, and you have to place both)
+    const isCastleWallSupported = underHexIds.every(id => newBoardHexes?.[id]?.pieceID.includes((piece?.buddyID ?? '')) || newBoardHexes?.[id]?.pieceID.includes((piece.inventoryID)))
     const isSolidUnder2OuterHexes = underHexIds.every((id, i) => i === 1 ? true : isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? '')) // i=0, i=2, those are the 2 "outer" hexes of the 3-hex arch
     const isCastleArchSupported = isPlacingOnTable || isSolidUnder2OuterHexes
     const isCastleBasePiece = piece.inventoryID === Pieces.castleBaseEnd || piece.inventoryID === Pieces.castleBaseStraight || piece.inventoryID === Pieces.castleBaseCorner
     const isCastleWallPiece = piece.inventoryID === Pieces.castleWallEnd || piece.inventoryID === Pieces.castleWallStraight || piece.inventoryID === Pieces.castleWallCorner
-    const isCastleArchPiece = piece.inventoryID === Pieces.archDoor3 || piece.inventoryID === Pieces.archNoDoor3
+    const isCastleArchPiece = piece.inventoryID === Pieces.castleArch || piece.inventoryID === Pieces.castleArchNoDoor
     // castle base
     if (isCastleBasePiece && isSpaceFree && isCastleBaseSupported) {
-      newHexIds.forEach((newHexID, iForEach) => {
-        const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
+      newHexIds.forEach((newHexID, i) => {
+        const hexUnderneath = newBoardHexes?.[underHexIds[i]]
         const isSolidUnderneath = isSolidTerrainHex(hexUnderneath?.terrain)
         if (isSolidUnderneath || isPlacingOnTable) { // covers up the cap below
           // remove old cap
           newBoardHexes[hexUnderneath.id].isCap = false
         }
-
-        newBoardHexes[newHexID] = {
-          id: newHexID,
-          q: piecePlaneCoords[iForEach].q,
-          r: piecePlaneCoords[iForEach].r,
-          s: piecePlaneCoords[iForEach].s,
-          altitude: newPieceAltitude,
-          terrain: piece.terrain,
-          pieceID,
-          pieceRotation: rotation,
-          isCap: false,
-          isCastleBase: true
-        }
-      })
-    }
-    // castle wall
-    if (isCastleWallPiece && isSpaceFree && isCastleWallSupported && isVerticalClearanceForObstacle) {
-      newHexIds.forEach((newHexID, i) => {
-        // So, we are going to write in 10 hexes of wall:
-        // We either start at the current hex (we clicked a land hex)
-        // OR
-        // We start at the hex below (we clicked a castle base, and it is getting overwritten/incorporated)
-
-        // const hexUnderneath = newBoardHexes?.[underHexIds[i]]
-        // const isHexUnderneathCastleBase = hexUnderneath?.isCastleBase
-        // let heightAdjust = 0
-        // if (isHexUnderneathCastleBase) {
-        //   heightAdjust = -1
-        // }
-
-        // write in the new hex
         newBoardHexes[newHexID] = {
           id: newHexID,
           q: piecePlaneCoords[i].q,
@@ -165,15 +134,61 @@ export function getBoardHexesWithPieceAdded({
           pieceID,
           pieceRotation: rotation,
           isCap: false,
-          isObstacleOrigin: i === 0 ? true : false, //only the first hex is an origin (because we made the template arrays this way. with origin hex at index 0)
-          isAuxiliary: i !== 0 ? true : false,
-          obstacleHeight: piece.height
+          isCastleBase: true
+        }
+      })
+    }
+    // castle wall
+    const canPlaceArch = isCastleArchPiece && isCastleArchSupported
+    const canPlaceWall = isCastleWallPiece && isCastleWallSupported
+    if ((canPlaceArch || canPlaceWall) && isSpaceFree && isVerticalClearanceForObstacle) {
+      newHexIds.forEach((newHexID, i) => {
+        // So, we are going to write in 10 hexes of wall:
+        // Start at the hex below (we clicked a castle base, and it is getting overwritten/incorporated)
+        // OR
+        // Start at the current hex (we clicked a land hex, and we are skipping the castle-base and going straight to a wall)
+        const hexUnderneath = newBoardHexes?.[underHexIds[i]]
+        const isHexUnderneathCastleBase = hexUnderneath?.isCastleBase
+        const wallAltitude = isHexUnderneathCastleBase ? placementAltitude : newPieceAltitude
+        if (isHexUnderneathCastleBase) {
+          newBoardHexes[hexUnderneath.id] = {
+            id: hexUnderneath.id,
+            q: piecePlaneCoords[i].q,
+            r: piecePlaneCoords[i].r,
+            s: piecePlaneCoords[i].s,
+            altitude: wallAltitude,
+            terrain: piece.terrain,
+            pieceID,
+            pieceRotation: rotation,
+            isCap: false,
+            isObstacleOrigin: i === 0 ? true : false, //only the first hex is an origin (because we made the template arrays this way. with origin hex at index 0)
+            isAuxiliary: i !== 0 ? true : false,
+            obstacleHeight: piece.height
+          }
+        } else {
+          const pieceInventoryIDOfBase = isHexUnderneathCastleBase ? piece.buddyID : ''
+          // remove the cap from land hex below
+          newBoardHexes[hexUnderneath.id].isCap = false
+          newBoardHexes[newHexID] = {
+            id: newHexID,
+            q: piecePlaneCoords[i].q,
+            r: piecePlaneCoords[i].r,
+            s: piecePlaneCoords[i].s,
+            altitude: wallAltitude,
+            terrain: piece.terrain,
+            pieceID,
+            pieceRotation: rotation,
+            isCap: false,
+            isObstacleOrigin: i === 0 ? true : false, //only the first hex is an origin (because we made the template arrays this way. with origin hex at index 0)
+            isAuxiliary: i !== 0 ? true : false,
+            obstacleHeight: piece.height
+          }
+
         }
 
         // write in the new clearances, this will block some pieces at these coordinates
-        // note that if we had to place a base then all these clearances need to shift up 1
-        Array(piece.height).fill(0).forEach((_, j) => {
-          const clearanceHexAltitude = newPieceAltitude + 1 + j;
+        Array(piece.height - (isHexUnderneathCastleBase ? 0 : 1)).fill(0).forEach((_, j) => {
+          const clearanceHexAltitude = wallAltitude + 1 + j;
           const clearanceID = genBoardHexID({ ...piecePlaneCoords[i], altitude: clearanceHexAltitude });
           newBoardHexes[clearanceID] = {
             id: clearanceID,
@@ -189,18 +204,37 @@ export function getBoardHexesWithPieceAdded({
         });
       })
     }
-
-    // castle arch
-    // if (isCastleArchPiece && isSpaceFree && isCastleArchSupported) {
-    // }
-
   }
 
   if (piece.terrain === HexTerrain.wallWalk) {
     // we can put this on castle walls, or we can put it like regular road, below
+    const isCastleWallUnder = underHexIds.some(id => newBoardHexes?.[id]?.terrain === HexTerrain.castle)
+    if (isSpaceFree && isCastleWallUnder) {
+      newHexIds.forEach((newHexID, iForEach) => {
+        const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
+        const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
+        let isCap = true
+        if (isSolidAbove) {
+          isCap = false // we are not a cap if there is a solid above our solid
+        }
+        newBoardHexes[newHexID] = {
+          id: newHexID,
+          q: piecePlaneCoords[iForEach].q,
+          r: piecePlaneCoords[iForEach].r,
+          s: piecePlaneCoords[iForEach].s,
+          altitude: newPieceAltitude,
+          terrain: piece.terrain,
+          pieceID,
+          pieceRotation: rotation,
+          isCap,
+        }
+      })
+    }
   }
+
+  // LAND: SOLID AND FLUID
   if (piece.isLand) {
-    // in this part, if wallWalk tiles are not placed on castle pieces, they will be in a future part
+    // in this part, if wallWalk tiles were not placed on castle pieces, they are now placed like regular road tiles
     const isLandPieceSupported = isPlacingOnTable || (isSolidTile && isSolidUnderAtLeastOne) || (isFluidTile && isSolidUnderAll)
     if (isSpaceFree && isLandPieceSupported) {
       newHexIds.forEach((newHexID, iForEach) => {
@@ -232,6 +266,7 @@ export function getBoardHexesWithPieceAdded({
     }
   }
 
+  // Trees, Jungle, Glaciers, Outcrops
   if (isObstaclePieceID(piece.inventoryID)) {
     const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
     if (isSpaceFree && isVerticalClearanceForObstacle && isObstaclePieceSupported) {
@@ -280,7 +315,6 @@ export function getBoardHexesWithPieceAdded({
   Our app uses 7/9 hexes for each ruin's footprint, and implements vertical obstruction.
   */
   if (piece.terrain === HexTerrain.ruin) {
-
     const isSolidUnderAllSupportHexes = underHexIds.every((_, i) => {
       // Ruins only need to be supported under their center of mass, and we could be more liberal than this (allowing combinations of certain hexes)
       const isRequiredToSupportThisOne = verticalSupportTemplates[piece.inventoryID][i]
