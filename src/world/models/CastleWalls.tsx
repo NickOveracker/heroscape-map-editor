@@ -21,7 +21,6 @@ export function CastleWallEnd({ boardHex, underHexTerrain }: { boardHex: BoardHe
         geometry={nodes.Cylinder.geometry}
         position={[x, yBase, z]}
         rotation={[0, rotation * -Math.PI / 3, 0]}
-
       >
         <meshMatcapMaterial
           color={hexTerrainColor[HexTerrain.castle]}
@@ -86,8 +85,6 @@ export function CastleWallCorner({ boardHex, underHexTerrain }: { boardHex: Boar
 useGLTF.preload('/castle-wall-corner-handmade.glb')
 
 export function CastleArch({ boardHex, underHexTerrain }: { boardHex: BoardHex, underHexTerrain: string }) {
-  console.log("🚀 ~ CastleArch ~ underHexTerrain:", underHexTerrain)
-  // const boardPieces = useBoundStore(s=>s.boardPieces)
   const { nodes } = useGLTF('/castle-arch-handmade.glb') as any
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
