@@ -111,7 +111,7 @@ export function getBoardHexesWithPieceAdded({
     const isCorrespondingBaseOrWallUnderAll = underHexIds.every(id => newBoardHexes?.[id]?.pieceID.includes((piece?.buddyID ?? '')) || newBoardHexes?.[id]?.pieceID.includes((piece.inventoryID)))
     const isCastleWallSupported = isSolidUnderAll || isCorrespondingBaseOrWallUnderAll
     const isSolidUnder2OuterHexes = underHexIds.every((id, i) => i === 1 ? true : isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? '')) // i=0, i=2, those are the 2 "outer" hexes of the 3-hex arch
-    const isCastleArchSupported = isPlacingOnTable || isSolidUnder2OuterHexes
+    const isCastleArchSupported = isSolidUnder2OuterHexes
     const isCastleBasePiece = piece.inventoryID === Pieces.castleBaseEnd || piece.inventoryID === Pieces.castleBaseStraight || piece.inventoryID === Pieces.castleBaseCorner
     const isCastleWallPiece = piece.inventoryID === Pieces.castleWallEnd || piece.inventoryID === Pieces.castleWallStraight || piece.inventoryID === Pieces.castleWallCorner
     const isCastleArchPiece = piece.inventoryID === Pieces.castleArch || piece.inventoryID === Pieces.castleArchNoDoor
