@@ -17,14 +17,18 @@ import Outcrop6 from '../models/Outcrop6'
 import MarroHive6 from '../models/MarroHive6'
 import { CastleBaseCorner, CastleBaseEnd, CastleBaseStraight } from '../models/CastleBases'
 import { CastleArch, CastleWallCorner, CastleWallEnd, CastleWallStraight } from '../models/CastleWalls'
+import { ThreeEvent } from '@react-three/fiber'
 
 
 export const MapHex3D = ({
   boardHex,
+  onPointerUp
 }: {
   boardHex: BoardHex
+  onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }) => {
   const boardPieces = useBoundStore(s => s.boardPieces)
+  const boardHexes = useBoundStore(s => s.boardHexes)
   const pieceID = boardPieces[boardHex.pieceID]
   const { x, y, z } = getBoardHex3DCoords(boardHex)
   const isHeightRingedHex = isSolidTerrainHex(boardHex.terrain) || boardHex.terrain === HexTerrain.empty
@@ -49,11 +53,8 @@ export const MapHex3D = ({
   const isCastleWallCorner = pieceID === Pieces.castleWallCorner && boardHex.isObstacleOrigin
   const isCastleArch = (pieceID === Pieces.castleArch || pieceID === Pieces.castleArchNoDoor)
 
-  const boardHexes = useBoundStore(s => s.boardHexes)
   const underHexID = genBoardHexID({ ...boardHex, altitude: boardHex.altitude - 1 });
   const underHexTerrain = boardHexes?.[underHexID]?.terrain ?? HexTerrain.grass
-  const overHexID = genBoardHexID({ ...boardHex, altitude: boardHex.altitude + 9 });
-  const overHex = boardHexes[overHexID]
   const genOverHexIDForWall = (height: number) => genBoardHexID({ ...boardHex, altitude: boardHex.altitude + height + 1 });
   const castleWallOverHexTerrain = boardHexes?.[genOverHexIDForWall(boardHex?.obstacleHeight ?? 10)]?.terrain ?? ''
 
@@ -78,7 +79,7 @@ export const MapHex3D = ({
       {isCastleBaseEnd && <CastleBaseEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleBaseStraight && <CastleBaseStraight boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleBaseCorner && <CastleBaseCorner boardHex={boardHex} underHexTerrain={underHexTerrain} />}
-      {isCastleWallEnd && <CastleWallEnd boardHex={boardHex} overHexTerrain={castleWallOverHexTerrain} underHexTerrain={underHexTerrain} />}
+      {isCastleWallEnd && <CastleWallEnd onPointerUp={onPointerUp} boardHex={boardHex} overHexTerrain={castleWallOverHexTerrain} underHexTerrain={underHexTerrain} />}
       {/* {isCastleWallEnd && <CastleWallEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />} */}
       {isCastleWallStraight && <CastleWallStraight boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleWallCorner && <CastleWallCorner boardHex={boardHex} underHexTerrain={underHexTerrain} />}

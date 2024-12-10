@@ -10,14 +10,14 @@ export type DreiCapProps = {
   boardHexArr: BoardHex[]
   onPointerEnter: (event: ThreeEvent<PointerEvent>, hex: BoardHex) => void
   onPointerOut: () => void
-  onPointerDown: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
+  onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }
 export type DreiInstanceCapProps = {
   boardHex: BoardHex
   boardHexArr: BoardHex[]
   onPointerEnter: (event: ThreeEvent<PointerEvent>, hex: BoardHex) => void
   onPointerOut: () => void
-  onPointerDown: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
+  onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }
 
 export type InstanceRefType = InstancedMesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], InstancedMeshEventMap>

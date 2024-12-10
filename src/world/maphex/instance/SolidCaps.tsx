@@ -13,7 +13,7 @@ const SolidCaps = ({
   boardHexArr,
   onPointerEnter,
   onPointerOut,
-  onPointerDown
+  onPointerUp
 }: DreiCapProps) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
   if (boardHexArr.length === 0) return null
@@ -32,7 +32,7 @@ const SolidCaps = ({
           boardHexArr={boardHexArr}
           onPointerEnter={onPointerEnter}
           onPointerOut={onPointerOut}
-          onPointerDown={onPointerDown}
+          onPointerUp={onPointerUp}
         />
       ))}
     </Instances>
@@ -46,7 +46,7 @@ function SolidCap({
   boardHexArr,
   onPointerEnter,
   onPointerOut,
-  onPointerDown
+  onPointerUp
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
@@ -69,15 +69,15 @@ function SolidCap({
       ref.current.color.set(hexTerrainColor[boardHexArr[e.instanceId].terrain])
     }
   }
-  const handleDown = (e: ThreeEvent<PointerEvent>) => {
+  const handleUp = (e: ThreeEvent<PointerEvent>) => {
     if (e.instanceId === 0 || !!e.instanceId) {
-      onPointerDown(e, boardHexArr[e.instanceId])
+      onPointerUp(e, boardHexArr[e.instanceId])
     }
   }
 
   return <Instance
     ref={ref}
-    onPointerDown={handleDown}
+    onPointerUp={handleUp}
     onPointerEnter={handleEnter}
     onPointerOut={handleOut}
     castShadow

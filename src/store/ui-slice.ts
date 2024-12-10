@@ -54,7 +54,7 @@ const createUISlice: StateCreator<
     isCameraDisabled: false,
     toggleIsCameraDisabled: (b: boolean) => set(produce((s => { s.isCameraDisabled = b }))),
 })
-const landSizes: Dictionary<number[]> = { // This should be derived, it is duplicate dat
+const landSizes: Dictionary<number[]> = { // This should be derived, it is duplicate data
     // solid terrain below
     [HexTerrain.grass]: [1, 2, 3, 7, 24],
     [HexTerrain.rock]: [1, 2, 3, 7, 24],

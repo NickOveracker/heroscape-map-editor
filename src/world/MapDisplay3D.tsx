@@ -5,7 +5,7 @@ import { CameraControls } from '@react-three/drei'
 import { MapHex3D } from './maphex/MapHex3D.tsx'
 import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
-import { BoardHex, BoardHexes, HexTerrain, PenMode } from '../types.ts'
+import { BoardHex, HexTerrain, PenMode } from '../types.ts'
 import buildupVSFileMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isJungleTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
 import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
@@ -21,6 +21,7 @@ export default function MapDisplay3D({
     cameraControlsRef: React.MutableRefObject<CameraControls>
 }) {
     const boardHexes = useBoundStore((state) => state.boardHexes)
+    const boardHexesArr = Object.values(boardHexes)
     const penMode = useBoundStore((state) => state.penMode)
     const paintTile = useBoundStore((state) => state.paintTile)
     const loadMap = useBoundStore((state) => state.loadMap)
@@ -50,9 +51,9 @@ export default function MapDisplay3D({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const instanceBoardHexes = getInstanceBoardHexes(boardHexes)
+    const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr)
 
-    const onPointerDown = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
+    const onPointerUp = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
         if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
         event.stopPropagation()
         // Early out if camera is active
@@ -95,6 +96,7 @@ export default function MapDisplay3D({
             })
         }
     }
+
     const onPointerEnter = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
         event.stopPropagation()
         hoverID.current = hex.id
@@ -109,25 +111,26 @@ export default function MapDisplay3D({
                 boardHexArr={instanceBoardHexes.emptyHexCaps}
                 onPointerEnter={onPointerEnter}
                 onPointerOut={onPointerOut}
-                onPointerDown={onPointerDown}
+                onPointerUp={onPointerUp}
             />
             <SolidCaps
                 boardHexArr={instanceBoardHexes.solidHexCaps}
                 onPointerEnter={onPointerEnter}
                 onPointerOut={onPointerOut}
-                onPointerDown={onPointerDown}
+                onPointerUp={onPointerUp}
             />
             <FluidCaps
                 boardHexArr={instanceBoardHexes.fluidHexCaps}
                 onPointerEnter={onPointerEnter}
                 onPointerOut={onPointerOut}
-                onPointerDown={onPointerDown}
+                onPointerUp={onPointerUp}
             />
-            {Object.values(boardHexes).map((bh => {
+            {boardHexesArr.map((bh => {
                 return (
                     <MapHex3D
                         key={bh.id}
                         boardHex={bh}
+                        onPointerUp={onPointerUp}
                     />
                 )
             }))}
@@ -141,9 +144,8 @@ type InstanceBoardHexes = {
     solidHexCaps: BoardHex[],
     fluidHexCaps: BoardHex[],
 }
-function getInstanceBoardHexes(boardHexes: BoardHexes) {
-    const boardHexArr = Object.values(boardHexes)
-    return boardHexArr.reduce((result: InstanceBoardHexes, current) => {
+function getInstanceBoardHexes(boardHexesArr: BoardHex[]) {
+    return boardHexesArr.reduce((result: InstanceBoardHexes, current) => {
         const isCap = current.isCap
         const isEmptyCap = isCap && current.terrain === HexTerrain.empty
         const isSolidCap = isCap && isSolidTerrainHex(current.terrain)

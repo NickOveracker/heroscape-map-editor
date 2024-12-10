@@ -6,15 +6,18 @@ import ObstacleBase from './ObstacleBase'
 import { HEXGRID_HEX_HEIGHT, HEXGRID_SPACING } from '../../utils/constants'
 import { Vector3 } from 'three'
 import { isSolidTerrainHex } from '../../utils/board-utils'
+import { ThreeEvent } from '@react-three/fiber'
 
 export function CastleWallEnd({
   boardHex,
   underHexTerrain,
   overHexTerrain,
+  onPointerUp
 }: {
   boardHex: BoardHex,
   underHexTerrain: string
   overHexTerrain: string,
+  onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }) {
   const { nodes } = useGLTF('/adjustable-castle-wall-end-handmade.glb') as any
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
@@ -46,6 +49,7 @@ export function CastleWallEnd({
           <mesh
             geometry={nodes.CastleWallEndCap.geometry}
             position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
+            onPointerUp={e => onPointerUp(e, boardHex)}
           >
             <meshMatcapMaterial
               color={hexTerrainColor[HexTerrain.castle]}
