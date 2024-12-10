@@ -16,7 +16,7 @@ import Outcrop4 from '../models/Outcrop4'
 import Outcrop6 from '../models/Outcrop6'
 import MarroHive6 from '../models/MarroHive6'
 import { CastleBaseCorner, CastleBaseEnd, CastleBaseStraight } from '../models/CastleBases'
-import { CastleWallCorner, CastleWallEnd, CastleWallStraight } from '../models/CastleWalls'
+import { CastleWall } from '../models/CastleWalls'
 import { ThreeEvent } from '@react-three/fiber'
 import { CastleArch } from '../models/CastleArch'
 
@@ -77,13 +77,14 @@ export const MapHex3D = ({
       {isGlacier4Hex && <Outcrop4 boardHex={boardHex} isGlacier={true} />}
       {isGlacier6Hex && <Outcrop6 boardHex={boardHex} isGlacier={true} />}
       {isHiveHex && <MarroHive6 boardHex={boardHex} />}
+
       {isCastleBaseEnd && <CastleBaseEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleBaseStraight && <CastleBaseStraight boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleBaseCorner && <CastleBaseCorner boardHex={boardHex} underHexTerrain={underHexTerrain} />}
-      {isCastleWallEnd && <CastleWallEnd onPointerUp={onPointerUp} boardHex={boardHex} overHexTerrain={castleWallOverHexTerrain} underHexTerrain={underHexTerrain} />}
-      {/* {isCastleWallEnd && <CastleWallEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />} */}
-      {isCastleWallStraight && <CastleWallStraight boardHex={boardHex} underHexTerrain={underHexTerrain} />}
-      {isCastleWallCorner && <CastleWallCorner boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+
+      {isCastleWallEnd && <CastleWall onPointerUp={onPointerUp} boardHex={boardHex} overHexTerrain={castleWallOverHexTerrain} underHexTerrain={underHexTerrain} />}
+      {isCastleWallStraight && <CastleWall onPointerUp={onPointerUp} boardHex={boardHex} overHexTerrain={castleWallOverHexTerrain} underHexTerrain={underHexTerrain} />}
+      {isCastleWallCorner && <CastleWall onPointerUp={onPointerUp} boardHex={boardHex} overHexTerrain={castleWallOverHexTerrain} underHexTerrain={underHexTerrain} />}
       {isCastleArch && <CastleArch boardHex={boardHex} underHexTerrain={underHexTerrain} />}
     </>
   )
