@@ -11,14 +11,18 @@ import { interiorHexTemplates, verticalObstructionTemplates, verticalSupportTemp
 
 
 export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: string): MapState {
+  const blankMap = getBlankHexoscapeMapForVSTiles(tiles, fileName)
   let {
-    boardHexes,
     boardPieces,
+  } = blankMap
+  const {
+    boardHexes,
+    // boardPieces,
     hexMap
-  } = getBlankHexoscapeMapForVSTiles(tiles, fileName)
-  const startZoneTiles = tiles.filter(t => t.type === 15001)
+  } = blankMap
   const terrainTilesOnly = tiles.filter(t => t.type !== 15001)
-  const newBoardHexes = tiles.reduce((boardHexes: BoardHexes, tile) => {
+  // const startZoneTiles = tiles.filter(t => t.type === 15001)
+  const newBoardHexes = terrainTilesOnly.reduce((boardHexes: BoardHexes, tile) => {
     const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
     const inventoryID = pieceCodes?.[tile.type] ?? ''
     const piece = piecesSoFar[inventoryID]
