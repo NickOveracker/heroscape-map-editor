@@ -14,6 +14,7 @@ import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
+import { genBoardHexID } from '../utils/map-utils.ts'
 
 export default function MapDisplay3D({
     cameraControlsRef,
@@ -76,14 +77,17 @@ export default function MapDisplay3D({
             // paintStartZone({ hexID: hex.id, playerID: penMode.slice(-1) })
         }
         const isWallWalkPen = penMode.startsWith('wallWalk')
-        const isCastleBase = penMode.startsWith('castleBase')
-        const isCastleWall = penMode.startsWith('castleWall') || penMode.startsWith('castleArch')
-        if (isWallWalkPen || isCastleBase || isCastleWall || isSolidTerrainHex(penMode) || isFluidTerrainHex(penMode)) {
+        const isCastleBasePen = penMode.startsWith('castleBase')
+        const isCastleWallArchPen = penMode.startsWith('castleWall') || penMode.startsWith('castleArch')
+        if (isWallWalkPen || isCastleBasePen || isCastleWallArchPen || isSolidTerrainHex(penMode) || isFluidTerrainHex(penMode)) {
+            const boardHexOfCapForWall = genBoardHexID({ ...hex, altitude: hex.altitude + (hex?.obstacleHeight ?? 0) })
+            const isCastleWallArchClicked = hex.pieceID.includes('castleWall') || hex.pieceID.includes('castleArch')
+            const clickedHex = (isCastleWallArchClicked && isCastleWallArchPen) ? boardHexes[boardHexOfCapForWall] : hex
             // we are painting wallWalks here as normal land, may need update in castle times
-            const piece = (isWallWalkPen || isCastleBase || isCastleWall) ? piecesSoFar[penMode] : getPieceByTerrainAndSize(penMode, pieceSize)
+            const piece = (isWallWalkPen || isCastleBasePen || isCastleWallArchPen) ? piecesSoFar[penMode] : getPieceByTerrainAndSize(penMode, pieceSize)
             paintTile({
                 piece,
-                clickedHex: hex,
+                clickedHex: clickedHex,
                 rotation: pieceRotation,
             })
         }
