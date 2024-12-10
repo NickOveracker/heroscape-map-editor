@@ -32,9 +32,6 @@ export function CastleWall({
   const scaleY = (boardHex?.obstacleHeight ?? 9) + (1 - scaleDown)
   const scale = new Vector3(1, scaleY, 1)
   const position = new Vector3(x, yBase - positionDown, z)
-  const myObj = {
-    [Pieces.castleWallEnd]: '',
-  }
   return (
     <group>
       <group
@@ -143,6 +140,29 @@ export function CastleWallStraight({ boardHex, underHexTerrain }: { boardHex: Bo
     </group>
   )
 }
+
+// export function Model(props) {
+//   const { nodes, materials } = useGLTF('/adjustable-castle-wall-straight-handmade.glb')
+//   return (
+//     <group {...props} dispose={null}>
+//       <mesh
+//         castShadow
+//         receiveShadow
+//         geometry={nodes.CastleWallStraightBody.geometry}
+//         material={nodes.CastleWallStraightBody.material}
+//       />
+//       <mesh
+//         castShadow
+//         receiveShadow
+//         geometry={nodes.CastleWallStraightCap.geometry}
+//         material={nodes.CastleWallStraightCap.material}
+//       />
+//     </group>
+//   )
+// }
+
+// useGLTF.preload('/adjustable-castle-wall-straight-handmade.glb')
+
 useGLTF.preload('/castle-wall-straight-handmade.glb')
 
 export function CastleWallCorner({ boardHex, underHexTerrain }: { boardHex: BoardHex, underHexTerrain: string }) {
@@ -169,49 +189,27 @@ export function CastleWallCorner({ boardHex, underHexTerrain }: { boardHex: Boar
     </group>
   )
 }
+
+// export function Model(props) {
+//   const { nodes, materials } = useGLTF('/adjustable-castle-wall-corner-handmade.glb')
+//   return (
+//     <group {...props} dispose={null}>
+//       <mesh
+//         castShadow
+//         receiveShadow
+//         geometry={nodes.CastleWallCornerBody.geometry}
+//         material={nodes.CastleWallCornerBody.material}
+//       />
+//       <mesh
+//         castShadow
+//         receiveShadow
+//         geometry={nodes.CastleWallCornerCap.geometry}
+//         material={nodes.CastleWallCornerCap.material}
+//       />
+//     </group>
+//   )
+// }
+
+// useGLTF.preload('/adjustable-castle-wall-corner-handmade.glb')
+
 useGLTF.preload('/castle-wall-corner-handmade.glb')
-
-export function CastleArch({ boardHex, underHexTerrain }: { boardHex: BoardHex, underHexTerrain: string }) {
-  const { nodes } = useGLTF('/castle-arch-handmade.glb') as any
-  const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
-  const rotation = boardHex?.pieceRotation ?? 0
-  const isDoor = !boardHex.pieceID.includes("NoDoor") // hacky but fast
-  const isCastleUnder = underHexTerrain === HexTerrain.castle
-  if (!(boardHex.isAuxiliary || boardHex.isObstacleOrigin)) {
-    return null
-  }
-  if (boardHex.isAuxiliary) {
-    return !isCastleUnder ? <ObstacleBase x={x} y={yBaseCap} z={z} color={hexTerrainColor[underHexTerrain]} /> : <></>
-
-  }
-  return (
-    <group>
-      <group
-        position={[x, yBase, z]}
-        rotation={[0, rotation * -Math.PI / 3, 0]}
-        scale={[HEXGRID_SPACING, 1, 1]} // this stretches the arch to full span 3 hexes (warping should be almost imperceptible)
-      >
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.CastleArch.geometry}
-        >
-          <meshMatcapMaterial
-            color={hexTerrainColor[HexTerrain.castle]}
-          />
-        </mesh>
-        {isDoor && <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.ArchDoor.geometry}
-        >
-          <meshMatcapMaterial
-            color={hexTerrainColor['dirt']}
-          />
-        </mesh>}
-      </group>
-      <ObstacleBase x={x} y={yBaseCap} z={z} color={hexTerrainColor[underHexTerrain]} />
-    </group>
-  )
-}
-useGLTF.preload('/castle-arch-handmade.glb')

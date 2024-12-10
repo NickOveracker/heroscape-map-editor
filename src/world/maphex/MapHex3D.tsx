@@ -16,8 +16,9 @@ import Outcrop4 from '../models/Outcrop4'
 import Outcrop6 from '../models/Outcrop6'
 import MarroHive6 from '../models/MarroHive6'
 import { CastleBaseCorner, CastleBaseEnd, CastleBaseStraight } from '../models/CastleBases'
-import { CastleArch, CastleWallCorner, CastleWallEnd, CastleWallStraight } from '../models/CastleWalls'
+import { CastleWallCorner, CastleWallEnd, CastleWallStraight } from '../models/CastleWalls'
 import { ThreeEvent } from '@react-three/fiber'
+import { CastleArch } from '../models/CastleArch'
 
 
 export const MapHex3D = ({
