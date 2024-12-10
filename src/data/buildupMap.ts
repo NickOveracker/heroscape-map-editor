@@ -1,5 +1,5 @@
 import { clone } from 'lodash';
-import { VirtualScapeTile, BoardHexes, Piece, CubeCoordinate, MapState, HexTerrain, Pieces, } from '../types'
+import { VirtualScapeTile, BoardHexes, Piece, CubeCoordinate, MapState, HexTerrain, Pieces, BoardPieces, } from '../types'
 import { isFluidTerrainHex, isObstaclePieceID, isObstructingTerrain, isSolidTerrainHex } from '../utils/board-utils';
 import { hexUtilsOddRToCube } from '../utils/hex-utils';
 import { genBoardHexID, genPieceID } from '../utils/map-utils';
@@ -11,38 +11,39 @@ import { interiorHexTemplates, verticalObstructionTemplates, verticalSupportTemp
 
 
 export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: string): MapState {
-  const {
+  let {
     boardHexes,
     boardPieces,
     hexMap
   } = getBlankHexoscapeMapForVSTiles(tiles, fileName)
-
+  const startZoneTiles = tiles.filter(t => t.type === 15001)
+  const terrainTilesOnly = tiles.filter(t => t.type !== 15001)
   const newBoardHexes = tiles.reduce((boardHexes: BoardHexes, tile) => {
     const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
     const inventoryID = pieceCodes?.[tile.type] ?? ''
     const piece = piecesSoFar[inventoryID]
-    if (piece) {
-      // get the new board hexes and new board pieces
-      const { newBoardHexes, newPieceID } = getBoardHexesWithPieceAdded({
-        piece,
-        boardHexes,
-        cubeCoords: tileCoords,
-        placementAltitude: tile.posZ, // z is altitude is virtualscape, y is altitude in our app
-        rotation: tile.rotation,
-        isVsTile: true
-      })
-      // mark every new piece on the board
-      boardPieces[newPieceID] = piece.inventoryID
-      return newBoardHexes
-    } else {
+    if (!piece) {
       return boardHexes // Should probably handle this different, errors etc.
     }
+    // get the new board hexes and new board pieces
+    const { newBoardHexes, newBoardPieces } = getBoardHexesWithPieceAdded({
+      piece,
+      boardHexes,
+      boardPieces,
+      cubeCoords: tileCoords,
+      placementAltitude: tile.posZ, // z is altitude is virtualscape, y is altitude in our app
+      rotation: tile.rotation,
+      isVsTile: true
+    })
+    // mark every new piece on the board
+    boardPieces = newBoardPieces
+    return newBoardHexes
   }, boardHexes)
 
   return {
     boardHexes: newBoardHexes,
     hexMap: hexMap,
-    boardPieces: boardPieces,
+    boardPieces,
     glyphs: {},
     startZones: {}
   }
@@ -51,6 +52,7 @@ export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: st
 type PieceAddArgs = {
   piece: Piece,
   boardHexes: BoardHexes,
+  boardPieces: BoardPieces,
   cubeCoords: CubeCoordinate,
   placementAltitude: number
   rotation: number
@@ -59,12 +61,14 @@ type PieceAddArgs = {
 export function getBoardHexesWithPieceAdded({
   piece,
   boardHexes,
+  boardPieces,
   cubeCoords,
   placementAltitude,
   rotation,
   isVsTile
 }: PieceAddArgs): PieceAddReturn {
   const newBoardHexes = clone(boardHexes)
+  const newBoardPieces = clone(boardPieces)
   const isSolidTile = isSolidTerrainHex(piece.terrain)
   const isFluidTile = isFluidTerrainHex(piece.terrain)
   // 1.1: GATHER DATA ON TILE
@@ -151,8 +155,12 @@ export function getBoardHexesWithPieceAdded({
         const isHexUnderneathCastleBase = hexUnderneath?.isCastleBase
         const wallAltitude = isHexUnderneathCastleBase ? placementAltitude : newPieceAltitude
         const heightToUse = piece.height - (isHexUnderneathCastleBase || isSolidUnderAll ? 0 : 1)
-        // const pieceInventoryIDOfBase = isHexUnderneathCastleBase ? piece.buddyID : ''
-
+        const pieceInventoryIDOfBase = isHexUnderneathCastleBase ? '' : piece.buddyID // if there is no base present we add one
+        if (pieceInventoryIDOfBase) {
+          // we are being crazy re-using clickedHexIDOrTileCoordsPresumedID here: VStiles will have a base and a wall one altitude above. We have auto-base and wall pieces at the same spot, could cause trouble later
+          const basePieceID = genPieceID(clickedHexIDOrTileCoordsPresumedID, pieceInventoryIDOfBase)
+          newBoardPieces[basePieceID] = pieceInventoryIDOfBase as Pieces
+        }
         if (isHexUnderneathCastleBase) {
           newBoardHexes[hexUnderneath.id] = {
             id: hexUnderneath.id,
@@ -408,9 +416,11 @@ export function getBoardHexesWithPieceAdded({
       })
     }
   }
-  return { newBoardHexes, newPieceID: pieceID }
+  // write the new piece
+  newBoardPieces[pieceID] = piece.inventoryID
+  return { newBoardHexes, newBoardPieces }
 }
-type PieceAddReturn = { newBoardHexes: BoardHexes, newPieceID: string }
+type PieceAddReturn = { newBoardHexes: BoardHexes, newBoardPieces: BoardPieces }
 
 function getBlankHexoscapeMapForVSTiles(tiles: VirtualScapeTile[], fileName: string): MapState {
   // cushions have to be an even number because of the coordinate system used in virtualscape

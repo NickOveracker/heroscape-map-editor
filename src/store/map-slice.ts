@@ -33,16 +33,17 @@ const createMapSlice: StateCreator<
         rotation,
     }: PaintTileArgs) => set((state) => {
         return produce(state, draft => {
-            const { newBoardHexes, newPieceID } = getBoardHexesWithPieceAdded({
+            const { newBoardHexes, newBoardPieces } = getBoardHexesWithPieceAdded({
                 piece,
                 boardHexes: draft.boardHexes,
+                boardPieces: draft.boardPieces,
                 cubeCoords: clickedHex,
                 placementAltitude: clickedHex.altitude,
                 rotation,
                 isVsTile: false
             })
             draft.boardHexes = newBoardHexes
-            draft.boardPieces[newPieceID] = piece.inventoryID
+            draft.boardPieces = newBoardPieces
             draft.glyphs = {}
             draft.startZones = {}
         })
