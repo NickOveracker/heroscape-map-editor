@@ -150,7 +150,7 @@ export function getBoardHexesWithPieceAdded({
         const hexUnderneath = newBoardHexes?.[underHexIds[i]]
         const isHexUnderneathCastleBase = hexUnderneath?.isCastleBase
         const wallAltitude = isHexUnderneathCastleBase ? placementAltitude : newPieceAltitude
-        piece.height -= (isHexUnderneathCastleBase || isSolidUnderAll ? 0 : 1)
+        const heightToUse = piece.height - (isHexUnderneathCastleBase || isSolidUnderAll ? 0 : 1)
         // const pieceInventoryIDOfBase = isHexUnderneathCastleBase ? piece.buddyID : ''
 
         if (isHexUnderneathCastleBase) {
@@ -166,7 +166,7 @@ export function getBoardHexesWithPieceAdded({
             isCap: false,
             isObstacleOrigin: i === 0 ? true : false, //only the first hex is an origin (because we made the template arrays this way. with origin hex at index 0)
             isAuxiliary: i !== 0 ? true : false,
-            obstacleHeight: piece.height
+            obstacleHeight: heightToUse
           }
         } else {
           // remove the cap from land hex below
@@ -183,13 +183,13 @@ export function getBoardHexesWithPieceAdded({
             isCap: false,
             isObstacleOrigin: i === 0 ? true : false, //only the first hex is an origin (because we made the template arrays this way. with origin hex at index 0)
             isAuxiliary: i !== 0 ? true : false,
-            obstacleHeight: piece.height
+            obstacleHeight: heightToUse
           }
 
         }
 
         // write in the new clearances, this will block some pieces at these coordinates
-        Array(piece.height).fill(0).forEach((_, j) => {
+        Array(heightToUse).fill(0).forEach((_, j) => {
           const clearanceHexAltitude = wallAltitude + 1 + j;
           const clearanceID = genBoardHexID({ ...piecePlaneCoords[i], altitude: clearanceHexAltitude });
           newBoardHexes[clearanceID] = {

@@ -1,6 +1,6 @@
 import { useGLTF } from '@react-three/drei'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
-import { BoardHex, HexTerrain } from '../../types'
+import { BoardHex, HexTerrain, Pieces } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
 import ObstacleBase from './ObstacleBase'
 import { HEXGRID_HEX_HEIGHT, HEXGRID_SPACING } from '../../utils/constants'
@@ -8,17 +8,20 @@ import { Vector3 } from 'three'
 import { isSolidTerrainHex } from '../../utils/board-utils'
 import { ThreeEvent } from '@react-three/fiber'
 
-export function CastleWallEnd({
-  boardHex,
-  underHexTerrain,
-  overHexTerrain,
-  onPointerUp
-}: {
+type Props = {
   boardHex: BoardHex,
   underHexTerrain: string
   overHexTerrain: string,
   onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
-}) {
+}
+
+export function CastleWall({
+  boardHex,
+  underHexTerrain,
+  overHexTerrain,
+  onPointerUp
+}: Props) {
+
   const { nodes } = useGLTF('/adjustable-castle-wall-end-handmade.glb') as any
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
@@ -29,8 +32,61 @@ export function CastleWallEnd({
   const scaleY = (boardHex?.obstacleHeight ?? 9) + (1 - scaleDown)
   const scale = new Vector3(1, scaleY, 1)
   const position = new Vector3(x, yBase - positionDown, z)
+  const myObj = {
+    [Pieces.castleWallEnd]: '',
+  }
   return (
-    <group >
+    <group>
+      <group
+        position={position}
+        rotation={[0, rotation * -Math.PI / 3, 0]}
+        castShadow
+        receiveShadow
+      >
+        <mesh
+          scale={scale}
+          geometry={nodes.CastleWallEndBody.geometry}
+        >
+          <meshMatcapMaterial
+            color={hexTerrainColor[HexTerrain.castle]}
+          />
+        </mesh>
+        {isShowCap &&
+          <mesh
+            geometry={nodes.CastleWallEndCap.geometry}
+            position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
+            onPointerUp={e => onPointerUp(e, boardHex)}
+          >
+            <meshMatcapMaterial
+              color={hexTerrainColor[HexTerrain.castle]}
+            />
+          </mesh>
+        }
+      </group>
+      {!isCastleUnder && <ObstacleBase x={x} y={yBaseCap} z={z} color={hexTerrainColor[underHexTerrain]} />}
+    </group>
+  )
+}
+
+export function CastleWallEnd({
+  boardHex,
+  underHexTerrain,
+  overHexTerrain,
+  onPointerUp
+}: Props) {
+  const { nodes } = useGLTF('/adjustable-castle-wall-end-handmade.glb') as any
+  const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
+  const rotation = boardHex?.pieceRotation ?? 0
+  const isCastleUnder = underHexTerrain === HexTerrain.castle
+  const isShowCap = !isSolidTerrainHex(overHexTerrain)
+  const scaleDown = 0.05 // just a little to get it out of the subterrain
+  const positionDown = scaleDown / 2
+  const scaleY = (boardHex?.obstacleHeight ?? 9) + (1 - scaleDown)
+  const scale = new Vector3(1, scaleY, 1)
+  const position = new Vector3(x, yBase - positionDown, z)
+
+  return (
+    <group>
       <group
         position={position}
         rotation={[0, rotation * -Math.PI / 3, 0]}
