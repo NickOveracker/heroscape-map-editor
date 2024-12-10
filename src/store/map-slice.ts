@@ -25,6 +25,8 @@ const createMapSlice: StateCreator<
     boardHexes: rectangleScenario.boardHexes,
     hexMap: rectangleScenario.hexMap,
     boardPieces: rectangleScenario.boardPieces,
+    glyphs: rectangleScenario.glyphs,
+    startZones: rectangleScenario.startZones,
     paintTile: ({
         piece,
         clickedHex,
@@ -41,6 +43,8 @@ const createMapSlice: StateCreator<
             })
             draft.boardHexes = newBoardHexes
             draft.boardPieces[newPieceID] = piece.inventoryID
+            draft.glyphs = {}
+            draft.startZones = {}
         })
     }),
     loadMap: (mapState: MapState) => set((state) => {
