@@ -5,6 +5,7 @@ import { CylinderGeometryArgs, InstanceRefType } from "../instance-hex"
 import { getBoardHex3DCoords } from "../../../utils/map-utils"
 import { HEXGRID_HEX_HEIGHT, INSTANCE_LIMIT } from "../../../utils/constants"
 import { hexTerrainColor } from "../hexColors"
+import { ThreeEvent } from "@react-three/fiber"
 
 type Props = {
   boardHexArr: BoardHex[]
@@ -51,6 +52,6 @@ function SubTerrain({ boardHex }: { boardHex: BoardHex }) {
   }, [boardHex])
   return <Instance
     ref={ref}
-    onPointerDown={(e) => e.stopPropagation()}
+    onPointerDown={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
   />
 }

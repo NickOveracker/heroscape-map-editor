@@ -56,7 +56,7 @@ export default function MapDisplay3D({
 
     const onPointerUp = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
         if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
-        event.stopPropagation()
+        event.stopPropagation() // forgot what this is preventing
         // Early out if camera is active
         if (cameraControlsRef.current.active) return
         const isEmptyHex = hex.terrain === HexTerrain.empty
@@ -102,7 +102,7 @@ export default function MapDisplay3D({
     }
 
     const onPointerEnter = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
-        event.stopPropagation()
+        event.stopPropagation() // prevent this hover from passing through and affecting behind
         hoverID.current = hex.id
     }
     const onPointerOut = () => {
