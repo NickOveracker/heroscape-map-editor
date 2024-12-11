@@ -7,6 +7,7 @@ import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 import { Vector3 } from 'three'
 import { isSolidTerrainHex } from '../../utils/board-utils'
 import { ThreeEvent } from '@react-three/fiber'
+import React from 'react'
 
 type Props = {
   boardHex: BoardHex,
@@ -36,6 +37,7 @@ export function CastleWall({
 }: Props) {
 
   const { nodes } = useGLTF('/adjustable-castle-walls.glb') as any
+  const [color, setColor] = React.useState(hexTerrainColor[HexTerrain.castle])
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
   const isCastleUnder = underHexTerrain === HexTerrain.castle
@@ -50,6 +52,14 @@ export function CastleWall({
   const straightGeo = [nodes.CastleWallStraightBody.geometry, nodes.CastleWallStraightCap.geometry]
   const cornerGeo = [nodes.CastleWallCornerBody.geometry, nodes.CastleWallCornerCap.geometry]
   const geometryPair = pieceID.includes(Pieces.castleWallEnd) ? endGeo : pieceID.includes(Pieces.castleWallStraight) ? straightGeo : cornerGeo
+  const onPointerEnter = (e: ThreeEvent<PointerEvent>) => {
+    setColor('white')
+    e.stopPropagation()
+  }
+  const onPointerOut = (e: ThreeEvent<PointerEvent>) => {
+    setColor(hexTerrainColor[HexTerrain.castle])
+    e.stopPropagation()
+  }
   return (
     <group>
       <group
@@ -61,10 +71,11 @@ export function CastleWall({
         <mesh
           scale={scale}
           geometry={geometryPair[0]}
-          onPointerEnter={e => e.stopPropagation()}
+          onPointerEnter={onPointerEnter}
+          onPointerOut={onPointerOut}
         >
           <meshMatcapMaterial
-            color={hexTerrainColor[HexTerrain.castle]}
+            color={color}
           />
         </mesh>
 
@@ -76,7 +87,7 @@ export function CastleWall({
               onPointerUp={e => onPointerUp(e, boardHex)}
             >
               <meshMatcapMaterial
-                color={hexTerrainColor[HexTerrain.castle]}
+                color={color}
               />
             </mesh>
             <mesh
@@ -85,7 +96,7 @@ export function CastleWall({
               onPointerUp={e => onPointerUp(e, boardHex)}
             >
               <meshMatcapMaterial
-                color={hexTerrainColor[HexTerrain.castle]}
+                color={color}
               />
             </mesh>
           </>
