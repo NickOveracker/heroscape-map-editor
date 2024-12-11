@@ -1,6 +1,6 @@
 import React from "react"
 import { Canvas } from "@react-three/fiber"
-import { AsciiRenderer, Stars, Stats } from "@react-three/drei"
+import { Stars, Stats } from "@react-three/drei"
 import Lights from "./Lights"
 import MyCameraControls from "./camera/MyCameraControls"
 import MapDisplay3D from "./MapDisplay3D"
@@ -28,9 +28,8 @@ const World = () => {
                 }}
             // shadows
             >
-                <color attach="background" args={["black"]} />
                 {/* <Sky /> */}
-                {/* <Stars
+                <Stars
                     radius={100}
                     depth={50}
                     count={5000}
@@ -38,7 +37,7 @@ const World = () => {
                     saturation={0}
                     fade
                     speed={0.1}
-                /> */}
+                />
                 {/* Stats displays the fps */}
                 <Stats className='stats-panel' />
                 <MapDisplay3D
@@ -47,7 +46,6 @@ const World = () => {
                 <Lights />
                 <GridHelper />
                 <MyCameraControls cameraControlsRef={cameraControlsRef} />
-                <AsciiRenderer fgColor="white" bgColor="black" />
             </Canvas>
         </div>
     )
