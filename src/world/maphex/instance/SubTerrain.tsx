@@ -53,5 +53,6 @@ function SubTerrain({ boardHex }: { boardHex: BoardHex }) {
   return <Instance
     ref={ref}
     onPointerDown={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
+    onPointerEnter={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
   />
 }

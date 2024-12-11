@@ -61,6 +61,7 @@ export function CastleWall({
         <mesh
           scale={scale}
           geometry={geometryPair[0]}
+          onPointerEnter={e => e.stopPropagation()}
         >
           <meshMatcapMaterial
             color={hexTerrainColor[HexTerrain.castle]}
