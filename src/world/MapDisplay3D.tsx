@@ -28,7 +28,6 @@ export default function MapDisplay3D({
     const loadMap = useBoundStore((state) => state.loadMap)
     const pieceSize = useBoundStore((state) => state.pieceSize)
     const pieceRotation = useBoundStore((state) => state.pieceRotation)
-    const hoverID = React.useRef('')
     useZoomCameraToMapCenter({
         cameraControlsRef,
         boardHexes,
@@ -101,32 +100,19 @@ export default function MapDisplay3D({
         }
     }
 
-    const onPointerEnter = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
-        event.stopPropagation() // prevent this hover from passing through and affecting behind
-        hoverID.current = hex.id
-    }
-    const onPointerOut = () => {
-        hoverID.current = ''
-    }
     return (
         <>
             <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} />
             <EmptyHexes
                 boardHexArr={instanceBoardHexes.emptyHexCaps}
-                onPointerEnter={onPointerEnter}
-                onPointerOut={onPointerOut}
                 onPointerUp={onPointerUp}
             />
             <SolidCaps
                 boardHexArr={instanceBoardHexes.solidHexCaps}
-                onPointerEnter={onPointerEnter}
-                onPointerOut={onPointerOut}
                 onPointerUp={onPointerUp}
             />
             <FluidCaps
                 boardHexArr={instanceBoardHexes.fluidHexCaps}
-                onPointerEnter={onPointerEnter}
-                onPointerOut={onPointerOut}
                 onPointerUp={onPointerUp}
             />
             {boardHexesArr.map((bh => {

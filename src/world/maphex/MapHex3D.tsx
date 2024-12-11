@@ -52,6 +52,7 @@ export const MapHex3D = ({
   const isCastleWallEnd = pieceID === Pieces.castleWallEnd && boardHex.isObstacleOrigin
   const isCastleWallStraight = pieceID === Pieces.castleWallStraight && boardHex.isObstacleOrigin
   const isCastleWallCorner = pieceID === Pieces.castleWallCorner && boardHex.isObstacleOrigin
+  const isCastleWall = isCastleWallEnd || isCastleWallStraight || isCastleWallCorner
   const isCastleArch = (pieceID === Pieces.castleArch || pieceID === Pieces.castleArchNoDoor)
 
   const underHexID = genBoardHexID({ ...boardHex, altitude: boardHex.altitude - 1 });
@@ -80,11 +81,17 @@ export const MapHex3D = ({
 
       {isCastleBaseEnd && <CastleBaseEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleBaseStraight && <CastleBaseStraight boardHex={boardHex} underHexTerrain={underHexTerrain} />}
-      {isCastleBaseCorner && <CastleBaseCorner boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isCastleBaseCorner && <CastleBaseCorner
+        boardHex={boardHex}
+        underHexTerrain={underHexTerrain}
+      />}
 
-      {isCastleWallEnd && <CastleWall onPointerUp={onPointerUp} boardHex={boardHex} overHexTerrain={castleWallOverHexTerrain} underHexTerrain={underHexTerrain} />}
-      {isCastleWallStraight && <CastleWall onPointerUp={onPointerUp} boardHex={boardHex} overHexTerrain={castleWallOverHexTerrain} underHexTerrain={underHexTerrain} />}
-      {isCastleWallCorner && <CastleWall onPointerUp={onPointerUp} boardHex={boardHex} overHexTerrain={castleWallOverHexTerrain} underHexTerrain={underHexTerrain} />}
+      {isCastleWall && <CastleWall
+        onPointerUp={onPointerUp}
+        boardHex={boardHex}
+        overHexTerrain={castleWallOverHexTerrain}
+        underHexTerrain={underHexTerrain}
+      />}
       {isCastleArch && <CastleArch boardHex={boardHex} underHexTerrain={underHexTerrain} />}
     </>
   )

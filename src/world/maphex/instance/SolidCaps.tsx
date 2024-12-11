@@ -11,8 +11,6 @@ const baseSolidCapCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, HEXGRID_HE
 
 const SolidCaps = ({
   boardHexArr,
-  onPointerEnter,
-  onPointerOut,
   onPointerUp
 }: DreiCapProps) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
@@ -30,8 +28,6 @@ const SolidCaps = ({
           key={hex.id + i}
           boardHex={hex}
           boardHexArr={boardHexArr}
-          onPointerEnter={onPointerEnter}
-          onPointerOut={onPointerOut}
           onPointerUp={onPointerUp}
         />
       ))}
@@ -44,8 +40,6 @@ export default SolidCaps
 function SolidCap({
   boardHex,
   boardHexArr,
-  onPointerEnter,
-  onPointerOut,
   onPointerUp
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,13 +52,12 @@ function SolidCap({
   }, [boardHex])
 
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation() // prevent this hover from passing through and affecting behind
     if (e.instanceId === 0 || !!e.instanceId) {
-      onPointerEnter(e, boardHexArr[e.instanceId])
       ref.current.color.set('#fff')
     }
   }
   const handleOut = (e: ThreeEvent<PointerEvent>) => {
-    onPointerOut()
     if (e.instanceId === 0 || !!e.instanceId) {
       ref.current.color.set(hexTerrainColor[boardHexArr[e.instanceId].terrain])
     }
