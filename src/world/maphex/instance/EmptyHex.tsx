@@ -13,8 +13,6 @@ const emptyHexColor = hexTerrainColor[HexTerrain.empty]
 
 const EmptyHexes = ({
   boardHexArr,
-  onPointerEnter,
-  onPointerOut,
   onPointerUp
 }: DreiCapProps) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
@@ -35,8 +33,6 @@ const EmptyHexes = ({
           key={hex.id + i + 'empty'}
           boardHex={hex}
           boardHexArr={boardHexArr}
-          onPointerEnter={onPointerEnter}
-          onPointerOut={onPointerOut}
           onPointerUp={onPointerUp}
         />
       ))}
@@ -63,7 +59,7 @@ function EmptyHex({
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
     if (e.instanceId === 0 || !!e.instanceId) {
-      ref.current.color.set('#fff')
+      ref.current.color.set('yellow')
     }
   }
   const handleOut = (e: ThreeEvent<PointerEvent>) => {

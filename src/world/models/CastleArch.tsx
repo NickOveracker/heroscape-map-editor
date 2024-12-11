@@ -4,6 +4,8 @@ import { BoardHex, HexTerrain } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
 import ObstacleBase from './ObstacleBase'
 import { HEXGRID_SPACING } from '../../utils/constants'
+import React from 'react'
+import { ThreeEvent } from '@react-three/fiber'
 
 type Props = {
   boardHex: BoardHex,
@@ -20,9 +22,36 @@ export function CastleArch({
 }: Props) {
   const { nodes } = useGLTF('/castle-arch-handmade.glb') as any
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
+  const [colorNear, setColorNear] = React.useState(hexTerrainColor[HexTerrain.castle])
+  const [colorMiddle, setColorMiddle] = React.useState(hexTerrainColor[HexTerrain.castle])
+  const [colorFar, setColorFar] = React.useState(hexTerrainColor[HexTerrain.castle])
   const rotation = boardHex?.pieceRotation ?? 0
   const isDoor = !boardHex.pieceID.includes("NoDoor") // hacky but fast
   const isCastleUnder = underHexTerrain === HexTerrain.castle
+  const onPointerEnterNear = (e: ThreeEvent<PointerEvent>) => {
+    setColorNear('yellow')
+    e.stopPropagation()
+  }
+  const onPointerOutNear = (e: ThreeEvent<PointerEvent>) => {
+    setColorNear(hexTerrainColor[HexTerrain.castle])
+    e.stopPropagation()
+  }
+  const onPointerEnterMiddle = (e: ThreeEvent<PointerEvent>) => {
+    setColorMiddle('yellow')
+    e.stopPropagation()
+  }
+  const onPointerOutMiddle = (e: ThreeEvent<PointerEvent>) => {
+    setColorMiddle(hexTerrainColor[HexTerrain.castle])
+    e.stopPropagation()
+  }
+  const onPointerEnterFar = (e: ThreeEvent<PointerEvent>) => {
+    setColorFar('yellow')
+    e.stopPropagation()
+  }
+  const onPointerOutFar = (e: ThreeEvent<PointerEvent>) => {
+    setColorFar(hexTerrainColor[HexTerrain.castle])
+    e.stopPropagation()
+  }
   if (!(boardHex.isAuxiliary || boardHex.isObstacleOrigin)) {
     return null
   }
@@ -46,23 +75,29 @@ export function CastleArch({
         </mesh>
         <mesh
           geometry={nodes.CastleArchCapNear.geometry}
+          onPointerEnter={onPointerEnterNear}
+          onPointerOut={onPointerOutNear}
         >
           <meshMatcapMaterial
-            color={hexTerrainColor[HexTerrain.castle]}
+            color={colorNear}
           />
         </mesh>
         <mesh
           geometry={nodes.CastleArchCapMiddle.geometry}
+          onPointerEnter={onPointerEnterMiddle}
+          onPointerOut={onPointerOutMiddle}
         >
           <meshMatcapMaterial
-            color={hexTerrainColor[HexTerrain.castle]}
+            color={colorMiddle}
           />
         </mesh>
         <mesh
           geometry={nodes.CastleArchCapFar.geometry}
+          onPointerEnter={onPointerEnterFar}
+          onPointerOut={onPointerOutFar}
         >
           <meshMatcapMaterial
-            color={hexTerrainColor[HexTerrain.castle]}
+            color={colorFar}
           />
         </mesh>
         {isDoor && <mesh

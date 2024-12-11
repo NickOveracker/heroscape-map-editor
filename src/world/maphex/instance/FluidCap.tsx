@@ -24,7 +24,7 @@ const FluidCaps = ({
       <cylinderGeometry args={baseFluidCapCylinderArgs} />
       <meshMatcapMaterial
         transparent
-        opacity={0.85}
+        opacity={0.95}
       />
       {boardHexArr.map((hex, i) => (
         <FluidCap
@@ -58,7 +58,7 @@ function FluidCap({
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
     if (e.instanceId === 0 || !!e.instanceId) {
-      ref.current.color.set('#fff')
+      ref.current.color.set('yellow')
     }
   }
   const handleOut = (e: ThreeEvent<PointerEvent>) => {

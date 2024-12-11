@@ -53,13 +53,14 @@ export function CastleWall({
   const cornerGeo = [nodes.CastleWallCornerBody.geometry, nodes.CastleWallCornerCap.geometry]
   const geometryPair = pieceID.includes(Pieces.castleWallEnd) ? endGeo : pieceID.includes(Pieces.castleWallStraight) ? straightGeo : cornerGeo
   const onPointerEnter = (e: ThreeEvent<PointerEvent>) => {
-    setColor('white')
+    setColor('yellow')
     e.stopPropagation()
   }
   const onPointerOut = (e: ThreeEvent<PointerEvent>) => {
     setColor(hexTerrainColor[HexTerrain.castle])
     e.stopPropagation()
   }
+
   return (
     <group>
       <group
@@ -71,11 +72,9 @@ export function CastleWall({
         <mesh
           scale={scale}
           geometry={geometryPair[0]}
-          onPointerEnter={onPointerEnter}
-          onPointerOut={onPointerOut}
         >
           <meshMatcapMaterial
-            color={color}
+            color={hexTerrainColor[boardHex.terrain]}
           />
         </mesh>
 
@@ -94,6 +93,8 @@ export function CastleWall({
               geometry={nodes.WallCap.geometry}
               position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
               onPointerUp={e => onPointerUp(e, boardHex)}
+              onPointerEnter={onPointerEnter}
+              onPointerOut={onPointerOut}
             >
               <meshMatcapMaterial
                 color={color}
