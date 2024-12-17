@@ -46,23 +46,23 @@ export const hexTerrainColor: Dictionary<string> = {
     [HexTerrain.brush]: '#50d373',
     [HexTerrain.ruin]: '#8596a5',
     // LAND
-    [HexTerrain.grass]: '#60840d',
-    [HexTerrain.rock]: '#475776',
-    [HexTerrain.sand]: 'rgb(206,172,40)',
+    [HexTerrain.grass]: '#6e931a',
+    [HexTerrain.rock]: '#655690',
+    [HexTerrain.sand]: '#f2de00',
     [HexTerrain.road]: '#868686',
     [HexTerrain.wallWalk]: '#868686',
     [HexTerrain.snow]: '#fff', // "snow" from https://www.colorhexa.com/color-names
-    [HexTerrain.lavaField]: virtualscapeTileColors[HexTerrain.lavaField],
-    [HexTerrain.swamp]: virtualscapeTileColors[HexTerrain.swamp],
-    [HexTerrain.asphalt]: virtualscapeTileColors[HexTerrain.asphalt],
-    [HexTerrain.concrete]: virtualscapeTileColors[HexTerrain.concrete],
+    [HexTerrain.lavaField]: '#a02020', // same as VS
+    [HexTerrain.asphalt]: '#14146b', // same as VS
+    [HexTerrain.concrete]: '#8e98ab', // same as VS
+    [HexTerrain.swamp]: '#6f6915', // same as VS
     [HexTerrain.dungeon]: '#6f6f78', // https://www.color-hex.com/color/3a2b2b
     [HexTerrain.water]: '#3794fd', // "sea blue":#006994,"pacific blue":#1ca9c9,"oceanboat blue":#0077be,"ultramarine blue":#4166f5
     [HexTerrain.ice]: '#86D6D8', // https://www.color-hex.com/color/86d6d8
-    [HexTerrain.lava]: virtualscapeTileColors[HexTerrain.lava],
-    [HexTerrain.swampWater]: virtualscapeTileColors[HexTerrain.swampWater],
-    [HexTerrain.outcrop]: 'rgb(104, 103, 120)',
-    [HexTerrain.shadow]: 'rgb(85, 84, 96)',
+    [HexTerrain.lava]: '#ff4040', // same as VS
+    [HexTerrain.swampWater]: '#ded22a', // same as VS
+    [HexTerrain.outcrop]: '#686778',
+    [HexTerrain.shadow]: '#555460',
 }
 // const hsColors = {
 //     // selected by color picker on webp image of renegade paint set, so probably horrible

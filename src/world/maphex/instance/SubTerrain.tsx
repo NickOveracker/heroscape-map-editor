@@ -24,7 +24,7 @@ const SubTerrains = ({ boardHexArr }: Props) => {
       ref={ref}
     >
       <cylinderGeometry args={baseSubTerrainCylinderArgs} />
-      <meshPhongMaterial
+      <meshToonMaterial
         transparent
         opacity={1}
       />
