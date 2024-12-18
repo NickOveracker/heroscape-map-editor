@@ -8,7 +8,7 @@ import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx
 import { BoardHex, HexTerrain, PenMode } from '../types.ts'
 import buildupVSFileMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isJungleTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
-import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
+import { piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
@@ -19,14 +19,14 @@ import { genBoardHexID } from '../utils/map-utils.ts'
 export default function MapDisplay3D({
     cameraControlsRef,
 }: {
-    cameraControlsRef: React.MutableRefObject<CameraControls>
+    cameraControlsRef: React.RefObject<CameraControls>
 }) {
     const boardHexes = useBoundStore((state) => state.boardHexes)
     const boardHexesArr = Object.values(boardHexes)
     const penMode = useBoundStore((state) => state.penMode)
     const paintTile = useBoundStore((state) => state.paintTile)
     const loadMap = useBoundStore((state) => state.loadMap)
-    const pieceSize = useBoundStore((state) => state.pieceSize)
+    // const pieceSize = useBoundStore((state) => state.pieceSize)
     const pieceRotation = useBoundStore((state) => state.pieceRotation)
     useZoomCameraToMapCenter({
         cameraControlsRef,
@@ -58,6 +58,7 @@ export default function MapDisplay3D({
         event.stopPropagation() // forgot what this is preventing
         // Early out if camera is active
         if (cameraControlsRef.current.active) return
+        /* 
         const isEmptyHex = hex.terrain === HexTerrain.empty
         if (penMode === PenMode.select) {
             // select hex / piece
@@ -75,6 +76,7 @@ export default function MapDisplay3D({
         if (penMode.slice(0, -1) === 'startZone') {
             // paintStartZone({ hexID: hex.id, playerID: penMode.slice(-1) })
         }
+        */
         const isWallWalkPen = penMode.startsWith('wallWalk')
         const isCastleBasePen = penMode.startsWith('castleBase')
         const isCastleWallArchPen = penMode.startsWith('castleWall') || penMode.startsWith('castleArch')
@@ -82,18 +84,15 @@ export default function MapDisplay3D({
             const boardHexOfCapForWall = genBoardHexID({ ...hex, altitude: hex.altitude + (hex?.obstacleHeight ?? 0) })
             const isCastleWallArchClicked = hex.pieceID.includes('castleWall') || hex.pieceID.includes('castleArch')
             const clickedHex = (isCastleWallArchClicked && isCastleWallArchPen) ? boardHexes[boardHexOfCapForWall] : hex
-            // we are painting wallWalks here as normal land, may need update in castle times
-            const piece = (isWallWalkPen || isCastleBasePen || isCastleWallArchPen) ? piecesSoFar[penMode] : getPieceByTerrainAndSize(penMode, pieceSize)
             paintTile({
-                piece,
+                piece: piecesSoFar[penMode],
                 clickedHex: clickedHex,
                 rotation: pieceRotation,
             })
         }
         if (isObstaclePieceID(penMode) || penMode === PenMode.ruins2 || penMode === PenMode.ruins3) {
-            const piece = piecesSoFar[penMode]
             paintTile({
-                piece,
+                piece: piecesSoFar[penMode],
                 clickedHex: hex,
                 rotation: pieceRotation,
             })

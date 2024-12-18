@@ -9,7 +9,7 @@ export const useZoomCameraToMapCenter = ({
     boardHexes,
     disabled
 }: {
-    cameraControlsRef: React.MutableRefObject<CameraControls>
+    cameraControlsRef: React.RefObject<CameraControls>
     boardHexes: BoardHexes
     disabled?: boolean
 }) => {

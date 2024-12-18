@@ -8,7 +8,7 @@ import useBoundStore from "../../store/store"
 
 export default function MyCameraControls({
     cameraControlsRef
-}: { cameraControlsRef: React.MutableRefObject<CameraControls> }) {
+}: { cameraControlsRef: React.RefObject<CameraControls> }) {
     // const { camera } = useThree()
     const isCameraDisabled = useBoundStore(s => s.isCameraDisabled)
     // const { minDistance, enabled, verticalDragToForward, dollyToCursor, infinityDolly } = useControls({
