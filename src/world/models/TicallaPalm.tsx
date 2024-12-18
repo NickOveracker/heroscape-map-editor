@@ -23,12 +23,12 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
   function getOptionsForTreeHeight(height: number) {
     switch (height) {
       case 14:
-        return { scaleX: 0.038, scaleY: 0.046 }
+        return { scaleX: 0.038, scaleY: 0.038 }
       case 15:
         return { scaleX: 0.038, scaleY: 0.042 }
       case 16:
       default:
-        return { scaleX: 0.038, scaleY: 0.038 }
+        return { scaleX: 0.038, scaleY: 0.046 }
     }
   }
   return (
@@ -53,7 +53,6 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
         // material={materials.PalmTrunk}
         >
           <meshMatcapMaterial color={'#E77D2D'} />
-
         </mesh>
         <mesh
           castShadow
@@ -62,7 +61,6 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
         // material={materials.PalmLeaf}
         >
           <meshMatcapMaterial color={'#35E718'} />
-
         </mesh>
       </group>
       <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor[HexTerrain.palm]} />
