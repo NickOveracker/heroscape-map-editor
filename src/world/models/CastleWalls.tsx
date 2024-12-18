@@ -79,22 +79,23 @@ export function CastleWall({
         </mesh>
 
         {isShowCap &&
+          // Each wall has a WallCap mesh, then each wall-type adds on its little directional indicator mesh
           <>
-            <mesh
-              geometry={geometryPair[1]}
-              position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
-              onPointerUp={e => onPointerUp(e, boardHex)}
-            >
-              <meshMatcapMaterial
-                color={color}
-              />
-            </mesh>
             <mesh
               geometry={nodes.WallCap.geometry}
               position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
               onPointerUp={e => onPointerUp(e, boardHex)}
               onPointerEnter={onPointerEnter}
               onPointerOut={onPointerOut}
+            >
+              <meshMatcapMaterial
+                color={color}
+              />
+            </mesh>
+            <mesh
+              geometry={geometryPair[1]}
+              position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
+              onPointerUp={e => onPointerUp(e, boardHex)}
             >
               <meshMatcapMaterial
                 color={color}
