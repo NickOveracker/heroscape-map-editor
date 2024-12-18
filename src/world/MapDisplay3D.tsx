@@ -83,7 +83,8 @@ export default function MapDisplay3D({
         if (isWallWalkPen || isCastleBasePen || isCastleWallArchPen || isSolidTerrainHex(penMode) || isFluidTerrainHex(penMode)) {
             const boardHexOfCapForWall = genBoardHexID({ ...hex, altitude: hex.altitude + (hex?.obstacleHeight ?? 0) })
             const isCastleWallArchClicked = hex.pieceID.includes('castleWall') || hex.pieceID.includes('castleArch')
-            const clickedHex = (isCastleWallArchClicked && isCastleWallArchPen) ? boardHexes[boardHexOfCapForWall] : hex
+            const clickedHex = (isCastleWallArchClicked) ? boardHexes[boardHexOfCapForWall] : hex
+            console.log("🚀 ~ onPointerUp ~ clickedHex:", clickedHex)
             paintTile({
                 piece: piecesSoFar[penMode],
                 clickedHex: clickedHex,
