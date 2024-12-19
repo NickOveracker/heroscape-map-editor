@@ -1,4 +1,4 @@
-/* eslint-disable no-fallthrough */
+ 
 import { useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
