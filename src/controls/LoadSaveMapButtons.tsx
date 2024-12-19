@@ -8,31 +8,20 @@ import {
   MenuList,
   Paper,
   Popper,
-  Snackbar,
-  SnackbarCloseReason,
 } from '@mui/material'
 
 import useBoundStore from '../store/store'
 import { hexagonScenario, rectangleScenario } from '../utils/map-gen'
 import { useLocalMapMemory } from '../hooks/useLocalMapMemory'
 import { MapState } from '../types'
+import { useSnackbar } from 'notistack'
 
 export const LoadSaveMapButtons = () => {
   const boardHexes = useBoundStore((state) => state.boardHexes)
   const hexMap = useBoundStore((state) => state.hexMap)
   const boardPieces = useBoundStore((state) => state.boardPieces)
   const loadMap = useBoundStore((state) => state.loadMap)
-  const [snackbarMsg, setSnackbarMsg] = useState('')
-  const isOpen = Boolean(snackbarMsg)
-  const onClose = (
-    _event: React.SyntheticEvent | Event,
-    reason?: SnackbarCloseReason
-  ) => {
-    if (reason === 'clickaway') {
-      return
-    }
-    setSnackbarMsg('')
-  }
+  const { enqueueSnackbar } = useSnackbar();
   const currentSaveableMap: MapState = { boardHexes, hexMap, boardPieces }
   const { map1, setMap1, map2, setMap2, map3, setMap3 } = useLocalMapMemory()
   const isMap1 =
@@ -44,50 +33,43 @@ export const LoadSaveMapButtons = () => {
   const handleLoadMap1 = () => {
     if (isMap1) {
       loadMap(map1)
-      setSnackbarMsg(`Loaded map: "${currentSaveableMap.hexMap.name}" from local map slot 1`)
+      enqueueSnackbar(`Loaded map: "${currentSaveableMap.hexMap.name}" from local map slot 1`)
     }
   }
   const handleLoadMap2 = () => {
     if (isMap2) {
       loadMap(map2)
-      setSnackbarMsg(`Loaded map: "${currentSaveableMap.hexMap.name}" from local map slot 2`)
+      enqueueSnackbar(`Loaded map: "${currentSaveableMap.hexMap.name}" from local map slot 2`)
     }
   }
   const handleLoadMap3 = () => {
     if (isMap3) {
       loadMap(map3)
-      setSnackbarMsg(`Loaded map: "${currentSaveableMap.hexMap.name}" from local map slot 3`)
+      enqueueSnackbar(`Loaded map: "${currentSaveableMap.hexMap.name}" from local map slot 3`)
     }
   }
   const handleLoadHexagonMap = () => {
     loadMap(hexagonScenario)
-    setSnackbarMsg(`Loaded map: ${hexagonScenario.hexMap.name}`)
+    enqueueSnackbar(`Loaded map: ${hexagonScenario.hexMap.name}`)
   }
   const handleLoadRectangleMap = () => {
     loadMap(rectangleScenario)
-    setSnackbarMsg(`Loaded map: ${rectangleScenario.hexMap.name}`)
+    enqueueSnackbar(`Loaded map: ${rectangleScenario.hexMap.name}`)
   }
   const handleSaveMap1 = () => {
     setMap1(currentSaveableMap)
-    setSnackbarMsg(`Saved "${currentSaveableMap.hexMap.name}" to local map slot 1`)
+    enqueueSnackbar(`Saved "${currentSaveableMap.hexMap.name}" to local map slot 1`)
   }
   const handleSaveMap2 = () => {
     setMap2(currentSaveableMap)
-    setSnackbarMsg(`Saved "${currentSaveableMap.hexMap.name}" to local map slot 2`)
+    enqueueSnackbar(`Saved "${currentSaveableMap.hexMap.name}" to local map slot 2`)
   }
   const handleSaveMap3 = () => {
     setMap3(currentSaveableMap)
-    setSnackbarMsg(`Saved "${currentSaveableMap.hexMap.name}" to local map slot 3`)
+    enqueueSnackbar(`Saved "${currentSaveableMap.hexMap.name}" to local map slot 3`)
   }
   return (
     <>
-      <Snackbar
-        open={isOpen}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        autoHideDuration={5000}
-        onClose={onClose}
-        message={snackbarMsg}
-      />
       <SplitButton
         isMap1={isMap1}
         isMap2={isMap2}

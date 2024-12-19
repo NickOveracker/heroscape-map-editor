@@ -6,6 +6,7 @@ import World from './world/World'
 import { ROUTES } from './routes/ROUTES'
 import './layout/index.css'
 import { EventProvider } from './hooks/useEvent'
+import { SnackbarProvider } from 'notistack'
 
 const darkTheme = createTheme({
     palette: {
@@ -39,9 +40,15 @@ const App = () => {
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
             <EventProvider>
-                <RouterProvider router={router} future={{
-                    v7_startTransition: true
-                }} />
+                <SnackbarProvider
+                    anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                    maxSnack={3}
+                    autoHideDuration={3000}
+                >
+                    <RouterProvider router={router} future={{
+                        v7_startTransition: true
+                    }} />
+                </SnackbarProvider>
             </EventProvider>
         </ThemeProvider>
     )
