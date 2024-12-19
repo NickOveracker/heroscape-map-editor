@@ -65,6 +65,7 @@ const ImportFileButton = () => {
     } catch (error) {
       console.error(error)
     }
+    event.target.value = ""; // Reset the input value
   }
   const readVSFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event?.target?.files?.[0]
@@ -79,6 +80,7 @@ const ImportFileButton = () => {
     } catch (error) {
       console.error(error)
     }
+    event.target.value = ""; // Reset the input value
   }
 
   return (
