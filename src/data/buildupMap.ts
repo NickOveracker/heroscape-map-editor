@@ -151,6 +151,15 @@ export function getBoardHexesWithPieceAdded({
     const canPlaceWall = isCastleWallPiece && isCastleWallSupported
     if ((canPlaceArch || canPlaceWall) && isSpaceFree && isVerticalClearanceForObstacle) {
       newHexIds.forEach((newHexID, i) => {
+        /* 
+        PREFACE: Virtualscape has castle bases and castle walls. It represents both of them, congruent with 
+        physical Heroscape fortress bases and walls. You CAN use the bases without the walls, like
+        as a support for other tiles and thus extend your usable terrain. But it's kind of rare. 
+        Hexoscape, our app, will represent either a base, or a wall. So you can have just a base, or, if there
+        is a wall on that base, we just put a wall at the base's boardHex and erase the base.
+        */
+
+
         // So, we are going to write in 10 hexes of wall:
         // Start at the hex below (we clicked a castle base, and it is getting overwritten/incorporated)
         // OR
