@@ -2,6 +2,7 @@ import { Dictionary } from "lodash"
 import { Pieces, CubeCoordinate } from "../types"
 import { hexUtilsAdd, hexUtilsRotate } from "../utils/hex-utils"
 import tileTemplates from "./tileTemplates"
+import { ORIGIN_000 } from "../utils/constants"
 
 export default function getVSTileTemplate({
   clickedHex,
@@ -19,25 +20,25 @@ export default function getVSTileTemplate({
   const originOfTile = hexUtilsAdd(clickedHex, originOfTileTransform)
   return tileTemplates[template]
     .map((t) => {
-      return hexUtilsRotate(t, origin, rotation)
+      return hexUtilsRotate(t, rotation)
     })
     .map((t) => isVsTile ? hexUtilsAdd(t, originOfTile) : hexUtilsAdd(t, clickedHex))
 }
 
-const origin = { q: 0, r: 0, s: 0 }
-const t1 = [origin, origin, origin, origin, origin, origin]
+
+const t1 = [ORIGIN_000, ORIGIN_000, ORIGIN_000, ORIGIN_000, ORIGIN_000, ORIGIN_000]
 const straight2 = [
-  origin,
-  origin,
-  origin,
+  ORIGIN_000,
+  ORIGIN_000,
+  ORIGIN_000,
   { q: 1, r: 0, s: -1 },
   { q: 0, r: 1, s: -1 },
   { q: -1, r: 1, s: 0 },
 ]
 const t3 = [
   // glacier3, outcrop3
-  origin,
-  origin,
+  ORIGIN_000,
+  ORIGIN_000,
   { q: 1, r: 0, s: -1 },
   { q: 0, r: 1, s: -1 },
   { q: 0, r: 1, s: -1 },
@@ -45,7 +46,7 @@ const t3 = [
 ]
 const t7 = [
   // rose/circle style 7
-  origin,
+  ORIGIN_000,
   { q: 1, r: 0, s: -1 },
   { q: 1, r: 1, s: -2 },
   { q: 0, r: 2, s: -2 },
@@ -53,7 +54,7 @@ const t7 = [
   { q: -1, r: 1, s: 0 },
 ]
 const t24 = [
-  origin,
+  ORIGIN_000,
   { q: 1, r: 0, s: -1 },
   { q: 2, r: 3, s: -5 },
   { q: 2, r: 5, s: -7 },
@@ -62,34 +63,34 @@ const t24 = [
 ]
 const straight3 = [
   // straight3, arch3/door3, ruins3
-  origin,
-  origin,
-  origin,
+  ORIGIN_000,
+  ORIGIN_000,
+  ORIGIN_000,
   { q: 2, r: 0, s: -2 },
   { q: 0, r: 2, s: -2 },
   { q: -2, r: 2, s: 0 },
 ]
 const straight4 = [
   // straight4, roadWall4
-  origin,
-  origin,
-  origin,
+  ORIGIN_000,
+  ORIGIN_000,
+  ORIGIN_000,
   { q: 3, r: 0, s: -3 },
   { q: 0, r: 3, s: -3 },
   { q: -3, r: 3, s: 0 },
 ]
 const straight5 = [
   //  road5: road is the only land tile with a 5-hex piece
-  origin,
-  origin,
-  origin,
+  ORIGIN_000,
+  ORIGIN_000,
+  ORIGIN_000,
   { q: 4, r: 0, s: -4 },
   { q: 0, r: 4, s: -4 },
   { q: -4, r: 4, s: 0 },
 ]
 const glacier6 = [
   // glacier6, hive
-  origin,
+  ORIGIN_000,
   { q: 1, r: 0, s: -1 },
   { q: 0, r: 1, s: -1 },
   { q: 1, r: 1, s: -2 },
@@ -98,32 +99,32 @@ const glacier6 = [
 ]
 const glacier4 = [
   // glacier4
-  origin,
-  origin,
+  ORIGIN_000,
+  ORIGIN_000,
   { q: 1, r: 0, s: -1 },
   { q: 1, r: 1, s: -2 },
   { q: -1, r: 2, s: -1 },
   { q: -1, r: 1, s: 0 },
 ]
 const castle7 = [
-  origin,
-  origin,
+  ORIGIN_000,
+  ORIGIN_000,
   { q: 1, r: 0, s: -1 },
   { q: 2, r: 1, s: -3 },
   { q: 0, r: 3, s: -3 },
   { q: -3, r: 3, s: 0 },
 ]
 const castle9 = [
-  origin,
-  origin,
+  ORIGIN_000,
+  ORIGIN_000,
   { q: 1, r: 0, s: -1 },
   { q: 3, r: 1, s: -4 },
   { q: 0, r: 4, s: -4 },
   { q: -4, r: 4, s: 0 },
 ]
 const marvel6 = [
-  origin,
-  origin,
+  ORIGIN_000,
+  ORIGIN_000,
   { q: 1, r: 0, s: -1 },
   { q: 3, r: 1, s: -4 },
   { q: -1, r: 4, s: -3 },

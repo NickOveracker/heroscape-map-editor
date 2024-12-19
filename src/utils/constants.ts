@@ -1,6 +1,7 @@
 export const HEXGRID_SPACING = 1.02
 export const HEXGRID_HEX_RADIUS = 1 // Side length also (regular hexagons are the only regular polygons where it is so!)
 export const HEXGRID_HEX_APOTHEM = Math.sqrt(3) / 2 * HEXGRID_HEX_RADIUS // we are using regular hexagons where this equation is true
+export const ORIGIN_000 = { q: 0, r: 0, s: 0 }
 
 // HEX DIMENSIONS: according to HS hex image
 // solid hex height: 7/16" (1.11125 cm)

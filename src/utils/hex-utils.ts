@@ -1,9 +1,11 @@
 import {
   HEXGRID_HEX_RADIUS,
+  ORIGIN_000,
 } from './constants'
 import {
   CubeCoordinate,
 } from '../types'
+import { Dictionary } from 'lodash'
 export const hexUtilsEquals = (
   a: CubeCoordinate,
   b: CubeCoordinate
@@ -75,14 +77,14 @@ function hexUtilsRotateVector(
 /* hexUtilsRotate: this does not update the IDs of boardHexes */
 export function hexUtilsRotate(
   h: CubeCoordinate,
-  origin: CubeCoordinate,
   rotation: number
 ): CubeCoordinate {
-  const vector = hexUtilsSubtract(h, origin)
+  // origin could be pass in, but we only rotate around 0,0,0 for now
+  const vector = hexUtilsSubtract(h, ORIGIN_000)
   const rotatedVector = hexUtilsRotateVector(vector, rotation)
   return {
     ...h,
-    ...hexUtilsAdd(rotatedVector, origin),
+    ...hexUtilsAdd(rotatedVector, ORIGIN_000),
   }
 }
 export function hexUtilsGenHexagonGrid(mapRadius: number): CubeCoordinate[] {
@@ -108,4 +110,22 @@ export function hexUtilsGenRectangleGrid(
     }
   }
   return hexas
+}
+const east: CubeCoordinate = { q: 1, r: 0, s: -1 }
+const southEast: CubeCoordinate = { q: 0, r: 1, s: -1 }
+const southWest: CubeCoordinate = { q: -1, r: 1, s: 0 }
+const west: CubeCoordinate = { q: -1, r: 0, s: 1 }
+const northWest: CubeCoordinate = { q: 0, r: -1, s: 1 }
+const northEast: CubeCoordinate = { q: 1, r: -1, s: 0 }
+const directions: Dictionary<CubeCoordinate> = {
+  '0': east,
+  '1': southEast,
+  '2': southWest,
+  '3': west,
+  '4': northWest,
+  '5': northEast,
+}
+export const hexUtilsGetNeighborForRotation = (rotation: number): CubeCoordinate => {
+  const rot = `${rotation % 6}`
+  return directions[rot]
 }
