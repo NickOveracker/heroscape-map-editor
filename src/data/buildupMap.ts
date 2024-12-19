@@ -98,6 +98,7 @@ export function getBoardHexesWithPieceAdded({
   const isSpaceFree = newHexIds.every(id => !newBoardHexes[id])
   const isSolidUnderAtLeastOne = underHexIds.some(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''))
   const isSolidUnderAll = underHexIds.every(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''))
+  const isEmptyUnderAll = underHexIds.every(id => (newBoardHexes?.[id]?.terrain ?? '') === HexTerrain.empty)
   const isVerticalClearanceForObstacle = newHexIds.every((_, i) => {
     const clearanceHexIds = Array(piece.height).fill(0).map((_, j) => {
       const altitude = newPieceAltitude + 1 + j;
@@ -121,7 +122,7 @@ export function getBoardHexesWithPieceAdded({
       newBoardHexes?.[id]?.pieceID.includes(('castleWall')) ||
       newBoardHexes?.[id]?.pieceID.includes(('castleArch'))
     ))
-    const isCastleWallSupported = isSolidUnderAll || isCorrespondingBaseOrWallUnderAll
+    const isCastleWallSupported = isSolidUnderAll || isEmptyUnderAll || isCorrespondingBaseOrWallUnderAll
     const isSolidUnder2OuterHexes = underHexIds.every((id, i) => i === 1 ? true : isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? '')) // i=0, i=2, those are the 2 "outer" hexes of the 3-hex arch
     const isCastleArchSupported = isSolidUnder2OuterHexes
     const isCastleBasePiece = piece.inventoryID === Pieces.castleBaseEnd || piece.inventoryID === Pieces.castleBaseStraight || piece.inventoryID === Pieces.castleBaseCorner
@@ -171,7 +172,7 @@ export function getBoardHexesWithPieceAdded({
         const hexUnderneath = newBoardHexes?.[underHexIds[i]]
         const isHexUnderneathCastleBase = hexUnderneath?.isCastleBase
         const wallAltitude = isHexUnderneathCastleBase ? placementAltitude : newPieceAltitude
-        const heightToUse = piece.height - (isHexUnderneathCastleBase || isSolidUnderAll ? 0 : 1)
+        const heightToUse = piece.height - (isHexUnderneathCastleBase || isSolidUnderAll || isEmptyUnderAll ? 0 : 1)
         const pieceInventoryIDOfBase = isHexUnderneathCastleBase ? '' : piece.buddyID // if there is no base present we add one
         if (pieceInventoryIDOfBase) {
           // we are being crazy re-using clickedHexIDOrTileCoordsPresumedID here: VStiles will have a base and a wall one altitude above. We have auto-base and wall pieces at the same spot, could cause trouble later
