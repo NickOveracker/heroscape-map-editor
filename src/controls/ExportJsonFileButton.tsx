@@ -7,20 +7,21 @@ const ExportJsonFileButton = () => {
   const boardHexes = useBoundStore((state) => state.boardHexes)
   const hexMap = useBoundStore((state) => state.hexMap)
   const boardPieces = useBoundStore((state) => state.boardPieces)
-  const handleClickExportJson = () => {
+  const handleClickExportJson = async () => {
     const filename = `MyHexMap.json`
     const data: MapState = {
       boardHexes,
       hexMap,
       boardPieces,
     }
+    const stream = new Blob([JSON.stringify(data)], { type: 'application/json' }).stream()
+    const compressedReadableStream = stream.pipeThrough(
+      new CompressionStream("gzip")
+    );
+    const compressedResponse = new Response(compressedReadableStream);
+    const blob = await compressedResponse.blob();
     const element = document.createElement('a')
-    element.setAttribute(
-      'href',
-      `data:application/x-ndjson;charset=utf-8,${encodeURIComponent(
-        JSON.stringify(data)
-      )}`
-    )
+    element.href = window.URL.createObjectURL(blob)
     element.setAttribute('download', filename)
     element.style.display = 'none'
     // document.body.append(element)
