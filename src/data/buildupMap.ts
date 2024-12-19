@@ -48,8 +48,6 @@ export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: st
     boardHexes: newBoardHexes,
     hexMap: hexMap,
     boardPieces,
-    glyphs: {},
-    startZones: {}
   }
 }
 

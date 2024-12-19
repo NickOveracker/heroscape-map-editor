@@ -29,8 +29,6 @@ export function makeRectangleScenario(options?: RectangleScenarioOptions): MapSt
         boardHexes,
         hexMap,
         boardPieces: {},
-        glyphs: {},
-        startZones: {}
     }
 }
 type HexagonScenarioOptions = {
@@ -54,8 +52,6 @@ function makeHexagonScenario(options?: HexagonScenarioOptions): MapState {
         boardHexes,
         hexMap,
         boardPieces: {},
-        glyphs: {},
-        startZones: {}
     }
 }
 

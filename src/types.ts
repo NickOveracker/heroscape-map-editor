@@ -2,8 +2,6 @@ export interface MapState {
     boardHexes: BoardHexes
     hexMap: HexMap
     boardPieces: BoardPieces
-    startZones: StartZones
-    glyphs: Glyphs
 }
 
 type HexMap = {
@@ -12,14 +10,6 @@ type HexMap = {
     shape: string // 'hexagon' | 'rectangle'
     height: number // for hexagon shaped maps width=height=size
     width: number // for hexagon shaped maps width=height=size
-}
-export type Glyphs = {
-    [boardHexID: string]: Glyph
-}
-export type Glyph = {
-    hexID: string
-    glyphID: string
-    isRevealed: boolean
 }
 export type CubeCoordinate = {
     q: number
@@ -43,9 +33,6 @@ export type BoardPieces = {
 }
 export type BoardHexes = {
     [qraID: string]: BoardHex
-}
-export type StartZones = {
-    [playerID: string]: string[] // boardHex IDs
 }
 export enum HexTerrain {
     empty = 'empty',
