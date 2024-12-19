@@ -11,14 +11,14 @@ type Props = {
   boardHex: BoardHex,
   underHexTerrain: string
   // overHexTerrain: string,
-  // onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
+  onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }
 
 export function CastleArch({
   boardHex,
   underHexTerrain,
   // overHexTerrain,
-  // onPointerUp,
+  onPointerUp,
 }: Props) {
   const { nodes } = useGLTF('/castle-arch-handmade.glb') as any
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
@@ -62,6 +62,7 @@ export function CastleArch({
           geometry={nodes.CastleArchCapNear.geometry}
           onPointerEnter={onPointerEnterNear}
           onPointerOut={onPointerOutNear}
+          onPointerUp={e => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial
             color={colorNear}
@@ -71,6 +72,7 @@ export function CastleArch({
           geometry={nodes.CastleArchCapMiddle.geometry}
           onPointerEnter={onPointerEnterMiddle}
           onPointerOut={onPointerOutMiddle}
+          onPointerUp={e => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial
             color={colorMiddle}
@@ -80,6 +82,7 @@ export function CastleArch({
           geometry={nodes.CastleArchCapFar.geometry}
           onPointerEnter={onPointerEnterFar}
           onPointerOut={onPointerOutFar}
+          onPointerUp={e => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial
             color={colorFar}

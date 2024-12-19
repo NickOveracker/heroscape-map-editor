@@ -8,7 +8,7 @@ import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx
 import { BoardHex, HexTerrain, PenMode } from '../types.ts'
 import buildupVSFileMap from '../data/buildupMap.ts'
 import { isFluidTerrainHex, isJungleTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
-import { piecesSoFar } from '../data/pieces.ts'
+import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
@@ -26,7 +26,7 @@ export default function MapDisplay3D({
     const penMode = useBoundStore((state) => state.penMode)
     const paintTile = useBoundStore((state) => state.paintTile)
     const loadMap = useBoundStore((state) => state.loadMap)
-    // const pieceSize = useBoundStore((state) => state.pieceSize)
+    const pieceSize = useBoundStore((state) => state.pieceSize)
     const pieceRotation = useBoundStore((state) => state.pieceRotation)
     useZoomCameraToMapCenter({
         cameraControlsRef,
@@ -84,9 +84,10 @@ export default function MapDisplay3D({
             const boardHexOfCapForWall = genBoardHexID({ ...hex, altitude: hex.altitude + (hex?.obstacleHeight ?? 0) })
             const isCastleWallArchClicked = hex.pieceID.includes('castleWall') || hex.pieceID.includes('castleArch')
             const clickedHex = (isCastleWallArchClicked) ? boardHexes[boardHexOfCapForWall] : hex
+            const piece = (isWallWalkPen || isCastleBasePen || isCastleWallArchPen) ? piecesSoFar[penMode] : getPieceByTerrainAndSize(penMode, pieceSize)
             console.log("🚀 ~ onPointerUp ~ clickedHex:", clickedHex)
             paintTile({
-                piece: piecesSoFar[penMode],
+                piece,
                 clickedHex: clickedHex,
                 rotation: pieceRotation,
             })

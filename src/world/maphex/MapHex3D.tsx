@@ -92,7 +92,11 @@ export const MapHex3D = ({
         overHexTerrain={castleWallOverHexTerrain}
         underHexTerrain={underHexTerrain}
       />}
-      {isCastleArch && <CastleArch boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isCastleArch && <CastleArch
+        boardHex={boardHex}
+        onPointerUp={onPointerUp}
+        underHexTerrain={underHexTerrain}
+      />}
     </>
   )
 }
