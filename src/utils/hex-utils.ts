@@ -72,12 +72,12 @@ function hexUtilsRotateVector(
       return v
   }
 }
-/* hexUtilsRotate: not this does not update the IDS of boardHexes */
-export function hexUtilsRotate<T extends CubeCoordinate>(
-  h: T,
-  origin: T,
+/* hexUtilsRotate: this does not update the IDs of boardHexes */
+export function hexUtilsRotate(
+  h: CubeCoordinate,
+  origin: CubeCoordinate,
   rotation: number
-): T {
+): CubeCoordinate {
   const vector = hexUtilsSubtract(h, origin)
   const rotatedVector = hexUtilsRotateVector(vector, rotation)
   return {

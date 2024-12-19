@@ -116,7 +116,11 @@ export function getBoardHexesWithPieceAdded({
   const isCastleWallUnder = underHexIds.some(id => newBoardHexes?.[id]?.terrain === HexTerrain.castle)
   if (piece.terrain === HexTerrain.castle) {
     const isCastleBaseSupported = isPlacingOnTable || isSolidUnderAtLeastOne // only works because all castle bases are 1-hex currently
-    const isCorrespondingBaseOrWallUnderAll = underHexIds.every(id => newBoardHexes?.[id]?.pieceID.includes((piece?.buddyID ?? '')) || newBoardHexes?.[id]?.pieceID.includes(('castleWall')) || newBoardHexes?.[id]?.pieceID.includes(('castleWall')))
+    const isCorrespondingBaseOrWallUnderAll = underHexIds.every(id => (
+      newBoardHexes?.[id]?.pieceID.includes((piece?.buddyID ?? '')) ||
+      newBoardHexes?.[id]?.pieceID.includes(('castleWall')) ||
+      newBoardHexes?.[id]?.pieceID.includes(('castleArch'))
+    ))
     const isCastleWallSupported = isSolidUnderAll || isCorrespondingBaseOrWallUnderAll
     const isSolidUnder2OuterHexes = underHexIds.every((id, i) => i === 1 ? true : isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? '')) // i=0, i=2, those are the 2 "outer" hexes of the 3-hex arch
     const isCastleArchSupported = isSolidUnder2OuterHexes
