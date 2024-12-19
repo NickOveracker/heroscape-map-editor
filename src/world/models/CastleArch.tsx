@@ -22,36 +22,21 @@ export function CastleArch({
 }: Props) {
   const { nodes } = useGLTF('/castle-arch-handmade.glb') as any
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
-  const [colorNear, setColorNear] = React.useState(hexTerrainColor[HexTerrain.castle])
-  const [colorMiddle, setColorMiddle] = React.useState(hexTerrainColor[HexTerrain.castle])
-  const [colorFar, setColorFar] = React.useState(hexTerrainColor[HexTerrain.castle])
   const rotation = boardHex?.pieceRotation ?? 0
   const isDoor = !boardHex.pieceID.includes("NoDoor") // hacky but fast
   const isCastleUnder = underHexTerrain === HexTerrain.castle
-  const onPointerEnterNear = (e: ThreeEvent<PointerEvent>) => {
-    setColorNear('yellow')
-    e.stopPropagation()
-  }
-  const onPointerOutNear = (e: ThreeEvent<PointerEvent>) => {
-    setColorNear(hexTerrainColor[HexTerrain.castle])
-    e.stopPropagation()
-  }
-  const onPointerEnterMiddle = (e: ThreeEvent<PointerEvent>) => {
-    setColorMiddle('yellow')
-    e.stopPropagation()
-  }
-  const onPointerOutMiddle = (e: ThreeEvent<PointerEvent>) => {
-    setColorMiddle(hexTerrainColor[HexTerrain.castle])
-    e.stopPropagation()
-  }
-  const onPointerEnterFar = (e: ThreeEvent<PointerEvent>) => {
-    setColorFar('yellow')
-    e.stopPropagation()
-  }
-  const onPointerOutFar = (e: ThreeEvent<PointerEvent>) => {
-    setColorFar(hexTerrainColor[HexTerrain.castle])
-    e.stopPropagation()
-  }
+  const {
+    colorNear,
+    colorMiddle,
+    colorFar,
+    onPointerEnterNear,
+    onPointerOutNear,
+    onPointerEnterMiddle,
+    onPointerOutMiddle,
+    onPointerEnterFar,
+    onPointerOutFar,
+  } = useArchHoverState()
+
   if (!(boardHex.isAuxiliary || boardHex.isObstacleOrigin)) {
     return null
   }
@@ -114,3 +99,44 @@ export function CastleArch({
 }
 
 useGLTF.preload('/castle-arch-handmade.glb')
+
+function useArchHoverState() {
+  const [colorNear, setColorNear] = React.useState(hexTerrainColor[HexTerrain.castle])
+  const [colorMiddle, setColorMiddle] = React.useState(hexTerrainColor[HexTerrain.castle])
+  const [colorFar, setColorFar] = React.useState(hexTerrainColor[HexTerrain.castle])
+  const onPointerEnterNear = (e: ThreeEvent<PointerEvent>) => {
+    setColorNear('yellow')
+    e.stopPropagation()
+  }
+  const onPointerOutNear = (e: ThreeEvent<PointerEvent>) => {
+    setColorNear(hexTerrainColor[HexTerrain.castle])
+    e.stopPropagation()
+  }
+  const onPointerEnterMiddle = (e: ThreeEvent<PointerEvent>) => {
+    setColorMiddle('yellow')
+    e.stopPropagation()
+  }
+  const onPointerOutMiddle = (e: ThreeEvent<PointerEvent>) => {
+    setColorMiddle(hexTerrainColor[HexTerrain.castle])
+    e.stopPropagation()
+  }
+  const onPointerEnterFar = (e: ThreeEvent<PointerEvent>) => {
+    setColorFar('yellow')
+    e.stopPropagation()
+  }
+  const onPointerOutFar = (e: ThreeEvent<PointerEvent>) => {
+    setColorFar(hexTerrainColor[HexTerrain.castle])
+    e.stopPropagation()
+  }
+  return {
+    colorNear,
+    colorMiddle,
+    colorFar,
+    onPointerEnterNear,
+    onPointerOutNear,
+    onPointerEnterMiddle,
+    onPointerOutMiddle,
+    onPointerEnterFar,
+    onPointerOutFar,
+  }
+}
