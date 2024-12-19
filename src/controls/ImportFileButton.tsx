@@ -1,10 +1,11 @@
-import { ChangeEvent } from 'react'
+import React, { ChangeEvent } from 'react'
 import { Button } from '@mui/material'
 import { MdFileOpen } from 'react-icons/md'
 import { GiDevilMask } from 'react-icons/gi'
 import readVirtualscapeMapFile from '../data/readVirtualscapeMapFile'
 import buildupVSFileMap from '../data/buildupMap'
 import useBoundStore from '../store/store'
+import { MapState } from '../types'
 
 const hiddenStyle = {
   clip: 'rect(0 0 0 0)',
@@ -37,6 +38,7 @@ const ImportFileButton = () => {
   }
   const readJsonFile = (event: ChangeEvent<HTMLInputElement>): void => {
     const file = event?.target?.files?.[0]
+    console.log("🚀 ~ readJsonFile ~ file:", file)
     if (!file) {
       return
     }
@@ -47,11 +49,12 @@ const ImportFileButton = () => {
         if (file.name.endsWith('.json')) {
           try {
             data = JSON.parse(fileReader.result)
-            const jsonMap = {
+            const jsonMap: MapState = {
               boardHexes: data.boardHexes,
               hexMap: data.hexMap,
+              boardPieces: data.boardPieces,
             }
-            console.log("🚀 ~ readJsonFile ~ jsonMap:", jsonMap)
+            loadMap(jsonMap)
           } catch (error) {
             console.error(error)
           }
@@ -69,6 +72,7 @@ const ImportFileButton = () => {
   }
   const readVSFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event?.target?.files?.[0]
+    console.log("🚀 ~ readVSFile ~ file:", file)
     if (!file) {
       return
     }
@@ -130,6 +134,8 @@ const ReadVSFile = ({ id, readFile }: ReadFileProps) => {
       style={hiddenStyle}
       // accept="application/json"
       onChange={readFile}
+      onSubmit={readFile}
+      multiple
     />
   )
 }

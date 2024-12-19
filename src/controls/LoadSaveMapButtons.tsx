@@ -15,10 +15,13 @@ import {
 import useBoundStore from '../store/store'
 import { hexagonScenario, rectangleScenario } from '../utils/map-gen'
 import { useLocalMapMemory } from '../hooks/useLocalMapMemory'
+import { MapState } from '../types'
 
 export const LoadSaveMapButtons = () => {
   const boardHexes = useBoundStore((state) => state.boardHexes)
-  const hexMap = useBoundStore((state) => state.boardHexes)
+  const hexMap = useBoundStore((state) => state.hexMap)
+  const boardPieces = useBoundStore((state) => state.boardPieces)
+  const loadMap = useBoundStore((state) => state.loadMap)
   const [snackbarMsg, setSnackbarMsg] = useState('')
   const isOpen = Boolean(snackbarMsg)
   const onClose = (
@@ -30,7 +33,7 @@ export const LoadSaveMapButtons = () => {
     }
     setSnackbarMsg('')
   }
-  const currentSaveableMap = { boardHexes, hexMap }
+  const currentSaveableMap: MapState = { boardHexes, hexMap, boardPieces }
   const { map1, setMap1, map2, setMap2, map3, setMap3 } = useLocalMapMemory()
   const isMap1 =
     Object.keys(map1?.boardHexes ?? {})?.length > 0 && Boolean(map1?.hexMap)
@@ -40,67 +43,41 @@ export const LoadSaveMapButtons = () => {
     Object.keys(map3?.boardHexes ?? {})?.length > 0 && Boolean(map3?.hexMap)
   const handleLoadMap1 = () => {
     if (isMap1) {
-      // moves.loadMap({ boardHexes: map1.boardHexes, hexMap: map1.hexMap })
-      setSnackbarMsg('Map 1 loaded')
+      loadMap(map1)
+      setSnackbarMsg(`Loaded map: "${currentSaveableMap.hexMap.name}" from local map slot 1`)
     }
   }
   const handleLoadMap2 = () => {
     if (isMap2) {
-      // moves.loadMap({ boardHexes: map2.boardHexes, hexMap: map2.hexMap })
-      setSnackbarMsg('Map 2 loaded')
+      loadMap(map2)
+      setSnackbarMsg(`Loaded map: "${currentSaveableMap.hexMap.name}" from local map slot 2`)
     }
   }
   const handleLoadMap3 = () => {
     if (isMap3) {
-      // moves.loadMap({ boardHexes: map3.boardHexes, hexMap: map3.hexMap })
-      setSnackbarMsg('Map 3 loaded')
+      loadMap(map3)
+      setSnackbarMsg(`Loaded map: "${currentSaveableMap.hexMap.name}" from local map slot 3`)
     }
   }
   const handleLoadHexagonMap = () => {
-    // moves.loadMap(hexagonScenario)
+    loadMap(hexagonScenario)
     setSnackbarMsg(`Loaded map: ${hexagonScenario.hexMap.name}`)
   }
   const handleLoadRectangleMap = () => {
-    // moves.loadMap(rectangleScenario)
+    loadMap(rectangleScenario)
     setSnackbarMsg(`Loaded map: ${rectangleScenario.hexMap.name}`)
   }
-  // const handleLoadGiantsTable = () => {
-  //   moves.loadMap({
-  //     boardHexes: giantsTable.boardHexes,
-  //     hexMap: giantsTable.hexMap,
-  //   })
-  //   setSnackbarMsg(`Loaded map: ${giantsTable.hexMap.name}`)
-  // }
-  // const handleLoadForsakenWaters = () => {
-  //   moves.loadMap({
-  //     boardHexes: forsakenWaters.boardHexes,
-  //     hexMap: forsakenWaters.hexMap,
-  //   })
-  //   setSnackbarMsg(`Loaded map: ${forsakenWaters.hexMap.name}`)
-  // }
-  // const handleLoadCirdanGarden = () => {
-  //   const translatedBoardHexes = translateHexagonBoardHexesToNormal(
-  //     cirdanGardenMap.boardHexes,
-  //     cirdanGardenMap.hexMap.size
-  //   )
-  //   moves.loadMap({
-  //     boardHexes: translatedBoardHexes,
-  //     // boardHexes: cirdanGardenMap.boardHexes,
-  //     hexMap: cirdanGardenMap.hexMap,
-  //   })
-  //   setSnackbarMsg(`Loaded map: ${cirdanGardenMap.hexMap.name}`)
-  // }
   const handleSaveMap1 = () => {
     setMap1(currentSaveableMap)
-    setSnackbarMsg(`Saved to local map slot 1`)
+    setSnackbarMsg(`Saved "${currentSaveableMap.hexMap.name}" to local map slot 1`)
   }
   const handleSaveMap2 = () => {
     setMap2(currentSaveableMap)
-    setSnackbarMsg(`Saved to local map slot 2`)
+    setSnackbarMsg(`Saved "${currentSaveableMap.hexMap.name}" to local map slot 2`)
   }
   const handleSaveMap3 = () => {
     setMap3(currentSaveableMap)
-    setSnackbarMsg(`Saved to local map slot 3`)
+    setSnackbarMsg(`Saved "${currentSaveableMap.hexMap.name}" to local map slot 3`)
   }
   return (
     <>

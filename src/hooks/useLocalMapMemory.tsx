@@ -1,7 +1,18 @@
 import { useLocalStorage } from '../hooks/useLocalStorage'
+import { MapState } from '../types'
 
 export const useLocalMapMemory = () => {
-  const blankMapState = { boardHexes: {}, hexMap: {} }
+  const blankMapState: MapState = {
+    boardHexes: {},
+    boardPieces: {},
+    hexMap: {
+      id: '',
+      name: '',
+      shape: '',
+      height: 0,
+      width: 0,
+    },
+  }
   const [map1, setMap1] = useLocalStorage('hexxaform-map1', blankMapState)
   const [map2, setMap2] = useLocalStorage('hexxaform-map2', blankMapState)
   const [map3, setMap3] = useLocalStorage('hexxaform-map3', blankMapState)
