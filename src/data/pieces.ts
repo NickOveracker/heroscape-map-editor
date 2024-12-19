@@ -626,7 +626,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     terrain: HexTerrain.castle,
     size: 1,
     template: Pieces.castleArch,
-    height: 10,
+    height: 9,
     isLand: false,
   },
   [Pieces.castleArchNoDoor]: {
@@ -635,7 +635,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     terrain: HexTerrain.castle,
     size: 1,
     template: Pieces.castleArch,
-    height: 10,
+    height: 9,
     isLand: false,
   },
   [Pieces.castleWallEnd]: {
