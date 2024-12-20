@@ -17,13 +17,28 @@ const useBoundStore = create<AppState>()(
         {
             limit: 100,
             partialize: (state) => {
-                const { penMode,
+                // each new property that is NOT undoable has to be listed here
+                const {
+                    // ui state
+                    penMode,
                     flatPieceSizes,
                     pieceSize,
                     pieceRotation,
                     isShowStartZones,
                     isTakingPicture,
-                    isCameraDisabled, ...rest } = state;
+                    isCameraDisabled,
+                    // ui fns
+                    togglePenMode,
+                    togglePieceSize,
+                    togglePieceRotation,
+                    toggleIsShowStartZones,
+                    toggleIsTakingPicture,
+                    toggleIsCameraDisabled,
+                    // map fns
+                    paintTile,
+                    loadMap,
+                    ...rest
+                } = state;
                 return rest;
             },
             equality: (pastState, currentState) =>
