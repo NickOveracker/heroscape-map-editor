@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from 'zustand'
 import createUISlice, { UISlice } from './ui-slice'
 import createMapSlice, { MapSlice } from './map-slice'
@@ -18,29 +17,9 @@ const useBoundStore = create<AppState>()(
             limit: 100,
             // onSave: (state) => console.log('saved', state),
             partialize: (state) => {
-                // each new property that is NOT undoable has to be listed here
-                const {
-                    // ui state
-                    penMode,
-                    flatPieceSizes,
-                    pieceSize,
-                    pieceRotation,
-                    isShowStartZones,
-                    isTakingPicture,
-                    isCameraDisabled,
-                    // ui fns
-                    togglePenMode,
-                    togglePieceSize,
-                    togglePieceRotation,
-                    toggleIsShowStartZones,
-                    toggleIsTakingPicture,
-                    toggleIsCameraDisabled,
-                    // map fns
-                    paintTile,
-                    loadMap,
-                    ...rest
-                } = state;
-                return rest;
+                return {
+                    boardHexes: state.boardHexes, boardPieces: state.boardPieces
+                };
             },
             equality: (pastState, currentState) =>
                 isEqual(pastState.boardHexes, currentState.boardHexes) &&
