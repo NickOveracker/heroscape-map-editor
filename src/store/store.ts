@@ -16,6 +16,7 @@ const useBoundStore = create<AppState>()(
         }),
         {
             limit: 100,
+            // onSave: (state) => console.log('saved', state),
             partialize: (state) => {
                 // each new property that is NOT undoable has to be listed here
                 const {
