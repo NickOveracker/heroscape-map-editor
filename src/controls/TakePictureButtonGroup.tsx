@@ -1,8 +1,9 @@
-import { Button, ButtonGroup } from '@mui/material'
+import { Button } from '@mui/material'
 import { MdPhotoCamera } from 'react-icons/md'
 import { EVENTS } from '../utils/constants'
 import useEvent from '../hooks/useEvent'
 import useBoundStore from '../store/store'
+import ControlButtonGroup from './ControlButtonGroup'
 
 const TakePictureButtonGroup = () => {
   const { publish } = useEvent()
@@ -17,13 +18,7 @@ const TakePictureButtonGroup = () => {
   }
 
   return (
-    <ButtonGroup
-      sx={{ padding: '10px' }}
-      variant="contained"
-      orientation="vertical"
-      size={'small'}
-      aria-label="Save current camera view as an image file"
-    >
+    <ControlButtonGroup>
       <Button
         startIcon={<MdPhotoCamera />}
         onClick={handleTakePicturePng}
@@ -38,7 +33,7 @@ const TakePictureButtonGroup = () => {
       >
         Save current camera view as JPG
       </Button>
-    </ButtonGroup>
+    </ControlButtonGroup>
   )
 }
 export default TakePictureButtonGroup
