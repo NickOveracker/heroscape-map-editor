@@ -11,7 +11,7 @@ type Props = {
   boardHexArr: BoardHex[]
 }
 
-const baseSubTerrainCylinderArgs: CylinderGeometryArgs = [0.999, 0.999, HEXGRID_HEX_HEIGHT, 6, undefined, true, undefined, undefined]
+const baseSubTerrainCylinderArgs: CylinderGeometryArgs = [0.999, 0.999, HEXGRID_HEX_HEIGHT, 6, undefined, false, undefined, undefined]
 const dirtColor = hexTerrainColor[HexTerrain.dirt]
 
 const SubTerrains = ({ boardHexArr }: Props) => {
