@@ -11,6 +11,10 @@ export const MapHexIDDisplay = ({ position, boardHex }: {
   boardHex: BoardHex
 }) => {
   return null
+  /* 
+  DEV VISUAL: toggling the below filters off, such that EVERY boardHex shows a billboardID, really helps to see how the 
+  grid works (you can see vertical-clearance hexes, empty hexes)
+  */
   if (!boardHex.isCap) return null
   if (boardHex.terrain === HexTerrain.empty) return null
   return (
