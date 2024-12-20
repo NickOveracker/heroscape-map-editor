@@ -18,7 +18,7 @@ import MarroHive6 from '../models/MarroHive6'
 import { CastleWall } from '../models/CastleWalls'
 import { ThreeEvent } from '@react-three/fiber'
 import { CastleArch } from '../models/CastleArch'
-import LaurPillar from '../models/LaurPillar'
+// import LaurPillar from '../models/LaurPillar'
 import CastleBases from '../models/CastleBases2'
 
 
@@ -68,8 +68,8 @@ export const MapHex3D = ({
       {isHeightRingedHex && <HeightRing
         position={new Vector3(x, y, z)}
       />}
-      {isTreeHex && <LaurPillar underHexTerrain={underHexTerrain} boardHex={boardHex} />}
-      {/* {isTreeHex && <ForestTree boardHex={boardHex} />} */}
+      {/* {isTreeHex && <LaurPillar underHexTerrain={underHexTerrain} boardHex={boardHex} />} */}
+      {isTreeHex && <ForestTree boardHex={boardHex} />}
       {isPalmHex && <TicallaPalm boardHex={boardHex} />}
       {isBrushHex && <TicallaBrush boardHex={boardHex} />}
       {isRuin2OriginHex && <Ruins2 boardHex={boardHex} />}
