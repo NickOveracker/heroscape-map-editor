@@ -15,11 +15,11 @@ import Outcrop3 from '../models/Outcrop3'
 import Outcrop4 from '../models/Outcrop4'
 import Outcrop6 from '../models/Outcrop6'
 import MarroHive6 from '../models/MarroHive6'
-import { CastleBaseCorner, CastleBaseEnd, CastleBaseStraight } from '../models/CastleBases'
 import { CastleWall } from '../models/CastleWalls'
 import { ThreeEvent } from '@react-three/fiber'
 import { CastleArch } from '../models/CastleArch'
 import LaurPillar from '../models/LaurPillar'
+import CastleBases from '../models/CastleBases2'
 
 
 export const MapHex3D = ({
@@ -54,6 +54,7 @@ export const MapHex3D = ({
   const isCastleWallStraight = pieceID === Pieces.castleWallStraight && boardHex.isObstacleOrigin
   const isCastleWallCorner = pieceID === Pieces.castleWallCorner && boardHex.isObstacleOrigin
   const isCastleWall = isCastleWallEnd || isCastleWallStraight || isCastleWallCorner
+  const isCastleBase = isCastleBaseEnd || isCastleBaseStraight || isCastleBaseCorner
   const isCastleArch = (pieceID === Pieces.castleArch || pieceID === Pieces.castleArchNoDoor)
 
   const underHexID = genBoardHexID({ ...boardHex, altitude: boardHex.altitude - 1 });
@@ -81,13 +82,18 @@ export const MapHex3D = ({
       {isGlacier6Hex && <Outcrop6 boardHex={boardHex} isGlacier={true} />}
       {isHiveHex && <MarroHive6 boardHex={boardHex} />}
 
-      {isCastleBaseEnd && <CastleBaseEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {/* {isCastleBaseEnd && <CastleBaseEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleBaseStraight && <CastleBaseStraight boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isCastleBaseCorner && <CastleBaseCorner
         boardHex={boardHex}
         underHexTerrain={underHexTerrain}
-      />}
+      />} */}
 
+      {isCastleBase && <CastleBases
+        boardHex={boardHex}
+        onPointerUp={onPointerUp}
+        underHexTerrain={underHexTerrain}
+      />}
       {isCastleWall && <CastleWall
         onPointerUp={onPointerUp}
         boardHex={boardHex}
