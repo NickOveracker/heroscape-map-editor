@@ -9,6 +9,7 @@ import ToggleCameraButton from './ToggleCameraButton'
 import RotationSelect from './RotationSelect'
 import UndoRedoButtonGroup from './UndoRedoButtonGroup'
 import ControlButtonGroup from './ControlButtonGroup'
+import FormDialog from '../layout/FormDialog'
 
 const Controls = () => {
     return (
@@ -23,6 +24,7 @@ const Controls = () => {
             <ControlButtonGroup>
                 <ToggleCameraButton />
                 <DEVLogSomethingCoolButton />
+                <FormDialog />
             </ControlButtonGroup>
             {/* <Button onClick={() => useBoundStore.temporal.getState().clear()}>CLEAR</Button> */}
         </Container>
