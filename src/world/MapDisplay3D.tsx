@@ -44,8 +44,7 @@ export default function MapDisplay3D({
             .then(arrayBuffer => {
                 const vsMap = processVirtualScapeArrayBuffer(arrayBuffer)
                 console.log("🚀 ~ React.useEffect ~ vsMap:", vsMap)
-                const hexoscapeMap = buildupVSFileMap(vsMap.tiles, fileName)
-                console.log("🚀 ~ React.useEffect ~ hexoscapeMap:", hexoscapeMap)
+                const hexoscapeMap = buildupVSFileMap(vsMap.tiles, vsMap.name)
                 loadMap(hexoscapeMap)
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,7 +56,7 @@ export default function MapDisplay3D({
         if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
         event.stopPropagation() // forgot what this is preventing
         // Early out if camera is active
-        if (cameraControlsRef.current.active) return
+        if (cameraControlsRef?.current?.active) return
         /* 
         const isEmptyHex = hex.terrain === HexTerrain.empty
         if (penMode === PenMode.select) {

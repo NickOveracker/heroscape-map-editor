@@ -10,14 +10,13 @@ import { piecesSoFar } from './pieces';
 import { interiorHexTemplates, verticalObstructionTemplates, verticalSupportTemplates } from './ruins-templates';
 
 
-export default function buildupVSFileMap(tiles: VirtualScapeTile[], fileName: string): MapState {
-  const blankMap = getBlankHexoscapeMapForVSTiles(tiles, fileName)
+export default function buildupVSFileMap(tiles: VirtualScapeTile[], mapName: string): MapState {
+  const blankMap = getBlankHexoscapeMapForVSTiles(tiles, mapName)
   let {
     boardPieces,
   } = blankMap
   const {
     boardHexes,
-    // boardPieces,
     hexMap
   } = blankMap
   const terrainTilesOnly = tiles.filter(t => t.type !== 15001)
@@ -438,7 +437,7 @@ export function getBoardHexesWithPieceAdded({
 }
 type PieceAddReturn = { newBoardHexes: BoardHexes, newBoardPieces: BoardPieces }
 
-function getBlankHexoscapeMapForVSTiles(tiles: VirtualScapeTile[], fileName: string): MapState {
+function getBlankHexoscapeMapForVSTiles(tiles: VirtualScapeTile[], mapName: string): MapState {
   // cushions have to be an even number because of the coordinate system used in virtualscape
   const cushionToPadY = 8 // 24-hexer's max Y displacement in vscape
   const cushionToPadX = 6 // 24-hexer's max X displacement in vscape
@@ -465,8 +464,7 @@ function getBlankHexoscapeMapForVSTiles(tiles: VirtualScapeTile[], fileName: str
   return makeRectangleScenario({
     mapLength,
     mapWidth,
-    mapName: `VirtualScapeMap: ${fileName}`,
-    mapShape: 'rectangle'
+    mapName,
   })
 }
 
