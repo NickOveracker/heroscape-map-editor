@@ -42,7 +42,7 @@ export function CastleWall({
   const rotation = boardHex?.pieceRotation ?? 0
   const isCastleUnder = underHexTerrain === HexTerrain.castle
   const isShowCap = !isSolidTerrainHex(overHexTerrain)
-  const scaleDown = 0.05 // just a little to get it out of the subterrain
+  const scaleDown = 0.01 // just a little to get it out of the subterrain
   const positionDown = scaleDown / 2
   const scaleY = (boardHex?.obstacleHeight ?? 9) + (1 - scaleDown)
   const scale = new Vector3(1, scaleY, 1)
