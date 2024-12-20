@@ -1,7 +1,7 @@
 import { Button, Container } from '@mui/material'
 import DEVLogSomethingCoolButton from './DEVLogSomethingCoolButton'
 import FileButtonGroup from './FileButtonGroup'
-// import MapLensToggles from './MapLensToggles'
+import MapLensToggles from './MapLensToggles'
 import PieceSizeSelect from './PieceSizeSelect'
 import PenTerrainSelect from './PenTerrainSelect'
 import TakePictureButtonGroup from './TakePictureButtonGroup'
@@ -10,20 +10,21 @@ import RotationSelect from './RotationSelect'
 import useBoundStore from '../store/store'
 
 const Controls = () => {
-    const { undo, redo, clear } = useBoundStore.temporal.getState();
+    const { undo, redo } = useBoundStore.temporal.getState();
 
     return (
         <Container sx={{ padding: 1 }}>
             <PenTerrainSelect />
             <PieceSizeSelect />
             <RotationSelect />
-            {/* <MapLensToggles /> */}
+            <MapLensToggles />
             <FileButtonGroup />
             <TakePictureButtonGroup />
             <ToggleCameraButton />
             <DEVLogSomethingCoolButton />
             <Button onClick={() => undo()}>UNDO</Button>
             <Button onClick={() => redo()}>REDO</Button>
+            {/* <Button onClick={() => useBoundStore.temporal.getState().clear()}>CLEAR</Button> */}
         </Container>
     )
 }

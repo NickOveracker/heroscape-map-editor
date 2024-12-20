@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import createUISlice, { UISlice } from './ui-slice'
 import createMapSlice, { MapSlice } from './map-slice'
 import { temporal } from 'zundo'
+import { isEqual } from 'lodash'
 
 
 export type AppState = MapSlice & UISlice
@@ -25,7 +26,11 @@ const useBoundStore = create<AppState>()(
                     isCameraDisabled, ...rest } = state;
                 return rest;
             },
+            equality: (pastState, currentState) =>
+                isEqual(pastState.boardHexes, currentState.boardHexes) &&
+                isEqual(pastState.boardPieces, currentState.boardPieces)
         },
+
 
     )
 )
