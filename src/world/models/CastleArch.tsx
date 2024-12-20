@@ -1,11 +1,13 @@
 import { useGLTF } from '@react-three/drei'
-import { getBoardHex3DCoords } from '../../utils/map-utils'
-import { BoardHex, HexTerrain } from '../../types'
+import { genBoardHexID, getBoardHex3DCoords } from '../../utils/map-utils'
+import { BoardHex, CubeCoordinate, HexTerrain } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
 import ObstacleBase from './ObstacleBase'
 import { HEXGRID_SPACING } from '../../utils/constants'
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
+import { hexUtilsAdd, hexUtilsGetNeighborForRotation } from '../../utils/hex-utils'
+import useBoundStore from '../../store/store'
 
 type Props = {
   boardHex: BoardHex,
@@ -21,6 +23,7 @@ export function CastleArch({
   onPointerUp,
 }: Props) {
   const { nodes } = useGLTF('/castle-arch-handmade.glb') as any
+  const boardHexes = useBoundStore(s => s.boardHexes)
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
   const isDoor = !boardHex.pieceID.includes("NoDoor") // hacky but fast
@@ -36,12 +39,24 @@ export function CastleArch({
     onPointerEnterFar,
     onPointerOutFar,
   } = useArchHoverState()
-
-  if (!(boardHex.isAuxiliary || boardHex.isObstacleOrigin)) {
+  const isVerticalClearanceHex = !(boardHex.isAuxiliary || boardHex.isObstacleOrigin)
+  if (isVerticalClearanceHex) {
     return null
   }
   if (boardHex.isAuxiliary) {
     return !isCastleUnder ? <ObstacleBase x={x} y={yBaseCap} z={z} color={hexTerrainColor[underHexTerrain]} /> : <></>
+  }
+  const onPointerUpMiddle = (e: ThreeEvent<PointerEvent>) => {
+    const myCube: CubeCoordinate = { q: boardHex.q, r: boardHex.r, s: boardHex.s }
+    const middleCube = hexUtilsAdd(myCube, hexUtilsGetNeighborForRotation(boardHex.pieceRotation))
+    const middleBaseHex = boardHexes[genBoardHexID({ ...middleCube, altitude: boardHex.altitude })]
+    onPointerUp(e, middleBaseHex)
+  }
+  const onPointerUpFar = (e: ThreeEvent<PointerEvent>) => {
+    const myCube: CubeCoordinate = { q: boardHex.q, r: boardHex.r, s: boardHex.s }
+    const farCube = hexUtilsAdd(hexUtilsAdd(myCube, hexUtilsGetNeighborForRotation(boardHex.pieceRotation)), hexUtilsGetNeighborForRotation(boardHex.pieceRotation))
+    const farBaseHex = boardHexes[genBoardHexID({ ...farCube, altitude: boardHex.altitude })]
+    onPointerUp(e, farBaseHex)
   }
   return (
     <group>
@@ -72,7 +87,7 @@ export function CastleArch({
           geometry={nodes.CastleArchCapMiddle.geometry}
           onPointerEnter={onPointerEnterMiddle}
           onPointerOut={onPointerOutMiddle}
-          onPointerUp={e => onPointerUp(e, boardHex)}
+          onPointerUp={onPointerUpMiddle}
         >
           <meshMatcapMaterial
             color={colorMiddle}
@@ -82,7 +97,7 @@ export function CastleArch({
           geometry={nodes.CastleArchCapFar.geometry}
           onPointerEnter={onPointerEnterFar}
           onPointerOut={onPointerOutFar}
-          onPointerUp={e => onPointerUp(e, boardHex)}
+          onPointerUp={onPointerUpFar}
         >
           <meshMatcapMaterial
             color={colorFar}
