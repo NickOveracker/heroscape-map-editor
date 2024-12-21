@@ -7,7 +7,7 @@ import { hexTerrainColor } from "../hexColors"
 import { ThreeEvent } from "@react-three/fiber"
 
 
-const baseSolidCapCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, HEXGRID_HEXCAP_HEIGHT, 6, undefined, false, undefined, undefined]
+const baseSolidCapCylinderArgs: CylinderGeometryArgs = [0.9, 0.997, HEXGRID_HEXCAP_HEIGHT, 6, undefined, false, undefined, undefined]
 
 const SolidCaps = ({
   boardHexArr,
