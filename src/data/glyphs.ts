@@ -45,9 +45,15 @@ export const powerGlyphs: HexoscapeGlyphs = {
     description: 'The rules for this Glyph changes for each scenario.',
   },
   // TEMPORARY GLYPHS
-  // Sturla (Revive): When a figure lands on this Glyph, both players must roll the 20 sided die for all of their previously destroyed figures. If a 19 or 20 is rolled, than that figure is placed on any starting zone.
-  // Nilrend (Negation): When one of your figures stops here, you may choose any opponent's Unique Army Card. Roll the 20-sided die. If you roll a 1 - 4, nothing happens. If you roll a 5 - 20, place the Gold Negation Marker on the chosen figure's Army Card. All of that figure's special powers are negated for the rest of the game.
-  // Oreld (Intercept Order): When one of your figures stops here, roll the 20-sided die. If you roll a 1 - 9, nothing happens. If your roll a 10 - 20, you may remove one random unrevealed Order Marker from an opponent's Army Card.
+  summoner: {
+    id: 'summoner',
+    name: 'Erland',
+    shortName: 'Summoner',
+    glyphLetter: 'E',
+    type: 'temporary',
+    effect: 'Summon figure',
+    description: `When a figure lands on this Glyph, choose any one figure (yours, a teammate's or an opponent's) and to place on an adjacent space.`,
+  },
   healer: {
     id: 'healer',
     name: 'Kelda',
@@ -58,15 +64,6 @@ export const powerGlyphs: HexoscapeGlyphs = {
     description:
       'When a Hero you control lands on this Glyph, remove all wound markers from it. If a Squad figure lands here, nothing happens.',
   },
-  summoner: {
-    id: 'summoner',
-    name: 'Erland',
-    shortName: 'Summoner',
-    glyphLetter: 'E',
-    type: 'temporary',
-    effect: 'Summon figure',
-    description: `When a figure lands on this Glyph, choose any one figure (yours, a teammate's or an opponent's) and to place on an adjacent space.`,
-  },
   curse: {
     id: 'curse',
     name: 'Mitonsoul',
@@ -75,6 +72,34 @@ export const powerGlyphs: HexoscapeGlyphs = {
     type: 'temporary',
     effect: 'Massive Curse',
     description: `When a figure lands on this Glyph, all players must roll the 20 sided die for all their own figures. If a 1 is rolled, than that figure is destroyed, 2 or higher and the figure is safe.`,
+  },
+  revive: {
+    id: 'revive',
+    name: 'Sturla',
+    shortName: 'Revive',
+    glyphLetter: 'S',
+    type: 'temporary',
+    effect: 'Revive',
+    description: `When a figure lands on this Glyph, both players must roll the 20 sided die for all of their previously destroyed figures. If a 19 or 20 is rolled, than that figure is placed on any starting zone.`,
+  },
+  negation: {
+    // Nilrend (Negation): When one of your figures stops here, you may choose any opponent's Unique Army Card. Roll the 20-sided die. If you roll a 1 - 4, nothing happens. If you roll a 5 - 20, place the Gold Negation Marker on the chosen figure's Army Card. All of that figure's special powers are negated for the rest of the game.
+    id: 'negation',
+    name: 'Nilrend',
+    shortName: 'Negation',
+    glyphLetter: 'N',
+    type: 'temporary',
+    effect: 'Negation',
+    description: `When one of your figures stops here, you may choose any opponent's Unique Army Card. Roll the 20-sided die. If you roll a 1 - 4, nothing happens. If you roll a 5 - 20, place the Gold Negation Marker on the chosen figure's Army Card. All of that figure's special powers are negated for the rest of the game.`,
+  },
+  interceptOrder: {
+    id: 'interceptOrder',
+    name: 'Oreld',
+    shortName: 'Intercept Order',
+    glyphLetter: 'O',
+    type: 'temporary',
+    effect: 'Intercept Order',
+    description: `When one of your figures stops here, roll the 20-sided die. If you roll a 1 - 9, nothing happens. If your roll a 10 - 20, you may remove one random unrevealed Order Marker from an opponent's Army Card.`,
   },
   // PERMANENT GLYPHS
   attack: {
@@ -201,71 +226,70 @@ export const powerGlyphs: HexoscapeGlyphs = {
   },
 }
 
+/*
+MARVEL
+Marvel had two unique yellow Glyphs of its own, which were infamous for not doing anything specific.
+Object of Power/Mysterious Item (Artifact): The rules for these Glyphs change for each scenario.
+*/
 
-// Temporary Glyphs
-// Remove these Glyphs from the board upon landing on them.
-// Rise of the Valkyrie
-// Erland (Summoning): When a figure lands on this Glyph, choose any one figure (yours, a teammate's or an opponent's) and to place on an adjacent space.
-// Kelda (Healing): When a Hero you control lands on this Glyph, remove all wound markers from it. If a Squad figure lands here, nothing happens.
-// Mitonsol (Massive Curse): When a figure lands on this Glyph, all players must roll the 20 sided die for all their own figures. If a 1 is rolled, than that figure is destroyed, 2 or higher and the figure is safe.
-// Malliddon's Prophecy
-// Sturla (Revive): When a figure lands on this Glyph, both players must roll the 20 sided die for all of their previously destroyed figures. If a 19 or 20 is rolled, than that figure is placed on any starting zone.
-// Swarm of the Marro
-// Nilrend (Negation): When one of your figures stops here, you may choose any opponent's Unique Army Card. Roll the 20-sided die. If you roll a 1 - 4, nothing happens. If you roll a 5 - 20, place the Gold Negation Marker on the chosen figure's Army Card. All of that figure's special powers are negated for the rest of the game.
-// Oreld (Intercept Order): When one of your figures stops here, roll the 20-sided die. If you roll a 1 - 9, nothing happens. If your roll a 10 - 20, you may remove one random unrevealed Order Marker from an opponent's Army Card.
+/* 
+TREASURE GLYPHS
+The third master set Battle for the Underdark, as well as the three waves that followed it, introduced its own Glyphs, 
+these special brown Glyph are called Treasure Glyphs. 
+These Glyphs work similar to the normal Power Glyphs, but they are mobile and can be moved throughout the battlefield as a figure carries it.
+Note that this Wiki refers to the first type of Glyphs as "Power Glyphs" for the sake of clarity. 
+In rulebooks and other official sources, however, they may simply be referred to as "Glyphs".
+There are three types of treasure glyphs: Permanent Treasure Glyphs, Temporary Treasure Glyphs, and Ancient Artifact Treasure Glyphs.
 
-// Marvel
-// Marvel had two unique yellow Glyphs of its own, which were infamous for not doing anything specific.
-// Object of Power/Mysterious Item (Artifact): The rules for these Glyphs change for each scenario.
+TREASURE GLYPH RULES
+Only Unique Heroes can use Treasure Glyphs and a Hero can carry any number of Treasure Glyphs.
+Treasure Glyphs do not stop movement like normal Glyphs.
+Figures can run right over them, and figures that can’t use them can stand on them to attempt to stop Unique Heroes from getting to them.
+When you attempt to pick up or activate a symbol-side up Treasure Glyph, you must roll for the scenario specific trap (see below) that the Treasure is bound by.
+Treasure Glyphs will normally only affect the figure that is carrying it (the figure whose Army Card the Treasure Glyph is on).
+Treasure Glyph Trap Rules
+When a figure tries to pick up or activate a symbol-side up Treasure Glyph, before revealing it, 
+you must roll a 20 sided die. (Note, you never roll for a trap on a power-side up Treasure Glyph)
+On a 1-5, you set off the trap! Leave the treasure Glyph symbol-side up. 
+The scenario-specific trap takes effect. The trap can be anything you can imagine, as long as you set it up before the game.
+On 6 or higher, you don’t set off the trap, and the figure reveals the Treasure Glyph and places it on his corresponding Army Card. 
+That figure now controls the Glyph.
+Figures cannot freely exchange Treasure Glyphs.
+While this may seem counter-intuitive, this was done in an attempt to balance the mobile Glyphs and
+keep one figure from flying out, grabbing all the treasure, and getting back to their big Hero and beefing them up.
+But there are ways for figures to get rid of treasure Glyphs and allow other figures to pick them up, it just takes an extra turn.
+Dropping Treasure Glyphs
+At any point during a figure's movement, you may place a Treasure Glyph power-side up on a space the figure occupies. That figure may now continue its movement. 
+Note: You cannot drop a Treasure Glyph onto a space that already has another Glyph on it.
+Losing Treasure Glyphs
+If a figure carrying a Treasure Glyph is destroyed, the Glyph is placed power-side up onto a space the figure last occupied. 
+If the space already has a Glyph on it, the Treasure Glyph(s) the figure was carrying is destroyed.
+Treasure Glyphs bring a new level of complexity to the strategy of Glyph grabbing and setting up your Order Markers in Heroscape games.
 
-// Treasure Glyphs
-// The third master set Battle for the Underdark, as well as the three waves that followed it, introduced its own Glyphs, these special brown Glyph are called Treasure Glyphs. These Glyphs work similar to the normal Power Glyphs, but they are mobile and can be moved throughout the battlefield as a figure carries it. Note that this Wiki refers to the first type of Glyphs as "Power Glyphs" for the sake of clarity. In rulebooks and other official sources, however, they may simply be referred to as "Glyphs".
+PERMANENT TREASURE GLYPHS
+Permanent Treasure Glyphs will give the figure certain abilities as long as it is carried.
+Heroic Rune (Attack +1): This figure adds 1 additional attack die when making a normal attack.
+Talisman of Defense (Defense +1): This figure adds 1 additional defense die when defending.
+Brandar’s Chest (Artifact): The rules for this Treasure Glyph vary, depending on the Game Scenario.
+Holy Symbol of Pelor (Attack +2 vs. Undead): This figure adds 2 additional attack dice against Undead figures.
+Brooch of Shielding (Disengage): This figure is never attacked when leaving an engagement.
+Oceanstrider Amulet (Waterwalking): This figure does not have to stop its movement when entering water spaces.
+Giant Hunter Stone (+1 vs Large or Huge Figures): This figure rolls an additional die when attacking or defending against large or huge figures.
 
-// There are three types of treasure glyphs: Permanent Treasure Glyphs, Temporary Treasure Glyphs, and Ancient Artifact Treasure Glyphs.?
+TEMPORARY TREASURE GLYPHS
+Temporary Treasure Glyphs are normally powerful one-use increases or abilities that must be used at a certain time.
+Potion of Healing (Heal 3 Wounds): This figure may drink this potion after revealing an Order Marker on its Army Card. Remove up to 3 Wound Markers from that figure’s Army Card.
+Whetstone of Venom (Poison): This figure may use this whetstone before rolling attack dice for a Normal Attack against an adjacent figure. If that attack inflicts at least one wound, you may add two(2) additional Wound Markers to the defending figure's Army Card.
+Ring of Protection (Defense +3): This figure may choose to use this ring after an attacking figure has rolled attack dice and before rolling defense dice.
+Elixir of Speed (Move +4): This figure may add 4 spaces to it's move value this turn only.
+Bracers of Teleportation (Teleport): This figure may use these bracers before moving. Instead of moving normally, you may place this figure on any same-level space(s) within 10 spaces of its current location. If this figure is engaged when it starts to teleport, it will not take any leaving engagement attacks.
+Cloak of Invisibility (Invisibility): This figure may use this cloak at any point during its turn. This figure has no visible Hit Zones until the end of the current round or until it attacks with a normal or special attack, whichever comes first. This figure will never take any leaving engagement attacks while invisible.
+Belt of Giant Strength (Attack +2): This figure may use this belt before rolling attack dice for a Normal Attack against an adjacent figure. This figure adds two(2) additional dice when attacking with a normal Attack this turn.
+Scarab of Invulnerability (Ignore Wounds): This figure may use this Scarab whenever it receives one or more wounds. Roll the 20 sided die. If you roll a 1-15, ignore one of the wounds just received. If you roll a 16 or higher, ignore all wounds just received.
 
-// Treasure Glyph Rules
-// Only Unique Heroes can use Treasure Glyphs and a Hero can carry any number of Treasure Glyphs. Treasure Glyphs do not stop ?movement like normal Glyphs. Figures can run right over them, and figures that can’t use them can stand on them to attempt to stop Unique Heroes from getting to them.
+ANCIENT ARTIFACT TREASURE GLYPHS
+Ancient Artifacts are powerful and rare Treasure Glyphs. Ancient Artifact Treasure Glyphs follow all rules for Treasure Glyphs with the following exception: an Army may control more than one Ancient Artifact Treasure Glyph, but an Army can never control more than one copy of each Ancient Artifact Treasure Glyph. If at any point an Army would control more than one copy, all extra copies must be dropped or destroyed.
+Bolt of the Witherwood (Ancient Artifact): After moving and before attacking with this figure, you may choose any opponent's figure within 5 clear sight spaces. Roll the 20-sided die. If you roll a 1-15, nothing happens. If you roll a 16 or higher, the chosen figure is destroyed. You may attempt to use this power only once per game.
+Revenant's Tome (Unnatural Revival): This figure may use this tome after revealing an Order Marker on its Army Card. Before taking that turn with this figure, place one previously destroyed Unique figure from your army onto any empty space(s) within five(5) clear sight spaces of this figure. Immediately make a Normal Attack with the placed figure, then immediately destroy that placed figure. While the placed figure is on the board, consider all of its special powers to be negated. The placed figure is considered to have a life of 1, and is not affected by any special power on any Army Card while on the board.
 
-// When you attempt to pick up or activate a symbol-side up Treasure Glyph, you must roll for the scenario specific trap (see below) that the Treasure is bound by. Treasure Glyphs will normally only affect the figure that is carrying it (the figure whose Army Card the Treasure Glyph is on).
-
-// Treasure Glyph Trap Rules
-// When a figure tries to pick up or activate a symbol-side up Treasure Glyph, before revealing it, you must roll a 20 sided die. (Note, you never roll for a trap on a power-side up Treasure Glyph)
-
-// On a 1-5, you set off the trap! Leave the treasure Glyph symbol-side up. The scenario-specific trap takes effect. The trap can be anything you can imagine, as long as you set it up before the game. On 6 or higher, you don’t set off the trap, and the figure reveals the Treasure Glyph and places it on his corresponding Army Card. That figure now controls the Glyph.
-
-// Figures cannot freely exchange Treasure Glyphs. While this may seem counter-intuitive, this was done in an attempt to balance the mobile Glyphs and keep one figure from flying out, grabbing all the treasure, and getting back to their big Hero and beefing them up. But there are ways for figures to get rid of treasure Glyphs and allow other figures to pick them up, it just takes an extra turn.
-
-// Dropping Treasure Glyphs
-// At any point during a figure's movement, you may place a Treasure Glyph power-side up on a space the figure occupies. That figure may now continue its movement. Note: You cannot drop a Treasure Glyph onto a space that already has another Glyph on it.
-
-// Losing Treasure Glyphs
-// If a figure carrying a Treasure Glyph is destroyed, the Glyph is placed power-side up onto a space the figure last occupied. If the space already has a Glyph on it, the Treasure Glyph(s) the figure was carrying is destroyed.
-
-// Treasure Glyphs bring a new level of complexity to the strategy of Glyph grabbing and setting up your Order Markers in Heroscape games.
-
-// Permanent Treasure Glyphs
-// Permanent Treasure Glyphs will give the figure certain abilities as long as it is carried.
-
-// Heroic Rune (Attack +1): This figure adds 1 additional attack die when making a normal attack.
-// Talisman of Defense (Defense +1): This figure adds 1 additional defense die when defending.
-// Brandar’s Chest (Artifact): The rules for this Treasure Glyph vary, depending on the Game Scenario.
-// Holy Symbol of Pelor (Attack +2 vs. Undead): This figure adds 2 additional attack dice against Undead figures.
-// Brooch of Shielding (Disengage): This figure is never attacked when leaving an engagement.
-// Oceanstrider Amulet (Waterwalking): This figure does not have to stop its movement when entering water spaces.
-// Giant Hunter Stone (+1 vs Large or Huge Figures): This figure rolls an additional die when attacking or defending against large or huge figures.
-// Temporary Treasure Glyphs
-// Temporary Treasure Glyphs are normally powerful one-use increases or abilities that must be used at a certain time.
-
-// Potion of Healing (Heal 3 Wounds): This figure may drink this potion after revealing an Order Marker on its Army Card. Remove up to 3 Wound Markers from that figure’s Army Card.
-// Whetstone of Venom (Poison): This figure may use this whetstone before rolling attack dice for a Normal Attack against an adjacent figure. If that attack inflicts at least one wound, you may add two(2) additional Wound Markers to the defending figure's Army Card.
-// Ring of Protection (Defense +3): This figure may choose to use this ring after an attacking figure has rolled attack dice and before rolling defense dice.
-// Elixir of Speed (Move +4): This figure may add 4 spaces to it's move value this turn only.
-// Bracers of Teleportation (Teleport): This figure may use these bracers before moving. Instead of moving normally, you may place this figure on any same-level space(s) within 10 spaces of its current location. If this figure is engaged when it starts to teleport, it will not take any leaving engagement attacks.
-// Cloak of Invisibility (Invisibility): This figure may use this cloak at any point during its turn. This figure has no visible Hit Zones until the end of the current round or until it attacks with a normal or special attack, whichever comes first. This figure will never take any leaving engagement attacks while invisible.
-// Belt of Giant Strength (Attack +2): This figure may use this belt before rolling attack dice for a Normal Attack against an adjacent figure. This figure adds two(2) additional dice when attacking with a normal Attack this turn.
-// Scarab of Invulnerability (Ignore Wounds): This figure may use this Scarab whenever it receives one or more wounds. Roll the 20 sided die. If you roll a 1-15, ignore one of the wounds just received. If you roll a 16 or higher, ignore all wounds just received.
-// Ancient Artifact Treasure Glyphs
-// Ancient Artifacts are powerful and rare Treasure Glyphs. Ancient Artifact Treasure Glyphs follow all rules for Treasure Glyphs with the following exception: an Army may control more than one Ancient Artifact Treasure Glyph, but an Army can never control more than one copy of each Ancient Artifact Treasure Glyph. If at any point an Army would control more than one copy, all extra copies must be dropped or destroyed.
-
-// Bolt of the Witherwood (Ancient Artifact): After moving and before attacking with this figure, you may choose any opponent's figure within 5 clear sight spaces. Roll the 20-sided die. If you roll a 1-15, nothing happens. If you roll a 16 or higher, the chosen figure is destroyed. You may attempt to use this power only once per game.
-// Revenant's Tome (Unnatural Revival): This figure may use this tome after revealing an Order Marker on its Army Card. Before taking that turn with this figure, place one previously destroyed Unique figure from your army onto any empty space(s) within five(5) clear sight spaces of this figure. Immediately make a Normal Attack with the placed figure, then immediately destroy that placed figure. While the placed figure is on the board, consider all of its special powers to be negated. The placed figure is considered to have a life of 1, and is not affected by any special power on any Army Card while on the board.
+*/
