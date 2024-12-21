@@ -10,7 +10,7 @@ type ObstacleBaseProps = {
   isTransparent?: boolean
 }
 
-const treeBaseCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, HEXGRID_HEXCAP_HEIGHT, 6, undefined, false, undefined, undefined]
+const treeBaseCylinderArgs: CylinderGeometryArgs = [0.9, 0.997, HEXGRID_HEXCAP_HEIGHT, 6, undefined, false, undefined, undefined]
 
 export default function ObstacleBase({ x, y, z, color, isTransparent }: ObstacleBaseProps) {
   return (
