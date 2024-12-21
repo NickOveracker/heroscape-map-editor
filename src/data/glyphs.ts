@@ -1,26 +1,3 @@
-// const vsGlyphLetterToName = {
-//   '?': 'unknown', // tile.type: 14063="unknown"
-//   A: 'astrid',
-//   G: 'gerda',
-//   I: 'ivor',
-//   V: 'valda',
-//   D: 'dragmar',
-//   B: 'brandar',
-//   K: 'kelda',
-//   E: 'erland',
-//   M: 'mitonsoul',
-//   L: 'lodin',
-//   S: 'sturla',
-//   R: 'rannveig',
-//   J: 'jalgard',
-//   W: 'wannok',
-//   P: 'proftaka',
-//   O: 'oreld',
-//   N: 'nilrend',
-//   C: 'crevcor',
-//   T: 'thorian',
-//   U: 'ulaniva',
-// }+
 
 type HexoscapeGlyphs = {
   [key: string]: {
@@ -33,6 +10,19 @@ type HexoscapeGlyphs = {
     description: string
   }
 }
+
+/* 
+AOA GLYPHS
+Permanent
+Glyph of Yadulkia (Disengage): Your figures are never attacked when leaving an engagement.
+Glyph of Xenithrax Vines (Vines): If a Huge figure moves onto this Glyph, this Glyph is immediately removed from the battlefield and that figure may continue its movement. Figures standing on this Glyph roll 1 fewer attack die and 2 fewer defense dice. When a figure on this Glyph moves off of the Glyph, roll one attack die. If you roll a skull, that figure takes one wound. Remove this Glyph from the battlefield after a figure moves off of it, or at the end of the round if a figure is standing on it.
+Temporary
+Glyph of Felaron (Glyph Removal) Remove any other Glyph from the battlefield.
+Glyph of Haukeland (Healing) When one of your figures stops here, you may remove up to 3 Wound Markers from across any of your Army Cards.
+Glyph of Mitonsoul (Massive Curse): When a figure lands on this Glyph, all players must roll the 20 sided die for all their own figures. If a 1 is rolled, than that figure is destroyed. On a 2 or higher, that figure is safe.
+Glyph of Quillivon (Sudden Movement): Choose up to 3 of your figures other than the one on this Glyph. You may move each of the chosen figures up to 5 spaces.
+*/
+
 
 export const powerGlyphs: HexoscapeGlyphs = {
   objective: {
@@ -232,12 +222,12 @@ Marvel had two unique yellow Glyphs of its own, which were infamous for not doin
 Object of Power/Mysterious Item (Artifact): The rules for these Glyphs change for each scenario.
 */
 
-/* 
+/*
 TREASURE GLYPHS
-The third master set Battle for the Underdark, as well as the three waves that followed it, introduced its own Glyphs, 
-these special brown Glyph are called Treasure Glyphs. 
+The third master set Battle for the Underdark, as well as the three waves that followed it, introduced its own Glyphs,
+these special brown Glyph are called Treasure Glyphs.
 These Glyphs work similar to the normal Power Glyphs, but they are mobile and can be moved throughout the battlefield as a figure carries it.
-Note that this Wiki refers to the first type of Glyphs as "Power Glyphs" for the sake of clarity. 
+Note that this Wiki refers to the first type of Glyphs as "Power Glyphs" for the sake of clarity.
 In rulebooks and other official sources, however, they may simply be referred to as "Glyphs".
 There are three types of treasure glyphs: Permanent Treasure Glyphs, Temporary Treasure Glyphs, and Ancient Artifact Treasure Glyphs.
 
@@ -248,21 +238,21 @@ Figures can run right over them, and figures that can’t use them can stand on 
 When you attempt to pick up or activate a symbol-side up Treasure Glyph, you must roll for the scenario specific trap (see below) that the Treasure is bound by.
 Treasure Glyphs will normally only affect the figure that is carrying it (the figure whose Army Card the Treasure Glyph is on).
 Treasure Glyph Trap Rules
-When a figure tries to pick up or activate a symbol-side up Treasure Glyph, before revealing it, 
+When a figure tries to pick up or activate a symbol-side up Treasure Glyph, before revealing it,
 you must roll a 20 sided die. (Note, you never roll for a trap on a power-side up Treasure Glyph)
-On a 1-5, you set off the trap! Leave the treasure Glyph symbol-side up. 
+On a 1-5, you set off the trap! Leave the treasure Glyph symbol-side up.
 The scenario-specific trap takes effect. The trap can be anything you can imagine, as long as you set it up before the game.
-On 6 or higher, you don’t set off the trap, and the figure reveals the Treasure Glyph and places it on his corresponding Army Card. 
+On 6 or higher, you don’t set off the trap, and the figure reveals the Treasure Glyph and places it on his corresponding Army Card.
 That figure now controls the Glyph.
 Figures cannot freely exchange Treasure Glyphs.
 While this may seem counter-intuitive, this was done in an attempt to balance the mobile Glyphs and
 keep one figure from flying out, grabbing all the treasure, and getting back to their big Hero and beefing them up.
 But there are ways for figures to get rid of treasure Glyphs and allow other figures to pick them up, it just takes an extra turn.
 Dropping Treasure Glyphs
-At any point during a figure's movement, you may place a Treasure Glyph power-side up on a space the figure occupies. That figure may now continue its movement. 
+At any point during a figure's movement, you may place a Treasure Glyph power-side up on a space the figure occupies. That figure may now continue its movement.
 Note: You cannot drop a Treasure Glyph onto a space that already has another Glyph on it.
 Losing Treasure Glyphs
-If a figure carrying a Treasure Glyph is destroyed, the Glyph is placed power-side up onto a space the figure last occupied. 
+If a figure carrying a Treasure Glyph is destroyed, the Glyph is placed power-side up onto a space the figure last occupied.
 If the space already has a Glyph on it, the Treasure Glyph(s) the figure was carrying is destroyed.
 Treasure Glyphs bring a new level of complexity to the strategy of Glyph grabbing and setting up your Order Markers in Heroscape games.
 
@@ -293,3 +283,27 @@ Bolt of the Witherwood (Ancient Artifact): After moving and before attacking wit
 Revenant's Tome (Unnatural Revival): This figure may use this tome after revealing an Order Marker on its Army Card. Before taking that turn with this figure, place one previously destroyed Unique figure from your army onto any empty space(s) within five(5) clear sight spaces of this figure. Immediately make a Normal Attack with the placed figure, then immediately destroy that placed figure. While the placed figure is on the board, consider all of its special powers to be negated. The placed figure is considered to have a life of 1, and is not affected by any special power on any Army Card while on the board.
 
 */
+
+// const vsGlyphLetterToName = {
+//   '?': 'unknown', // tile.type: 14063="unknown"
+//   A: 'astrid',
+//   G: 'gerda',
+//   I: 'ivor',
+//   V: 'valda',
+//   D: 'dragmar',
+//   B: 'brandar',
+//   K: 'kelda',
+//   E: 'erland',
+//   M: 'mitonsoul',
+//   L: 'lodin',
+//   S: 'sturla',
+//   R: 'rannveig',
+//   J: 'jalgard',
+//   W: 'wannok',
+//   P: 'proftaka',
+//   O: 'oreld',
+//   N: 'nilrend',
+//   C: 'crevcor',
+//   T: 'thorian',
+//   U: 'ulaniva',
+// }+
