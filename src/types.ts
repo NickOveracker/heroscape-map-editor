@@ -141,6 +141,7 @@ export enum Pieces {
     ice4 = 'ice4',
     ice6 = 'ice6',
     shadow1 = 'shadow1',
+    shadow3 = 'shadow3',
     // EdgeAddons
     roadWall = 'roadWall',
     battlement = 'battlement',

@@ -72,7 +72,7 @@ const landSizes: Dictionary<number[]> = { // This should be derived, it is dupli
     [HexTerrain.swampWater]: [1],
     [HexTerrain.lava]: [1],
     [HexTerrain.ice]: [1, 3, 4, 6],
-    [HexTerrain.shadow]: [1],
+    [HexTerrain.shadow]: [1, 3],
 }
 const getNewPieceSizeForPenMode = (
     newMode: string,

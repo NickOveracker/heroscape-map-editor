@@ -475,6 +475,15 @@ export const piecesSoFar: Dictionary<Piece> = {
     height: 0,
     isLand: true,
   },
+  [Pieces.shadow3]: {
+    id: Pieces.shadow3,
+    inventoryID: Pieces.shadow3,
+    terrain: HexTerrain.shadow,
+    size: 3,
+    template: '3',
+    height: 0,
+    isLand: true,
+  },
   // HEX OBSTACLES
   [Pieces.laurPillar]: {
     id: Pieces.laurPillar,
