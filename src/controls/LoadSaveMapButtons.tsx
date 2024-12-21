@@ -33,19 +33,19 @@ export const LoadSaveMapButtons = () => {
   const handleLoadMap1 = () => {
     if (isMap1) {
       loadMap(map1)
-      enqueueSnackbar(`Loaded map: "${currentSaveableMap.hexMap.name}" from local map slot 1`)
+      enqueueSnackbar(`Loaded map: "${map1.hexMap.name}" from local map slot 1`)
     }
   }
   const handleLoadMap2 = () => {
     if (isMap2) {
       loadMap(map2)
-      enqueueSnackbar(`Loaded map: "${currentSaveableMap.hexMap.name}" from local map slot 2`)
+      enqueueSnackbar(`Loaded map: "${map2.hexMap.name}" from local map slot 2`)
     }
   }
   const handleLoadMap3 = () => {
     if (isMap3) {
       loadMap(map3)
-      enqueueSnackbar(`Loaded map: "${currentSaveableMap.hexMap.name}" from local map slot 3`)
+      enqueueSnackbar(`Loaded map: "${map3.hexMap.name}" from local map slot 3`)
     }
   }
   const handleLoadHexagonMap = () => {

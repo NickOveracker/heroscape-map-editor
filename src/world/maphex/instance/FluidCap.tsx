@@ -22,7 +22,7 @@ const FluidCaps = ({
       ref={ref}
     >
       <cylinderGeometry args={baseFluidCapCylinderArgs} />
-      <meshMatcapMaterial
+      <meshLambertMaterial
         transparent
         opacity={0.95}
       />
