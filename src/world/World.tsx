@@ -30,13 +30,13 @@ const World = () => {
             >
                 {/* <Sky /> */}
                 <Stars
-                    radius={100}
+                    radius={10}
                     depth={50}
                     count={5000}
-                    factor={4}
+                    factor={2}
                     saturation={0}
                     fade
-                    speed={0.1}
+                    speed={1}
                 />
                 {/* Stats displays the fps */}
                 <Stats className='stats-panel' />
