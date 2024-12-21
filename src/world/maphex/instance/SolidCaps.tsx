@@ -20,6 +20,7 @@ const SolidCaps = ({
       limit={INSTANCE_LIMIT}
       range={boardHexArr.length}
       ref={ref}
+      frustumCulled={false}
     >
       <cylinderGeometry args={baseSolidCapCylinderArgs} />
       <meshMatcapMaterial />
@@ -73,7 +74,6 @@ function SolidCap({
     onPointerUp={handleUp}
     onPointerEnter={handleEnter}
     onPointerOut={handleOut}
-    castShadow
-    receiveShadow
+    frustumCulled={false}
   />
 }

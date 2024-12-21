@@ -20,6 +20,7 @@ const FluidCaps = ({
       limit={INSTANCE_LIMIT}
       range={boardHexArr.length} // no way there would be this many fluid caps, but with an overhang on every other hex, maybe
       ref={ref}
+      frustumCulled={false}
     >
       <cylinderGeometry args={baseFluidCapCylinderArgs} />
       <meshLambertMaterial
@@ -77,7 +78,6 @@ function FluidCap({
     onPointerUp={handleUp}
     onPointerEnter={handleEnter}
     onPointerOut={handleOut}
-    castShadow
-    receiveShadow
+    frustumCulled={false}
   />
 }

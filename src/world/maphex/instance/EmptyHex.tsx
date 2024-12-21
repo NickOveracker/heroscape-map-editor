@@ -22,6 +22,7 @@ const EmptyHexes = ({
       ref={ref}
       range={boardHexArr.length}
       limit={INSTANCE_LIMIT}
+      frustumCulled={false}
     >
       <cylinderGeometry args={baseEmptyCapCylinderArgs} />
       <meshMatcapMaterial
@@ -78,5 +79,6 @@ function EmptyHex({
     onPointerUp={handleUp}
     onPointerEnter={handleEnter}
     onPointerOut={handleOut}
+    frustumCulled={false}
   />
 }

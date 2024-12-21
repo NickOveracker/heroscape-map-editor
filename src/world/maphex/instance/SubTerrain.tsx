@@ -11,7 +11,7 @@ type Props = {
   boardHexArr: BoardHex[]
 }
 
-const baseSubTerrainCylinderArgs: CylinderGeometryArgs = [0.999, 0.999, HEXGRID_HEX_HEIGHT, 6, undefined, false, undefined, undefined]
+const baseSubTerrainCylinderArgs: CylinderGeometryArgs = [1, 1, HEXGRID_HEX_HEIGHT, 6, undefined, false, undefined, undefined]
 const dirtColor = hexTerrainColor[HexTerrain.dirt]
 
 const SubTerrains = ({ boardHexArr }: Props) => {
@@ -22,11 +22,10 @@ const SubTerrains = ({ boardHexArr }: Props) => {
       limit={INSTANCE_LIMIT}
       range={boardHexArr.length}
       ref={ref}
+      frustumCulled={false}
     >
       <cylinderGeometry args={baseSubTerrainCylinderArgs} />
       <meshToonMaterial
-        transparent
-        opacity={1}
       />
       {boardHexArr.map((hex, i) => (
         <SubTerrain key={hex.id + i + 'sub'} boardHex={hex} />
@@ -54,5 +53,6 @@ function SubTerrain({ boardHex }: { boardHex: BoardHex }) {
     ref={ref}
     onPointerDown={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
     onPointerEnter={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
+    frustumCulled={false}
   />
 }
