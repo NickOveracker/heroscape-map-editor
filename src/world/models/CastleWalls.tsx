@@ -66,8 +66,6 @@ export function CastleWall({
       <group
         position={position}
         rotation={[0, rotation * -Math.PI / 3, 0]}
-        castShadow
-        receiveShadow
       >
         <mesh
           scale={scale}

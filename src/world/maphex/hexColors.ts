@@ -42,6 +42,7 @@ export const hexTerrainColor: Dictionary<string> = {
     [HexTerrain.empty]: '#040404',
     [HexTerrain.dirt]: '#5B3734',
     [HexTerrain.tree]: '#006400',
+    treeBase: '#944c00',
     [HexTerrain.laurPillar]: '#8ba4be',
     [HexTerrain.palm]: '#35E718',
     [HexTerrain.brush]: '#35E718',

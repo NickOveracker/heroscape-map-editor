@@ -15,7 +15,6 @@ export default function Ruins3({ boardHex }: { boardHex: BoardHex }) {
   function getOptions(rotation: number) {
     switch (rotation) {
       case 0:
-        // return { rotationY: 0, xAdd: 0, zAdd: 0 }
         return { rotationY: 0, xAdd: -HEXGRID_HEX_APOTHEM + 0.04, zAdd: 0.7 }
       case 1:
         return { rotationY: - Math.PI / 3, xAdd: -HEXGRID_HEX_APOTHEM - 0.1, zAdd: -0.4 }
@@ -41,8 +40,6 @@ export default function Ruins3({ boardHex }: { boardHex: BoardHex }) {
       }}
     >
       <mesh
-        castShadow
-        receiveShadow
         geometry={nodes.Ruin_Large_Scanned.geometry}
       // material={materials.RuinGray}
       >

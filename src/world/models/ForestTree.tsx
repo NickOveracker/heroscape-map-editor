@@ -38,17 +38,15 @@ function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
   return (
     <group>
       <mesh
-        castShadow
-        receiveShadow
         geometry={nodes.Tree10_scanned.geometry}
-        rotation={[0, rotation * -Math.PI / 3, 0]}
         // material={materials.ForestTree}
         scale={[options.scaleX, options.scaleY, options.scaleX]}
         position={[x, options.y, z]}
+        rotation={[0, rotation * -Math.PI / 3, 0]}
       >
         <meshMatcapMaterial color={hexTerrainColor[HexTerrain.tree]} />
       </mesh>
-      <ObstacleBase x={x} y={yBase} z={z} color={'#944c00'} />
+      <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor.treeBase} />
     </group>
   )
 }

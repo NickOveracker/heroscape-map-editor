@@ -1,4 +1,3 @@
-import React from 'react'
 import { useGLTF } from '@react-three/drei'
 import { hexTerrainColor } from '../maphex/hexColors'
 import { BoardHex, HexTerrain } from '../../types'

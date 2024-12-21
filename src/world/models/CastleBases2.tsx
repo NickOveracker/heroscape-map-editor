@@ -13,6 +13,8 @@ type Props = {
   onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }
 
+
+// These were made after the castle walls and are VERY SIMILAR. TODO: DRY
 export default function CastleBases({
   boardHex,
   underHexTerrain,
@@ -23,7 +25,6 @@ export default function CastleBases({
   const [color, setColor] = React.useState(hexTerrainColor[HexTerrain.castle])
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
-  // const scale = new Vector3(1, 1, 1)
   const position = new Vector3(x, yBase, z)
   const pieceID = boardHex.pieceID
   const endGeo = [nodes.CastleWallEndBody.geometry, nodes.CastleWallEndCap.geometry]
@@ -44,11 +45,8 @@ export default function CastleBases({
       <group
         position={position}
         rotation={[0, rotation * -Math.PI / 3, 0]}
-        castShadow
-        receiveShadow
       >
         <mesh
-          // scale={scale}
           geometry={geometryPair[0]}
         >
           <meshMatcapMaterial
@@ -60,7 +58,6 @@ export default function CastleBases({
         <>
           <mesh
             geometry={nodes.WallCap.geometry}
-            // position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
             onPointerUp={e => onPointerUp(e, boardHex)}
             onPointerEnter={onPointerEnter}
             onPointerOut={onPointerOut}
@@ -71,7 +68,6 @@ export default function CastleBases({
           </mesh>
           <mesh
             geometry={geometryPair[1]}
-            // position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
             onPointerUp={e => onPointerUp(e, boardHex)}
           >
             <meshMatcapMaterial

@@ -48,9 +48,7 @@ export default function MarroHive6({ boardHex }: { boardHex: BoardHex }) {
           geometry={nodes.Marro_Hive.geometry}
         >
           <meshMatcapMaterial
-            // color={hexTerrainColor[HexTerrain.swamp]}
             color={'#828c51'}
-          // color={'#555C45'}
           />
         </mesh>
       </group>

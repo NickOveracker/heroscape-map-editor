@@ -41,8 +41,6 @@ export default function HeightRing({
         opacity={0.3}
         color={new Color('#a4a4a4')}
         linewidth={position.y === 0 ? 1 : 3} // hacky
-        linecap={'round'}
-        linejoin={'round'}
       />
     </line_>
   )

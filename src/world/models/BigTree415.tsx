@@ -34,7 +34,7 @@ export default function BigTree415({ boardHex }: { boardHex: BoardHex }) {
   }
   if (boardHex.isAuxiliary) {
     return (
-      <ObstacleBase x={x} y={yBase} z={z} color={"#944c00"} />
+      <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor.treeBase} />
     )
   }
   return (
@@ -43,12 +43,8 @@ export default function BigTree415({ boardHex }: { boardHex: BoardHex }) {
         position={[x + options.xAdd, yWithBase, z + options.zAdd]}
         scale={0.038}
         rotation={[0, options.rotationY, 0]}
-        castShadow
-        receiveShadow
       >
         <mesh
-          castShadow
-          receiveShadow
           geometry={nodes.Tree_large_rocks_scanned001_1.geometry}
         // material={materials.BoulderGray}
         >
@@ -57,8 +53,6 @@ export default function BigTree415({ boardHex }: { boardHex: BoardHex }) {
           />
         </mesh>
         <mesh
-          castShadow
-          receiveShadow
           geometry={nodes.Tree_large_rocks_scanned001_2.geometry}
         // material={materials.ForestTree}
         >
@@ -67,7 +61,7 @@ export default function BigTree415({ boardHex }: { boardHex: BoardHex }) {
           />
         </mesh>
       </group>
-      <ObstacleBase x={x} y={yBase} z={z} color={"#944c00"} />
+      <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor.treeBase} />
     </group>
   )
 }
