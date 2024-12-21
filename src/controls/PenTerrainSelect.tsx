@@ -9,14 +9,8 @@ import {
   GiGrass,
   GiIsland,
   GiWaterfall,
-  GiBulldozer,
   GiCastle,
 } from 'react-icons/gi'
-import {
-  TbHexagonNumber1Filled,
-  TbHexagonNumber2Filled,
-  TbHexagonNumber3Filled,
-} from 'react-icons/tb'
 import { PenMode } from '../types'
 import useBoundStore from '../store/store'
 
@@ -187,7 +181,7 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Brush9</span>
+          <span>TicallaBrush9</span>
         </MenuItem>
         <MenuItem value={PenMode.palm14}>
           <ListItemIcon>
@@ -331,9 +325,9 @@ export default function PenTerrainSelect() {
           <span>Wall Walk 9</span>
         </MenuItem>
 
-        <Divider />
+        {/* <Divider /> */}
         {/* START ZONES BEGIN */}
-
+        {/* 
         <MenuItem value={PenMode.startZone0}>
           <ListItemIcon>
             <TbHexagonNumber1Filled />
@@ -351,12 +345,12 @@ export default function PenTerrainSelect() {
             <TbHexagonNumber3Filled />
           </ListItemIcon>
           <span>Start Zone: P3</span>
-        </MenuItem>
+        </MenuItem> */}
 
-        <Divider />
+        {/* <Divider /> */}
         {/* ERASER BUTTONS BEGIN */}
 
-        <MenuItem value={PenMode.eraserStartZone}>
+        {/* <MenuItem value={PenMode.eraserStartZone}>
           <ListItemIcon>
             <GiBulldozer />
           </ListItemIcon>
@@ -367,7 +361,7 @@ export default function PenTerrainSelect() {
             <GiBulldozer />
           </ListItemIcon>
           <span>Delete Hex</span>
-        </MenuItem>
+        </MenuItem> */}
       </Select>
     </FormControl>
   )
