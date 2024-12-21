@@ -7,7 +7,7 @@ export const getPieceByTerrainAndSize = (terrain: string, size: number) => {
 }
 export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.grass1]: {
-    id: Pieces.grass1,// will get overwritten in game
+    id: Pieces.grass1,
     inventoryID: Pieces.grass1,
     terrain: HexTerrain.grass,
     size: 1,
@@ -16,7 +16,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.grass2]: {
-    id: Pieces.grass2,// will get overwritten in game
+    id: Pieces.grass2,
     inventoryID: Pieces.grass2,
     terrain: HexTerrain.grass,
     size: 2,
@@ -25,7 +25,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.grass3]: {
-    id: Pieces.grass3,// will get overwritten in game
+    id: Pieces.grass3,
     inventoryID: Pieces.grass3,
     terrain: HexTerrain.grass,
     size: 3,
@@ -34,7 +34,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.grass7]: {
-    id: Pieces.grass7,// will get overwritten in game
+    id: Pieces.grass7,
     inventoryID: Pieces.grass7,
     terrain: HexTerrain.grass,
     size: 7,
@@ -43,7 +43,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.grass24]: {
-    id: Pieces.grass24,// will get overwritten in game
+    id: Pieces.grass24,
     inventoryID: Pieces.grass24,
     terrain: HexTerrain.grass,
     size: 24,
@@ -52,7 +52,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.rock1]: {
-    id: Pieces.rock1,// will get overwritten in game
+    id: Pieces.rock1,
     inventoryID: Pieces.rock1,
     terrain: HexTerrain.rock,
     size: 1,
@@ -61,7 +61,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.rock2]: {
-    id: Pieces.rock2,// will get overwritten in game
+    id: Pieces.rock2,
     inventoryID: Pieces.rock2,
     terrain: HexTerrain.rock,
     size: 2,
@@ -70,7 +70,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.rock3]: {
-    id: Pieces.rock3,// will get overwritten in game
+    id: Pieces.rock3,
     inventoryID: Pieces.rock3,
     terrain: HexTerrain.rock,
     size: 3,
@@ -79,7 +79,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.rock7]: {
-    id: Pieces.rock7,// will get overwritten in game
+    id: Pieces.rock7,
     inventoryID: Pieces.rock7,
     terrain: HexTerrain.rock,
     size: 7,
@@ -88,7 +88,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.rock24]: {
-    id: Pieces.rock24,// will get overwritten in game
+    id: Pieces.rock24,
     inventoryID: Pieces.rock24,
     terrain: HexTerrain.rock,
     size: 24,
@@ -97,7 +97,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.sand1]: {
-    id: Pieces.sand1,// will get overwritten in game
+    id: Pieces.sand1,
     inventoryID: Pieces.sand1,
     terrain: HexTerrain.sand,
     size: 1,
@@ -106,7 +106,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.sand2]: {
-    id: Pieces.sand2,// will get overwritten in game
+    id: Pieces.sand2,
     inventoryID: Pieces.sand2,
     terrain: HexTerrain.sand,
     size: 2,
@@ -115,7 +115,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.sand3]: {
-    id: Pieces.sand3,// will get overwritten in game
+    id: Pieces.sand3,
     inventoryID: Pieces.sand3,
     terrain: HexTerrain.sand,
     size: 3,
@@ -124,7 +124,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.sand7]: {
-    id: Pieces.sand7,// will get overwritten in game
+    id: Pieces.sand7,
     inventoryID: Pieces.sand7,
     terrain: HexTerrain.sand,
     size: 7,
@@ -133,7 +133,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.sand24]: {
-    id: Pieces.sand24,// will get overwritten in game
+    id: Pieces.sand24,
     inventoryID: Pieces.sand24,
     terrain: HexTerrain.sand,
     size: 24,
@@ -142,7 +142,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.dungeon1]: {
-    id: Pieces.dungeon1,// will get overwritten in game
+    id: Pieces.dungeon1,
     inventoryID: Pieces.dungeon1,
     terrain: HexTerrain.dungeon,
     size: 1,
@@ -151,7 +151,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.dungeon2]: {
-    id: Pieces.dungeon2,// will get overwritten in game
+    id: Pieces.dungeon2,
     inventoryID: Pieces.dungeon2,
     terrain: HexTerrain.dungeon,
     size: 2,
@@ -160,7 +160,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.dungeon3]: {
-    id: Pieces.dungeon3,// will get overwritten in game
+    id: Pieces.dungeon3,
     inventoryID: Pieces.dungeon3,
     terrain: HexTerrain.dungeon,
     size: 3,
@@ -169,7 +169,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.dungeon7]: {
-    id: Pieces.dungeon7,// will get overwritten in game
+    id: Pieces.dungeon7,
     inventoryID: Pieces.dungeon7,
     terrain: HexTerrain.dungeon,
     size: 7,
@@ -178,7 +178,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.dungeon24]: {
-    id: Pieces.dungeon24,// will get overwritten in game
+    id: Pieces.dungeon24,
     inventoryID: Pieces.dungeon24,
     terrain: HexTerrain.dungeon,
     size: 24,
@@ -187,7 +187,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.swamp1]: {
-    id: Pieces.swamp1,// will get overwritten in game
+    id: Pieces.swamp1,
     inventoryID: Pieces.swamp1,
     terrain: HexTerrain.swamp,
     size: 1,
@@ -196,7 +196,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.swamp2]: {
-    id: Pieces.swamp2,// will get overwritten in game
+    id: Pieces.swamp2,
     inventoryID: Pieces.swamp2,
     terrain: HexTerrain.swamp,
     size: 2,
@@ -205,7 +205,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.swamp3]: {
-    id: Pieces.swamp3,// will get overwritten in game
+    id: Pieces.swamp3,
     inventoryID: Pieces.swamp3,
     terrain: HexTerrain.swamp,
     size: 3,
@@ -214,7 +214,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.swamp7]: {
-    id: Pieces.swamp7,// will get overwritten in game
+    id: Pieces.swamp7,
     inventoryID: Pieces.swamp7,
     terrain: HexTerrain.swamp,
     size: 7,
@@ -223,7 +223,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.swamp24]: {
-    id: Pieces.swamp24,// will get overwritten in game
+    id: Pieces.swamp24,
     inventoryID: Pieces.swamp24,
     terrain: HexTerrain.swamp,
     size: 24,
@@ -232,7 +232,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.lavaField1]: {
-    id: Pieces.lavaField1,// will get overwritten in game
+    id: Pieces.lavaField1,
     inventoryID: Pieces.lavaField1,
     terrain: HexTerrain.lavaField,
     size: 1,
@@ -241,7 +241,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.lavaField2]: {
-    id: Pieces.lavaField2,// will get overwritten in game
+    id: Pieces.lavaField2,
     inventoryID: Pieces.lavaField2,
     terrain: HexTerrain.lavaField,
     size: 2,
@@ -250,7 +250,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.lavaField7]: {
-    id: Pieces.lavaField7,// will get overwritten in game
+    id: Pieces.lavaField7,
     inventoryID: Pieces.lavaField7,
     terrain: HexTerrain.lavaField,
     size: 7,
@@ -259,7 +259,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.asphalt1]: {
-    id: Pieces.asphalt1,// will get overwritten in game
+    id: Pieces.asphalt1,
     inventoryID: Pieces.asphalt1,
     terrain: HexTerrain.asphalt,
     size: 1,
@@ -268,7 +268,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.asphalt2]: {
-    id: Pieces.asphalt2,// will get overwritten in game
+    id: Pieces.asphalt2,
     inventoryID: Pieces.asphalt2,
     terrain: HexTerrain.asphalt,
     size: 2,
@@ -277,7 +277,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.asphalt7]: {
-    id: Pieces.asphalt7,// will get overwritten in game
+    id: Pieces.asphalt7,
     inventoryID: Pieces.asphalt7,
     terrain: HexTerrain.asphalt,
     size: 7,
@@ -286,7 +286,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.concrete1]: {
-    id: Pieces.concrete1,// will get overwritten in game
+    id: Pieces.concrete1,
     inventoryID: Pieces.concrete1,
     terrain: HexTerrain.concrete,
     size: 1,
@@ -295,7 +295,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.concrete2]: {
-    id: Pieces.concrete2,// will get overwritten in game
+    id: Pieces.concrete2,
     inventoryID: Pieces.concrete2,
     terrain: HexTerrain.concrete,
     size: 2,
@@ -304,7 +304,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.concrete7]: {
-    id: Pieces.concrete7,// will get overwritten in game
+    id: Pieces.concrete7,
     inventoryID: Pieces.concrete7,
     terrain: HexTerrain.concrete,
     size: 7,
@@ -313,7 +313,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.snow1]: {
-    id: Pieces.snow1,// will get overwritten in game
+    id: Pieces.snow1,
     inventoryID: Pieces.snow1,
     terrain: HexTerrain.snow,
     size: 1,
@@ -322,7 +322,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.snow2]: {
-    id: Pieces.snow2,// will get overwritten in game
+    id: Pieces.snow2,
     inventoryID: Pieces.snow2,
     terrain: HexTerrain.snow,
     size: 2,
@@ -331,7 +331,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.road1]: {
-    id: Pieces.road1,// will get overwritten in game
+    id: Pieces.road1,
     inventoryID: Pieces.road1,
     terrain: HexTerrain.road,
     size: 1,
@@ -340,7 +340,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.road2]: {
-    id: Pieces.road2,// will get overwritten in game
+    id: Pieces.road2,
     inventoryID: Pieces.road2,
     terrain: HexTerrain.road,
     size: 2,
@@ -349,7 +349,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.road5]: {
-    id: Pieces.road5,// will get overwritten in game
+    id: Pieces.road5,
     inventoryID: Pieces.road5,
     terrain: HexTerrain.road,
     size: 5,
@@ -358,7 +358,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.wallWalk1]: {
-    id: Pieces.wallWalk1,// will get overwritten in game
+    id: Pieces.wallWalk1,
     inventoryID: Pieces.wallWalk1,
     terrain: HexTerrain.wallWalk,
     size: 1,
@@ -367,7 +367,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.wallWalk7]: {
-    id: Pieces.wallWalk7,// will get overwritten in game
+    id: Pieces.wallWalk7,
     inventoryID: Pieces.wallWalk7,
     terrain: HexTerrain.wallWalk,
     size: 7,
@@ -376,7 +376,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.wallWalk9]: {
-    id: Pieces.wallWalk9,// will get overwritten in game
+    id: Pieces.wallWalk9,
     inventoryID: Pieces.wallWalk9,
     terrain: HexTerrain.wallWalk,
     size: 9,
@@ -385,8 +385,17 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   /* FLUID FLUID FLUID */
+  [Pieces.wellspringWater1]: {
+    id: Pieces.wellspringWater1,
+    inventoryID: Pieces.wellspringWater1,
+    terrain: HexTerrain.wellspringWater,
+    size: 1,
+    template: '1',
+    height: 0,
+    isLand: true,
+  },
   [Pieces.water1]: {
-    id: Pieces.water1,// will get overwritten in game
+    id: Pieces.water1,
     inventoryID: Pieces.water1,
     terrain: HexTerrain.water,
     size: 1,
@@ -394,8 +403,17 @@ export const piecesSoFar: Dictionary<Piece> = {
     height: 0,
     isLand: true,
   },
+  [Pieces.water3]: {
+    id: Pieces.water3,
+    inventoryID: Pieces.water3,
+    terrain: HexTerrain.water,
+    size: 3,
+    template: '3',
+    height: 0,
+    isLand: true,
+  },
   [Pieces.lava1]: {
-    id: Pieces.lava1,// will get overwritten in game
+    id: Pieces.lava1,
     inventoryID: Pieces.lava1,
     terrain: HexTerrain.lava,
     size: 1,
@@ -404,7 +422,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.swampWater1]: {
-    id: Pieces.swampWater1,// will get overwritten in game
+    id: Pieces.swampWater1,
     inventoryID: Pieces.swampWater1,
     terrain: HexTerrain.swampWater,
     size: 1,
@@ -413,7 +431,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   [Pieces.ice1]: {
-    id: Pieces.ice1,// will get overwritten in game
+    id: Pieces.ice1,
     inventoryID: Pieces.ice1,
     terrain: HexTerrain.ice,
     size: 1,
@@ -421,8 +439,35 @@ export const piecesSoFar: Dictionary<Piece> = {
     height: 0,
     isLand: true,
   },
+  [Pieces.ice3]: {
+    id: Pieces.ice3,
+    inventoryID: Pieces.ice3,
+    terrain: HexTerrain.ice,
+    size: 3,
+    template: '3',
+    height: 0,
+    isLand: true,
+  },
+  [Pieces.ice4]: {
+    id: Pieces.ice4,
+    inventoryID: Pieces.ice4,
+    terrain: HexTerrain.ice,
+    size: 4,
+    template: '4',
+    height: 0,
+    isLand: true,
+  },
+  [Pieces.ice6]: {
+    id: Pieces.ice6,
+    inventoryID: Pieces.ice6,
+    terrain: HexTerrain.ice,
+    size: 6,
+    template: '6',
+    height: 0,
+    isLand: true,
+  },
   [Pieces.shadow1]: {
-    id: Pieces.shadow1,// will get overwritten in game
+    id: Pieces.shadow1,
     inventoryID: Pieces.shadow1,
     terrain: HexTerrain.shadow,
     size: 1,
@@ -431,8 +476,17 @@ export const piecesSoFar: Dictionary<Piece> = {
     isLand: true,
   },
   // HEX OBSTACLES
+  [Pieces.laurPillar]: {
+    id: Pieces.laurPillar,
+    inventoryID: Pieces.laurPillar,
+    terrain: HexTerrain.laurPillar,
+    size: 1,
+    template: Pieces.laurPillar,
+    height: 10,
+    isLand: false,
+  },
   [Pieces.tree10]: {
-    id: Pieces.tree10,// will get overwritten in game
+    id: Pieces.tree10,
     inventoryID: Pieces.tree10,
     terrain: HexTerrain.tree,
     size: 1,

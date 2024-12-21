@@ -1,6 +1,7 @@
 import { HexTerrain, Pieces } from '../types'
 export function isFluidTerrainHex(terrain: string) {
     if (
+        terrain === HexTerrain.wellspringWater ||
         terrain === HexTerrain.water ||
         terrain === HexTerrain.lava ||
         terrain === HexTerrain.swampWater ||
@@ -64,6 +65,7 @@ export function isObstructingTerrain(terrain: string) {
 
 export function isObstaclePieceID(inventoryID: string) {
     if (
+        inventoryID === Pieces.laurPillar ||
         inventoryID === Pieces.tree10 ||
         inventoryID === Pieces.tree11 ||
         inventoryID === Pieces.tree12 ||

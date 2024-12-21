@@ -120,6 +120,12 @@ export default function PenTerrainSelect() {
           </ListItemIcon>
           <span>Water</span>
         </MenuItem>
+        <MenuItem value={PenMode.wellspringWater}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Wellspring Water</span>
+        </MenuItem>
         <MenuItem value={PenMode.ice}>
           <ListItemIcon>
             <GiWaterfall />
@@ -147,6 +153,12 @@ export default function PenTerrainSelect() {
 
         <Divider />
         {/* OBSTACLES */}
+        <MenuItem value={PenMode.laurPillar}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Laur Pillar</span>
+        </MenuItem>
         <MenuItem value={PenMode.tree10}>
           <ListItemIcon>
             <GiWaterfall />
@@ -181,19 +193,19 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Palm14</span>
+          <span>TicallaPalm14</span>
         </MenuItem>
         <MenuItem value={PenMode.palm15}>
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Palm15</span>
+          <span>TicallaPalm15</span>
         </MenuItem>
         <MenuItem value={PenMode.palm16}>
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Palm16</span>
+          <span>TicallaPalm16</span>
         </MenuItem>
         <MenuItem value={PenMode.ruins2}>
           <ListItemIcon>

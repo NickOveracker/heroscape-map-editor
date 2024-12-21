@@ -23,7 +23,7 @@ export default function buildupVSFileMap(tiles: VirtualScapeTile[], mapName: str
   // const startZoneTiles = tiles.filter(t => t.type === 15001)
   const newBoardHexes = terrainTilesOnly.reduce((boardHexes: BoardHexes, tile) => {
     const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
-    const inventoryID = pieceCodes?.[tile.type] ?? ''
+    const inventoryID = pieceCodes?.[getCodeQuick(tile)] ?? ''
     const piece = piecesSoFar[inventoryID]
     if (!piece) {
       return boardHexes // Should probably handle this different, errors etc.
@@ -59,6 +59,8 @@ type PieceAddArgs = {
   rotation: number
   isVsTile: boolean
 }
+type PieceAddReturn = { newBoardHexes: BoardHexes, newBoardPieces: BoardPieces }
+
 export function getBoardHexesWithPieceAdded({
   piece,
   boardHexes,
@@ -72,7 +74,7 @@ export function getBoardHexesWithPieceAdded({
   const newBoardPieces = clone(boardPieces)
   const isSolidTile = isSolidTerrainHex(piece.terrain)
   const isFluidTile = isFluidTerrainHex(piece.terrain)
-  // 1.1: GATHER DATA ON TILE
+  // 1.1: GATHER DATA ON PIECE
   const piecePlaneCoords = getVSTileTemplate({
     clickedHex: { q: cubeCoords.q, r: cubeCoords.r, s: cubeCoords.s },
     rotation,
@@ -109,9 +111,10 @@ export function getBoardHexesWithPieceAdded({
       return !isBlocked;
     });
   });
-  // 3. PLACE THE PIECE
-  // CASTLE FIRST!
+  // 3. PLACE PIECE, CASTLE FIRST
   const isCastleWallUnder = underHexIds.some(id => newBoardHexes?.[id]?.terrain === HexTerrain.castle)
+  const isPlacingWallWalkOnWall = piece.terrain === HexTerrain.wallWalk && isSpaceFree && isCastleWallUnder
+  // CASTLE BASES / WALLS / ARCHES
   if (piece.terrain === HexTerrain.castle) {
     const isCastleBaseSupported = isPlacingOnTable || isSolidUnderAtLeastOne // only works because all castle bases are 1-hex currently
     const isCorrespondingBaseOrWallUnderAll = underHexIds.every(id => (
@@ -230,35 +233,32 @@ export function getBoardHexesWithPieceAdded({
       })
     }
   }
-
-  if (piece.terrain === HexTerrain.wallWalk) {
-    // we can put this on castle walls, or we can put it like regular road, below
-
-    if (isSpaceFree && isCastleWallUnder) {
-      newHexIds.forEach((newHexID, iForEach) => {
-        const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
-        const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
-        let isCap = true
-        if (isSolidAbove) {
-          isCap = false // we are not a cap if there is a solid above our solid
-        }
-        newBoardHexes[newHexID] = {
-          id: newHexID,
-          q: piecePlaneCoords[iForEach].q,
-          r: piecePlaneCoords[iForEach].r,
-          s: piecePlaneCoords[iForEach].s,
-          altitude: newPieceAltitude,
-          terrain: piece.terrain,
-          pieceID,
-          pieceRotation: rotation,
-          isCap,
-        }
-      })
-    }
+  // CASTLE WALL WALKS CAN GO ONTO
+  // we can put this on castle walls, or we can put it like regular road, with the rest of solid terrain pieces
+  if (isPlacingWallWalkOnWall) {
+    newHexIds.forEach((newHexID, iForEach) => {
+      const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
+      const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
+      let isCap = true
+      if (isSolidAbove) {
+        isCap = false // we are not a cap if there is a solid above our solid
+      }
+      newBoardHexes[newHexID] = {
+        id: newHexID,
+        q: piecePlaneCoords[iForEach].q,
+        r: piecePlaneCoords[iForEach].r,
+        s: piecePlaneCoords[iForEach].s,
+        altitude: newPieceAltitude,
+        terrain: piece.terrain,
+        pieceID,
+        pieceRotation: rotation,
+        isCap,
+      }
+    })
   }
-
   // LAND: SOLID AND FLUID
-  if (piece.isLand) {
+  const isPlacingLandTile = piece.isLand && !isPlacingWallWalkOnWall
+  if (isPlacingLandTile) {
     // in this part, if wallWalk tiles were not placed on castle pieces, they are now placed like regular road tiles
     const isLandPieceSupported = isPlacingOnTable || (isSolidTile && isSolidUnderAtLeastOne) || (isFluidTile && isSolidUnderAll)
     if (isSpaceFree && isLandPieceSupported) {
@@ -291,7 +291,7 @@ export function getBoardHexesWithPieceAdded({
     }
   }
 
-  // Trees, Jungle, Glaciers, Outcrops
+  // Trees, Jungle, Glaciers, Outcrops, LaurPillars
   if (isObstaclePieceID(piece.inventoryID)) {
     const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
     if (isSpaceFree && isVerticalClearanceForObstacle && isObstaclePieceSupported) {
@@ -435,7 +435,6 @@ export function getBoardHexesWithPieceAdded({
   newBoardPieces[pieceID] = piece.inventoryID
   return { newBoardHexes, newBoardPieces }
 }
-type PieceAddReturn = { newBoardHexes: BoardHexes, newBoardPieces: BoardPieces }
 
 function getBlankHexoscapeMapForVSTiles(tiles: VirtualScapeTile[], mapName: string): MapState {
   // cushions have to be an even number because of the coordinate system used in virtualscape
@@ -467,6 +466,12 @@ function getBlankHexoscapeMapForVSTiles(tiles: VirtualScapeTile[], mapName: stri
     mapName,
   })
 }
-
-
-
+function getCodeQuick(tile: VirtualScapeTile) {
+  if (tile.type === 17000 && (((tile?.personal?.letter ?? '') === 'LW') || (tile?.personal?.letter ?? '') === 'LW')) {
+    return 17101 // is now the laurPillar code, never existed in virtualscape
+  }
+  if (tile.type === 17000 && (((tile?.personal?.letter ?? '') === 'W') || ((tile?.personal?.name ?? '').toLowerCase().includes('wellspring')))) {
+    return 17001 // is now the wellspring water 1-hex fluid piece code, never existed in virtualscape
+  }
+  return tile.type
+}

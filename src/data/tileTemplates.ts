@@ -252,10 +252,13 @@ const tileTemplates: Dictionary<CubeCoordinate[]> = {
   '1': basic1,
   '2': basic2,
   '3': basic3,
+  '4': glacier4, // glacier base is ice4
   '5': straight5, // currently, road is only land with a 5-hex
+  '6': glacier6, // glacier base is ice6
   '7': basic7,
   '24': basic24,
   // hex obstructions below
+  [Pieces.laurPillar]: basic1,
   [Pieces.tree10]: basic1,
   [Pieces.tree11]: basic1,
   [Pieces.tree12]: basic1,

@@ -20,6 +20,7 @@ import { ThreeEvent } from '@react-three/fiber'
 import { CastleArch } from '../models/CastleArch'
 // import LaurPillar from '../models/LaurPillar'
 import CastleBases from '../models/CastleBases2'
+import LaurPillar from '../models/LaurPillar'
 
 
 export const MapHex3D = ({
@@ -36,6 +37,7 @@ export const MapHex3D = ({
   const isHeightRingedHex = isSolidTerrainHex(boardHex.terrain) || boardHex.terrain === HexTerrain.empty
   const isObstacleHex = (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
   const isTreeHex = boardHex.terrain === HexTerrain.tree && isObstacleHex
+  const isLaurPillarHex = boardHex.terrain === HexTerrain.laurPillar && isObstacleHex
   const isPalmHex = boardHex.terrain === HexTerrain.palm && boardHex.isObstacleOrigin
   const isGlacier1Hex = pieceID === Pieces.glacier1 && isObstacleHex
   const isOutcrop1Hex = pieceID === Pieces.outcrop1 && isObstacleHex
@@ -68,7 +70,7 @@ export const MapHex3D = ({
       {isHeightRingedHex && <HeightRing
         position={new Vector3(x, y, z)}
       />}
-      {/* {isTreeHex && <LaurPillar underHexTerrain={underHexTerrain} boardHex={boardHex} />} */}
+      {isLaurPillarHex && <LaurPillar underHexTerrain={underHexTerrain} boardHex={boardHex} />}
       {isTreeHex && <ForestTree boardHex={boardHex} />}
       {isPalmHex && <TicallaPalm boardHex={boardHex} />}
       {isBrushHex && <TicallaBrush boardHex={boardHex} />}

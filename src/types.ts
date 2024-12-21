@@ -49,12 +49,14 @@ export enum HexTerrain {
     concrete = 'concrete',
     dungeon = 'dungeon',
     // fluid
+    wellspringWater = 'wellspringWater',
     water = 'water',
     lava = 'lava',
     ice = 'ice',
     swampWater = 'swampWater',
     shadow = 'shadow',
     // hex obstacle
+    laurPillar = 'laurPillar',
     tree = 'tree',
     jungle = 'jungle', // this will become brush and palm ??
     palm = 'palm',
@@ -129,10 +131,15 @@ export enum Pieces {
     road2 = 'road2',
     road5 = 'road5', // only land piece to have the straight-5 template, it's a bridge
     // Fluid Land: there will be more sizes, and outcrop/glacier/hive bases can be used as multi-hex shadow/ice/swampWater
+    wellspringWater1 = 'wellspringWater1',
     water1 = 'water1',
+    water3 = 'water3',
     lava1 = 'lava1',
     swampWater1 = 'swampWater1',
     ice1 = 'ice1',
+    ice3 = 'ice3',
+    ice4 = 'ice4',
+    ice6 = 'ice6',
     shadow1 = 'shadow1',
     // EdgeAddons
     roadWall = 'roadWall',
@@ -140,6 +147,7 @@ export enum Pieces {
     flag = 'castleFlag',
     ladder = 'ladder',
     // HexObstacles
+    laurPillar = 'laurPillar',
     tree10 = 'tree10',
     tree11 = 'tree11',
     tree12 = 'tree12',
@@ -188,10 +196,12 @@ export enum PenMode {
     asphalt = HexTerrain.asphalt,
     dungeon = HexTerrain.dungeon,
     water = HexTerrain.water,
+    wellspringWater = HexTerrain.wellspringWater,
     ice = HexTerrain.ice,
     lava = HexTerrain.lava,
     swampWater = HexTerrain.swampWater,
     shadow = HexTerrain.shadow,
+    laurPillar = Pieces.laurPillar,
     tree10 = Pieces.tree10,
     tree11 = Pieces.tree11,
     tree12 = Pieces.tree12,

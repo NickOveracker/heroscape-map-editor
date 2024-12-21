@@ -135,10 +135,13 @@ const rotationTransforms: Dictionary<CubeCoordinate[]> = {
   '1': t1,
   '2': straight2,
   '3': t3,
+  '4': glacier4, // glacier base is ice4
   '5': straight5, // only road5 uses this
+  '6': glacier6, // glacier base is ice6
   '7': t7,
   '24': t24,
   // obstacles will use their template name to lookup their rotations
+  [Pieces.laurPillar]: t1,
   [Pieces.tree10]: t1,
   [Pieces.tree11]: t1,
   [Pieces.tree12]: t1,

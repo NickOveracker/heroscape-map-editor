@@ -52,6 +52,7 @@ export const pieceCodes: Dictionary<string> = {
   '9002': Pieces.snow2,
 
   '4001': Pieces.water1,
+  '17001': Pieces.wellspringWater1,
 
   '5001': Pieces.ice1,
 
@@ -103,6 +104,8 @@ export const pieceCodes: Dictionary<string> = {
   '16404': Pieces.castleArchNoDoor, // no door
   // startzone
   '15001': 'startArea',
+  // laurPillar
+  '17101': Pieces.laurPillar,
 }
 export const personalAndFigureTypeCodes = {
   // Tiles that people could customize in Virtualscape
