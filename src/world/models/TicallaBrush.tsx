@@ -44,7 +44,7 @@ export default function TicallaBrush({ boardHex }: { boardHex: BoardHex }) {
           geometry={nodes.PlankFern1_3.geometry}
         // material={materials.BushArbol}
         >
-          <meshMatcapMaterial color={'#A9E718'} />
+          <meshMatcapMaterial color={'#09a811'} />
         </mesh>
       </group>
       <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor[HexTerrain.brush]} />

@@ -16,8 +16,6 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
   const { x, y, z } = getBoardHex3DCoords(boardHex)
   const yTree = y + HEXGRID_HEXCAP_HEIGHT / 2
   const yBase = y + HEXGRID_HEXCAP_HEIGHT / 2
-  // const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT
-  // const yTree = y + HEXGRID_HEX_HEIGHT
   const options = getOptionsForTreeHeight(boardHex?.obstacleHeight ?? 14)
   const rotation = boardHex?.pieceRotation ?? 0
   function getOptionsForTreeHeight(height: number) {
@@ -44,7 +42,7 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
           geometry={nodes.AlienGrassUFO_v01_Tuft_a_1.geometry}
         // material={materials.PalmGrass}
         >
-          <meshMatcapMaterial color={'#A9E718'} />
+          <meshMatcapMaterial color={'#45f529'} />
         </mesh>
         <mesh
           castShadow
@@ -57,7 +55,7 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.AlienGrassUFO_v01_Tuft_a_3.geometry}
+          geometry={nodes.AlienGrassUFO_v01_Tuft_a_3.geometry} // PALM LEAF, actually
         // material={materials.PalmLeaf}
         >
           <meshMatcapMaterial color={'#35E718'} />

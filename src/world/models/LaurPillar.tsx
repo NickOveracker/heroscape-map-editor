@@ -23,7 +23,7 @@ export default function LaurPillar({ boardHex, underHexTerrain }: { boardHex: Bo
           receiveShadow
           geometry={nodes.LaurPillar.geometry}
         >
-          <meshMatcapMaterial color={hexTerrainColor[HexTerrain.castle]} />
+          <meshMatcapMaterial color={hexTerrainColor[HexTerrain.laurPillar]} />
         </mesh>
       </group>
       <ObstacleBase x={x} y={yBaseCap} z={z} color={hexTerrainColor[underHexTerrain]} />

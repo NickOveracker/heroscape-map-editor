@@ -42,8 +42,9 @@ export const hexTerrainColor: Dictionary<string> = {
     [HexTerrain.empty]: '#040404',
     [HexTerrain.dirt]: '#5B3734',
     [HexTerrain.tree]: '#006400',
-    [HexTerrain.palm]: '#50d373',
-    [HexTerrain.brush]: '#50d373',
+    [HexTerrain.laurPillar]: '#8ba4be',
+    [HexTerrain.palm]: '#35E718',
+    [HexTerrain.brush]: '#35E718',
     [HexTerrain.ruin]: '#8596a5',
     // LAND
     [HexTerrain.grass]: '#6e931a',
@@ -58,6 +59,7 @@ export const hexTerrainColor: Dictionary<string> = {
     [HexTerrain.swamp]: '#6f6915', // same as VS
     [HexTerrain.dungeon]: '#6f6f78', // https://www.color-hex.com/color/3a2b2b
     [HexTerrain.water]: '#3794fd', // "sea blue":#006994,"pacific blue":#1ca9c9,"oceanboat blue":#0077be,"ultramarine blue":#4166f5
+    [HexTerrain.wellspringWater]: '#fc6de2', // "sea blue":#006994,"pacific blue":#1ca9c9,"oceanboat blue":#0077be,"ultramarine blue":#4166f5
     [HexTerrain.ice]: '#86D6D8', // https://www.color-hex.com/color/86d6d8
     [HexTerrain.lava]: '#ff4040', // same as VS
     [HexTerrain.swampWater]: '#ded22a', // same as VS
