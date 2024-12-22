@@ -8,6 +8,7 @@ import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
+import { useSpring, animated, config } from '@react-spring/three'
 
 export default function LaurPillar({ boardHex, underHexTerrain }: { boardHex: BoardHex, underHexTerrain: string }) {
   const { x, z, yBaseCap, yBase } = getBoardHex3DCoords(boardHex)
@@ -33,11 +34,16 @@ export default function LaurPillar({ boardHex, underHexTerrain }: { boardHex: Bo
   const pillarColor = hexTerrainColor[HexTerrain.laurPillar]
   const yellowColor = 'yellow'
   const isHovered = colorBody || colorMinusY || colorMinusX || colorPlusY || colorPlusX
+
+  const { scale } = useSpring({
+    scale: isHovered ? 1.2 : 1,
+    config: config.wobbly
+  })
   return (
     <group>
-      <group position={[x, yBase, z]}
+      <animated.group position={[x, yBase, z]}
         rotation={[0, rotation * -Math.PI / 3, 0]}
-        scale={isHovered ? [1.2, 1.2, 1.2] : [1, 1, 1]}
+        scale={scale}
       >
         <mesh
           geometry={nodes.LaurPillar.geometry}
@@ -79,8 +85,8 @@ export default function LaurPillar({ boardHex, underHexTerrain }: { boardHex: Bo
         >
           <meshMatcapMaterial color={colorPlusX ? yellowColor : pillarColor} />
         </mesh>
-      </group>
-      <ObstacleBase x={x} y={yBaseCap} z={z} color={hexTerrainColor[underHexTerrain]} />
+      </animated.group>
+      <ObstacleBase x={x} y={yBaseCap} z={z} color={pillarColor} />
     </group>
   )
 }
