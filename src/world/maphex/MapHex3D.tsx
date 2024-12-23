@@ -37,7 +37,7 @@ export const MapHex3D = ({
   const isHeightRingedHex = isSolidTerrainHex(boardHex.terrain) || boardHex.terrain === HexTerrain.empty
   const isObstacleHex = (boardHex.isObstacleOrigin || boardHex.isAuxiliary)
   const isTreeHex = boardHex.terrain === HexTerrain.tree && isObstacleHex
-  const isLaurPillarHex = boardHex.terrain === HexTerrain.laurPillar && isObstacleHex
+  const isLaurPillarHex = boardHex.terrain === HexTerrain.laurWallPillar && isObstacleHex
   const isPalmHex = boardHex.terrain === HexTerrain.palm && boardHex.isObstacleOrigin
   const isGlacier1Hex = pieceID === Pieces.glacier1 && isObstacleHex
   const isOutcrop1Hex = pieceID === Pieces.outcrop1 && isObstacleHex

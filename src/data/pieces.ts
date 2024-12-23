@@ -484,16 +484,26 @@ export const piecesSoFar: Dictionary<Piece> = {
     height: 0,
     isLand: true,
   },
-  // HEX OBSTACLES
-  [Pieces.laurPillar]: {
-    id: Pieces.laurPillar,
-    inventoryID: Pieces.laurPillar,
-    terrain: HexTerrain.laurPillar,
+  // LAUR WALL
+  [Pieces.laurWallPillar]: {
+    id: Pieces.laurWallPillar,
+    inventoryID: Pieces.laurWallPillar,
+    terrain: HexTerrain.laurWallPillar,
     size: 1,
-    template: Pieces.laurPillar,
+    template: Pieces.laurWallPillar,
     height: 10,
     isLand: false,
   },
+  [Pieces.laurWallPillar]: {
+    id: Pieces.laurWallPillar,
+    inventoryID: Pieces.laurWallPillar,
+    terrain: HexTerrain.laurWallPillar,
+    size: 1,
+    template: Pieces.laurWallPillar,
+    height: 10,
+    isLand: false,
+  },
+  // HEX OBSTACLES
   [Pieces.tree10]: {
     id: Pieces.tree10,
     inventoryID: Pieces.tree10,

@@ -104,8 +104,8 @@ export const pieceCodes: Dictionary<string> = {
   '16404': Pieces.castleArchNoDoor, // no door
   // startzone
   '15001': 'startArea',
-  // laurPillar
-  '17101': Pieces.laurPillar,
+  // laurWallPillar
+  '17101': Pieces.laurWallPillar,
 }
 export const personalAndFigureTypeCodes = {
   // Tiles that people could customize in Virtualscape

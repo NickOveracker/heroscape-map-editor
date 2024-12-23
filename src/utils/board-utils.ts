@@ -65,7 +65,7 @@ export function isObstructingTerrain(terrain: string) {
 
 export function isObstaclePieceID(inventoryID: string) {
     if (
-        inventoryID === Pieces.laurPillar ||
+        inventoryID === Pieces.laurWallPillar ||
         inventoryID === Pieces.tree10 ||
         inventoryID === Pieces.tree11 ||
         inventoryID === Pieces.tree12 ||

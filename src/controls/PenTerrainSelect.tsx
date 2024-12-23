@@ -147,7 +147,7 @@ export default function PenTerrainSelect() {
 
         <Divider />
         {/* OBSTACLES */}
-        <MenuItem value={PenMode.laurPillar}>
+        <MenuItem value={PenMode.laurWallPillar}>
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>

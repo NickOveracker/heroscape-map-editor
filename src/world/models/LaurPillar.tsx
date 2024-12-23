@@ -10,7 +10,7 @@ import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 // import { useSpring, animated, config } from '@react-spring/three'
 
-export default function LaurPillar({ boardHex }: { boardHex: BoardHex }) {
+export default function laurWallPillar({ boardHex }: { boardHex: BoardHex }) {
   const { x, z, yBaseCap, yBase } = getBoardHex3DCoords(boardHex)
   const { nodes } = useGLTF('/laurwall-pillar.glb') as any
   const rotation = boardHex?.pieceRotation ?? 0
@@ -31,7 +31,7 @@ export default function LaurPillar({ boardHex }: { boardHex: BoardHex }) {
     onPointerEnterPlusX,
     onPointerOutPlusX,
   } = usePillarHoverState()
-  const pillarColor = hexTerrainColor[HexTerrain.laurPillar]
+  const pillarColor = hexTerrainColor[HexTerrain.laurWallPillar]
   const yellowColor = 'yellow'
   // const isHovered = colorBody || colorMinusY || colorMinusX || colorPlusY || colorPlusX
 
