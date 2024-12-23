@@ -45,7 +45,11 @@ const createMapSlice: StateCreator<
         })
     }),
     loadMap: (mapState: MapState) => set((state) => {
-        return { ...state, boardHexes: mapState.boardHexes, hexMap: mapState.hexMap, boardPieces: mapState.boardPieces }
+        return produce(state, draft => {
+            draft.boardHexes = mapState.boardHexes
+            draft.hexMap = mapState.hexMap
+            draft.boardPieces = mapState.boardPieces
+        })
     }),
 })
 

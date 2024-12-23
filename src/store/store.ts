@@ -18,12 +18,13 @@ const useBoundStore = create<AppState>()(
             // onSave: (state) => console.log('saved', state),
             partialize: (state) => {
                 return {
-                    boardHexes: state.boardHexes, boardPieces: state.boardPieces
+                    boardHexes: state.boardHexes, boardPieces: state.boardPieces, hexMap: state.hexMap
                 };
             },
             equality: (pastState, currentState) =>
                 isEqual(pastState.boardHexes, currentState.boardHexes) &&
-                isEqual(pastState.boardPieces, currentState.boardPieces)
+                isEqual(pastState.boardPieces, currentState.boardPieces) &&
+                isEqual(pastState.hexMap, currentState.hexMap)
         },
 
 
