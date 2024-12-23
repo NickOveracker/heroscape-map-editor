@@ -18,17 +18,18 @@ import MarroHive6 from '../models/MarroHive6'
 import { CastleWall } from '../models/CastleWalls'
 import { ThreeEvent } from '@react-three/fiber'
 import { CastleArch } from '../models/CastleArch'
-// import LaurPillar from '../models/LaurPillar'
 import CastleBases from '../models/CastleBases2'
 import LaurPillar from '../models/LaurPillar'
 
 
 export const MapHex3D = ({
   boardHex,
-  onPointerUp
+  onPointerUp,
+  onPointerUpLaurWall,
 }: {
   boardHex: BoardHex
   onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
+  onPointerUpLaurWall: (e: ThreeEvent<PointerEvent>, hex: BoardHex, side: string) => void
 }) => {
   const boardPieces = useBoundStore(s => s.boardPieces)
   const boardHexes = useBoundStore(s => s.boardHexes)
@@ -70,7 +71,7 @@ export const MapHex3D = ({
       {isHeightRingedHex && <HeightRing
         position={new Vector3(x, y, z)}
       />}
-      {isLaurPillarHex && <LaurPillar boardHex={boardHex} />}
+      {isLaurPillarHex && <LaurPillar onPointerUpLaurWall={onPointerUpLaurWall} boardHex={boardHex} />}
       {isTreeHex && <ForestTree boardHex={boardHex} />}
       {isPalmHex && <TicallaPalm boardHex={boardHex} />}
       {isBrushHex && <TicallaBrush boardHex={boardHex} />}
@@ -84,12 +85,6 @@ export const MapHex3D = ({
       {isGlacier6Hex && <Outcrop6 boardHex={boardHex} isGlacier={true} />}
       {isHiveHex && <MarroHive6 boardHex={boardHex} />}
 
-      {/* {isCastleBaseEnd && <CastleBaseEnd boardHex={boardHex} underHexTerrain={underHexTerrain} />}
-      {isCastleBaseStraight && <CastleBaseStraight boardHex={boardHex} underHexTerrain={underHexTerrain} />}
-      {isCastleBaseCorner && <CastleBaseCorner
-        boardHex={boardHex}
-        underHexTerrain={underHexTerrain}
-      />} */}
 
       {isCastleBase && <CastleBases
         boardHex={boardHex}

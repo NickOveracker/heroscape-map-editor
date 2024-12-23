@@ -1,9 +1,10 @@
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
-import { BoardHex, HexTerrain } from '../../types'
+import { HexTerrain } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
 
-export function LaurWallShort({ boardHex }: { boardHex: BoardHex }) {
+// export function LaurWallShort({ boardHex }: { boardHex: BoardHex }) {
+export function LaurWallShort() {
   const { nodes } = useGLTF('/laurwall-short.glb') as any
   return (
     <group>
@@ -18,7 +19,8 @@ export function LaurWallShort({ boardHex }: { boardHex: BoardHex }) {
 
 useGLTF.preload('/laurwall-short.glb')
 
-export function LaurWallRuin({ boardHex }: { boardHex: BoardHex }) {
+// export function LaurWallRuin({ boardHex }: { boardHex: BoardHex }) {
+export function LaurWallRuin() {
   const { nodes } = useGLTF('/laurwall-ruin.glb') as any
   return (
     <group>
@@ -33,7 +35,8 @@ export function LaurWallRuin({ boardHex }: { boardHex: BoardHex }) {
 
 useGLTF.preload('/laurwall-ruin.glb')
 
-export function LaurWallLong({ boardHex }: { boardHex: BoardHex }) {
+// export function LaurWallLong({ boardHex }: { boardHex: BoardHex }) {
+export function LaurWallLong() {
   const { nodes } = useGLTF('/laurwall-long.glb') as any
   return (
     <group>

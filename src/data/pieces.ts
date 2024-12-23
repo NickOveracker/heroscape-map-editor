@@ -464,6 +464,23 @@ export const piecesSoFar: Dictionary<Piece> = {
     template: Pieces.laurWallRuin,
     height: 10, // will this be used, height on laur stuff?
   },
+  // RUINS
+  [Pieces.ruins2]: {
+    id: Pieces.ruins2,
+    inventoryID: Pieces.ruins2,
+    terrain: HexTerrain.ruin,
+    size: 8,
+    template: Pieces.ruins2,
+    height: 6,
+  },
+  [Pieces.ruins3]: {
+    id: Pieces.ruins3,
+    inventoryID: Pieces.ruins3,
+    terrain: HexTerrain.ruin,
+    size: 10,
+    template: Pieces.ruins3,
+    height: 6,
+  },
   // HEX OBSTACLES
   [Pieces.tree10]: {
     id: Pieces.tree10,
@@ -497,6 +514,14 @@ export const piecesSoFar: Dictionary<Piece> = {
     template: Pieces.tree415,
     height: 15,
   },
+  [Pieces.brush9]: {
+    id: Pieces.brush9,
+    inventoryID: Pieces.brush9,
+    terrain: HexTerrain.brush,
+    size: 1,
+    template: Pieces.brush9,
+    height: 9,
+  },
   [Pieces.palm14]: {
     id: Pieces.palm14,
     inventoryID: Pieces.palm14,
@@ -521,30 +546,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     template: Pieces.palm16,
     height: 16,
   },
-  [Pieces.brush9]: {
-    id: Pieces.brush9,
-    inventoryID: Pieces.brush9,
-    terrain: HexTerrain.brush,
-    size: 1,
-    template: Pieces.brush9,
-    height: 9,
-  },
-  [Pieces.ruins2]: {
-    id: Pieces.ruins2,
-    inventoryID: Pieces.ruins2,
-    terrain: HexTerrain.ruin,
-    size: 8,
-    template: Pieces.ruins2,
-    height: 6,
-  },
-  [Pieces.ruins3]: {
-    id: Pieces.ruins3,
-    inventoryID: Pieces.ruins3,
-    terrain: HexTerrain.ruin,
-    size: 10,
-    template: Pieces.ruins3,
-    height: 6,
-  },
+  // HEX-OBSTACLES with BASE fluid tiles
   [Pieces.glacier1]: {
     id: Pieces.glacier1,
     inventoryID: Pieces.glacier1,
@@ -601,6 +603,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     template: Pieces.hive,
     height: 17, // untested in reality
   },
+  // CASTLE
   [Pieces.castleBaseEnd]: {
     id: Pieces.castleBaseEnd,
     inventoryID: Pieces.castleBaseEnd,

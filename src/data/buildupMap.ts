@@ -301,8 +301,6 @@ export function getBoardHexesWithPieceAdded({
 
   // Trees, Jungle, Glaciers, Outcrops, LaurPillars
   if (isObstaclePieceID(piece.inventoryID)) {
-    console.log("🚀 ~ piece:", piece)
-    console.log("🚀 ~ clickedHexIDOrTileCoordsPresumedID:", clickedHexIDOrTileCoordsPresumedID)
     const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
     if (isSpaceFree && isVerticalClearanceForObstacle && isObstaclePieceSupported) {
       newHexIds.forEach((newHexID, i) => {

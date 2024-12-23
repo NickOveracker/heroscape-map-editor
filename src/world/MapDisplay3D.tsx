@@ -54,28 +54,10 @@ export default function MapDisplay3D({
 
     const onPointerUp = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
         if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
-        event.stopPropagation() // forgot what this is preventing
+        event.stopPropagation() // prevent pass through
         // Early out if camera is active
         if (cameraControlsRef?.current?.active) return
-        /* 
-        const isEmptyHex = hex.terrain === HexTerrain.empty
-        if (penMode === PenMode.select) {
-            // select hex / piece
-        }
-        if (penMode === PenMode.eraser && !isEmptyHex) {
-            // erase tile
-        }
-        if (penMode === PenMode.eraser && isEmptyHex) {
-            return
-        }
-        if (penMode === PenMode.eraserStartZone) {
-            // erase start zone
-        }
-        // last letter in string is playerID
-        if (penMode.slice(0, -1) === 'startZone') {
-            // paintStartZone({ hexID: hex.id, playerID: penMode.slice(-1) })
-        }
-        */
+
         const isWallWalkPen = penMode.startsWith('wallWalk')
         const isCastleBasePen = penMode.startsWith('castleBase')
         const isCastleWallArchPen = penMode.startsWith('castleWall') || penMode.startsWith('castleArch')
@@ -84,19 +66,38 @@ export default function MapDisplay3D({
             const isCastleWallArchClicked = hex.pieceID.includes('castleWall') || hex.pieceID.includes('castleArch')
             const clickedHex = (isCastleWallArchClicked) ? boardHexes[boardHexOfCapForWall] : hex
             const piece = (isWallWalkPen || isCastleBasePen || isCastleWallArchPen) ? piecesSoFar[penMode] : getPieceByTerrainAndSize(penMode, pieceSize)
-            console.log("🚀 ~ onPointerUp ~ clickedHex:", clickedHex)
             paintTile({
                 piece,
                 clickedHex: clickedHex,
                 rotation: pieceRotation,
             })
         }
+
         if (isObstaclePieceID(penMode) || penMode === PenMode.ruins2 || penMode === PenMode.ruins3) {
             paintTile({
                 piece: piecesSoFar[penMode],
                 clickedHex: hex,
                 rotation: pieceRotation,
             })
+        }
+    }
+
+    const onPointerUpLaurWall = (event: ThreeEvent<PointerEvent>, hex: BoardHex, side: string) => {
+        if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
+        event.stopPropagation() // prevent pass through
+        console.log("🚀 ~ onPointerUpLaurWall ~ hex:", hex)
+        console.log("🚀 ~ onPointerUpLaurWall ~ side:", side)
+        // Early out if camera is active
+        if (cameraControlsRef?.current?.active) return
+
+        if (penMode.includes('laurWall')) {
+            const piece = piecesSoFar[penMode]
+            console.log("🚀 ~ onPointerUpLaurWall ~ piece:", piece)
+            // paintTile({
+            //     piece,
+            //     clickedHex: hex,
+            //     rotation: pieceRotation,
+            // })
         }
     }
 
@@ -121,6 +122,7 @@ export default function MapDisplay3D({
                         key={bh.id}
                         boardHex={bh}
                         onPointerUp={onPointerUp}
+                        onPointerUpLaurWall={onPointerUpLaurWall}
                     />
                 )
             }))}
