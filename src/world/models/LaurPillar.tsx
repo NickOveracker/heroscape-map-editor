@@ -8,9 +8,9 @@ import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
-import { useSpring, animated, config } from '@react-spring/three'
+// import { useSpring, animated, config } from '@react-spring/three'
 
-export default function LaurPillar({ boardHex, underHexTerrain }: { boardHex: BoardHex, underHexTerrain: string }) {
+export default function LaurPillar({ boardHex }: { boardHex: BoardHex }) {
   const { x, z, yBaseCap, yBase } = getBoardHex3DCoords(boardHex)
   const { nodes } = useGLTF('/laurwall-pillar.glb') as any
   const rotation = boardHex?.pieceRotation ?? 0
@@ -33,20 +33,20 @@ export default function LaurPillar({ boardHex, underHexTerrain }: { boardHex: Bo
   } = usePillarHoverState()
   const pillarColor = hexTerrainColor[HexTerrain.laurPillar]
   const yellowColor = 'yellow'
-  const isHovered = colorBody || colorMinusY || colorMinusX || colorPlusY || colorPlusX
+  // const isHovered = colorBody || colorMinusY || colorMinusX || colorPlusY || colorPlusX
 
-  const { scale } = useSpring({
-    scale: isHovered ? 1.2 : 1,
-    config: config.wobbly
-  })
+  // const { scale } = useSpring({
+  //   scale: isHovered ? 1.2 : 1,
+  //   config: config.gentle
+  // })
   return (
     <group>
-      <animated.group position={[x, yBase, z]}
+      <group position={[x, yBase, z]}
         rotation={[0, rotation * -Math.PI / 3, 0]}
-        scale={scale}
+      // scale={scale}
       >
         <mesh
-          geometry={nodes.LaurPillar.geometry}
+          geometry={nodes.PillarTop.geometry}
           onPointerEnter={onPointerEnterBody}
           onPointerOut={onPointerOutBody}
         // onPointerUp={e => onPointerUp(e, boardHex)}
@@ -54,7 +54,23 @@ export default function LaurPillar({ boardHex, underHexTerrain }: { boardHex: Bo
           <meshMatcapMaterial color={colorBody ? yellowColor : pillarColor} />
         </mesh>
         <mesh
-          geometry={nodes.MinusYSide.geometry}
+          geometry={nodes.SubDecorCore.geometry}
+          onPointerEnter={onPointerEnterBody}
+          onPointerOut={onPointerOutBody}
+        // onPointerUp={e => onPointerUp(e, boardHex)}
+        >
+          <meshMatcapMaterial color={colorBody ? yellowColor : pillarColor} />
+        </mesh>
+        <mesh
+          geometry={nodes.Facade.geometry}
+          onPointerEnter={onPointerEnterBody}
+          onPointerOut={onPointerOutBody}
+        // onPointerUp={e => onPointerUp(e, boardHex)}
+        >
+          <meshMatcapMaterial color={colorBody ? yellowColor : pillarColor} />
+        </mesh>
+        <mesh
+          geometry={nodes.MinusY.geometry}
           onPointerEnter={onPointerEnterMinusY}
           onPointerOut={onPointerOutMinusY}
         // onPointerUp={e => onPointerUp(e, boardHex)}
@@ -62,7 +78,7 @@ export default function LaurPillar({ boardHex, underHexTerrain }: { boardHex: Bo
           <meshMatcapMaterial color={colorMinusY ? yellowColor : pillarColor} />
         </mesh>
         <mesh
-          geometry={nodes.MinusXSide.geometry}
+          geometry={nodes.MinusX.geometry}
           onPointerEnter={onPointerEnterMinusX}
           onPointerOut={onPointerOutMinusX}
         // onPointerUp={e => onPointerUp(e, boardHex)}
@@ -70,7 +86,7 @@ export default function LaurPillar({ boardHex, underHexTerrain }: { boardHex: Bo
           <meshMatcapMaterial color={colorMinusX ? yellowColor : pillarColor} />
         </mesh>
         <mesh
-          geometry={nodes.PlusYSide.geometry}
+          geometry={nodes.PlusY.geometry}
           onPointerEnter={onPointerEnterPlusY}
           onPointerOut={onPointerOutPlusY}
         // onPointerUp={e => onPointerUp(e, boardHex)}
@@ -78,14 +94,14 @@ export default function LaurPillar({ boardHex, underHexTerrain }: { boardHex: Bo
           <meshMatcapMaterial color={colorPlusY ? yellowColor : pillarColor} />
         </mesh>
         <mesh
-          geometry={nodes.PlusXSide.geometry}
+          geometry={nodes.PlusX.geometry}
           onPointerEnter={onPointerEnterPlusX}
           onPointerOut={onPointerOutPlusX}
         // onPointerUp={e => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial color={colorPlusX ? yellowColor : pillarColor} />
         </mesh>
-      </animated.group>
+      </group>
       <ObstacleBase x={x} y={yBaseCap} z={z} color={pillarColor} />
     </group>
   )
