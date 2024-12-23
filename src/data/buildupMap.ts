@@ -263,7 +263,7 @@ export function getBoardHexesWithPieceAdded({
     newBoardPieces[pieceID] = piece.inventoryID
   }
   // LAND: SOLID AND FLUID
-  const isPlacingLandTile = piece.isLand && !isPlacingWallWalkOnWall
+  const isPlacingLandTile = (isFluidTerrainHex(piece.terrain) || isSolidTerrainHex(piece.terrain)) && !isPlacingWallWalkOnWall
   if (isPlacingLandTile) {
     // in this part, if wallWalk tiles were not placed on castle pieces, they are now placed like regular road tiles
     const isLandPieceSupported = isPlacingOnTable || (isSolidTile && isSolidUnderAtLeastOne) || (isFluidTile && isSolidUnderAll)

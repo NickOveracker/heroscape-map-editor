@@ -13,7 +13,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
-    isLand: true,
   },
   [Pieces.grass2]: {
     id: Pieces.grass2,
@@ -22,7 +21,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
-    isLand: true,
   },
   [Pieces.grass3]: {
     id: Pieces.grass3,
@@ -31,7 +29,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 1,
-    isLand: true,
   },
   [Pieces.grass7]: {
     id: Pieces.grass7,
@@ -40,7 +37,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
-    isLand: true,
   },
   [Pieces.grass24]: {
     id: Pieces.grass24,
@@ -49,7 +45,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 24,
     template: '24',
     height: 1,
-    isLand: true,
   },
   [Pieces.rock1]: {
     id: Pieces.rock1,
@@ -58,7 +53,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
-    isLand: true,
   },
   [Pieces.rock2]: {
     id: Pieces.rock2,
@@ -67,7 +61,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
-    isLand: true,
   },
   [Pieces.rock3]: {
     id: Pieces.rock3,
@@ -76,7 +69,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 1,
-    isLand: true,
   },
   [Pieces.rock7]: {
     id: Pieces.rock7,
@@ -85,7 +77,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
-    isLand: true,
   },
   [Pieces.rock24]: {
     id: Pieces.rock24,
@@ -94,7 +85,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 24,
     template: '24',
     height: 1,
-    isLand: true,
   },
   [Pieces.sand1]: {
     id: Pieces.sand1,
@@ -103,7 +93,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
-    isLand: true,
   },
   [Pieces.sand2]: {
     id: Pieces.sand2,
@@ -112,7 +101,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
-    isLand: true,
   },
   [Pieces.sand3]: {
     id: Pieces.sand3,
@@ -121,7 +109,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 1,
-    isLand: true,
   },
   [Pieces.sand7]: {
     id: Pieces.sand7,
@@ -130,7 +117,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
-    isLand: true,
   },
   [Pieces.sand24]: {
     id: Pieces.sand24,
@@ -139,7 +125,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 24,
     template: '24',
     height: 1,
-    isLand: true,
   },
   [Pieces.dungeon1]: {
     id: Pieces.dungeon1,
@@ -148,7 +133,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
-    isLand: true,
   },
   [Pieces.dungeon2]: {
     id: Pieces.dungeon2,
@@ -157,7 +141,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
-    isLand: true,
   },
   [Pieces.dungeon3]: {
     id: Pieces.dungeon3,
@@ -166,7 +149,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 1,
-    isLand: true,
   },
   [Pieces.dungeon7]: {
     id: Pieces.dungeon7,
@@ -175,7 +157,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
-    isLand: true,
   },
   [Pieces.dungeon24]: {
     id: Pieces.dungeon24,
@@ -184,7 +165,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 24,
     template: '24',
     height: 1,
-    isLand: true,
   },
   [Pieces.swamp1]: {
     id: Pieces.swamp1,
@@ -193,7 +173,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
-    isLand: true,
   },
   [Pieces.swamp2]: {
     id: Pieces.swamp2,
@@ -202,7 +181,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
-    isLand: true,
   },
   [Pieces.swamp3]: {
     id: Pieces.swamp3,
@@ -211,7 +189,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 1,
-    isLand: true,
   },
   [Pieces.swamp7]: {
     id: Pieces.swamp7,
@@ -220,7 +197,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
-    isLand: true,
   },
   [Pieces.swamp24]: {
     id: Pieces.swamp24,
@@ -229,7 +205,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 24,
     template: '24',
     height: 1,
-    isLand: true,
   },
   [Pieces.lavaField1]: {
     id: Pieces.lavaField1,
@@ -238,7 +213,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
-    isLand: true,
   },
   [Pieces.lavaField2]: {
     id: Pieces.lavaField2,
@@ -247,7 +221,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
-    isLand: true,
   },
   [Pieces.lavaField7]: {
     id: Pieces.lavaField7,
@@ -256,7 +229,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
-    isLand: true,
   },
   [Pieces.asphalt1]: {
     id: Pieces.asphalt1,
@@ -265,7 +237,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
-    isLand: true,
   },
   [Pieces.asphalt2]: {
     id: Pieces.asphalt2,
@@ -274,7 +245,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
-    isLand: true,
   },
   [Pieces.asphalt7]: {
     id: Pieces.asphalt7,
@@ -283,7 +253,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
-    isLand: true,
   },
   [Pieces.concrete1]: {
     id: Pieces.concrete1,
@@ -292,7 +261,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
-    isLand: true,
   },
   [Pieces.concrete2]: {
     id: Pieces.concrete2,
@@ -301,7 +269,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
-    isLand: true,
   },
   [Pieces.concrete7]: {
     id: Pieces.concrete7,
@@ -310,7 +277,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 7,
     template: '7',
     height: 1,
-    isLand: true,
   },
   [Pieces.snow1]: {
     id: Pieces.snow1,
@@ -319,7 +285,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
-    isLand: true,
   },
   [Pieces.snow2]: {
     id: Pieces.snow2,
@@ -328,7 +293,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
-    isLand: true,
   },
   [Pieces.road1]: {
     id: Pieces.road1,
@@ -337,7 +301,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
-    isLand: true,
   },
   [Pieces.road2]: {
     id: Pieces.road2,
@@ -346,7 +309,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 2,
     template: '2',
     height: 1,
-    isLand: true,
   },
   [Pieces.road5]: {
     id: Pieces.road5,
@@ -355,7 +317,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 5,
     template: '5',
     height: 1,
-    isLand: true,
   },
   [Pieces.wallWalk1]: {
     id: Pieces.wallWalk1,
@@ -364,7 +325,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 1,
-    isLand: true,
   },
   [Pieces.wallWalk7]: {
     id: Pieces.wallWalk7,
@@ -373,7 +333,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 7,
     template: 'wallWalk7',
     height: 1,
-    isLand: true,
   },
   [Pieces.wallWalk9]: {
     id: Pieces.wallWalk9,
@@ -382,7 +341,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 9,
     template: 'wallWalk9',
     height: 1,
-    isLand: true,
   },
   /* FLUID FLUID FLUID */
   [Pieces.wellspringWater1]: {
@@ -392,7 +350,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 0,
-    isLand: true,
   },
   [Pieces.water1]: {
     id: Pieces.water1,
@@ -401,7 +358,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 0,
-    isLand: true,
   },
   [Pieces.water3]: {
     id: Pieces.water3,
@@ -410,7 +366,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 0,
-    isLand: true,
   },
   [Pieces.lava1]: {
     id: Pieces.lava1,
@@ -419,7 +374,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 0,
-    isLand: true,
   },
   [Pieces.swampWater1]: {
     id: Pieces.swampWater1,
@@ -428,7 +382,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 0,
-    isLand: true,
   },
   [Pieces.ice1]: {
     id: Pieces.ice1,
@@ -437,7 +390,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 0,
-    isLand: true,
   },
   [Pieces.ice3]: {
     id: Pieces.ice3,
@@ -446,7 +398,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 0,
-    isLand: true,
   },
   [Pieces.ice4]: {
     id: Pieces.ice4,
@@ -455,7 +406,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 4,
     template: '4',
     height: 0,
-    isLand: true,
   },
   [Pieces.ice6]: {
     id: Pieces.ice6,
@@ -464,7 +414,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 6,
     template: '6',
     height: 0,
-    isLand: true,
   },
   [Pieces.shadow1]: {
     id: Pieces.shadow1,
@@ -473,7 +422,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: '1',
     height: 0,
-    isLand: true,
   },
   [Pieces.shadow3]: {
     id: Pieces.shadow3,
@@ -482,7 +430,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 3,
     template: '3',
     height: 0,
-    isLand: true,
   },
   // LAUR WALL
   [Pieces.laurWallPillar]: {
@@ -492,7 +439,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.laurWallPillar,
     height: 10,
-    isLand: false,
   },
   [Pieces.laurWallShort]: {
     id: Pieces.laurWallShort,
@@ -500,8 +446,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     terrain: HexTerrain.laurWallPillar,
     size: 1,
     template: Pieces.laurWallShort,
-    height: 10,
-    isLand: false,
+    height: 10, // will this be used, height on laur stuff?
   },
   [Pieces.laurWallLong]: {
     id: Pieces.laurWallLong,
@@ -509,8 +454,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     terrain: HexTerrain.laurWallPillar,
     size: 1,
     template: Pieces.laurWallLong,
-    height: 10,
-    isLand: false,
+    height: 10, // will this be used, height on laur stuff?
   },
   [Pieces.laurWallRuin]: {
     id: Pieces.laurWallRuin,
@@ -518,8 +462,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     terrain: HexTerrain.laurWallPillar,
     size: 1,
     template: Pieces.laurWallRuin,
-    height: 10,
-    isLand: false,
+    height: 10, // will this be used, height on laur stuff?
   },
   // HEX OBSTACLES
   [Pieces.tree10]: {
@@ -529,7 +472,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.tree10,
     height: 10,
-    isLand: false,
   },
   [Pieces.tree11]: {
     id: Pieces.tree11,
@@ -538,7 +480,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.tree11,
     height: 11,
-    isLand: false,
   },
   [Pieces.tree12]: {
     id: Pieces.tree12,
@@ -547,7 +488,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.tree12,
     height: 12,
-    isLand: false,
   },
   [Pieces.tree415]: {
     id: Pieces.tree415,
@@ -556,67 +496,54 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 4,
     template: Pieces.tree415,
     height: 15,
-    isLand: false,
   },
   [Pieces.palm14]: {
     id: Pieces.palm14,
     inventoryID: Pieces.palm14,
-    // terrain: HexTerrain.palm,
     terrain: HexTerrain.palm,
     size: 1,
     template: Pieces.palm14,
     height: 14,
-    isLand: false,
   },
   [Pieces.palm15]: {
     id: Pieces.palm15,
     inventoryID: Pieces.palm15,
-    // terrain: HexTerrain.palm,
     terrain: HexTerrain.palm,
     size: 1,
     template: Pieces.palm15,
     height: 15,
-    isLand: false,
   },
   [Pieces.palm16]: {
     id: Pieces.palm16,
     inventoryID: Pieces.palm16,
-    // terrain: HexTerrain.palm,
     terrain: HexTerrain.palm,
     size: 1,
     template: Pieces.palm16,
     height: 16,
-    isLand: false,
   },
   [Pieces.brush9]: {
     id: Pieces.brush9,
     inventoryID: Pieces.brush9,
-    // terrain: HexTerrain.brush,
     terrain: HexTerrain.brush,
     size: 1,
     template: Pieces.brush9,
     height: 9,
-    isLand: false,
   },
   [Pieces.ruins2]: {
     id: Pieces.ruins2,
     inventoryID: Pieces.ruins2,
-    // terrain: HexTerrain.brush,
     terrain: HexTerrain.ruin,
     size: 8,
     template: Pieces.ruins2,
     height: 6,
-    isLand: false,
   },
   [Pieces.ruins3]: {
     id: Pieces.ruins3,
     inventoryID: Pieces.ruins3,
-    // terrain: HexTerrain.brush,
     terrain: HexTerrain.ruin,
     size: 10,
     template: Pieces.ruins3,
     height: 6,
-    isLand: false,
   },
   [Pieces.glacier1]: {
     id: Pieces.glacier1,
@@ -625,7 +552,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.glacier1,
     height: 7, // eventhough it definitely spans 8 hex-heights in reality!
-    isLand: false,
   },
   [Pieces.glacier3]: {
     id: Pieces.glacier3,
@@ -634,7 +560,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 3,
     template: Pieces.glacier3,
     height: 9, // untested in reality
-    isLand: false,
   },
   [Pieces.glacier4]: {
     id: Pieces.glacier4,
@@ -643,7 +568,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 4,
     template: Pieces.glacier4,
     height: 9, // untested in reality
-    isLand: false,
   },
   [Pieces.glacier6]: {
     id: Pieces.glacier6,
@@ -652,7 +576,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 6,
     template: Pieces.glacier6,
     height: 17, // untested in reality
-    isLand: false,
   },
   [Pieces.outcrop1]: {
     id: Pieces.outcrop1,
@@ -661,7 +584,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.outcrop1,
     height: 7, // eventhough it definitely spans 8 hex-heights in reality!
-    isLand: false,
   },
   [Pieces.outcrop3]: {
     id: Pieces.outcrop3,
@@ -670,7 +592,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 3,
     template: Pieces.outcrop3,
     height: 9, // untested in reality
-    isLand: false,
   },
   [Pieces.hive]: {
     id: Pieces.hive,
@@ -679,7 +600,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 6,
     template: Pieces.hive,
     height: 17, // untested in reality
-    isLand: false,
   },
   [Pieces.castleBaseEnd]: {
     id: Pieces.castleBaseEnd,
@@ -688,7 +608,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.castleBaseEnd,
     height: 0,
-    isLand: false,
     buddyID: Pieces.castleWallEnd,
   },
   [Pieces.castleBaseStraight]: {
@@ -698,7 +617,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.castleBaseStraight,
     height: 0,
-    isLand: false,
     buddyID: Pieces.castleWallStraight,
   },
   [Pieces.castleBaseCorner]: {
@@ -708,7 +626,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.castleBaseCorner,
     height: 0,
-    isLand: false,
     buddyID: Pieces.castleWallCorner,
   },
   [Pieces.castleArch]: {
@@ -718,7 +635,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.castleArch,
     height: 9,
-    isLand: false,
   },
   [Pieces.castleArchNoDoor]: {
     id: Pieces.castleArchNoDoor,
@@ -727,7 +643,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.castleArch,
     height: 9,
-    isLand: false,
   },
   [Pieces.castleWallEnd]: {
     id: Pieces.castleWallEnd,
@@ -736,7 +651,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.castleWallEnd,
     height: 9,
-    isLand: false,
     buddyID: Pieces.castleBaseEnd,
   },
   [Pieces.castleWallStraight]: {
@@ -746,7 +660,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.castleWallStraight,
     height: 9,
-    isLand: false,
     buddyID: Pieces.castleBaseStraight,
   },
   [Pieces.castleWallCorner]: {
@@ -756,82 +669,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     size: 1,
     template: Pieces.castleWallCorner,
     height: 9,
-    isLand: false,
     buddyID: Pieces.castleBaseCorner,
   },
 }
-// const castlePieces = {
-/* CASTLE CASTLE CASTLE */
-// [Pieces.wallWalk1]: {
-//   id: Pieces.wallWalk1,
-//   inventoryID: Pieces.wallWalk1,
-//   terrain: HexTerrain.grass,
-//   size: 1,
-//   template: Pieces.wallWalk1,
-//   height: 1,
-// },
-// [Pieces.wallWalk7]: {
-//   id: Pieces.wallWalk7,
-//   inventoryID: Pieces.wallWalk7,
-//   terrain: HexTerrain.grass,
-//   size: 1,
-//   template: Pieces.wallWalk7,
-//   height: 1,
-// },
-// [Pieces.wallWalk9]: {
-//   id: Pieces.wallWalk9,
-//   inventoryID: Pieces.wallWalk9,
-//   terrain: HexTerrain.grass,
-//   size: 1,
-//   template: Pieces.wallWalk9,
-//   height: 1,
-// },
-// [Pieces.castleBaseCorner]: {
-//   id: Pieces.castleBaseCorner,
-//   inventoryID: Pieces.castleBaseCorner,
-//   terrain: HexTerrain.grass,
-//   size: 1,
-//   template: Pieces.castleBaseCorner,
-//   height: 1,
-// },
-// [Pieces.castleBaseStraight]: {
-//   id: Pieces.castleBaseStraight,
-//   inventoryID: Pieces.castleBaseStraight,
-//   terrain: HexTerrain.grass,
-//   size: 1,
-//   template: Pieces.castleBaseStraight,
-//   height: 1,
-// },
-// [Pieces.castleBaseEnd]: {
-//   id: Pieces.castleBaseEnd,
-//   inventoryID: Pieces.castleBaseEnd,
-//   terrain: HexTerrain.grass,
-//   size: 1,
-//   template: Pieces.castleBaseEnd,
-//   height: 1,
-// },
-// [Pieces.castleWallCorner]: {
-//   id: Pieces.castleWallCorner,
-//   inventoryID: Pieces.castleWallCorner,
-//   terrain: HexTerrain.grass,
-//   size: 1,
-//   template: Pieces.castleWallCorner,
-//   height: 9,
-// },
-// [Pieces.castleWallStraight]: {
-//   id: Pieces.castleWallStraight,
-//   inventoryID: Pieces.castleWallStraight,
-//   terrain: HexTerrain.grass,
-//   size: 1,
-//   template: Pieces.castleWallStraight,
-//   height: 9,
-// },
-// [Pieces.castleWallEnd]: {
-//   id: Pieces.castleWallEnd,
-//   inventoryID: Pieces.castleWallEnd,
-//   terrain: HexTerrain.grass,
-//   size: 1,
-//   template: Pieces.castleWallEnd,
-//   height: 9,
-// },
-// }

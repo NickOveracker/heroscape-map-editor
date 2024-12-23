@@ -21,7 +21,7 @@ export interface UISlice {
     toggleIsCameraDisabled: (b: boolean) => void
 }
 
-const initialPenMode = PenMode.hive
+const initialPenMode = PenMode.select
 
 const createUISlice: StateCreator<
     // https://immerjs.github.io/immer/#with-immer

@@ -90,7 +90,6 @@ export type Piece = {
     size: number;
     template: string;
     height: number;
-    isLand: boolean;
     buddyID?: string; // castle walls and bases, laur walls and bases, glaciers, outcrops, hive, etc
 }
 export enum Pieces {

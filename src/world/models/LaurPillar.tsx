@@ -5,6 +5,7 @@ import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
+import { DoubleSide } from 'three'
 // import { useSpring, animated, config } from '@react-spring/three'
 
 export default function LaurWallPillar({ boardHex }: { boardHex: BoardHex }) {
@@ -64,7 +65,7 @@ export default function LaurWallPillar({ boardHex }: { boardHex: BoardHex }) {
           onPointerOut={onPointerOutBody}
         // onPointerUp={e => onPointerUp(e, boardHex)}
         >
-          <meshMatcapMaterial color={colorBody ? yellowColor : pillarColor} />
+          <meshMatcapMaterial side={DoubleSide} color={colorBody ? yellowColor : pillarColor} />
         </mesh>
         <mesh
           geometry={nodes.MinusY.geometry}
