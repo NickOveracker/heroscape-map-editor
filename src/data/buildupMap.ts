@@ -93,7 +93,7 @@ export function getBoardHexesWithPieceAdded({
   const newHexIds = genIds(newPieceAltitude)
   const overHexIds = genIds(newPieceAltitude + 1)
   // 2: VALIDATE DATA
-  const isPlacingOnTable = placementAltitude === 0 && underHexIds.every(id => (newBoardHexes?.[id]?.terrain ?? '') === HexTerrain.empty)
+  const isPlacingOnTable = underHexIds.every(id => (newBoardHexes?.[id]?.terrain ?? '') === HexTerrain.empty)
   const isSpaceFree = newHexIds.every(id => !newBoardHexes[id])
   const isSolidUnderAtLeastOne = underHexIds.some(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''))
   const isSolidUnderAll = underHexIds.every(id => isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''))
@@ -150,6 +150,8 @@ export function getBoardHexesWithPieceAdded({
           isCastleBase: true
         }
       })
+      // write the new piece
+      newBoardPieces[pieceID] = piece.inventoryID
     }
     // CASTLE WALL / ARCH
     const canPlaceArch = isCastleArchPiece && isCastleArchSupported
@@ -231,6 +233,8 @@ export function getBoardHexesWithPieceAdded({
           }
         });
       })
+      // write the new piece
+      newBoardPieces[pieceID] = piece.inventoryID
     }
   }
   // CASTLE WALL WALKS CAN GO ONTO
@@ -255,6 +259,8 @@ export function getBoardHexesWithPieceAdded({
         isCap,
       }
     })
+    // write the new piece
+    newBoardPieces[pieceID] = piece.inventoryID
   }
   // LAND: SOLID AND FLUID
   const isPlacingLandTile = piece.isLand && !isPlacingWallWalkOnWall
@@ -288,11 +294,15 @@ export function getBoardHexesWithPieceAdded({
           isCap,
         }
       })
+      // write the new piece
+      newBoardPieces[pieceID] = piece.inventoryID
     }
   }
 
   // Trees, Jungle, Glaciers, Outcrops, LaurPillars
   if (isObstaclePieceID(piece.inventoryID)) {
+    console.log("🚀 ~ piece:", piece)
+    console.log("🚀 ~ clickedHexIDOrTileCoordsPresumedID:", clickedHexIDOrTileCoordsPresumedID)
     const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
     if (isSpaceFree && isVerticalClearanceForObstacle && isObstaclePieceSupported) {
       newHexIds.forEach((newHexID, i) => {
@@ -331,6 +341,8 @@ export function getBoardHexesWithPieceAdded({
           }
         });
       })
+      // write the new piece
+      newBoardPieces[pieceID] = piece.inventoryID
     }
   }
 
@@ -429,10 +441,11 @@ export function getBoardHexesWithPieceAdded({
           }
         }
       })
+      // write the new piece
+      newBoardPieces[pieceID] = piece.inventoryID
     }
   }
-  // write the new piece
-  newBoardPieces[pieceID] = piece.inventoryID
+
   return { newBoardHexes, newBoardPieces }
 }
 
