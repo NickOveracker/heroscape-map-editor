@@ -146,13 +146,33 @@ export default function PenTerrainSelect() {
         </MenuItem>
 
         <Divider />
-        {/* OBSTACLES */}
+        {/* LAUR WALL */}
         <MenuItem value={PenMode.laurWallPillar}>
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
           <span>Laur Pillar</span>
         </MenuItem>
+        <MenuItem value={PenMode.laurWallRuin}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Laur Pillar</span>
+        </MenuItem>
+        <MenuItem value={PenMode.laurWallShort}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Laur Wall Short</span>
+        </MenuItem>
+        <MenuItem value={PenMode.laurWallLong}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Laur Wall Long</span>
+        </MenuItem>
+        <Divider />
+        {/* OBSTACLES */}
         <MenuItem value={PenMode.tree10}>
           <ListItemIcon>
             <GiWaterfall />

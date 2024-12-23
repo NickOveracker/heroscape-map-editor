@@ -57,6 +57,9 @@ export enum HexTerrain {
     shadow = 'shadow',
     // hex obstacle
     laurWallPillar = 'laurWallPillar',
+    laurWallShort = 'laurWallShort',
+    laurWallLong = 'laurWallLong',
+    laurWallRuin = 'laurWallRuin',
     tree = 'tree',
     jungle = 'jungle', // this will become brush and palm ??
     palm = 'palm',
@@ -147,8 +150,12 @@ export enum Pieces {
     battlement = 'battlement',
     flag = 'castleFlag',
     ladder = 'ladder',
-    // HexObstacles
+    // LaurWall
     laurWallPillar = 'laurWallPillar',
+    laurWallShort = 'laurWallShort',
+    laurWallLong = 'laurWallLong',
+    laurWallRuin = 'laurWallRuin',
+    // HexObstacles
     tree10 = 'tree10',
     tree11 = 'tree11',
     tree12 = 'tree12',
@@ -203,6 +210,9 @@ export enum PenMode {
     swampWater = HexTerrain.swampWater,
     shadow = HexTerrain.shadow,
     laurWallPillar = Pieces.laurWallPillar,
+    laurWallShort = Pieces.laurWallShort,
+    laurWallLong = Pieces.laurWallLong,
+    laurWallRuin = Pieces.laurWallRuin,
     tree10 = Pieces.tree10,
     tree11 = Pieces.tree11,
     tree12 = Pieces.tree12,
