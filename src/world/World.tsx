@@ -30,7 +30,7 @@ const World = () => {
             >
                 {/* <Sky /> */}
                 <Stars
-                    radius={10}
+                    radius={100}
                     depth={50}
                     count={5000}
                     factor={2}
