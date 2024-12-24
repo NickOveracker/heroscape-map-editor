@@ -191,7 +191,7 @@ export function getBoardHexesWithPieceAdded({
             pieceID,
             pieceRotation: rotation,
             isCap: false,
-            isObstacleOrigin: i === 0 ? true : false, //only the first hex is an origin (because we made the template arrays this way. with origin hex at index 0)
+            isObstacleOrigin: i === 0 ? true : false, // The first boardHex is marked to render the obstacle model
             isAuxiliary: i !== 0 ? true : false,
             obstacleHeight: heightToUse
           }
@@ -208,7 +208,7 @@ export function getBoardHexesWithPieceAdded({
             pieceID,
             pieceRotation: rotation,
             isCap: false,
-            isObstacleOrigin: i === 0 ? true : false, //only the first hex is an origin (because we made the template arrays this way. with origin hex at index 0)
+            isObstacleOrigin: i === 0 ? true : false, // The first boardHex is marked to render the obstacle model
             isAuxiliary: i !== 0 ? true : false,
             obstacleHeight: heightToUse
           }
@@ -261,6 +261,19 @@ export function getBoardHexesWithPieceAdded({
     // write the new piece
     newBoardPieces[pieceID] = piece.inventoryID
   }
+
+  // LAUR WALL ADD-ONS (Pillars are placed with obstacles)
+  const isLaurWallAddNotPillar = piece.terrain === HexTerrain.laurWallPillar && piece.inventoryID !== Pieces.laurWallPillar
+  if (isLaurWallAddNotPillar) {
+    const isSpaceForLaurAddon = underHexIds.every(id => (
+      newBoardHexes?.[id]?.pieceID.includes('laurWallPillar')
+    ))
+
+    // write the new piece
+    // WRITE NEW PILLAR IF THERE IS ONE
+    newBoardPieces[pieceID] = piece.inventoryID
+  }
+
   // LAND: SOLID AND FLUID
   const isPlacingLandTile = (isFluidTerrainHex(piece.terrain) || isSolidTerrainHex(piece.terrain)) && !isPlacingWallWalkOnWall
   if (isPlacingLandTile) {

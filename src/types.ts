@@ -19,12 +19,12 @@ export type CubeCoordinate = {
 export interface BoardHex extends CubeCoordinate {
     id: string
     altitude: number
-    terrain: string // copied from piece (duplicate state)
     pieceID: string // tileID=qraID + piece-UID
     isCap: boolean
+    terrain: string // copied from piece (duplicate state)
     pieceRotation: number
-    isObstacleOrigin?: boolean
-    isAuxiliary?: boolean
+    isObstacleOrigin?: boolean // This marks the boardHex that will render the obstacle model 
+    isAuxiliary?: boolean // 
     obstacleHeight?: number // used to scaleY trees & ticallaPalms
 }
 export type BoardPieces = {
