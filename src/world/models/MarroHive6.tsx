@@ -28,7 +28,7 @@ export default function MarroHive6({ boardHex }: { boardHex: BoardHex }) {
         return { rotationY: 0 }
     }
   }
-  if (boardHex.isAuxiliary) {
+  if (boardHex.isObstacleAuxiliary) {
     return (
       <ObstacleBase
         x={x}

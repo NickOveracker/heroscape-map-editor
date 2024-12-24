@@ -29,7 +29,7 @@ export default function Outcrop3({ boardHex, isGlacier }: { boardHex: BoardHex, 
         return { rotationY: 0 }
     }
   }
-  if (boardHex.isAuxiliary) {
+  if (boardHex.isObstacleAuxiliary) {
     return (
       <ObstacleBase
         x={x}

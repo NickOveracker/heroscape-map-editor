@@ -32,7 +32,7 @@ export default function BigTree415({ boardHex }: { boardHex: BoardHex }) {
         return { rotationY: 0, xAdd: 0, zAdd: 0 }
     }
   }
-  if (boardHex.isAuxiliary) {
+  if (boardHex.isObstacleAuxiliary) {
     return (
       <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor.treeBase} />
     )

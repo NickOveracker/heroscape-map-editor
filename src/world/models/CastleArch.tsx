@@ -39,11 +39,11 @@ export function CastleArch({
     onPointerEnterFar,
     onPointerOutFar,
   } = useArchHoverState()
-  const isVerticalClearanceHex = !(boardHex.isAuxiliary || boardHex.isObstacleOrigin)
+  const isVerticalClearanceHex = !(boardHex.isObstacleAuxiliary || boardHex.isObstacleOrigin)
   if (isVerticalClearanceHex) {
     return null
   }
-  if (boardHex.isAuxiliary) {
+  if (boardHex.isObstacleAuxiliary) {
     return !isCastleUnder ? <ObstacleBase x={x} y={yBaseCap} z={z} color={hexTerrainColor[underHexTerrain]} /> : <></>
   }
   const onPointerUpMiddle = (e: ThreeEvent<PointerEvent>) => {
