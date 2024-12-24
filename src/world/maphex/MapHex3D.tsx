@@ -62,8 +62,6 @@ export const MapHex3D = ({
 
   const underHexID = genBoardHexID({ ...boardHex, altitude: boardHex.altitude - 1 });
   const underHexTerrain = boardHexes?.[underHexID]?.terrain ?? HexTerrain.grass
-  const genOverHexIDForWall = (height: number) => genBoardHexID({ ...boardHex, altitude: boardHex.altitude + height + 1 });
-  const castleWallOverHexTerrain = boardHexes?.[genOverHexIDForWall(boardHex?.obstacleHeight ?? 10)]?.terrain ?? ''
 
   return (
     <>
@@ -98,7 +96,6 @@ export const MapHex3D = ({
       {isCastleWall && <CastleWall
         onPointerUp={onPointerUp}
         boardHex={boardHex}
-        overHexTerrain={castleWallOverHexTerrain}
         underHexTerrain={underHexTerrain}
       />}
       {isCastleArch && <CastleArch

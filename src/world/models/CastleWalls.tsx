@@ -1,38 +1,23 @@
+import React from 'react'
+import { Vector3 } from 'three'
+import { ThreeEvent } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
+
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { BoardHex, HexTerrain, Pieces } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
 import ObstacleBase from './ObstacleBase'
 import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
-import { Vector3 } from 'three'
-import { isSolidTerrainHex } from '../../utils/board-utils'
-import { ThreeEvent } from '@react-three/fiber'
-import React from 'react'
 
 type Props = {
   boardHex: BoardHex,
   underHexTerrain: string
-  overHexTerrain: string,
   onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }
-
-// type GLTFResult = GLTF & {
-//   nodes: {
-//     CastleWallEndBody: THREE.Mesh
-//     CastleWallEndCap: THREE.Mesh
-//     CastleWallCornerBody: THREE.Mesh
-//     CastleWallCornerCap: THREE.Mesh
-//     CastleWallStraightBody: THREE.Mesh
-//     CastleWallStraightCap: THREE.Mesh
-//     WallCap: THREE.Mesh // this is the one that shows for all the walls
-//   }
-//   materials: {}
-// }
 
 export function CastleWall({
   boardHex,
   underHexTerrain,
-  overHexTerrain,
   onPointerUp
 }: Props) {
 
@@ -41,7 +26,6 @@ export function CastleWall({
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
   const isCastleUnder = underHexTerrain === HexTerrain.castle
-  const isShowCap = !isSolidTerrainHex(overHexTerrain)
   const scaleYAdjust = 0.01 // just a little to get it out of the subterrain
   const positionDown = scaleYAdjust / 2
   const scaleY = (boardHex?.obstacleHeight ?? 9) + (1 - scaleYAdjust)
@@ -76,31 +60,28 @@ export function CastleWall({
           />
         </mesh>
 
-        {isShowCap &&
-          // Each wall has a WallCap mesh, then each wall-type adds on its little directional indicator mesh
-          <>
-            <mesh
-              geometry={nodes.WallCap.geometry}
-              position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
-              onPointerUp={e => onPointerUp(e, boardHex)}
-              onPointerEnter={onPointerEnter}
-              onPointerOut={onPointerOut}
-            >
-              <meshMatcapMaterial
-                color={color}
-              />
-            </mesh>
-            <mesh
-              geometry={geometryPair[1]}
-              position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
-              onPointerUp={e => onPointerUp(e, boardHex)}
-            >
-              <meshMatcapMaterial
-                color={color}
-              />
-            </mesh>
-          </>
-        }
+        <>
+          <mesh
+            geometry={nodes.WallCap.geometry}
+            position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
+            onPointerUp={e => onPointerUp(e, boardHex)}
+            onPointerEnter={onPointerEnter}
+            onPointerOut={onPointerOut}
+          >
+            <meshMatcapMaterial
+              color={color}
+            />
+          </mesh>
+          <mesh
+            geometry={geometryPair[1]}
+            position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
+            onPointerUp={e => onPointerUp(e, boardHex)}
+          >
+            <meshMatcapMaterial
+              color={color}
+            />
+          </mesh>
+        </>
       </group>
       {!isCastleUnder && <ObstacleBase x={x} y={yBaseCap} z={z} color={hexTerrainColor[underHexTerrain]} />}
     </group>

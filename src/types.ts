@@ -25,7 +25,7 @@ export interface BoardHex extends CubeCoordinate {
     pieceRotation: number
     isObstacleOrigin?: boolean
     isAuxiliary?: boolean
-    obstacleHeight?: number
+    obstacleHeight?: number // used to scaleY trees & ticallaPalms
 }
 export type BoardPieces = {
     [id: string]: Pieces
