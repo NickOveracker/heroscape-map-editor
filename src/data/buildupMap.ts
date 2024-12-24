@@ -215,17 +215,6 @@ export function getBoardHexesWithPieceAdded({
         (isHexUnderneathCastleBase || isSolidUnderAll || isEmptyUnderAll
           ? 0
           : 1)
-      const pieceInventoryIDOfBase = isHexUnderneathCastleBase
-        ? ''
-        : piece.buddyID // if there is no base present we add one
-      if (!isHexUnderneathCastleBase && pieceInventoryIDOfBase) {
-        // write the castle base ID we just added (do we NEED to do this for castle walls?)
-        const basePieceID = genPieceID(
-          clickedHexIDOrTileCoordsPresumedID,
-          pieceInventoryIDOfBase,
-        )
-        newBoardPieces[basePieceID] = pieceInventoryIDOfBase as Pieces
-      }
       if (isHexUnderneathCastleBase) {
         /* 
          A naked castle-base (which is rare and weird) is a piece we track.
