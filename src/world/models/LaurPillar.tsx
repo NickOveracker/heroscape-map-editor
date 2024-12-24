@@ -6,15 +6,19 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { DoubleSide } from 'three'
+import { LaurWallRuin } from './LaurWall'
 // import { useSpring, animated, config } from '@react-spring/three'
 
 export default function LaurWallPillar({
   boardHex,
-  onPointerUpLaurWall
+  onPointerUpLaurWall,
+  underHexTerrain,
 }: {
   boardHex: BoardHex,
   onPointerUpLaurWall: (e: ThreeEvent<PointerEvent>, hex: BoardHex, side: string) => void
+  underHexTerrain: string
 }) {
+  console.log("🚀 ~ underHexTerrain:", underHexTerrain)
   const { x, z, yBaseCap, yBase } = getBoardHex3DCoords(boardHex)
   const { nodes } = useGLTF('/laurwall-pillar.glb') as any
   const rotation = boardHex?.pieceRotation ?? 0
@@ -37,14 +41,19 @@ export default function LaurWallPillar({
   } = usePillarHoverState()
   const pillarColor = hexTerrainColor[HexTerrain.laurWallPillar]
   const yellowColor = 'yellow'
-  // const isHovered = colorBody || colorMinusY || colorMinusX || colorPlusY || colorPlusX
-
-  // const { scale } = useSpring({
-  //   scale: isHovered ? 1.2 : 1,
-  //   config: config.gentle
-  // })
+  /* 
+  const { scale } = useSpring({
+    scale: isHovered ? 1.2 : 1,
+    config: config.gentle
+  })
+  <animated.group scale={scale}>
+  */
   return (
     <group>
+      <LaurWallRuin
+        boardHex={boardHex}
+      // underHexTerrain={underHexTerrain} 
+      />
       <group position={[x, yBase, z]}
         rotation={[0, rotation * -Math.PI / 3, 0]}
       // scale={scale}

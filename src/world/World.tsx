@@ -4,7 +4,6 @@ import { Stars, Stats } from "@react-three/drei"
 import Lights from "./Lights"
 import MyCameraControls from "./camera/MyCameraControls"
 import MapDisplay3D from "./MapDisplay3D"
-import GridHelper from "./GridHelper"
 import { CAMERA_FOV } from "../utils/constants"
 
 const World = () => {
@@ -41,7 +40,7 @@ const World = () => {
                     cameraControlsRef={cameraControlsRef}
                 />
                 <Lights />
-                <GridHelper />
+                {/* <GridHelper /> */}
                 <MyCameraControls cameraControlsRef={cameraControlsRef} />
             </Canvas>
         </div>

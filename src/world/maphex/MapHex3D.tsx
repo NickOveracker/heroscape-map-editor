@@ -71,7 +71,11 @@ export const MapHex3D = ({
       {isHeightRingedHex && <HeightRing
         position={new Vector3(x, y, z)}
       />}
-      {isLaurPillarHex && <LaurPillar onPointerUpLaurWall={onPointerUpLaurWall} boardHex={boardHex} />}
+      {isLaurPillarHex && <LaurPillar
+        boardHex={boardHex}
+        underHexTerrain={underHexTerrain}
+        onPointerUpLaurWall={onPointerUpLaurWall}
+      />}
       {isTreeHex && <ForestTree boardHex={boardHex} />}
       {isPalmHex && <TicallaPalm boardHex={boardHex} />}
       {isBrushHex && <TicallaBrush boardHex={boardHex} />}

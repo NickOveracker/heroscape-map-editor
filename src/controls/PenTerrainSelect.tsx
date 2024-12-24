@@ -157,7 +157,7 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Laur Pillar</span>
+          <span>Laur Wall Ruin</span>
         </MenuItem>
         <MenuItem value={PenMode.laurWallShort}>
           <ListItemIcon>
