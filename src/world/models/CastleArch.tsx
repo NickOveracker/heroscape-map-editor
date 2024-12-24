@@ -107,7 +107,7 @@ export function CastleArch({
           geometry={nodes.ArchDoor.geometry}
         >
           <meshMatcapMaterial
-            color={hexTerrainColor['dirt']}
+            color={hexTerrainColor.castleDoor}
           />
         </mesh>}
       </group>

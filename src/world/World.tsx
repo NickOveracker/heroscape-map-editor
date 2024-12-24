@@ -6,10 +6,7 @@ import MyCameraControls from "./camera/MyCameraControls"
 import MapDisplay3D from "./MapDisplay3D"
 import GridHelper from "./GridHelper"
 import { CAMERA_FOV } from "../utils/constants"
-// import { CAMERA_FOV } from "../utils/constants"
-// import { ColorManagement } from "three"
 
-// ColorManagement.enabled = true
 const World = () => {
     const cameraControlsRef = React.useRef(undefined!)
     return (

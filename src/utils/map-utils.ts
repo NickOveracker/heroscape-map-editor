@@ -1,6 +1,6 @@
 import { Vector3 } from "three"
 import { BoardHexes, CubeCoordinate } from "../types"
-import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_HEIGHT, HEXGRID_HEX_RADIUS, HEXGRID_SPACING, HEXGRID_HEXCAP_HEIGHT } from "./constants"
+import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_HEIGHT, HEXGRID_HEX_RADIUS, HEXGRID_SPACING, HEXGRID_HEXCAP_FLUID_HEIGHT } from "./constants"
 import { cubeToPixel } from "./hex-utils"
 
 type MapDimensions = {
@@ -48,8 +48,8 @@ export const getBoardHex3DCoords = (hex: CubeCoordinate & { altitude: number }) 
     const y = altitude * HEXGRID_HEX_HEIGHT
     const z = cubeToPixel(hex).y * HEXGRID_SPACING
     const yBaseCap = y - HEXGRID_HEX_HEIGHT
-    const yWithBase = yBaseCap + HEXGRID_HEXCAP_HEIGHT / 2
-    const yBase = yBaseCap + HEXGRID_HEXCAP_HEIGHT / 2
+    const yWithBase = yBaseCap + HEXGRID_HEXCAP_FLUID_HEIGHT / 2
+    const yBase = yBaseCap + HEXGRID_HEXCAP_FLUID_HEIGHT / 2
     return {
         x,
         y,

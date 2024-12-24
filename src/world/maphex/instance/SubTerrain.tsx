@@ -25,7 +25,7 @@ const SubTerrains = ({ boardHexArr }: Props) => {
       frustumCulled={false}
     >
       <cylinderGeometry args={baseSubTerrainCylinderArgs} />
-      <meshToonMaterial
+      <meshMatcapMaterial
       />
       {boardHexArr.map((hex, i) => (
         <SubTerrain key={hex.id + i + 'sub'} boardHex={hex} />

@@ -35,7 +35,7 @@ export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, 
         y={yBase}
         z={z}
         color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.shadow]}
-        isTransparent={isGlacier}
+        isFluidBase={isGlacier}
       />
     )
   }
@@ -60,7 +60,7 @@ export default function Outcrop6({ boardHex, isGlacier }: { boardHex: BoardHex, 
         y={yBase}
         z={z}
         color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.shadow]}
-        isTransparent={isGlacier}
+        isFluidBase={isGlacier}
       />
     </group>
   )

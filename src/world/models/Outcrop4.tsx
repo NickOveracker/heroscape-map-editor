@@ -1,4 +1,4 @@
- 
+
 import { useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
@@ -36,7 +36,7 @@ export default function Outcrop4({ boardHex, isGlacier }: { boardHex: BoardHex, 
         y={yBase}
         z={z}
         color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.shadow]}
-        isTransparent={isGlacier}
+        isFluidBase={isGlacier}
       />
     )
   }
@@ -61,7 +61,7 @@ export default function Outcrop4({ boardHex, isGlacier }: { boardHex: BoardHex, 
         y={yBase}
         z={z}
         color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.shadow]}
-        isTransparent={isGlacier}
+        isFluidBase={isGlacier}
       />
     </group>
   )

@@ -30,7 +30,7 @@ export function Outcrop1({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacie
         y={yBase}
         z={z}
         color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.shadow]}
-        isTransparent={isGlacier}
+        isFluidBase={true}
       />
     </group>
   )

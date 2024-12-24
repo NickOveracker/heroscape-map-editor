@@ -14,7 +14,14 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
   const yBase = y + HEXGRID_HEXCAP_HEIGHT / 2
   const options = getOptionsForTreeHeight(boardHex?.obstacleHeight ?? 14)
   const rotation = boardHex?.pieceRotation ?? 0
+  const {
+    // I botched these exports in Blender
+    AlienGrassUFO_v01_Tuft_a_1: accompanyingBrush,
+    AlienGrassUFO_v01_Tuft_a_3: palmLeaf,
+    AlienGrassUFO_v01_Tuft_a_2: palmTrunk,
+  } = nodes
   function getOptionsForTreeHeight(height: number) {
+    // We use the same model and just stretch it a little for the taller trees
     switch (height) {
       case 14:
         return { scaleX: 0.038, scaleY: 0.038 }
@@ -33,25 +40,22 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
         rotation={[0, rotation * -Math.PI / 3, 0]}
       >
         <mesh
-          geometry={nodes.AlienGrassUFO_v01_Tuft_a_1.geometry}
-        // material={materials.PalmGrass}
+          geometry={palmTrunk.geometry}
         >
-          <meshMatcapMaterial color={'#45f529'} />
+          <meshMatcapMaterial color={hexTerrainColor.ticallaPalmModel1} />
         </mesh>
         <mesh
-          geometry={nodes.AlienGrassUFO_v01_Tuft_a_2.geometry}
-        // material={materials.PalmTrunk}
+          geometry={accompanyingBrush.geometry}
         >
-          <meshMatcapMaterial color={'#E77D2D'} />
+          <meshMatcapMaterial color={hexTerrainColor.ticallaBrush2} />
         </mesh>
         <mesh
-          geometry={nodes.AlienGrassUFO_v01_Tuft_a_3.geometry} // PALM LEAF, actually
-        // material={materials.PalmLeaf}
+          geometry={palmLeaf.geometry}
         >
-          <meshMatcapMaterial color={'#35E718'} />
+          <meshMatcapMaterial color={hexTerrainColor.ticallaPalmModel3} />
         </mesh>
       </group>
-      <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor[HexTerrain.palm]} />
+      <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor[HexTerrain.swamp]} />
     </group>
   )
 }

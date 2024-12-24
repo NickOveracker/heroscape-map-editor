@@ -40,32 +40,41 @@ const virtualscapeTileColors: Dictionary<string> = {
 export const hexTerrainColor: Dictionary<string> = {
     ...virtualscapeTileColors,
     [HexTerrain.empty]: '#040404',
-    [HexTerrain.dirt]: '#5B3734',
-    [HexTerrain.tree]: '#006400',
-    treeBase: '#944c00',
-    [HexTerrain.laurWallPillar]: '#8ba4be',
-    [HexTerrain.palm]: '#35E718',
-    [HexTerrain.brush]: '#35E718',
-    [HexTerrain.ruin]: '#8596a5',
-    // LAND
-    [HexTerrain.grass]: '#6e931a',
-    [HexTerrain.rock]: '#655690',
-    [HexTerrain.sand]: '#f2de00',
-    [HexTerrain.road]: '#868686',
-    [HexTerrain.wallWalk]: '#868686',
-    [HexTerrain.snow]: '#fff', // "snow" from https://www.colorhexa.com/color-names
-    [HexTerrain.lavaField]: '#a02020', // same as VS
-    [HexTerrain.asphalt]: '#14146b', // same as VS
-    [HexTerrain.concrete]: '#8e98ab', // same as VS
-    [HexTerrain.swamp]: '#6f6915', // same as VS
-    [HexTerrain.dungeon]: '#6f6f78', // https://www.color-hex.com/color/3a2b2b
-    [HexTerrain.water]: '#3794fd', // "sea blue":#006994,"pacific blue":#1ca9c9,"oceanboat blue":#0077be,"ultramarine blue":#4166f5
-    [HexTerrain.wellspringWater]: '#fea3ee', // "sea blue":#006994,"pacific blue":#1ca9c9,"oceanboat blue":#0077be,"ultramarine blue":#4166f5
-    [HexTerrain.ice]: '#86D6D8', // https://www.color-hex.com/color/86d6d8
-    [HexTerrain.lava]: '#ff4040', // same as VS
-    [HexTerrain.swampWater]: '#ded22a', // same as VS
-    [HexTerrain.outcrop]: '#686778',
-    [HexTerrain.shadow]: '#2b2945',
+    // All these colors below have been verified on coolors: lock a color and explore! https://coolors.co/fcecc9-336aeb-fcb0b3-f93943-355a44
+    [HexTerrain.grass]: '#759B1C',
+    [HexTerrain.rock]: '#3D6A7B',
+    [HexTerrain.sand]: '#B4AD2D',
+    [HexTerrain.dirt]: '#C46E71',
+    [HexTerrain.tree]: '#355A44',
+    treeBase: '#A34C00',
+    [HexTerrain.water]: '#336AEB',
+    [HexTerrain.wellspringWater]: '#BA70FF',
+    [HexTerrain.ruin]: '#A2A0A6',
+    [HexTerrain.castle]: '#B6B5BA',
+    castleDoor: '#913B3F',
+    [HexTerrain.wallWalk]: '#97969C', //same as road
+    [HexTerrain.road]: '#97969C',
+    [HexTerrain.snow]: '#EEEEFF',
+    [HexTerrain.ice]: '#55DBCB',
+    [HexTerrain.lavaField]: '#A30029',
+    [HexTerrain.lava]: '#FA003F',
+    [HexTerrain.asphalt]: '#413370',
+    [HexTerrain.concrete]: '#D0D4DC',
+    [HexTerrain.dungeon]: '#6E675E',
+    [HexTerrain.shadow]: '#362E38',
+    [HexTerrain.outcrop]: '#5F5464',
+    hiveModel1: '#668958',
+    [HexTerrain.swamp]: '#0f4f00',
+    [HexTerrain.laurWallPillar]: '#7F7CAF',
+    [HexTerrain.swampWater]: '#8C6A40',
+    [HexTerrain.palm]: '#0f4f00', // only gets used as subterrain color, not in model
+    ticallaPalmModel1: '#B07156', // palm trunk
+    ticallaPalmModel2: '#45f529', // accompanying brush
+    ticallaPalmModel3: '#1A8F00', // palm leaf
+    [HexTerrain.brush]: '#0f4f00', // only gets used as subterrain color, not in model
+    ticallaBrush1: '#1EA300',
+    ticallaBrush2: '#25CC00',
+    ticallaBrush3: '#22B800',
 }
 // const hsColors = {
 //     // selected by color picker on webp image of renegade paint set, so probably horrible
