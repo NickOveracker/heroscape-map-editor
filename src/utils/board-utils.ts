@@ -58,24 +58,24 @@ export function isObstructingTerrain(terrain: string) {
   }
 }
 
-export function isObstaclePieceID(inventoryID: string) {
+export function isObstaclePieceID(id: string) {
   if (
-    inventoryID === Pieces.laurWallPillar ||
-    inventoryID === Pieces.tree10 ||
-    inventoryID === Pieces.tree11 ||
-    inventoryID === Pieces.tree12 ||
-    inventoryID === Pieces.tree415 ||
-    inventoryID === Pieces.brush9 ||
-    inventoryID === Pieces.palm14 ||
-    inventoryID === Pieces.palm15 ||
-    inventoryID === Pieces.palm16 ||
-    inventoryID === Pieces.outcrop1 ||
-    inventoryID === Pieces.outcrop3 ||
-    inventoryID === Pieces.glacier1 ||
-    inventoryID === Pieces.glacier3 ||
-    inventoryID === Pieces.glacier4 ||
-    inventoryID === Pieces.glacier6 ||
-    inventoryID === Pieces.hive
+    id === Pieces.laurWallPillar ||
+    id === Pieces.tree10 ||
+    id === Pieces.tree11 ||
+    id === Pieces.tree12 ||
+    id === Pieces.tree415 ||
+    id === Pieces.brush9 ||
+    id === Pieces.palm14 ||
+    id === Pieces.palm15 ||
+    id === Pieces.palm16 ||
+    id === Pieces.outcrop1 ||
+    id === Pieces.outcrop3 ||
+    id === Pieces.glacier1 ||
+    id === Pieces.glacier3 ||
+    id === Pieces.glacier4 ||
+    id === Pieces.glacier6 ||
+    id === Pieces.hive
   ) {
     return true
   } else {

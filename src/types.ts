@@ -83,13 +83,11 @@ export enum HexTerrain {
   _vsFigure = '_vsFigure',
 }
 export type Piece = {
-  id: string // aqr+pieceID
-  inventoryID: Pieces
+  id: Pieces // aqr+pieceID
   terrain: string
   size: number
   template: string
   height: number
-  buddyID?: string // castle walls and bases, laur walls and bases, glaciers, outcrops, hive, etc
 }
 export enum Pieces {
   grass1 = 'grass1',

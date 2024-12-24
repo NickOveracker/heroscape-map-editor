@@ -2,16 +2,12 @@ import { useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain, Pieces } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
-import useBoundStore from '../../store/store'
-import { piecesSoFar } from '../../data/pieces'
 import BigTree415 from './BigTree415'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 
 export default function ForestTree({ boardHex }: { boardHex: BoardHex }) {
-  const boardPieces = useBoundStore((s) => s.boardPieces)
-  const piece = piecesSoFar[boardPieces[boardHex.pieceID]]
-  const isBigTree = piece.inventoryID === Pieces.tree415
+  const isBigTree = boardHex.pieceID.includes(Pieces.tree415)
   return isBigTree ? (
     <BigTree415 boardHex={boardHex} />
   ) : (

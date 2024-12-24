@@ -18,7 +18,7 @@ import MarroHive6 from '../models/MarroHive6'
 import { CastleWall } from '../models/CastleWalls'
 import { ThreeEvent } from '@react-three/fiber'
 import { CastleArch } from '../models/CastleArch'
-import CastleBases from '../models/CastleBases2'
+import CastleBases from '../models/CastleBases'
 import LaurPillar from '../models/LaurPillar'
 
 export const MapHex3D = ({

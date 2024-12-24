@@ -39,8 +39,8 @@ export default function buildupVSFileMap(
   const newBoardHexes = terrainTilesOnly.reduce(
     (boardHexes: BoardHexes, tile) => {
       const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
-      const inventoryID = pieceCodes?.[getCodeQuick(tile)] ?? ''
-      const piece = piecesSoFar[inventoryID]
+      const id = pieceCodes?.[getCodeQuick(tile)] ?? ''
+      const piece = piecesSoFar[id]
       if (!piece) {
         return boardHexes // Should probably handle this different, errors etc.
       }
@@ -150,7 +150,7 @@ export function getBoardHexesWithPieceAdded({
   const isCastleWallUnder = underHexIds.some(
     (id) => newBoardHexes?.[id]?.terrain === HexTerrain.castle,
   )
-  const isCastleBasePiece = piece.inventoryID.includes('castleBase')
+  const isCastleBasePiece = piece.id.includes('castleBase')
   const isCastleBaseSupported = isPlacingOnTable || isSolidUnderAtLeastOne // castle bases are all 1-hex, currently
   const isPlacingCastleBase =
     isCastleBasePiece && isSpaceFree && isCastleBaseSupported
@@ -175,23 +175,23 @@ export function getBoardHexesWithPieceAdded({
       }
     })
     // write the new piece
-    newBoardPieces[pieceID] = piece.inventoryID
+    newBoardPieces[pieceID] = piece.id
     return { newBoardHexes, newBoardPieces }
   }
 
   // CASTLE WALL / ARCH
-  const isCastleWallPiece = piece.inventoryID.includes('castleWall')
+  const isCastleWallPiece = piece.id.includes('castleWall')
   const isCastleArchPiece =
-    piece.inventoryID === Pieces.castleArch ||
-    piece.inventoryID === Pieces.castleArchNoDoor
-  const isCorrespondingBaseOrWallUnderAll = underHexIds.every(
+    piece.id === Pieces.castleArch ||
+    piece.id === Pieces.castleArchNoDoor
+  const isCastleUnderAll = underHexIds.every(
     (id) =>
-      newBoardHexes?.[id]?.pieceID.includes(piece?.buddyID ?? '') ||
+      newBoardHexes?.[id]?.pieceID.includes('castleBase') ||
       newBoardHexes?.[id]?.pieceID.includes('castleWall') ||
       newBoardHexes?.[id]?.pieceID.includes('castleArch'),
   )
   const isCastleWallSupported =
-    isSolidUnderAll || isEmptyUnderAll || isCorrespondingBaseOrWallUnderAll
+    isSolidUnderAll || isEmptyUnderAll || isCastleUnderAll
   const isSolidUnder2OuterHexes = underHexIds.every((id, i) =>
     i === 1 ? true : isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''),
     // i=0, i=2, those are the 2 "outer" hexes of the 3-hex arch
@@ -272,7 +272,7 @@ export function getBoardHexesWithPieceAdded({
         })
     })
     // write the new piece
-    newBoardPieces[pieceID] = piece.inventoryID
+    newBoardPieces[pieceID] = piece.id
     return { newBoardHexes, newBoardPieces }
   }
 
@@ -297,7 +297,7 @@ export function getBoardHexesWithPieceAdded({
       }
     })
     // write the new piece
-    newBoardPieces[pieceID] = piece.inventoryID
+    newBoardPieces[pieceID] = piece.id
     return { newBoardHexes, newBoardPieces }
   }
 
@@ -307,7 +307,7 @@ export function getBoardHexesWithPieceAdded({
   ) // add-ons connect to only 1 hex, currently
   const isLaurAddonPiece =
     piece.terrain === HexTerrain.laurWallPillar &&
-    piece.inventoryID !== Pieces.laurWallPillar
+    piece.id !== Pieces.laurWallPillar
   const isSpaceForLaurAddon = underHexIds.every((id) => {
     const pillarHex = newBoardHexes?.[id]
     return pillarHex
@@ -317,7 +317,7 @@ export function getBoardHexesWithPieceAdded({
   if (isPlacingLaurAddon) {
     // WRITE NEW PILLAR IF THERE IS ONE
     // write the new laur addon piece
-    // newBoardPieces[pieceID] = piece.inventoryID
+    // newBoardPieces[pieceID] = piece.id
     return { newBoardHexes, newBoardPieces }
   }
 
@@ -356,7 +356,7 @@ export function getBoardHexesWithPieceAdded({
         }
       })
       // write the new piece
-      newBoardPieces[pieceID] = piece.inventoryID
+      newBoardPieces[pieceID] = piece.id
     }
     return { newBoardHexes, newBoardPieces }
   }
@@ -364,7 +364,7 @@ export function getBoardHexesWithPieceAdded({
   // Obstacles: trees/palms/brush, glaciers, outcrops, marrohive, laur-pillars
   const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
   const isPlacingObstacle =
-    isObstaclePieceID(piece.inventoryID) &&
+    isObstaclePieceID(piece.id) &&
     isSpaceFree &&
     isVerticalClearanceForObstacle &&
     isObstaclePieceSupported
@@ -410,7 +410,7 @@ export function getBoardHexesWithPieceAdded({
 
     //TODO: write the fluid base for glaciers/outcrops/hive
     // write the new piece
-    newBoardPieces[pieceID] = piece.inventoryID
+    newBoardPieces[pieceID] = piece.id
     return { newBoardHexes, newBoardPieces }
   }
 
@@ -422,7 +422,7 @@ export function getBoardHexesWithPieceAdded({
   const isSolidUnderAllSupportHexes = underHexIds.every((_, i) => {
     // Ruins only need to be supported under their center of mass, and we could be more liberal than this (allowing combinations of certain hexes)
     const isRequiredToSupportThisOne =
-      verticalSupportTemplates?.[piece.inventoryID]?.[i]
+      verticalSupportTemplates?.[piece.id]?.[i]
     const altitude = placementAltitude
     genBoardHexID({ ...piecePlaneCoords[i], altitude })
     return isRequiredToSupportThisOne
@@ -432,7 +432,7 @@ export function getBoardHexesWithPieceAdded({
   const isVerticalClearanceForRuin = newHexIds.every((_, i) => {
     // Ruins obstruct the placement of some land/obstacles
     const clearanceHexIds = Array(
-      verticalObstructionTemplates?.[piece.inventoryID]?.[i],
+      verticalObstructionTemplates?.[piece.id]?.[i],
     )
       .fill(0)
       .map((_, j) => {
@@ -455,7 +455,7 @@ export function getBoardHexesWithPieceAdded({
     const hex = newBoardHexes?.[newID]
     if (!hex) return true
     const terrain = hex?.terrain
-    const isForNewInterior = interiorHexTemplates?.[piece.inventoryID]?.[i] > 0 // origin & aux hexes
+    const isForNewInterior = interiorHexTemplates?.[piece.id]?.[i] > 0 // origin & aux hexes
     const isBlocked =
       isSolidTerrainHex(terrain) ||
       isFluidTerrainHex(terrain) ||
@@ -472,10 +472,10 @@ export function getBoardHexesWithPieceAdded({
   if (isPlacingRuin) {
     newHexIds.forEach((newHexID, i) => {
       const isObstacleAuxiliary =
-        interiorHexTemplates[piece.inventoryID][i] === 1 // 1 marks auxiliary hexes, 2 marks the origin, in these template arrays
+        interiorHexTemplates[piece.id][i] === 1 // 1 marks auxiliary hexes, 2 marks the origin, in these template arrays
       const isPieceOrigin = i === 1 // hacking off the template order, should be 0 but we shift the template for ruins, (because then the wallWalk template handily matches the vertical clearance of a ruin)
       // write in vertical clearances for all the hexes a ruin borders
-      Array(verticalObstructionTemplates[piece.inventoryID][i])
+      Array(verticalObstructionTemplates[piece.id][i])
         .fill(0)
         .forEach((_, j) => {
           const clearanceHexAltitude = newPieceAltitude + j
@@ -525,7 +525,7 @@ export function getBoardHexesWithPieceAdded({
       }
     })
     // write the new piece
-    newBoardPieces[pieceID] = piece.inventoryID
+    newBoardPieces[pieceID] = piece.id
     return { newBoardHexes, newBoardPieces }
   }
 
