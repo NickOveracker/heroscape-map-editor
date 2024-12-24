@@ -71,7 +71,6 @@ export const MapHex3D = ({
       />}
       {isLaurPillarHex && <LaurPillar
         boardHex={boardHex}
-        underHexTerrain={underHexTerrain}
         onPointerUpLaurWall={onPointerUpLaurWall}
       />}
       {isTreeHex && <ForestTree boardHex={boardHex} />}

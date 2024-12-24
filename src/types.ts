@@ -20,7 +20,7 @@ export interface BoardHex extends CubeCoordinate {
     id: string
     altitude: number
     pieceID: string // tileID=qraID + piece-UID
-    isCap: boolean
+    isCap: boolean // caps are uncovered (no land hex above them) land hexes
     terrain: string // copied from piece (duplicate state)
     pieceRotation: number
     isObstacleOrigin?: boolean // This marks the boardHex that will render the obstacle model 
