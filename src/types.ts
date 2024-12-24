@@ -25,7 +25,7 @@ export interface BoardHex extends CubeCoordinate {
   isCap?: boolean // caps are uncovered (no land hex above them) land hexes
   isObstacleOrigin?: boolean // This marks the boardHex that will render the obstacle model
   isObstacleAuxiliary?: boolean //
-  obstacleHeight?: number // used to scaleY trees & ticallaPalms
+  castleWallHeight?: number // used to find the cap hex when clicking a castle wall (it's 9 up with a base, 8 up when wall-on-wall)
 }
 export type BoardPieces = {
   [id: string]: Pieces

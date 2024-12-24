@@ -1,7 +1,7 @@
 import { useGLTF } from '@react-three/drei'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
-import { BoardHex, HexTerrain } from '../../types'
+import { BoardHex, HexTerrain, Pieces } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
 import ObstacleBase from './ObstacleBase'
 
@@ -13,7 +13,8 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
   const { x, y, z } = getBoardHex3DCoords(boardHex)
   const yTree = y + HEXGRID_HEXCAP_HEIGHT / 2
   const yBase = y + HEXGRID_HEXCAP_HEIGHT / 2
-  const options = getOptionsForTreeHeight(boardHex?.obstacleHeight ?? 14)
+  const treeHeight = boardHex.pieceID.includes(Pieces.palm16) ? 16 : boardHex.pieceID.includes(Pieces.palm15) ? 15 : 14
+  const options = getOptionsForTreeHeight(treeHeight)
   const rotation = boardHex?.pieceRotation ?? 0
   const {
     // I botched these exports in Blender

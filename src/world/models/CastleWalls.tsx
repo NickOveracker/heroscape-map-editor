@@ -20,10 +20,10 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
   const [color, setColor] = React.useState(hexTerrainColor[HexTerrain.castle])
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
-  const isCastleUnder = underHexTerrain === HexTerrain.castle
   const scaleYAdjust = 0.01 // just a little to get it out of the subterrain
   const positionDown = scaleYAdjust / 2
-  const scaleY = (boardHex?.obstacleHeight ?? 9) + (1 - scaleYAdjust)
+  // castle walls are 10 levels tall, UNLESS stacked on another wall, then they are 9 (they have a 1-level bottom base when on land)
+  const scaleY = (boardHex?.castleWallHeight ?? 9) + (1 - scaleYAdjust)
   const scale = new Vector3(1, scaleY, 1)
   const position = new Vector3(x, yBase - positionDown, z)
   const pieceID = boardHex.pieceID
@@ -79,7 +79,7 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
           </mesh>
         </>
       </group>
-      {!isCastleUnder && (
+      {(boardHex.castleWallHeight === 9) && ( // when it's 8, castle is wall-on-wall and no base is shown
         <ObstacleBase
           x={x}
           y={yBaseCap}

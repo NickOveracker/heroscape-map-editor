@@ -150,7 +150,6 @@ export function getBoardHexesWithPieceAdded({
   const isCastleWallUnder = underHexIds.some(
     (id) => newBoardHexes?.[id]?.terrain === HexTerrain.castle,
   )
-
   const isCastleBasePiece = piece.inventoryID.includes('castleBase')
   const isCastleBaseSupported = isPlacingOnTable || isSolidUnderAtLeastOne // castle bases are all 1-hex, currently
   const isPlacingCastleBase =
@@ -211,7 +210,7 @@ export function getBoardHexesWithPieceAdded({
       const wallAltitude = isHexUnderneathCastleBase
         ? placementAltitude
         : newPieceAltitude
-      const heightToUse =
+      const castleWallHeight =
         piece.height -
         (isHexUnderneathCastleBase || isSolidUnderAll || isEmptyUnderAll
           ? 0
@@ -228,6 +227,10 @@ export function getBoardHexesWithPieceAdded({
         newBoardPieces[basePieceID] = pieceInventoryIDOfBase as Pieces
       }
       if (isHexUnderneathCastleBase) {
+        /* 
+         A naked castle-base (which is rare and weird) is a piece we track.
+         But once a wall is placed on the base, we only track the wall piece, and overwrite the base piece.
+         */
         newBoardHexes[hexUnderneath.id] = {
           id: hexUnderneath.id,
           q: piecePlaneCoords[i].q,
@@ -239,7 +242,6 @@ export function getBoardHexesWithPieceAdded({
           pieceRotation: rotation,
           isObstacleOrigin: i === 0 ? true : false, // first hex marks the wall/arch model
           isObstacleAuxiliary: i !== 0 ? true : false, // arches have 2 aux hexes that render only an under-hex-cap
-          obstacleHeight: heightToUse,
         }
       } else {
         // remove the cap from land hex below
@@ -255,12 +257,12 @@ export function getBoardHexesWithPieceAdded({
           pieceRotation: rotation,
           isObstacleOrigin: i === 0 ? true : false, // The first boardHex is marked to render the obstacle model
           isObstacleAuxiliary: i !== 0 ? true : false,
-          obstacleHeight: heightToUse,
+          castleWallHeight: castleWallHeight,
         }
       }
 
-      // write in the new clearances, this will block some pieces at these coordinates
-      Array(heightToUse)
+      // vertical clearances will be adjusted to start lower if placing on a base
+      Array(castleWallHeight)
         .fill(0)
         .forEach((_, j) => {
           const clearanceHexAltitude = wallAltitude + 1 + j
@@ -394,7 +396,6 @@ export function getBoardHexesWithPieceAdded({
         pieceRotation: rotation,
         isObstacleOrigin: i === 0 ? true : false, //only the first hex is an origin (because we made the template arrays this way. with origin hex at index 0)
         isObstacleAuxiliary: i !== 0 ? true : false, // big tree, glaciers/outcrops, have aux hexes that render only a cap
-        obstacleHeight: piece.height,
       }
       // write in the new clearances, this will block some pieces at these coordinates
       Array(piece.height)
@@ -517,7 +518,6 @@ export function getBoardHexesWithPieceAdded({
           pieceID,
           pieceRotation: rotation,
           isObstacleOrigin: true,
-          obstacleHeight: piece.height, // unsure if this will be right, it has one height for in-game, but separate heights for physical piece allowance
         }
       }
       if (isObstacleAuxiliary) {
@@ -532,7 +532,6 @@ export function getBoardHexesWithPieceAdded({
           pieceRotation: rotation,
           isObstacleOrigin: false,
           isObstacleAuxiliary: true,
-          obstacleHeight: piece.height, // unsure if this will be right, it has one height for in-game, but separate heights for physical piece allowance
         }
       }
     })
