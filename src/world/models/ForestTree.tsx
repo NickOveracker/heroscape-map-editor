@@ -8,18 +8,20 @@ import BigTree415 from './BigTree415'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 
-
-
 export default function ForestTree({ boardHex }: { boardHex: BoardHex }) {
-  const boardPieces = useBoundStore(s => s.boardPieces)
+  const boardPieces = useBoundStore((s) => s.boardPieces)
   const piece = piecesSoFar[boardPieces[boardHex.pieceID]]
   const isBigTree = piece.inventoryID === Pieces.tree415
-  return isBigTree ? <BigTree415 boardHex={boardHex} /> : <SingleForestTree boardHex={boardHex} />
+  return isBigTree ? (
+    <BigTree415 boardHex={boardHex} />
+  ) : (
+    <SingleForestTree boardHex={boardHex} />
+  )
 }
 function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
   const {
     nodes,
-    //  materials 
+    //  materials
   } = useGLTF('/forgotten-forest-tree-low-poly-colored.glb') as any
   const { x, z, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
   const options = getOptionsForTreeHeight(boardHex?.obstacleHeight ?? 10)
@@ -27,9 +29,13 @@ function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
   function getOptionsForTreeHeight(treeHeight: number) {
     switch (treeHeight) {
       case 11:
-        return { scaleX: 0.039, scaleY: 0.040, y: yWithBase }
+        return { scaleX: 0.039, scaleY: 0.04, y: yWithBase }
       case 12:
-        return { scaleX: 0.040, scaleY: 0.044, y: yWithBase + HEXGRID_HEX_HEIGHT / 10 }
+        return {
+          scaleX: 0.04,
+          scaleY: 0.044,
+          y: yWithBase + HEXGRID_HEX_HEIGHT / 10,
+        }
       case 10:
       default:
         return { scaleX: 0.038, scaleY: 0.038, y: yWithBase }
@@ -42,7 +48,7 @@ function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
         // material={materials.ForestTree}
         scale={[options.scaleX, options.scaleY, options.scaleX]}
         position={[x, options.y, z]}
-        rotation={[0, rotation * -Math.PI / 3, 0]}
+        rotation={[0, (rotation * -Math.PI) / 3, 0]}
       >
         <meshMatcapMaterial color={hexTerrainColor[HexTerrain.tree]} />
       </mesh>

@@ -5,7 +5,7 @@ import { genBoardHexID } from './map-utils'
 export const generateHexagon = (mapSize: number): BoardHexes => {
   // keeps our hex grid within same quadrant as rectangle map
   const boardHexes = hexesToEmptyBoardHexes(
-    translateHexagonHexesToNormal(hexUtilsGenHexagonGrid(mapSize), mapSize)
+    translateHexagonHexesToNormal(hexUtilsGenHexagonGrid(mapSize), mapSize),
   )
   return boardHexes
 }
@@ -13,7 +13,7 @@ export const generateHexagon = (mapSize: number): BoardHexes => {
 const qAdjust = 2 // why does dividing by 2 work?
 const translateHexagonHexesToNormal = (
   hexes: CubeCoordinate[],
-  mapSize: number
+  mapSize: number,
 ): CubeCoordinate[] => {
   return hexes.map((hex: CubeCoordinate) => {
     return {
@@ -25,7 +25,7 @@ const translateHexagonHexesToNormal = (
 }
 export const translateHexagonBoardHexesToNormal = (
   boardhexes: BoardHexes,
-  mapSize: number
+  mapSize: number,
 ): BoardHexes => {
   const hexArray = Object.values(boardhexes)
   return hexArray.reduce((prev: BoardHexes, curr: BoardHex) => {
@@ -44,7 +44,7 @@ export const translateHexagonBoardHexesToNormal = (
 
 export const generateRectangle = (
   mapWidth: number,
-  mapHeight: number
+  mapHeight: number,
 ): BoardHexes => {
   return hexesToEmptyBoardHexes(hexUtilsGenRectangleGrid(mapWidth, mapHeight))
 }
@@ -67,6 +67,6 @@ function hexesToEmptyBoardHexes(hexgridHexes: CubeCoordinate[]): BoardHexes {
         [boardHex.id]: boardHex,
       }
     },
-    {}
+    {},
   )
 }

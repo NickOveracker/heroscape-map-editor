@@ -9,8 +9,8 @@ import {
 import useBoundStore from '../store/store'
 
 const MapLensToggles = () => {
-  const isShowStartZones = useBoundStore(s => s.isShowStartZones)
-  const toggleIsShowStartZones = useBoundStore((s => s.toggleIsShowStartZones))
+  const isShowStartZones = useBoundStore((s) => s.isShowStartZones)
+  const toggleIsShowStartZones = useBoundStore((s) => s.toggleIsShowStartZones)
   return (
     <Container>
       <FormControl component="fieldset">

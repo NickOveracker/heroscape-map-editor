@@ -7,7 +7,7 @@ import ControlButtonGroup from './ControlButtonGroup'
 
 const TakePictureButtonGroup = () => {
   const { publish } = useEvent()
-  const toggleIsTakingPicture = useBoundStore(s => s.toggleIsTakingPicture)
+  const toggleIsTakingPicture = useBoundStore((s) => s.toggleIsTakingPicture)
   const handleTakePicturePng = () => {
     toggleIsTakingPicture(true)
     publish(EVENTS.savePng)

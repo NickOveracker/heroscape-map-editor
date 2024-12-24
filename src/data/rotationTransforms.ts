@@ -1,8 +1,8 @@
-import { Dictionary } from "lodash"
-import { Pieces, CubeCoordinate } from "../types"
-import { hexUtilsAdd, hexUtilsRotate } from "../utils/hex-utils"
-import tileTemplates from "./tileTemplates"
-import { ORIGIN_000 } from "../utils/constants"
+import { Dictionary } from 'lodash'
+import { Pieces, CubeCoordinate } from '../types'
+import { hexUtilsAdd, hexUtilsRotate } from '../utils/hex-utils'
+import tileTemplates from './tileTemplates'
+import { ORIGIN_000 } from '../utils/constants'
 
 export default function getVSTileTemplate({
   clickedHex,
@@ -15,18 +15,25 @@ export default function getVSTileTemplate({
   template: string
   isVsTile: boolean
 }): CubeCoordinate[] {
-  const originOfTileTransform =
-    rotationTransforms[template][rotation]
+  const originOfTileTransform = rotationTransforms[template][rotation]
   const originOfTile = hexUtilsAdd(clickedHex, originOfTileTransform)
   return tileTemplates[template]
     .map((t) => {
       return hexUtilsRotate(t, rotation)
     })
-    .map((t) => isVsTile ? hexUtilsAdd(t, originOfTile) : hexUtilsAdd(t, clickedHex))
+    .map((t) =>
+      isVsTile ? hexUtilsAdd(t, originOfTile) : hexUtilsAdd(t, clickedHex),
+    )
 }
 
-
-const t1 = [ORIGIN_000, ORIGIN_000, ORIGIN_000, ORIGIN_000, ORIGIN_000, ORIGIN_000]
+const t1 = [
+  ORIGIN_000,
+  ORIGIN_000,
+  ORIGIN_000,
+  ORIGIN_000,
+  ORIGIN_000,
+  ORIGIN_000,
+]
 const straight2 = [
   ORIGIN_000,
   ORIGIN_000,

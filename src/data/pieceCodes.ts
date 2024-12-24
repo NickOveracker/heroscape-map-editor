@@ -1,5 +1,5 @@
-import { Dictionary } from "lodash"
-import { Pieces } from "../types"
+import { Dictionary } from 'lodash'
+import { Pieces } from '../types'
 
 export const pieceCodes: Dictionary<string> = {
   '1001': Pieces.grass1,

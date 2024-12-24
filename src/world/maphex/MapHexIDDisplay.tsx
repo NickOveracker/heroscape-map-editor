@@ -6,7 +6,10 @@ import { BoardHex, HexTerrain } from '../../types'
   MapHexIDDisplay
   This component is expensive to render if there are a lot of hexes
  */
-export const MapHexIDDisplay = ({ position, boardHex }: {
+export const MapHexIDDisplay = ({
+  position,
+  boardHex,
+}: {
   position: Vector3
   boardHex: BoardHex
 }) => {

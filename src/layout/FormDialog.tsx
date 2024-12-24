@@ -1,16 +1,16 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+import * as React from 'react'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormControl from '@mui/material/FormControl'
+import FormLabel from '@mui/material/FormLabel'
 
 function MapShapeRadioButtonsGroup() {
   return (
@@ -21,23 +21,27 @@ function MapShapeRadioButtonsGroup() {
         defaultValue="rectangle"
         name="map-shape-radio-buttons-group"
       >
-        <FormControlLabel value="rectangle" control={<Radio />} label="Rectangle" />
+        <FormControlLabel
+          value="rectangle"
+          control={<Radio />}
+          label="Rectangle"
+        />
         <FormControlLabel value="male" control={<Radio />} label="Hexagon" />
       </RadioGroup>
     </FormControl>
-  );
+  )
 }
 
 export default function FormDialog() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   return (
     <React.Fragment>
@@ -50,20 +54,20 @@ export default function FormDialog() {
         PaperProps={{
           component: 'form',
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries((formData as any).entries());
-            const email = formJson.email;
-            console.log(email);
-            handleClose();
+            event.preventDefault()
+            const formData = new FormData(event.currentTarget)
+            const formJson = Object.fromEntries((formData as any).entries())
+            const email = formJson.email
+            console.log(email)
+            handleClose()
           },
         }}
       >
         <DialogTitle>Subscribe</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
+            To subscribe to this website, please enter your email address here.
+            We will send updates occasionally.
           </DialogContentText>
           <TextField
             autoFocus
@@ -84,5 +88,5 @@ export default function FormDialog() {
         </DialogActions>
       </Dialog>
     </React.Fragment>
-  );
+  )
 }

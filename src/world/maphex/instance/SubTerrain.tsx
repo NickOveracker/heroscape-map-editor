@@ -1,17 +1,26 @@
-import { Instance, Instances } from "@react-three/drei"
+import { Instance, Instances } from '@react-three/drei'
 import React from 'react'
-import { BoardHex, HexTerrain } from "../../../types"
-import { CylinderGeometryArgs, InstanceRefType } from "../instance-hex"
-import { getBoardHex3DCoords } from "../../../utils/map-utils"
-import { HEXGRID_HEX_HEIGHT, INSTANCE_LIMIT } from "../../../utils/constants"
-import { hexTerrainColor } from "../hexColors"
-import { ThreeEvent } from "@react-three/fiber"
+import { BoardHex, HexTerrain } from '../../../types'
+import { CylinderGeometryArgs, InstanceRefType } from '../instance-hex'
+import { getBoardHex3DCoords } from '../../../utils/map-utils'
+import { HEXGRID_HEX_HEIGHT, INSTANCE_LIMIT } from '../../../utils/constants'
+import { hexTerrainColor } from '../hexColors'
+import { ThreeEvent } from '@react-three/fiber'
 
 type Props = {
   boardHexArr: BoardHex[]
 }
 
-const baseSubTerrainCylinderArgs: CylinderGeometryArgs = [1, 1, HEXGRID_HEX_HEIGHT, 6, undefined, false, undefined, undefined]
+const baseSubTerrainCylinderArgs: CylinderGeometryArgs = [
+  1,
+  1,
+  HEXGRID_HEX_HEIGHT,
+  6,
+  undefined,
+  false,
+  undefined,
+  undefined,
+]
 const dirtColor = hexTerrainColor[HexTerrain.dirt]
 
 const SubTerrains = ({ boardHexArr }: Props) => {
@@ -25,8 +34,7 @@ const SubTerrains = ({ boardHexArr }: Props) => {
       frustumCulled={false}
     >
       <cylinderGeometry args={baseSubTerrainCylinderArgs} />
-      <meshMatcapMaterial
-      />
+      <meshMatcapMaterial />
       {boardHexArr.map((hex, i) => (
         <SubTerrain key={hex.id + i + 'sub'} boardHex={hex} />
       ))}
@@ -42,17 +50,24 @@ function SubTerrain({ boardHex }: { boardHex: BoardHex }) {
   React.useEffect(() => {
     const { x, z, y } = getBoardHex3DCoords(boardHex)
     const bottom = y - HEXGRID_HEX_HEIGHT
-    const posY = ((y + bottom) / 2) // place it halfway between top and bottom
+    const posY = (y + bottom) / 2 // place it halfway between top and bottom
 
-    const isDirtSubterrain = boardHex.terrain === HexTerrain.grass || boardHex.terrain === HexTerrain.sand || boardHex.terrain === HexTerrain.rock
-    const subTerrainColor = isDirtSubterrain ? dirtColor : hexTerrainColor[boardHex.terrain]
+    const isDirtSubterrain =
+      boardHex.terrain === HexTerrain.grass ||
+      boardHex.terrain === HexTerrain.sand ||
+      boardHex.terrain === HexTerrain.rock
+    const subTerrainColor = isDirtSubterrain
+      ? dirtColor
+      : hexTerrainColor[boardHex.terrain]
     ref.current.color.set(subTerrainColor)
     ref.current.position.set(x, posY, z)
   }, [boardHex])
-  return <Instance
-    ref={ref}
-    onPointerDown={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
-    onPointerEnter={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
-    frustumCulled={false}
-  />
+  return (
+    <Instance
+      ref={ref}
+      onPointerDown={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
+      onPointerEnter={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
+      frustumCulled={false}
+    />
+  )
 }

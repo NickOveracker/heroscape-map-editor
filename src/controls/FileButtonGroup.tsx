@@ -7,8 +7,7 @@ import ControlButtonGroup from './ControlButtonGroup'
 const FileButtonGroup = () => {
   return (
     <ControlButtonGroup>
-      <LoadSaveMapButtons
-      />
+      <LoadSaveMapButtons />
       {/* <ExportBinaryFileButton /> */}
       <ExportJsonFileButton />
       <ImportFileButton />

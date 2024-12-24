@@ -1,5 +1,5 @@
-import { Dictionary } from "lodash"
-import { Pieces } from "../types"
+import { Dictionary } from 'lodash'
+import { Pieces } from '../types'
 
 export const verticalObstructionTemplates: Dictionary<number[]> = {
   /* 
@@ -17,13 +17,14 @@ export const verticalObstructionTemplates: Dictionary<number[]> = {
    --10--10x--7--
     */
     // first the basic3
-    9, 10, 10,
+    9,
+    10, 10,
     // then the two to the right
     7, 4,
     // then the two down to the right
     10, 7,
     // then the extra back hex
-    3
+    3,
   ],
   [Pieces.ruins3]: [
     /* Ruins3, second 9 on line 2 is the origin for rotation=0
@@ -41,8 +42,8 @@ export const verticalObstructionTemplates: Dictionary<number[]> = {
     // then the far right and far down-right of wallWalk9
     3, 7,
     // then the extra back hex
-    3
-  ]
+    3,
+  ],
 }
 export const verticalSupportTemplates: Dictionary<number[]> = {
   /* 
@@ -58,13 +59,14 @@ export const verticalSupportTemplates: Dictionary<number[]> = {
    --10--10x--7--
     */
     // first the basic3
-    0, 1, 0,
+    0,
+    1, 0,
     // then the two to the right
     1, 0,
     // then the two down to the right
     1, 0,
     // then the extra back hex
-    0
+    0,
   ],
   [Pieces.ruins3]: [
     /* Ruins3, second 9 on line 2 is the origin for rotation=0
@@ -82,8 +84,8 @@ export const verticalSupportTemplates: Dictionary<number[]> = {
     // then the far right and far down-right of wallWalk9
     0, 0,
     // then the extra back hex
-    0
-  ]
+    0,
+  ],
 }
 export const interiorHexTemplates: Dictionary<number[]> = {
   /* 
@@ -104,7 +106,7 @@ export const interiorHexTemplates: Dictionary<number[]> = {
     // then the two down to the right
     0, 0,
     // then the extra back hex
-    0
+    0,
   ],
   [Pieces.ruins3]: [
     /* the i's mark the interior hexes
@@ -122,6 +124,6 @@ export const interiorHexTemplates: Dictionary<number[]> = {
     // then the far right and far down-right of wallWalk9
     0, 0,
     // then the extra back hex
-    0
-  ]
+    0,
+  ],
 }

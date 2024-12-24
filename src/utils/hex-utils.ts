@@ -1,26 +1,21 @@
-import {
-  HEXGRID_HEX_RADIUS,
-  ORIGIN_000,
-} from './constants'
-import {
-  CubeCoordinate,
-} from '../types'
+import { HEXGRID_HEX_RADIUS, ORIGIN_000 } from './constants'
+import { CubeCoordinate } from '../types'
 import { Dictionary } from 'lodash'
 export const hexUtilsEquals = (
   a: CubeCoordinate,
-  b: CubeCoordinate
+  b: CubeCoordinate,
 ): boolean => {
   return a.q === b.q && a.r === b.r && a.s === b.s
 }
 export const hexUtilsAdd = (
   a: CubeCoordinate,
-  b: CubeCoordinate
+  b: CubeCoordinate,
 ): CubeCoordinate => {
   return { q: a.q + b.q, r: a.r + b.r, s: a.s + b.s }
 }
 const hexUtilsSubtract = (
   a: CubeCoordinate,
-  b: CubeCoordinate
+  b: CubeCoordinate,
 ): CubeCoordinate => {
   return { q: a.q - b.q, r: a.r - b.r, s: a.s - b.s }
 }
@@ -36,7 +31,7 @@ export function hexUtilsOddRToCube(x: number, y: number) {
 }
 function hexUtilsRotateVector(
   v: CubeCoordinate,
-  rotation: number
+  rotation: number,
 ): CubeCoordinate {
   switch (rotation % 6) {
     case 1:
@@ -77,7 +72,7 @@ function hexUtilsRotateVector(
 /* hexUtilsRotate: this does not update the IDs of boardHexes */
 export function hexUtilsRotate(
   h: CubeCoordinate,
-  rotation: number
+  rotation: number,
 ): CubeCoordinate {
   // origin could be pass in, but we only rotate around 0,0,0 for now
   const vector = hexUtilsSubtract(h, ORIGIN_000)
@@ -100,7 +95,7 @@ export function hexUtilsGenHexagonGrid(mapRadius: number): CubeCoordinate[] {
 }
 export function hexUtilsGenRectangleGrid(
   mapWidth: number,
-  mapHeight: number
+  mapHeight: number,
 ): CubeCoordinate[] {
   const hexas: CubeCoordinate[] = []
   for (let r = 0; r < mapHeight; r++) {
@@ -125,7 +120,9 @@ const directions: Dictionary<CubeCoordinate> = {
   '4': northWest,
   '5': northEast,
 }
-export const hexUtilsGetNeighborForRotation = (rotation: number): CubeCoordinate => {
+export const hexUtilsGetNeighborForRotation = (
+  rotation: number,
+): CubeCoordinate => {
   const rot = `${rotation % 6}`
   return directions[rot]
 }

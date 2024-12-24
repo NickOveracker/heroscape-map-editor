@@ -4,8 +4,13 @@ import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
 
-
-export function Outcrop1({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacier: boolean }) {
+export function Outcrop1({
+  boardHex,
+  isGlacier,
+}: {
+  boardHex: BoardHex
+  isGlacier: boolean
+}) {
   const {
     nodes,
     //  materials
@@ -16,11 +21,15 @@ export function Outcrop1({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacie
     <group>
       <mesh
         position={[x, yWithBase, z]}
-        rotation={[0, rotation * -Math.PI / 3, 0]}
+        rotation={[0, (rotation * -Math.PI) / 3, 0]}
         geometry={nodes.glacier_1_with_holes.geometry}
       >
         <meshMatcapMaterial
-          color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.outcrop]}
+          color={
+            isGlacier
+              ? hexTerrainColor[HexTerrain.ice]
+              : hexTerrainColor[HexTerrain.outcrop]
+          }
           transparent={isGlacier}
           opacity={0.99}
         />
@@ -29,7 +38,11 @@ export function Outcrop1({ boardHex, isGlacier }: { boardHex: BoardHex, isGlacie
         x={x}
         y={yBase}
         z={z}
-        color={isGlacier ? hexTerrainColor[HexTerrain.ice] : hexTerrainColor[HexTerrain.shadow]}
+        color={
+          isGlacier
+            ? hexTerrainColor[HexTerrain.ice]
+            : hexTerrainColor[HexTerrain.shadow]
+        }
         isFluidBase={true}
       />
     </group>

@@ -1,4 +1,4 @@
-import { VirtualScapeMap, VirtualScapeTile } from "../types"
+import { VirtualScapeMap, VirtualScapeTile } from '../types'
 
 /* 
 This function reads a specific binary file format used by VirtualScape.
@@ -151,9 +151,7 @@ function readCString(dataView: DataView): string {
   const length = readCStringLength(dataView)
   let value = ''
   for (let i = 0; i < length; i++) {
-    value += String.fromCodePoint(
-      getInt16(dataView)
-    )
+    value += String.fromCodePoint(getInt16(dataView))
   }
   return value
 }
@@ -167,7 +165,8 @@ function readCStringLength(dataView: DataView): number {
 
     if (short === 0xfffe) {
       return readCStringLength(dataView)
-    } else if (short === 0xffff) { // 65535
+    } else if (short === 0xffff) {
+      // 65535
       length = getUint32(dataView)
     } else {
       length = short
@@ -183,12 +182,16 @@ function rtfToText(rtf: string) {
     .trim()
 }
 
-export default function readVirtualscapeMapFile(file: File): Promise<VirtualScapeMap> {
+export default function readVirtualscapeMapFile(
+  file: File,
+): Promise<VirtualScapeMap> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onloadend = () => {
       const arrayBuffer = reader.result
-      const virtualScapeMap = processVirtualScapeArrayBuffer(arrayBuffer as ArrayBuffer)
+      const virtualScapeMap = processVirtualScapeArrayBuffer(
+        arrayBuffer as ArrayBuffer,
+      )
       resolve(virtualScapeMap)
     }
     reader.onerror = () => {

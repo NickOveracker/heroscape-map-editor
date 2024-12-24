@@ -1,9 +1,9 @@
-import { Drawer } from "@mui/material";
-import React from "react";
-import { Outlet } from "react-router-dom";
-import { DrawerList } from "../layout/DrawerList";
-import HeaderNav from "../layout/HeaderNav";
-import Controls from "../controls/Controls";
+import { Drawer } from '@mui/material'
+import React from 'react'
+import { Outlet } from 'react-router-dom'
+import { DrawerList } from '../layout/DrawerList'
+import HeaderNav from '../layout/HeaderNav'
+import Controls from '../controls/Controls'
 
 export default function Layout() {
   // https://robohash.org/you.png?size=200x200
@@ -32,23 +32,26 @@ export default function Layout() {
         <DrawerList toggleIsNavOpen={toggleIsNavOpen} />
       </Drawer>
       <HeaderNav toggleIsNavOpen={toggleIsNavOpen} />
-      <div style={{
-        width: '100%',
-        flex: 1,
-      }}
-      ><Outlet /></div>
-      <div style={{
-        display: 'flex',
-        flexFlow: 'column nowrap',
-        width: '100%',
-        height: '30vh',
-        background: 'var(--black)',
-        overflow: 'auto',
-      }}
+      <div
+        style={{
+          width: '100%',
+          flex: 1,
+        }}
+      >
+        <Outlet />
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexFlow: 'column nowrap',
+          width: '100%',
+          height: '30vh',
+          background: 'var(--black)',
+          overflow: 'auto',
+        }}
       >
         <Controls />
       </div>
     </div>
-  );
+  )
 }
-

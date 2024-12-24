@@ -2,8 +2,6 @@ import { Dictionary } from 'lodash'
 import { CubeCoordinate, Pieces } from '../types'
 import { hexUtilsAdd } from '../utils/hex-utils'
 
-
-
 const origin = { q: 0, r: 0, s: 0 }
 const basic1 = [origin]
 const basic2 = [
@@ -141,7 +139,8 @@ const straight3 = [
     s: -2,
   },
 ]
-const straight4 = [ // roadwall4
+const straight4 = [
+  // roadwall4
   ...straight3,
   {
     q: 3,
@@ -240,13 +239,15 @@ const ruinsExtraBackHex = {
   r: -1,
   s: 1,
 }
-const ruins2 = [ // the ruins have one extra hex at the end of their short leg that is blocked for a few hexes vertically and ASSUMED to require flat ground
-  ...wallWalk7.map(c => hexUtilsAdd(c, { q: -1, r: 0, s: 1 })), // the ruins template is shifted one hex to the left
-  ruinsExtraBackHex
+const ruins2 = [
+  // the ruins have one extra hex at the end of their short leg that is blocked for a few hexes vertically and ASSUMED to require flat ground
+  ...wallWalk7.map((c) => hexUtilsAdd(c, { q: -1, r: 0, s: 1 })), // the ruins template is shifted one hex to the left
+  ruinsExtraBackHex,
 ]
-const ruins3 = [ // the ruins have one extra hex at the end of their short leg that is blocked for a few hexes vertically and ASSUMED to require flat ground
-  ...wallWalk9.map(c => hexUtilsAdd(c, { q: -1, r: 0, s: 1 })), // the ruins template is shifted one hex to the left
-  ruinsExtraBackHex
+const ruins3 = [
+  // the ruins have one extra hex at the end of their short leg that is blocked for a few hexes vertically and ASSUMED to require flat ground
+  ...wallWalk9.map((c) => hexUtilsAdd(c, { q: -1, r: 0, s: 1 })), // the ruins template is shifted one hex to the left
+  ruinsExtraBackHex,
 ]
 const tileTemplates: Dictionary<CubeCoordinate[]> = {
   '1': basic1,
@@ -300,4 +301,4 @@ const tileTemplates: Dictionary<CubeCoordinate[]> = {
   // flag: basic1,
 }
 
-export default tileTemplates 
+export default tileTemplates

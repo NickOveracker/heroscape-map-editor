@@ -6,7 +6,8 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import ObstacleBase from './ObstacleBase'
 
 export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
-  const { nodes,
+  const {
+    nodes,
     // materials
   } = useGLTF('/ticalla-palm-colored-lowpoly.glb') as any
   const { x, y, z } = getBoardHex3DCoords(boardHex)
@@ -37,25 +38,24 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
       <group
         scale={[options.scaleX, options.scaleY, options.scaleX]}
         position={[x, yTree, z]}
-        rotation={[0, rotation * -Math.PI / 3, 0]}
+        rotation={[0, (rotation * -Math.PI) / 3, 0]}
       >
-        <mesh
-          geometry={palmTrunk.geometry}
-        >
+        <mesh geometry={palmTrunk.geometry}>
           <meshMatcapMaterial color={hexTerrainColor.ticallaPalmModel1} />
         </mesh>
-        <mesh
-          geometry={accompanyingBrush.geometry}
-        >
+        <mesh geometry={accompanyingBrush.geometry}>
           <meshMatcapMaterial color={hexTerrainColor.ticallaBrush2} />
         </mesh>
-        <mesh
-          geometry={palmLeaf.geometry}
-        >
+        <mesh geometry={palmLeaf.geometry}>
           <meshMatcapMaterial color={hexTerrainColor.ticallaPalmModel3} />
         </mesh>
       </group>
-      <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor[HexTerrain.swamp]} />
+      <ObstacleBase
+        x={x}
+        y={yBase}
+        z={z}
+        color={hexTerrainColor[HexTerrain.swamp]}
+      />
     </group>
   )
 }

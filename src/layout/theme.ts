@@ -29,4 +29,3 @@ export const hexoscapePlayerColors: Dictionary<string> = {
   '4': hexoscapeColors.hummingbirdGreen,
   '5': hexoscapeColors.lavendarFloral,
 }
-

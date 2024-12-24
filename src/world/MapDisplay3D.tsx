@@ -7,7 +7,12 @@ import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
 import { BoardHex, HexTerrain, PenMode } from '../types.ts'
 import buildupVSFileMap from '../data/buildupMap.ts'
-import { isFluidTerrainHex, isJungleTerrainHex, isObstaclePieceID, isSolidTerrainHex } from '../utils/board-utils.ts'
+import {
+  isFluidTerrainHex,
+  isJungleTerrainHex,
+  isObstaclePieceID,
+  isSolidTerrainHex,
+} from '../utils/board-utils.ts'
 import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
@@ -17,151 +22,179 @@ import SolidCaps from './maphex/instance/SolidCaps.tsx'
 import { genBoardHexID } from '../utils/map-utils.ts'
 
 export default function MapDisplay3D({
-    cameraControlsRef,
+  cameraControlsRef,
 }: {
-    cameraControlsRef: React.RefObject<CameraControls>
+  cameraControlsRef: React.RefObject<CameraControls>
 }) {
-    const boardHexes = useBoundStore((state) => state.boardHexes)
-    const boardHexesArr = Object.values(boardHexes)
-    const penMode = useBoundStore((state) => state.penMode)
-    const paintTile = useBoundStore((state) => state.paintTile)
-    const loadMap = useBoundStore((state) => state.loadMap)
-    const pieceSize = useBoundStore((state) => state.pieceSize)
-    const pieceRotation = useBoundStore((state) => state.pieceRotation)
-    useZoomCameraToMapCenter({
-        cameraControlsRef,
-        boardHexes,
-        // disabled: true, // for when working on camera stuff
-    })
+  const boardHexes = useBoundStore((state) => state.boardHexes)
+  const boardHexesArr = Object.values(boardHexes)
+  const penMode = useBoundStore((state) => state.penMode)
+  const paintTile = useBoundStore((state) => state.paintTile)
+  const loadMap = useBoundStore((state) => state.loadMap)
+  const pieceSize = useBoundStore((state) => state.pieceSize)
+  const pieceRotation = useBoundStore((state) => state.pieceRotation)
+  useZoomCameraToMapCenter({
+    cameraControlsRef,
+    boardHexes,
+    // disabled: true, // for when working on camera stuff
+  })
 
-    // USE EFFECT: automatically load up the map while devving
-    React.useEffect(() => {
-        const fileName = '/ruins.hsc'
-        fetch(fileName)
-            .then(response => {
-                return response.arrayBuffer()
-            })
-            .then(arrayBuffer => {
-                const vsMap = processVirtualScapeArrayBuffer(arrayBuffer)
-                console.log("🚀 ~ React.useEffect ~ vsMap:", vsMap)
-                const hexoscapeMap = buildupVSFileMap(vsMap.tiles, vsMap.name)
-                loadMap(hexoscapeMap)
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+  // USE EFFECT: automatically load up the map while devving
+  React.useEffect(() => {
+    const fileName = '/ruins.hsc'
+    fetch(fileName)
+      .then((response) => {
+        return response.arrayBuffer()
+      })
+      .then((arrayBuffer) => {
+        const vsMap = processVirtualScapeArrayBuffer(arrayBuffer)
+        console.log('🚀 ~ React.useEffect ~ vsMap:', vsMap)
+        const hexoscapeMap = buildupVSFileMap(vsMap.tiles, vsMap.name)
+        loadMap(hexoscapeMap)
+      })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-    const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr)
+  const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr)
 
-    const onPointerUp = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
-        if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
-        event.stopPropagation() // prevent pass through
-        // Early out if camera is active
-        if (cameraControlsRef?.current?.active) return
+  const onPointerUp = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
+    if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
+    event.stopPropagation() // prevent pass through
+    // Early out if camera is active
+    if (cameraControlsRef?.current?.active) return
 
-        const isWallWalkPen = penMode.startsWith('wallWalk')
-        const isCastleBasePen = penMode.startsWith('castleBase')
-        const isCastleWallArchPen = penMode.startsWith('castleWall') || penMode.startsWith('castleArch')
-        if (isWallWalkPen || isCastleBasePen || isCastleWallArchPen || isSolidTerrainHex(penMode) || isFluidTerrainHex(penMode)) {
-            const boardHexOfCapForWall = genBoardHexID({ ...hex, altitude: hex.altitude + (hex?.obstacleHeight ?? 0) })
-            const isCastleWallArchClicked = hex.pieceID.includes('castleWall') || hex.pieceID.includes('castleArch')
-            const clickedHex = (isCastleWallArchClicked) ? boardHexes[boardHexOfCapForWall] : hex
-            const piece = (isWallWalkPen || isCastleBasePen || isCastleWallArchPen) ? piecesSoFar[penMode] : getPieceByTerrainAndSize(penMode, pieceSize)
-            paintTile({
-                piece,
-                clickedHex: clickedHex,
-                rotation: pieceRotation,
-            })
-        }
-
-        if (isObstaclePieceID(penMode) || penMode === PenMode.ruins2 || penMode === PenMode.ruins3) {
-            paintTile({
-                piece: piecesSoFar[penMode],
-                clickedHex: hex,
-                rotation: pieceRotation,
-            })
-        }
+    const isWallWalkPen = penMode.startsWith('wallWalk')
+    const isCastleBasePen = penMode.startsWith('castleBase')
+    const isCastleWallArchPen =
+      penMode.startsWith('castleWall') || penMode.startsWith('castleArch')
+    if (
+      isWallWalkPen ||
+      isCastleBasePen ||
+      isCastleWallArchPen ||
+      isSolidTerrainHex(penMode) ||
+      isFluidTerrainHex(penMode)
+    ) {
+      const boardHexOfCapForWall = genBoardHexID({
+        ...hex,
+        altitude: hex.altitude + (hex?.obstacleHeight ?? 0),
+      })
+      const isCastleWallArchClicked =
+        hex.pieceID.includes('castleWall') || hex.pieceID.includes('castleArch')
+      const clickedHex = isCastleWallArchClicked
+        ? boardHexes[boardHexOfCapForWall]
+        : hex
+      const piece =
+        isWallWalkPen || isCastleBasePen || isCastleWallArchPen
+          ? piecesSoFar[penMode]
+          : getPieceByTerrainAndSize(penMode, pieceSize)
+      paintTile({
+        piece,
+        clickedHex: clickedHex,
+        rotation: pieceRotation,
+      })
     }
 
-    const onPointerUpLaurWall = (event: ThreeEvent<PointerEvent>, hex: BoardHex, side: string) => {
-        if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
-        event.stopPropagation() // prevent pass through
-        console.log("🚀 ~ onPointerUpLaurWall ~ hex:", hex)
-        console.log("🚀 ~ onPointerUpLaurWall ~ side:", side)
-        // Early out if camera is active
-        if (cameraControlsRef?.current?.active) return
-
-        if (penMode.includes('laurWall')) {
-            const piece = piecesSoFar[penMode]
-            console.log("🚀 ~ onPointerUpLaurWall ~ piece:", piece)
-            // paintTile({
-            //     piece,
-            //     clickedHex: hex,
-            //     rotation: pieceRotation,
-            // })
-        }
+    if (
+      isObstaclePieceID(penMode) ||
+      penMode === PenMode.ruins2 ||
+      penMode === PenMode.ruins3
+    ) {
+      paintTile({
+        piece: piecesSoFar[penMode],
+        clickedHex: hex,
+        rotation: pieceRotation,
+      })
     }
+  }
 
-    return (
-        <>
-            <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} />
-            <EmptyHexes
-                boardHexArr={instanceBoardHexes.emptyHexCaps}
-                onPointerUp={onPointerUp}
-            />
-            <SolidCaps
-                boardHexArr={instanceBoardHexes.solidHexCaps}
-                onPointerUp={onPointerUp}
-            />
-            <FluidCaps
-                boardHexArr={instanceBoardHexes.fluidHexCaps}
-                onPointerUp={onPointerUp}
-            />
-            {boardHexesArr.map((bh => {
-                return (
-                    <MapHex3D
-                        key={bh.id}
-                        boardHex={bh}
-                        onPointerUp={onPointerUp}
-                        onPointerUpLaurWall={onPointerUpLaurWall}
-                    />
-                )
-            }))}
-        </>
-    )
+  const onPointerUpLaurWall = (
+    event: ThreeEvent<PointerEvent>,
+    hex: BoardHex,
+    side: string,
+  ) => {
+    if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
+    event.stopPropagation() // prevent pass through
+    console.log('🚀 ~ onPointerUpLaurWall ~ hex:', hex)
+    console.log('🚀 ~ onPointerUpLaurWall ~ side:', side)
+    // Early out if camera is active
+    if (cameraControlsRef?.current?.active) return
+
+    if (penMode.includes('laurWall')) {
+      const piece = piecesSoFar[penMode]
+      console.log('🚀 ~ onPointerUpLaurWall ~ piece:', piece)
+      // paintTile({
+      //     piece,
+      //     clickedHex: hex,
+      //     rotation: pieceRotation,
+      // })
+    }
+  }
+
+  return (
+    <>
+      <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} />
+      <EmptyHexes
+        boardHexArr={instanceBoardHexes.emptyHexCaps}
+        onPointerUp={onPointerUp}
+      />
+      <SolidCaps
+        boardHexArr={instanceBoardHexes.solidHexCaps}
+        onPointerUp={onPointerUp}
+      />
+      <FluidCaps
+        boardHexArr={instanceBoardHexes.fluidHexCaps}
+        onPointerUp={onPointerUp}
+      />
+      {boardHexesArr.map((bh) => {
+        return (
+          <MapHex3D
+            key={bh.id}
+            boardHex={bh}
+            onPointerUp={onPointerUp}
+            onPointerUpLaurWall={onPointerUpLaurWall}
+          />
+        )
+      })}
+    </>
+  )
 }
 
 type InstanceBoardHexes = {
-    subTerrainHexes: BoardHex[],
-    emptyHexCaps: BoardHex[],
-    solidHexCaps: BoardHex[],
-    fluidHexCaps: BoardHex[],
+  subTerrainHexes: BoardHex[]
+  emptyHexCaps: BoardHex[]
+  solidHexCaps: BoardHex[]
+  fluidHexCaps: BoardHex[]
 }
 function getInstanceBoardHexes(boardHexesArr: BoardHex[]) {
-    return boardHexesArr.reduce((result: InstanceBoardHexes, current) => {
-        const isCap = current.isCap // land hexes that are covered, obstacle origin/auxiliary hexes, vertical clearance hexes
-        const isEmptyCap = isCap && current.terrain === HexTerrain.empty
-        const isSolidCap = isCap && isSolidTerrainHex(current.terrain)
-        const isFluidCap = isCap && isFluidTerrainHex(current.terrain)
-        const isSubTerrain = isSolidTerrainHex(current.terrain) || (isJungleTerrainHex(current.terrain) && current.isObstacleOrigin)
-        // const isSubTerrain = isSolidTerrainHex(current.terrain) || isFluidTerrainHex(current.terrain)
-        if (isEmptyCap) {
-            result.emptyHexCaps.push(current)
-        }
-        if (isSolidCap) {
-            result.solidHexCaps.push(current)
-        }
-        if (isFluidCap) {
-            result.fluidHexCaps.push(current)
-        }
-        if (isSubTerrain) {
-            result.subTerrainHexes.push(current)
-        }
-        return result
-    }, {
-        emptyHexCaps: [],
-        solidHexCaps: [],
-        fluidHexCaps: [],
-        subTerrainHexes: [],
-    });
-
+  return boardHexesArr.reduce(
+    (result: InstanceBoardHexes, current) => {
+      const isCap = current.isCap // land hexes that are covered, obstacle origin/auxiliary hexes, vertical clearance hexes
+      const isEmptyCap = isCap && current.terrain === HexTerrain.empty
+      const isSolidCap = isCap && isSolidTerrainHex(current.terrain)
+      const isFluidCap = isCap && isFluidTerrainHex(current.terrain)
+      const isSubTerrain =
+        isSolidTerrainHex(current.terrain) ||
+        (isJungleTerrainHex(current.terrain) && current.isObstacleOrigin)
+      // const isSubTerrain = isSolidTerrainHex(current.terrain) || isFluidTerrainHex(current.terrain)
+      if (isEmptyCap) {
+        result.emptyHexCaps.push(current)
+      }
+      if (isSolidCap) {
+        result.solidHexCaps.push(current)
+      }
+      if (isFluidCap) {
+        result.fluidHexCaps.push(current)
+      }
+      if (isSubTerrain) {
+        result.subTerrainHexes.push(current)
+      }
+      return result
+    },
+    {
+      emptyHexCaps: [],
+      solidHexCaps: [],
+      fluidHexCaps: [],
+      subTerrainHexes: [],
+    },
+  )
 }

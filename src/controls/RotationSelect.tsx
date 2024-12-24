@@ -3,9 +3,12 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import useBoundStore from '../store/store'
 
 export default function RotationSelect() {
-  const pieceRotation = useBoundStore(s => s.pieceRotation)
-  const togglePieceRotation = useBoundStore(s => s.togglePieceRotation)
-  const handleChange = (_event: React.MouseEvent<HTMLElement>, value: string) => {
+  const pieceRotation = useBoundStore((s) => s.pieceRotation)
+  const togglePieceRotation = useBoundStore((s) => s.togglePieceRotation)
+  const handleChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    value: string,
+  ) => {
     togglePieceRotation(parseInt(value))
   }
   return (
@@ -26,8 +29,7 @@ export default function RotationSelect() {
           >
             {r}
           </ToggleButton>
-        ))
-        }
+        ))}
       </ToggleButtonGroup>
     </span>
   )

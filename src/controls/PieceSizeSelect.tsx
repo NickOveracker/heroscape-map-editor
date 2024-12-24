@@ -3,11 +3,14 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import useBoundStore from '../store/store'
 
 export default function PieceSizeSelect() {
-  const penMode = useBoundStore(s => s.penMode)
-  const pieceSize = useBoundStore(s => s.pieceSize)
-  const togglePieceSize = useBoundStore(s => s.togglePieceSize)
-  const flatPieceSizes = useBoundStore(s => s.flatPieceSizes)
-  const handleChange = (_event: React.MouseEvent<HTMLElement>, value: string) => {
+  const penMode = useBoundStore((s) => s.penMode)
+  const pieceSize = useBoundStore((s) => s.pieceSize)
+  const togglePieceSize = useBoundStore((s) => s.togglePieceSize)
+  const flatPieceSizes = useBoundStore((s) => s.flatPieceSizes)
+  const handleChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    value: string,
+  ) => {
     togglePieceSize(parseInt(value))
   }
   const isSizes = flatPieceSizes?.length > 0

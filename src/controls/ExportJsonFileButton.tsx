@@ -14,15 +14,15 @@ const ExportJsonFileButton = () => {
       hexMap,
       boardPieces,
     }
-    const jsonDataString = JSON.stringify(data);
-    const encoder = new TextEncoder();
-    const encodedData = encoder.encode(jsonDataString);
+    const jsonDataString = JSON.stringify(data)
+    const encoder = new TextEncoder()
+    const encodedData = encoder.encode(jsonDataString)
     const stream = new Blob([encodedData]).stream()
     const compressedReadableStream = stream.pipeThrough(
-      new CompressionStream("gzip")
-    );
-    const compressedResponse = new Response(compressedReadableStream);
-    const blob = await compressedResponse.blob();
+      new CompressionStream('gzip'),
+    )
+    const compressedResponse = new Response(compressedReadableStream)
+    const blob = await compressedResponse.blob()
     const element = document.createElement('a')
     element.href = window.URL.createObjectURL(blob)
     element.setAttribute('download', filename)

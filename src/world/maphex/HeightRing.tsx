@@ -23,15 +23,15 @@ const ringGeo = new BufferGeometry().setFromPoints([
   hexPointsFromCenter.top,
   hexPointsFromCenter.topRight,
 ])
-export default function HeightRing({
-  position,
-}: {
-  position: Vector3
-}) {
+export default function HeightRing({ position }: { position: Vector3 }) {
   return (
     <line_
       geometry={ringGeo}
-      position={position.y === 0 ? new Vector3(position.x, position.y + 0.01, position.z) : position} // hacky
+      position={
+        position.y === 0
+          ? new Vector3(position.x, position.y + 0.01, position.z)
+          : position
+      } // hacky
       frustumCulled={false}
     >
       <lineBasicMaterial

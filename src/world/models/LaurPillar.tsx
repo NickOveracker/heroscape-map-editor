@@ -13,8 +13,12 @@ export default function LaurWallPillar({
   boardHex,
   onPointerUpLaurWall,
 }: {
-  boardHex: BoardHex,
-  onPointerUpLaurWall: (e: ThreeEvent<PointerEvent>, hex: BoardHex, side: string) => void
+  boardHex: BoardHex
+  onPointerUpLaurWall: (
+    e: ThreeEvent<PointerEvent>,
+    hex: BoardHex,
+    side: string,
+  ) => void
 }) {
   const { x, z, yBaseCap, yBase } = getBoardHex3DCoords(boardHex)
   const { nodes } = useGLTF('/laurwall-pillar.glb') as any
@@ -40,8 +44,9 @@ export default function LaurWallPillar({
   const yellowColor = 'yellow'
   return (
     <group>
-      <group position={[x, yBase, z]}
-        rotation={[0, rotation * -Math.PI / 3, 0]}
+      <group
+        position={[x, yBase, z]}
+        rotation={[0, (rotation * -Math.PI) / 3, 0]}
       >
         <group
           onPointerEnter={onPointerEnterBody}
@@ -49,28 +54,31 @@ export default function LaurWallPillar({
         >
           <mesh
             geometry={nodes.PillarTop.geometry}
-          // onPointerUp={e => onPointerUp(e, boardHex)}
+            // onPointerUp={e => onPointerUp(e, boardHex)}
           >
             <meshMatcapMaterial color={colorBody ? yellowColor : pillarColor} />
           </mesh>
           <mesh
             geometry={nodes.SubDecorCore.geometry}
-          // onPointerUp={e => onPointerUp(e, boardHex)}
+            // onPointerUp={e => onPointerUp(e, boardHex)}
           >
             <meshMatcapMaterial color={colorBody ? yellowColor : pillarColor} />
           </mesh>
           <mesh
             geometry={nodes.Facade.geometry}
-          // onPointerUp={e => onPointerUp(e, boardHex)}
+            // onPointerUp={e => onPointerUp(e, boardHex)}
           >
-            <meshMatcapMaterial side={DoubleSide} color={colorBody ? yellowColor : pillarColor} />
+            <meshMatcapMaterial
+              side={DoubleSide}
+              color={colorBody ? yellowColor : pillarColor}
+            />
           </mesh>
         </group>
         <mesh
           geometry={nodes.MinusY.geometry}
           onPointerEnter={onPointerEnterMinusY}
           onPointerOut={onPointerOutMinusY}
-          onPointerUp={e => onPointerUpLaurWall(e, boardHex, 'minusY')}
+          onPointerUp={(e) => onPointerUpLaurWall(e, boardHex, 'minusY')}
         >
           <meshMatcapMaterial color={colorMinusY ? yellowColor : pillarColor} />
         </mesh>
@@ -78,7 +86,7 @@ export default function LaurWallPillar({
           geometry={nodes.MinusX.geometry}
           onPointerEnter={onPointerEnterMinusX}
           onPointerOut={onPointerOutMinusX}
-          onPointerUp={e => onPointerUpLaurWall(e, boardHex, 'minusX')}
+          onPointerUp={(e) => onPointerUpLaurWall(e, boardHex, 'minusX')}
         >
           <meshMatcapMaterial color={colorMinusX ? yellowColor : pillarColor} />
         </mesh>
@@ -86,7 +94,7 @@ export default function LaurWallPillar({
           geometry={nodes.PlusY.geometry}
           onPointerEnter={onPointerEnterPlusY}
           onPointerOut={onPointerOutPlusY}
-          onPointerUp={e => onPointerUpLaurWall(e, boardHex, 'plusY')}
+          onPointerUp={(e) => onPointerUpLaurWall(e, boardHex, 'plusY')}
         >
           <meshMatcapMaterial color={colorPlusY ? yellowColor : pillarColor} />
         </mesh>
@@ -94,7 +102,7 @@ export default function LaurWallPillar({
           geometry={nodes.PlusX.geometry}
           onPointerEnter={onPointerEnterPlusX}
           onPointerOut={onPointerOutPlusX}
-          onPointerUp={e => onPointerUpLaurWall(e, boardHex, 'plusX')}
+          onPointerUp={(e) => onPointerUpLaurWall(e, boardHex, 'plusX')}
         >
           <meshMatcapMaterial color={colorPlusX ? yellowColor : pillarColor} />
         </mesh>

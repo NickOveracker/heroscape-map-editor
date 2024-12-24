@@ -4,7 +4,6 @@ import { getBoardHex3DCoords } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 
-
 export default function MarroHive6({ boardHex }: { boardHex: BoardHex }) {
   const { x, z, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
   const model = useGLTF('/uncolored-decimated-marro-hive-6.glb') as any
@@ -17,11 +16,11 @@ export default function MarroHive6({ boardHex }: { boardHex: BoardHex }) {
       case 1:
         return { rotationY: -Math.PI / 3 }
       case 2:
-        return { rotationY: -2 * Math.PI / 3 }
+        return { rotationY: (-2 * Math.PI) / 3 }
       case 3:
         return { rotationY: -Math.PI }
       case 4:
-        return { rotationY: 2 * Math.PI / 3 }
+        return { rotationY: (2 * Math.PI) / 3 }
       case 5:
         return { rotationY: Math.PI / 3 }
       default:
@@ -41,16 +40,9 @@ export default function MarroHive6({ boardHex }: { boardHex: BoardHex }) {
   }
   return (
     <group>
-      <group
-        position={[x, yWithBase, z]}
-        rotation={[0, rotation.rotationY, 0]}
-      >
-        <mesh
-          geometry={nodes.Marro_Hive.geometry}
-        >
-          <meshMatcapMaterial
-            color={hexTerrainColor.hiveModel1}
-          />
+      <group position={[x, yWithBase, z]} rotation={[0, rotation.rotationY, 0]}>
+        <mesh geometry={nodes.Marro_Hive.geometry}>
+          <meshMatcapMaterial color={hexTerrainColor.hiveModel1} />
         </mesh>
       </group>
       <ObstacleBase

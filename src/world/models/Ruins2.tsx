@@ -1,7 +1,11 @@
 import { useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
-import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_HEIGHT, HEXGRID_HEX_RADIUS } from '../../utils/constants'
+import {
+  HEXGRID_HEX_APOTHEM,
+  HEXGRID_HEX_HEIGHT,
+  HEXGRID_HEX_RADIUS,
+} from '../../utils/constants'
 import { hexTerrainColor } from '../maphex/hexColors'
 
 export default function Ruins2({ boardHex }: { boardHex: BoardHex }) {
@@ -17,15 +21,35 @@ export default function Ruins2({ boardHex }: { boardHex: BoardHex }) {
       case 0:
         return { rotationY: 0, xAdd: -HEXGRID_HEX_APOTHEM + 0.04, zAdd: 0.7 }
       case 1:
-        return { rotationY: - Math.PI / 3, xAdd: -HEXGRID_HEX_APOTHEM - 0.1, zAdd: -0.4 }
+        return {
+          rotationY: -Math.PI / 3,
+          xAdd: -HEXGRID_HEX_APOTHEM - 0.1,
+          zAdd: -0.4,
+        }
       case 2:
-        return { rotationY: -Math.PI * 2 / 3, xAdd: -0.1, zAdd: -HEXGRID_HEX_RADIUS - 0.03 }
+        return {
+          rotationY: (-Math.PI * 2) / 3,
+          xAdd: -0.1,
+          zAdd: -HEXGRID_HEX_RADIUS - 0.03,
+        }
       case 3:
-        return { rotationY: Math.PI, xAdd: HEXGRID_HEX_APOTHEM - 0.04, zAdd: -0.7 }
+        return {
+          rotationY: Math.PI,
+          xAdd: HEXGRID_HEX_APOTHEM - 0.04,
+          zAdd: -0.7,
+        }
       case 4:
-        return { rotationY: Math.PI * 2 / 3, xAdd: HEXGRID_HEX_APOTHEM + 0.1, zAdd: 0.4 }
+        return {
+          rotationY: (Math.PI * 2) / 3,
+          xAdd: HEXGRID_HEX_APOTHEM + 0.1,
+          zAdd: 0.4,
+        }
       case 5:
-        return { rotationY: Math.PI / 3, xAdd: 0.1, zAdd: HEXGRID_HEX_RADIUS + 0.03 }
+        return {
+          rotationY: Math.PI / 3,
+          xAdd: 0.1,
+          zAdd: HEXGRID_HEX_RADIUS + 0.03,
+        }
       default:
         return { rotationY: 0, xAdd: 0, zAdd: 0 }
     }
@@ -38,7 +62,7 @@ export default function Ruins2({ boardHex }: { boardHex: BoardHex }) {
     >
       <mesh
         geometry={nodes.Ruin_Small_Scanned.geometry}
-      // material={materials.RuinGray}
+        // material={materials.RuinGray}
       >
         <meshMatcapMaterial color={hexTerrainColor[HexTerrain.ruin]} />
       </mesh>

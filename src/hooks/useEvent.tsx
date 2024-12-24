@@ -23,7 +23,7 @@ export const EventProvider = ({ children }: PropsWithChildren) => {
     setEvents((prevEvents) => ({
       ...prevEvents,
       [eventName]: (prevEvents[eventName] || []).filter(
-        (cb) => cb !== callback
+        (cb) => cb !== callback,
       ),
     }))
   }
@@ -43,4 +43,4 @@ export const EventProvider = ({ children }: PropsWithChildren) => {
 // eslint-disable-next-line react-refresh/only-export-components
 export default function useEvent() {
   return useContext(EventContext)
-}  
+}

@@ -12,23 +12,23 @@ import ControlButtonGroup from './ControlButtonGroup'
 import FormDialog from '../layout/FormDialog'
 
 const Controls = () => {
-    return (
-        <Container sx={{ padding: 1 }}>
-            <PenTerrainSelect />
-            <PieceSizeSelect />
-            <RotationSelect />
-            <MapLensToggles />
-            <FileButtonGroup />
-            <TakePictureButtonGroup />
-            <UndoRedoButtonGroup />
-            <ControlButtonGroup>
-                <ToggleCameraButton />
-                <DEVLogSomethingCoolButton />
-                <FormDialog />
-            </ControlButtonGroup>
-            {/* <Button onClick={() => useBoundStore.temporal.getState().clear()}>CLEAR</Button> */}
-        </Container>
-    )
+  return (
+    <Container sx={{ padding: 1 }}>
+      <PenTerrainSelect />
+      <PieceSizeSelect />
+      <RotationSelect />
+      <MapLensToggles />
+      <FileButtonGroup />
+      <TakePictureButtonGroup />
+      <UndoRedoButtonGroup />
+      <ControlButtonGroup>
+        <ToggleCameraButton />
+        <DEVLogSomethingCoolButton />
+        <FormDialog />
+      </ControlButtonGroup>
+      {/* <Button onClick={() => useBoundStore.temporal.getState().clear()}>CLEAR</Button> */}
+    </Container>
+  )
 }
 
 export default Controls

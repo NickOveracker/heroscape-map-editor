@@ -1,18 +1,32 @@
-import { Instance, Instances } from "@react-three/drei"
+import { Instance, Instances } from '@react-three/drei'
 import React from 'react'
-import { CylinderGeometryArgs, DreiCapProps, DreiInstanceCapProps, InstanceRefType } from "../instance-hex"
-import { getBoardHex3DCoords } from "../../../utils/map-utils"
-import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_FLUID_HEIGHT, INSTANCE_LIMIT } from "../../../utils/constants"
-import { hexTerrainColor } from "../hexColors"
-import { ThreeEvent } from "@react-three/fiber"
+import {
+  CylinderGeometryArgs,
+  DreiCapProps,
+  DreiInstanceCapProps,
+  InstanceRefType,
+} from '../instance-hex'
+import { getBoardHex3DCoords } from '../../../utils/map-utils'
+import {
+  HEXGRID_HEX_HEIGHT,
+  HEXGRID_HEXCAP_FLUID_HEIGHT,
+  INSTANCE_LIMIT,
+} from '../../../utils/constants'
+import { hexTerrainColor } from '../hexColors'
+import { ThreeEvent } from '@react-three/fiber'
 
+const baseFluidCapCylinderArgs: CylinderGeometryArgs = [
+  1,
+  0.997,
+  HEXGRID_HEXCAP_FLUID_HEIGHT,
+  6,
+  undefined,
+  false,
+  undefined,
+  undefined,
+]
 
-const baseFluidCapCylinderArgs: CylinderGeometryArgs = [1, 0.997, HEXGRID_HEXCAP_FLUID_HEIGHT, 6, undefined, false, undefined, undefined]
-
-const FluidCaps = ({
-  boardHexArr,
-  onPointerUp
-}: DreiCapProps) => {
+const FluidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
   if (boardHexArr.length === 0) return null
   return (
@@ -23,10 +37,7 @@ const FluidCaps = ({
       frustumCulled={false}
     >
       <cylinderGeometry args={baseFluidCapCylinderArgs} />
-      <meshLambertMaterial
-        transparent
-        opacity={0.85}
-      />
+      <meshLambertMaterial transparent opacity={0.85} />
       {boardHexArr.map((hex, i) => (
         <FluidCap
           key={hex.id + i + 'fluid'}
@@ -44,14 +55,16 @@ export default FluidCaps
 function FluidCap({
   boardHex,
   boardHexArr,
-  onPointerUp
+  onPointerUp,
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
 
   React.useEffect(() => {
     const { x, z } = getBoardHex3DCoords(boardHex)
-    const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT + (HEXGRID_HEXCAP_FLUID_HEIGHT / 2)
+    const y =
+      (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT +
+      HEXGRID_HEXCAP_FLUID_HEIGHT / 2
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
     ref.current.position.set(x, y, z)
   }, [boardHex])
@@ -73,11 +86,13 @@ function FluidCap({
     }
   }
 
-  return <Instance
-    ref={ref}
-    onPointerUp={handleUp}
-    onPointerEnter={handleEnter}
-    onPointerOut={handleOut}
-    frustumCulled={false}
-  />
+  return (
+    <Instance
+      ref={ref}
+      onPointerUp={handleUp}
+      onPointerEnter={handleEnter}
+      onPointerOut={handleOut}
+      frustumCulled={false}
+    />
+  )
 }

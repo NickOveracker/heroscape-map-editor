@@ -6,7 +6,7 @@ import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { DoubleSide } from 'three'
 
 type Props = {
-  boardHex: BoardHex,
+  boardHex: BoardHex
   // underHexTerrain: string
   // onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }
@@ -19,13 +19,12 @@ export function LaurWallShort({
   const { nodes } = useGLTF('/laurwall-short.glb') as any
   const { x, z, yBase } = getBoardHex3DCoords(boardHex)
   return (
-    <group
-      position={[x, yBase, z]}
-    >
-      <mesh
-        geometry={nodes.LaurShortWall.geometry}
-      >
-        <meshMatcapMaterial side={DoubleSide} color={hexTerrainColor[HexTerrain.laurWallPillar]} />
+    <group position={[x, yBase, z]}>
+      <mesh geometry={nodes.LaurShortWall.geometry}>
+        <meshMatcapMaterial
+          side={DoubleSide}
+          color={hexTerrainColor[HexTerrain.laurWallPillar]}
+        />
       </mesh>
     </group>
   )
@@ -41,13 +40,11 @@ export function LaurWallRuin({
   const { nodes } = useGLTF('/laurwall-ruin.glb') as any
   const { x, z, yBase } = getBoardHex3DCoords(boardHex)
   return (
-    <group
-      position={[x + 0.86602540378, yBase, z]}
-    >
-      <mesh
-        geometry={nodes.LaurWallRuin.geometry}
-      >
-        <meshMatcapMaterial color={hexTerrainColor[HexTerrain.laurWallPillar]} />
+    <group position={[x + 0.86602540378, yBase, z]}>
+      <mesh geometry={nodes.LaurWallRuin.geometry}>
+        <meshMatcapMaterial
+          color={hexTerrainColor[HexTerrain.laurWallPillar]}
+        />
       </mesh>
     </group>
   )
@@ -63,13 +60,11 @@ export function LaurWallLong({
   const { nodes } = useGLTF('/laurwall-long.glb') as any
   const { x, z, yBase } = getBoardHex3DCoords(boardHex)
   return (
-    <group
-      position={[x, yBase, z]}
-    >
-      <mesh
-        geometry={nodes.LaurWallLong.geometry}
-      >
-        <meshMatcapMaterial color={hexTerrainColor[HexTerrain.laurWallPillar]} />
+    <group position={[x, yBase, z]}>
+      <mesh geometry={nodes.LaurWallLong.geometry}>
+        <meshMatcapMaterial
+          color={hexTerrainColor[HexTerrain.laurWallPillar]}
+        />
       </mesh>
     </group>
   )

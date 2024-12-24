@@ -1,4 +1,3 @@
-
 type HexoscapeGlyphs = {
   [key: string]: {
     id: string
@@ -22,7 +21,6 @@ Glyph of Haukeland (Healing) When one of your figures stops here, you may remove
 Glyph of Mitonsoul (Massive Curse): When a figure lands on this Glyph, all players must roll the 20 sided die for all their own figures. If a 1 is rolled, than that figure is destroyed. On a 2 or higher, that figure is safe.
 Glyph of Quillivon (Sudden Movement): Choose up to 3 of your figures other than the one on this Glyph. You may move each of the chosen figures up to 5 spaces.
 */
-
 
 export const powerGlyphs: HexoscapeGlyphs = {
   objective: {
@@ -148,8 +146,9 @@ export const powerGlyphs: HexoscapeGlyphs = {
     shortName: 'Defense +2',
     glyphLetter: 'J',
     type: 'power',
-    effect: "Defense +2",
-    description: "Add two dice to your Defense Roll when any figure in your army is attacked.",
+    effect: 'Defense +2',
+    description:
+      'Add two dice to your Defense Roll when any figure in your army is attacked.',
   },
   lucky1: {
     id: 'lucky1',
@@ -157,8 +156,9 @@ export const powerGlyphs: HexoscapeGlyphs = {
     shortName: 'Lucky 20-Sider',
     glyphLetter: 'L',
     type: 'power',
-    effect: "Lucky 20-Sider",
-    description: "Whenever you roll the 20 sided die, you may add one to your die roll."
+    effect: 'Lucky 20-Sider',
+    description:
+      'Whenever you roll the 20 sided die, you may add one to your die roll.',
   },
   wind: {
     id: 'wind',
@@ -166,8 +166,9 @@ export const powerGlyphs: HexoscapeGlyphs = {
     shortName: 'Wind',
     glyphLetter: 'R',
     type: 'power',
-    effect: "Wind",
-    description: "When a figure is on this Glyph, no figure may use the 'Flying' power. This includes figures in your own army was well as figures on the other player's team."
+    effect: 'Wind',
+    description:
+      "When a figure is on this Glyph, no figure may use the 'Flying' power. This includes figures in your own army was well as figures on the other player's team.",
   },
   commonAttack: {
     id: 'commonAttack',
@@ -175,8 +176,9 @@ export const powerGlyphs: HexoscapeGlyphs = {
     shortName: 'Common Attack +1',
     glyphLetter: 'C',
     type: 'power',
-    effect: "Common Attack +1",
-    description: "All Common Figures in your army may add one additional attack die when attacking normally."
+    effect: 'Common Attack +1',
+    description:
+      'All Common Figures in your army may add one additional attack die when attacking normally.',
   },
   thorian: {
     id: 'thorian',
@@ -184,8 +186,9 @@ export const powerGlyphs: HexoscapeGlyphs = {
     shortName: 'Thorian',
     glyphLetter: 'T',
     type: 'power',
-    effect: "Common Attack +1",
-    description: "All opponents' figures must be adjacent to your figures to attack your figures with a normal attack."
+    effect: 'Common Attack +1',
+    description:
+      "All opponents' figures must be adjacent to your figures to attack your figures with a normal attack.",
   },
   pitTrap: {
     id: 'pitTrap',
@@ -193,8 +196,9 @@ export const powerGlyphs: HexoscapeGlyphs = {
     shortName: 'Pit Trap',
     glyphLetter: 'P',
     type: 'power',
-    effect: "Trapped Figure",
-    description: "Your figure is trapped. The trapped figure cannot move from this space. The figure can move off the Proftaka only if a friendly figure occupies an adjacent space."
+    effect: 'Trapped Figure',
+    description:
+      'Your figure is trapped. The trapped figure cannot move from this space. The figure can move off the Proftaka only if a friendly figure occupies an adjacent space.',
   },
   uniqueAttack: {
     id: 'uniqueAttack',
@@ -202,8 +206,9 @@ export const powerGlyphs: HexoscapeGlyphs = {
     shortName: 'Unique Attack +1',
     glyphLetter: 'U',
     type: 'power',
-    effect: "Unique Attack +1",
-    description: "All Unique Figures in your army may add one extra attack die when attacking normally."
+    effect: 'Unique Attack +1',
+    description:
+      'All Unique Figures in your army may add one extra attack die when attacking normally.',
   },
   wound: {
     id: 'wound',
@@ -211,8 +216,9 @@ export const powerGlyphs: HexoscapeGlyphs = {
     shortName: 'Wound',
     glyphLetter: 'W',
     type: 'power',
-    effect: "Wound",
-    description: "At the end of every round, roll the 20-sided die. If you roll a 1, the figure on the Glyph receives one wound. If you roll a 2 or higher, you may choose an opponent who must give one wound to any figure he or she controls on the battlefield."
+    effect: 'Wound',
+    description:
+      'At the end of every round, roll the 20-sided die. If you roll a 1, the figure on the Glyph receives one wound. If you roll a 2 or higher, you may choose an opponent who must give one wound to any figure he or she controls on the battlefield.',
   },
 }
 

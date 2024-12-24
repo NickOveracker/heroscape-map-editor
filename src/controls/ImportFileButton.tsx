@@ -31,10 +31,12 @@ const ImportFileButton = () => {
     const fileReader = new FileReader()
     fileReader.onloadend = async (e) => {
       try {
-        const compressedBlob = new Blob([e?.target?.result ?? '']);
-        const decompressedStream = compressedBlob.stream().pipeThrough(new DecompressionStream('gzip'));
-        const decompressedData = await new Response(decompressedStream).text();
-        const data = JSON.parse(decompressedData);
+        const compressedBlob = new Blob([e?.target?.result ?? ''])
+        const decompressedStream = compressedBlob
+          .stream()
+          .pipeThrough(new DecompressionStream('gzip'))
+        const decompressedData = await new Response(decompressedStream).text()
+        const data = JSON.parse(decompressedData)
         const jsonMap: MapState = {
           boardHexes: data.boardHexes,
           hexMap: data.hexMap,
@@ -50,7 +52,7 @@ const ImportFileButton = () => {
     } catch (error) {
       console.error(error)
     }
-    event.target.value = ""; // Reset the input value
+    event.target.value = '' // Reset the input value
   }
 
   const readVSFile = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +68,7 @@ const ImportFileButton = () => {
     } catch (error) {
       console.error(error)
     }
-    event.target.value = ""; // Reset the input value
+    event.target.value = '' // Reset the input value
   }
 
   return (

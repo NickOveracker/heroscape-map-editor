@@ -45,8 +45,8 @@ export function writeVirtualScapeArrayBuffer(length?: number) {
   // writeBlankCString(dataView, myFile.playerNumber)
   writeBlankCString(dataView)
   setInt32(dataView, myFile.scenario.length)
-  const encoder = new TextEncoder();
-  const encodedData = encoder.encode(myFile.scenario);
+  const encoder = new TextEncoder()
+  const encodedData = encoder.encode(myFile.scenario)
   for (let i = 0; i < myFile.scenario.length; i++) {
     setUint8(dataView, encodedData[i])
   }
@@ -76,7 +76,6 @@ export function writeVirtualScapeArrayBuffer(length?: number) {
     setInt8(dataView, tile.colorf.a) // alpha?
   }
   return { offset, dataView, arrayBuffer }
-
 }
 function setFloat64(dataView: DataView, value: number) {
   dataView.setFloat64(offset, value, isLittleEndian)

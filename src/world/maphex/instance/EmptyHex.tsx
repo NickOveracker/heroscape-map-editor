@@ -1,20 +1,33 @@
-import { Instance, Instances } from "@react-three/drei"
+import { Instance, Instances } from '@react-three/drei'
 import React from 'react'
-import { HexTerrain } from "../../../types"
-import { CylinderGeometryArgs, DreiCapProps, DreiInstanceCapProps, InstanceRefType } from "../instance-hex"
-import { getBoardHex3DCoords } from "../../../utils/map-utils"
-import { HEXGRID_EMPTYHEX_HEIGHT, INSTANCE_LIMIT } from "../../../utils/constants"
-import { hexTerrainColor } from "../hexColors"
-import { ThreeEvent } from "@react-three/fiber"
+import { HexTerrain } from '../../../types'
+import {
+  CylinderGeometryArgs,
+  DreiCapProps,
+  DreiInstanceCapProps,
+  InstanceRefType,
+} from '../instance-hex'
+import { getBoardHex3DCoords } from '../../../utils/map-utils'
+import {
+  HEXGRID_EMPTYHEX_HEIGHT,
+  INSTANCE_LIMIT,
+} from '../../../utils/constants'
+import { hexTerrainColor } from '../hexColors'
+import { ThreeEvent } from '@react-three/fiber'
 
-
-const baseEmptyCapCylinderArgs: CylinderGeometryArgs = [0.999, 0.997, HEXGRID_EMPTYHEX_HEIGHT, 6, undefined, false, undefined, undefined]
+const baseEmptyCapCylinderArgs: CylinderGeometryArgs = [
+  0.999,
+  0.997,
+  HEXGRID_EMPTYHEX_HEIGHT,
+  6,
+  undefined,
+  false,
+  undefined,
+  undefined,
+]
 const emptyHexColor = hexTerrainColor[HexTerrain.empty]
 
-const EmptyHexes = ({
-  boardHexArr,
-  onPointerUp
-}: DreiCapProps) => {
+const EmptyHexes = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
   if (boardHexArr.length === 0) return null
   return (
@@ -25,10 +38,7 @@ const EmptyHexes = ({
       frustumCulled={false}
     >
       <cylinderGeometry args={baseEmptyCapCylinderArgs} />
-      <meshMatcapMaterial
-        transparent
-        opacity={0.5}
-      />
+      <meshMatcapMaterial transparent opacity={0.5} />
       {boardHexArr.map((hex, i) => (
         <EmptyHex
           key={hex.id + i + 'empty'}
@@ -46,7 +56,7 @@ export default EmptyHexes
 function EmptyHex({
   boardHex,
   boardHexArr,
-  onPointerUp
+  onPointerUp,
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
@@ -74,11 +84,13 @@ function EmptyHex({
     }
   }
 
-  return <Instance
-    ref={ref}
-    onPointerUp={handleUp}
-    onPointerEnter={handleEnter}
-    onPointerOut={handleOut}
-    frustumCulled={false}
-  />
+  return (
+    <Instance
+      ref={ref}
+      onPointerUp={handleUp}
+      onPointerEnter={handleEnter}
+      onPointerOut={handleOut}
+      frustumCulled={false}
+    />
+  )
 }

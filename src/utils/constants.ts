@@ -1,6 +1,6 @@
 export const HEXGRID_SPACING = 1.0
 export const HEXGRID_HEX_RADIUS = 1 // Side length also (regular hexagons are the only regular polygons where it is so!)
-export const HEXGRID_HEX_APOTHEM = Math.sqrt(3) / 2 * HEXGRID_HEX_RADIUS // we are using regular hexagons where this equation is true
+export const HEXGRID_HEX_APOTHEM = (Math.sqrt(3) / 2) * HEXGRID_HEX_RADIUS // we are using regular hexagons where this equation is true
 export const ORIGIN_000 = { q: 0, r: 0, s: 0 }
 
 // HEX DIMENSIONS: according to HS hex image
@@ -19,14 +19,17 @@ export const ORIGIN_000 = { q: 0, r: 0, s: 0 }
 // hex side female plug width: 6/32" (0.47625cm)
 export const HEXGRID_HEX_HEIGHT = 0.35 // Altitude thickness
 export const HEXGRID_HEXCAP_HEIGHT = HEXGRID_HEX_HEIGHT / 7 // for solid tiles the cap is a seventh of the height
-export const HEXGRID_HEXCAP_FLUID_HEIGHT = HEXGRID_HEX_HEIGHT * 3 / 7 // fluid tiles are 3/7 the height of solid tiles, the whole fluid tile is the cap
+export const HEXGRID_HEXCAP_FLUID_HEIGHT = (HEXGRID_HEX_HEIGHT * 3) / 7 // fluid tiles are 3/7 the height of solid tiles, the whole fluid tile is the cap
 export const HEXGRID_EMPTYHEX_HEIGHT = HEXGRID_HEX_HEIGHT / 20
 export const HEXGRID_MAX_ALTITUDE = 25 // Altitude thickness
 export const MAX_RECTANGLE_MAP_DIMENSION = 59 // 2500 global coords
 export const MAX_HEXAGON_MAP_DIMENSION = 30 // 2791 global coords
-export const INSTANCE_LIMIT = MAX_RECTANGLE_MAP_DIMENSION * MAX_RECTANGLE_MAP_DIMENSION * HEXGRID_MAX_ALTITUDE
+export const INSTANCE_LIMIT =
+  MAX_RECTANGLE_MAP_DIMENSION *
+  MAX_RECTANGLE_MAP_DIMENSION *
+  HEXGRID_MAX_ALTITUDE
 export const CAMERA_FOV = 65
 export const EVENTS = {
-    savePng: 'savePng',
-    saveJpg: 'saveJpg',
+  savePng: 'savePng',
+  saveJpg: 'saveJpg',
 }

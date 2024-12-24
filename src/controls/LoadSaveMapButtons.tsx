@@ -21,7 +21,7 @@ export const LoadSaveMapButtons = () => {
   const hexMap = useBoundStore((state) => state.hexMap)
   const boardPieces = useBoundStore((state) => state.boardPieces)
   const loadMap = useBoundStore((state) => state.loadMap)
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar()
   const currentSaveableMap: MapState = { boardHexes, hexMap, boardPieces }
   const { map1, setMap1, map2, setMap2, map3, setMap3 } = useLocalMapMemory()
   const isMap1 =
@@ -58,15 +58,21 @@ export const LoadSaveMapButtons = () => {
   }
   const handleSaveMap1 = () => {
     setMap1(currentSaveableMap)
-    enqueueSnackbar(`Saved "${currentSaveableMap.hexMap.name}" to local map slot 1`)
+    enqueueSnackbar(
+      `Saved "${currentSaveableMap.hexMap.name}" to local map slot 1`,
+    )
   }
   const handleSaveMap2 = () => {
     setMap2(currentSaveableMap)
-    enqueueSnackbar(`Saved "${currentSaveableMap.hexMap.name}" to local map slot 2`)
+    enqueueSnackbar(
+      `Saved "${currentSaveableMap.hexMap.name}" to local map slot 2`,
+    )
   }
   const handleSaveMap3 = () => {
     setMap3(currentSaveableMap)
-    enqueueSnackbar(`Saved "${currentSaveableMap.hexMap.name}" to local map slot 3`)
+    enqueueSnackbar(
+      `Saved "${currentSaveableMap.hexMap.name}" to local map slot 3`,
+    )
   }
   return (
     <>
@@ -195,7 +201,10 @@ function SplitButton({
     }
     setOpen(false)
   }
-  const onClickMenuItem = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, option: SaveLoadMapOption) => {
+  const onClickMenuItem = (
+    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
+    option: SaveLoadMapOption,
+  ) => {
     option.onClick()
     handleClose(event)
   }
@@ -231,7 +240,13 @@ function SplitButton({
             }}
           >
             <Paper>
-              <ClickAwayListener onClickAway={(e: Event) => handleClose(e as unknown as React.MouseEvent<HTMLLIElement, MouseEvent>)}>
+              <ClickAwayListener
+                onClickAway={(e: Event) =>
+                  handleClose(
+                    e as unknown as React.MouseEvent<HTMLLIElement, MouseEvent>,
+                  )
+                }
+              >
                 <MenuList id="split-button-menu" autoFocusItem>
                   {options.map((option) => (
                     <MenuItem

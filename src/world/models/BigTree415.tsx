@@ -46,19 +46,15 @@ export default function BigTree415({ boardHex }: { boardHex: BoardHex }) {
       >
         <mesh
           geometry={nodes.Tree_large_rocks_scanned001_1.geometry}
-        // material={materials.BoulderGray}
+          // material={materials.BoulderGray}
         >
-          <meshMatcapMaterial
-            color={hexTerrainColor[HexTerrain.road]}
-          />
+          <meshMatcapMaterial color={hexTerrainColor[HexTerrain.road]} />
         </mesh>
         <mesh
           geometry={nodes.Tree_large_rocks_scanned001_2.geometry}
-        // material={materials.ForestTree}
+          // material={materials.ForestTree}
         >
-          <meshMatcapMaterial
-            color={hexTerrainColor[HexTerrain.tree]}
-          />
+          <meshMatcapMaterial color={hexTerrainColor[HexTerrain.tree]} />
         </mesh>
       </group>
       <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor.treeBase} />

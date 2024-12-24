@@ -20,9 +20,10 @@ type CameraLookAtArgs = [
 ]
 
 export const getMapCenterCameraLookAt = (
-  boardHexes: BoardHexes
+  boardHexes: BoardHexes,
 ): CameraLookAtArgs => {
-  const { width, height, apex } = getBoardHexesRectangularMapDimensions(boardHexes)
+  const { width, height, apex } =
+    getBoardHexesRectangularMapDimensions(boardHexes)
   /* 
   TODO: This will need to be updated: Find width and height,
   then ascend a bit from apex, not from base (what if apex is fat?) 
@@ -33,7 +34,7 @@ export const getMapCenterCameraLookAt = (
   const centerOfMapCamera = {
     x: width / 2,
     z: height,
-    y: y + (apex * 1.4),
+    y: y + apex * 1.4,
   }
   const centerOfMapLookAt = {
     x: width / 2,

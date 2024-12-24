@@ -9,7 +9,7 @@ const TakeAPictureBox = () => {
   const { gl, scene, camera } = useThree()
   const { subscribe, unsubscribe } = useEvent()
 
-  const toggleIsTakingPicture = useBoundStore(s => s.toggleIsTakingPicture)
+  const toggleIsTakingPicture = useBoundStore((s) => s.toggleIsTakingPicture)
 
   useEffect(() => {
     const handleDownloadPng = () => {

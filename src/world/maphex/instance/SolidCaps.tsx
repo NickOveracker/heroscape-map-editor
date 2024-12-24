@@ -1,18 +1,28 @@
-import { Instance, Instances } from "@react-three/drei"
+import { Instance, Instances } from '@react-three/drei'
 import React from 'react'
-import { CylinderGeometryArgs, DreiCapProps, DreiInstanceCapProps, InstanceRefType } from "../instance-hex"
-import { getBoardHex3DCoords } from "../../../utils/map-utils"
-import { HEXGRID_HEXCAP_HEIGHT, INSTANCE_LIMIT } from "../../../utils/constants"
-import { hexTerrainColor } from "../hexColors"
-import { ThreeEvent } from "@react-three/fiber"
+import {
+  CylinderGeometryArgs,
+  DreiCapProps,
+  DreiInstanceCapProps,
+  InstanceRefType,
+} from '../instance-hex'
+import { getBoardHex3DCoords } from '../../../utils/map-utils'
+import { HEXGRID_HEXCAP_HEIGHT, INSTANCE_LIMIT } from '../../../utils/constants'
+import { hexTerrainColor } from '../hexColors'
+import { ThreeEvent } from '@react-three/fiber'
 
+const baseSolidCapCylinderArgs: CylinderGeometryArgs = [
+  0.9,
+  0.997,
+  HEXGRID_HEXCAP_HEIGHT,
+  6,
+  undefined,
+  false,
+  undefined,
+  undefined,
+]
 
-const baseSolidCapCylinderArgs: CylinderGeometryArgs = [0.9, 0.997, HEXGRID_HEXCAP_HEIGHT, 6, undefined, false, undefined, undefined]
-
-const SolidCaps = ({
-  boardHexArr,
-  onPointerUp
-}: DreiCapProps) => {
+const SolidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
   if (boardHexArr.length === 0) return null
   return (
@@ -41,7 +51,7 @@ export default SolidCaps
 function SolidCap({
   boardHex,
   boardHexArr,
-  onPointerUp
+  onPointerUp,
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
@@ -69,11 +79,13 @@ function SolidCap({
     }
   }
 
-  return <Instance
-    ref={ref}
-    onPointerUp={handleUp}
-    onPointerEnter={handleEnter}
-    onPointerOut={handleOut}
-    frustumCulled={false}
-  />
+  return (
+    <Instance
+      ref={ref}
+      onPointerUp={handleUp}
+      onPointerEnter={handleEnter}
+      onPointerOut={handleOut}
+      frustumCulled={false}
+    />
+  )
 }
