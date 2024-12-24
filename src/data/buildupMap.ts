@@ -432,7 +432,7 @@ export function getBoardHexesWithPieceAdded({
   const isSolidUnderAllSupportHexes = underHexIds.every((_, i) => {
     // Ruins only need to be supported under their center of mass, and we could be more liberal than this (allowing combinations of certain hexes)
     const isRequiredToSupportThisOne =
-      verticalSupportTemplates[piece.inventoryID][i]
+      verticalSupportTemplates?.[piece.inventoryID]?.[i]
     const altitude = placementAltitude
     genBoardHexID({ ...piecePlaneCoords[i], altitude })
     return isRequiredToSupportThisOne
@@ -442,7 +442,7 @@ export function getBoardHexesWithPieceAdded({
   const isVerticalClearanceForRuin = newHexIds.every((_, i) => {
     // Ruins obstruct the placement of some land/obstacles
     const clearanceHexIds = Array(
-      verticalObstructionTemplates[piece.inventoryID][i],
+      verticalObstructionTemplates?.[piece.inventoryID]?.[i],
     )
       .fill(0)
       .map((_, j) => {
@@ -465,7 +465,7 @@ export function getBoardHexesWithPieceAdded({
     const hex = newBoardHexes?.[newID]
     if (!hex) return true
     const terrain = hex?.terrain
-    const isForNewInterior = interiorHexTemplates[piece.inventoryID][i] > 0 // origin & aux hexes
+    const isForNewInterior = interiorHexTemplates?.[piece.inventoryID]?.[i] > 0 // origin & aux hexes
     const isBlocked =
       isSolidTerrainHex(terrain) ||
       isFluidTerrainHex(terrain) ||
