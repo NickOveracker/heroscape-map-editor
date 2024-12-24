@@ -147,7 +147,6 @@ export function getBoardHexesWithPieceAdded({
           pieceID,
           pieceRotation: rotation,
           isCap: false,
-          isCastleBase: true
         }
       })
       // write the new piece
@@ -172,7 +171,7 @@ export function getBoardHexesWithPieceAdded({
         // OR
         // Start at the current hex (we clicked a land hex, and we are skipping the castle-base and going straight to a wall)
         const hexUnderneath = newBoardHexes?.[underHexIds[i]]
-        const isHexUnderneathCastleBase = hexUnderneath?.isCastleBase
+        const isHexUnderneathCastleBase = hexUnderneath?.pieceID.includes('castleBase')
         const wallAltitude = isHexUnderneathCastleBase ? placementAltitude : newPieceAltitude
         const heightToUse = piece.height - (isHexUnderneathCastleBase || isSolidUnderAll || isEmptyUnderAll ? 0 : 1)
         const pieceInventoryIDOfBase = isHexUnderneathCastleBase ? '' : piece.buddyID // if there is no base present we add one

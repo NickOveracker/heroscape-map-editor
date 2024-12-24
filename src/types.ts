@@ -25,7 +25,6 @@ export interface BoardHex extends CubeCoordinate {
     pieceRotation: number
     isObstacleOrigin?: boolean
     isAuxiliary?: boolean
-    isCastleBase?: boolean
     obstacleHeight?: number
 }
 export type BoardPieces = {
