@@ -4,7 +4,6 @@ import FileButtonGroup from './FileButtonGroup'
 import MapLensToggles from './MapLensToggles'
 import PieceSizeSelect from './PieceSizeSelect'
 import PenTerrainSelect from './PenTerrainSelect'
-import TakePictureButtonGroup from './TakePictureButtonGroup'
 import ToggleCameraButton from './ToggleCameraButton'
 import RotationSelect from './RotationSelect'
 import UndoRedoButtonGroup from './UndoRedoButtonGroup'
@@ -19,7 +18,7 @@ const Controls = () => {
       <RotationSelect />
       <MapLensToggles />
       <FileButtonGroup />
-      <TakePictureButtonGroup />
+      {/* <TakePictureButtonGroup /> */}
       <UndoRedoButtonGroup />
       <ControlButtonGroup>
         <ToggleCameraButton />

@@ -61,7 +61,6 @@ export enum HexTerrain {
   laurWallLong = 'laurWallLong',
   laurWallRuin = 'laurWallRuin',
   tree = 'tree',
-  jungle = 'jungle', // this will become brush and palm ??
   palm = 'palm',
   brush = 'brush',
   outcrop = 'outcrop',

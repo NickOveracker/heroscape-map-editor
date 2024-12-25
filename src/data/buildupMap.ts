@@ -13,7 +13,7 @@ import {
 import {
   isFluidTerrainHex,
   isObstaclePieceID,
-  isObstructingTerrain,
+  isObstacleTerrain,
   isSolidTerrainHex,
 } from '../utils/board-utils'
 import { hexUtilsOddRToCube } from '../utils/hex-utils'
@@ -190,12 +190,12 @@ export function getBoardHexesWithPieceAdded({
       })
     return clearanceHexIds.every((clearanceHexId) => {
       const hex = newBoardHexes?.[clearanceHexId]
-      if (!hex) return true
+      if (!hex) return true // if no boardHex is written, then it is definitely empty
       const terrain = hex?.terrain
       const isBlocked =
         isSolidTerrainHex(terrain) ||
         isFluidTerrainHex(terrain) ||
-        isObstructingTerrain(terrain)
+        isObstacleTerrain(terrain)
       return !isBlocked
     })
   })
@@ -500,7 +500,7 @@ export function getBoardHexesWithPieceAdded({
       const isBlocked =
         isSolidTerrainHex(terrain) ||
         isFluidTerrainHex(terrain) ||
-        isObstructingTerrain(terrain)
+        isObstacleTerrain(terrain)
       return !isBlocked
     })
   })
@@ -513,7 +513,7 @@ export function getBoardHexesWithPieceAdded({
     const isBlocked =
       isSolidTerrainHex(terrain) ||
       isFluidTerrainHex(terrain) ||
-      isObstructingTerrain(terrain) ||
+      isObstacleTerrain(terrain) ||
       (isForNewInterior && hex.isObstacleOrigin) ||
       (isForNewInterior && hex.isObstacleAuxiliary)
     return !isBlocked

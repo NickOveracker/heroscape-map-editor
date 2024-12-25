@@ -40,7 +40,7 @@ export function isJungleTerrainHex(terrain: string) {
   }
 }
 
-export function isObstructingTerrain(terrain: string) {
+export function isObstacleTerrain(terrain: string) {
   // This fn and its implementations are a big maybe and WIP
   if (
     terrain === HexTerrain.tree ||

@@ -18,10 +18,11 @@ import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
 import { genBoardHexID } from '../utils/map-utils.ts'
-import { buildupJsonFileMap } from '../data/buildupMap.ts'
+import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { useLocation } from 'react-router-dom'
 import JSONCrush from 'jsoncrush'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
+import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 
 function useQuery() {
   const { search } = useLocation();
@@ -87,20 +88,20 @@ export default function MapDisplay3D({
   // }, [])
 
   // USE EFFECT: automatically load up VS map
-  // React.useEffect(() => {
-  //   const fileName = '/ruins.hsc'
-  //   fetch(fileName)
-  //   .then((response) => {
-  //       return response.arrayBuffer()
-  //     })
-  //     .then(async (arrayBuffer) => {
-  //       const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
-  //       const vsMap = buildupVSFileMap(vsFileData.tiles, vsFileData.name)
-  //       loadMap(vsMap)
+  React.useEffect(() => {
+    const fileName = '/testMap.hsc'
+    fetch(fileName)
+      .then((response) => {
+        return response.arrayBuffer()
+      })
+      .then(async (arrayBuffer) => {
+        const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
+        const vsMap = buildupVSFileMap(vsFileData.tiles, vsFileData.name)
+        loadMap(vsMap)
 
-  //     })
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [])
+      })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
 
 
