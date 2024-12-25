@@ -5,8 +5,7 @@ import { CameraControls } from '@react-three/drei'
 import { MapHex3D } from './maphex/MapHex3D.tsx'
 import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
-import { BoardHex, HexTerrain, MapFileState, PenMode } from '../types.ts'
-import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
+import { BoardHex, BoardPieces, HexTerrain, PenMode, Pieces } from '../types.ts'
 import {
   isFluidTerrainHex,
   isJungleTerrainHex,
@@ -14,12 +13,21 @@ import {
   isSolidTerrainHex,
 } from '../utils/board-utils.ts'
 import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
-import { processGZippedJsonArrayBuffer, processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
 import { genBoardHexID } from '../utils/map-utils.ts'
+import { buildupJsonFileMap } from '../data/buildupMap.ts'
+import { useLocation } from 'react-router-dom'
+import JSONCrush from 'jsoncrush'
+import { genRandomMapName } from '../utils/genRandomMapName.ts'
+
+function useQuery() {
+  const { search } = useLocation();
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -38,6 +46,45 @@ export default function MapDisplay3D({
     boardHexes,
     // disabled: true, // for when working on camera stuff
   })
+  const queryParams = useQuery();
+  // USE EFFECT: automatically load up map from URL
+  React.useEffect(() => {
+    const urlMapString = queryParams.get('m')
+    if (urlMapString) {
+      try {
+        const data = JSON.parse(JSONCrush.uncrush(urlMapString))
+        const [hexMap, ...pieceIds] = data
+        const boardPieces: BoardPieces = pieceIds.reduce((prev: BoardPieces, curr: string) => {
+          prev[curr] = curr.split('.')[4] as Pieces
+          return prev
+        }, {})
+        const jsonMap = buildupJsonFileMap(boardPieces, hexMap)
+        if (!jsonMap.hexMap.name) {
+          jsonMap.hexMap.name = genRandomMapName()
+        }
+        loadMap(jsonMap)
+
+      } catch (error) {
+        console.error("🚀 ~ React.useEffect ~ error:", error)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // USE EFFECT: automatically load up GZIP/JSON map (browser fetch auto unzips gz to json)
+  // React.useEffect(() => {
+  //   const fileName = '/coolmap.gz'
+  //   fetch(fileName).then(async (response) => {
+  //     // const data = response.json()
+  //     const data = await response.json()
+  //     const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+  //     if (!jsonMap.hexMap.name) {
+  //       jsonMap.hexMap.name = fileName
+  //     }
+  //     loadMap(jsonMap)
+  //   })
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
   // USE EFFECT: automatically load up VS map
   // React.useEffect(() => {
@@ -54,23 +101,6 @@ export default function MapDisplay3D({
   //     })
   //     // eslint-disable-next-line react-hooks/exhaustive-deps
   //   }, [])
-
-  // USE EFFECT: automatically load up GZIP/JSON map (browser fetch auto unzips gz to json)
-  React.useEffect(() => {
-    // const fileName = '/coolmap.gz'
-    const fileName = '/SunkenCrypt.json'
-    fetch(fileName)
-      .then(async (response) => {
-        // const data = response.json()
-        const data = await response.json() as MapFileState
-        const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
-        if (!jsonMap.hexMap.name) {
-          jsonMap.hexMap.name = fileName
-        }
-        loadMap(jsonMap)
-      })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
 
 

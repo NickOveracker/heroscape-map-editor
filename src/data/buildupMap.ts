@@ -84,14 +84,15 @@ export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): Ma
       mapName: hexMap.name,
     }).boardHexes
   }
-  const newBoardHexes = Object.entries(boardPieces).reduce((boardHexes: BoardHexes, [pieceQraID, pieceInventoryID]): BoardHexes => {
+  const newBoardHexes = Object.keys(boardPieces).reduce((boardHexes: BoardHexes, pieceQraID): BoardHexes => {
     // For JSON maps, we build the tile coords by parsin the ID
-    const arrayThing = pieceQraID.split(',')
+    const arrayThing = pieceQraID.split('.')
     const placementAltitude = parseInt(arrayThing[0])
     const q = parseInt(arrayThing[1])
     const r = parseInt(arrayThing[2])
     const s = -q - r
     const rotation = parseInt(arrayThing[3])
+    const pieceInventoryID = arrayThing[4]
     const tileCoords = { q, r, s }
     // start zones
     // if (tile.type === 15001) {
@@ -152,7 +153,6 @@ export function getBoardHexesWithPieceAdded({
     template: piece.template,
     isVsTile,
   })
-  console.log("🚀 ~ piecePlaneCoords:", piecePlaneCoords)
   const clickedHexIDOrTileCoordsPresumedID = genBoardHexID({ ...(isVsTile ? piecePlaneCoords[0] : cubeCoords), altitude: placementAltitude })
   const pieceID = genPieceID(clickedHexIDOrTileCoordsPresumedID, piece.id, rotation)
   const genIds = (altitude: number) => {

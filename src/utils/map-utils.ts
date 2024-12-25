@@ -89,12 +89,12 @@ export function encodeFilename(str: string) {
   return str.replace(/[^\w]/g, '_');
 }
 export function genPieceID(qraID: string, pieceID: string, rotation: number) {
-  return `${qraID},${rotation},${pieceID}`
+  return `${qraID}.${rotation}.${pieceID}`
 }
 export function genBoardHexID(hex: CubeCoordinate & { altitude: number }) {
   /* Hex world global coords (q,r,altitude) => (x,y,z)
     1. In cube coords, "s" in (qrs) is redundant for cartesian (xy) calculation
     2. Only one hex can exist per global coordinate
     */
-  return `${hex.altitude},${hex.q},${hex.r}`
+  return `${hex.altitude}.${hex.q}.${hex.r}`
 }
