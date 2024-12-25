@@ -49,15 +49,15 @@ type HexagonScenarioOptions = {
 export const hexagonScenario = makeHexagonScenario({
   size: 15,
 })
-function makeHexagonScenario(options?: HexagonScenarioOptions): MapState {
-  const size = Math.min(options?.size ?? 12, MAX_HEXAGON_MAP_DIMENSION)
-  const hexMap = {
-    id: generateTimestampID(),
-    name: options?.mapName ?? genRandomMapName(),
-    shape: 'hexagon',
-    width: size,
-    height: size,
-  }
+export function makeHexagonScenario(options?: HexagonScenarioOptions): MapState {
+    const size = Math.min(options?.size ?? 12, MAX_HEXAGON_MAP_DIMENSION)
+    const hexMap = {
+        id: generateTimestampID(),
+        name: options?.mapName ?? genRandomMapName(),
+        shape: 'hexagon',
+        width: size,
+        height: size,
+    }
 
   const boardHexes: BoardHexes = generateHexagon(size)
   return {

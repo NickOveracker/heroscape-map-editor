@@ -69,12 +69,11 @@ function hexUtilsRotateVector(
       return v
   }
 }
-/* hexUtilsRotate: this does not update the IDs of boardHexes */
-export function hexUtilsRotate(
+export function hexUtilsRotateAroundOrigin_000(
   h: CubeCoordinate,
   rotation: number,
 ): CubeCoordinate {
-  // origin could be pass in, but we only rotate around 0,0,0 for now
+  // origin could be passed in, but we only rotate around 0,0,0 for now (the tile-templates are built at/around 0,0,0)
   const vector = hexUtilsSubtract(h, ORIGIN_000)
   const rotatedVector = hexUtilsRotateVector(vector, rotation)
   return {

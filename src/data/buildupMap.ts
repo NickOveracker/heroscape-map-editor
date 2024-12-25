@@ -8,6 +8,7 @@ import {
   HexTerrain,
   Pieces,
   BoardPieces,
+  HexMap,
 } from '../types'
 import {
   isFluidTerrainHex,
@@ -18,7 +19,7 @@ import {
 import { hexUtilsOddRToCube } from '../utils/hex-utils'
 import { genBoardHexID, genPieceID } from '../utils/map-utils'
 import getVSTileTemplate from './rotationTransforms'
-import { makeRectangleScenario } from '../utils/map-gen'
+import { makeHexagonScenario, makeRectangleScenario } from '../utils/map-gen'
 import { pieceCodes } from './pieceCodes'
 import { piecesSoFar } from './pieces'
 import {
@@ -68,6 +69,61 @@ export default function buildupVSFileMap(
   }
 }
 
+export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): MapState {
+  // For JSON maps, the map dimensions are free, we do not have to compute them
+  let initialBoardHexes: BoardHexes = {}
+  if (hexMap.shape === 'rectangle') {
+    initialBoardHexes = makeRectangleScenario({
+      mapLength: hexMap.height,
+      mapWidth: hexMap.width,
+      mapName: hexMap.name,
+    }).boardHexes
+  } else {
+    initialBoardHexes = makeHexagonScenario({
+      size: hexMap.height,
+      mapName: hexMap.name,
+    }).boardHexes
+  }
+  const newBoardHexes = Object.entries(boardPieces).reduce((boardHexes: BoardHexes, [pieceQraID, pieceInventoryID]): BoardHexes => {
+    // For JSON maps, we build the tile coords by parsin the ID
+    const arrayThing = pieceQraID.split(',')
+    const placementAltitude = parseInt(arrayThing[0])
+    const q = parseInt(arrayThing[1])
+    const r = parseInt(arrayThing[2])
+    const s = -q - r
+    const rotation = parseInt(arrayThing[3])
+    const tileCoords = { q, r, s }
+    // start zones
+    // if (tile.type === 15001) {
+    // }
+    // personalTiles
+    const piece = piecesSoFar[pieceInventoryID]
+    if (!piece) {
+      return boardHexes // Should probably handle this different, errors etc.
+    }
+    // get the new board hexes and new board pieces
+    const { newBoardHexes } = getBoardHexesWithPieceAdded({
+      piece,
+      boardHexes,
+      boardPieces,
+      cubeCoords: tileCoords,
+      placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
+      rotation: rotation,
+      isVsTile: false
+    })
+    // mark every new piece on the board
+    // boardPieces = newBoardPieces
+    return newBoardHexes
+    // return boardHexes
+  }, initialBoardHexes)
+
+  return {
+    boardHexes: newBoardHexes,
+    hexMap: hexMap,
+    boardPieces,
+  }
+}
+
 type PieceAddArgs = {
   piece: Piece
   boardHexes: BoardHexes
@@ -96,11 +152,8 @@ export function getBoardHexesWithPieceAdded({
     template: piece.template,
     isVsTile,
   })
-  const clickedHexIDOrTileCoordsPresumedID = genBoardHexID({
-    ...cubeCoords,
-    altitude: placementAltitude,
-  })
-  const pieceID = genPieceID(clickedHexIDOrTileCoordsPresumedID, piece.id)
+  const clickedHexIDOrTileCoordsPresumedID = genBoardHexID({ ...cubeCoords, altitude: placementAltitude })
+  const pieceID = genPieceID(clickedHexIDOrTileCoordsPresumedID, piece.id, rotation)
   const genIds = (altitude: number) => {
     return piecePlaneCoords.map((cubeCoord) =>
       genBoardHexID({ ...cubeCoord, altitude: altitude }),

@@ -1,6 +1,6 @@
 import { Dictionary } from 'lodash'
 import { Pieces, CubeCoordinate } from '../types'
-import { hexUtilsAdd, hexUtilsRotate } from '../utils/hex-utils'
+import { hexUtilsAdd, hexUtilsRotateAroundOrigin_000 } from '../utils/hex-utils'
 import tileTemplates from './tileTemplates'
 import { ORIGIN_000 } from '../utils/constants'
 
@@ -19,7 +19,7 @@ export default function getVSTileTemplate({
   const originOfTile = hexUtilsAdd(clickedHex, originOfTileTransform)
   return tileTemplates[template]
     .map((t) => {
-      return hexUtilsRotate(t, rotation)
+      return hexUtilsRotateAroundOrigin_000(t, rotation)
     })
     .map((t) =>
       isVsTile ? hexUtilsAdd(t, originOfTile) : hexUtilsAdd(t, clickedHex),

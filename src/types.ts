@@ -4,12 +4,12 @@ export interface MapState {
   boardPieces: BoardPieces
 }
 
-type HexMap = {
-  id: string
-  name: string
-  shape: string // 'hexagon' | 'rectangle'
-  height: number // for hexagon shaped maps width=height=size
-  width: number // for hexagon shaped maps width=height=size
+export type HexMap = {
+    id: string
+    name: string
+    shape: string // 'hexagon' | 'rectangle'
+    height: number // for hexagon shaped maps width=height=size
+    width: number // for hexagon shaped maps width=height=size
 }
 export type CubeCoordinate = {
   q: number
