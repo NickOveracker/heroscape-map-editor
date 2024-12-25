@@ -5,7 +5,7 @@ import { CameraControls } from '@react-three/drei'
 import { MapHex3D } from './maphex/MapHex3D.tsx'
 import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
-import { BoardHex, HexTerrain, PenMode } from '../types.ts'
+import { BoardHex, HexTerrain, MapFileState, PenMode } from '../types.ts'
 import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
 import {
   isFluidTerrainHex,
@@ -39,36 +39,40 @@ export default function MapDisplay3D({
     // disabled: true, // for when working on camera stuff
   })
 
-  // USE EFFECT: automatically load up the map while devving
-  React.useEffect(() => {
-    const fileName = '/ruins.hsc'
-    // const fileName = '/sunken_crypt_based.gz'
-    fetch(fileName)
-      .then((response) => {
-        // console.log("🚀 ~ .then ~ response:", response.text())
-        // const myThingie = (response?.body ?? new ReadableStream()).pipeThrough(new DecompressionStream('gzip'))
-        // const decompressedData = await new Response(decompressedStream).text()
-        // const data: MapFileState = JSON.parse(decompressedData)
-        return response.arrayBuffer()
-      })
-      .then(async (arrayBuffer) => {
-        // /* VS MAPS BELOW */
-        const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
-        const vsMap = buildupVSFileMap(vsFileData.tiles, vsFileData.name)
-        loadMap(vsMap)
+  // USE EFFECT: automatically load up VS map
+  // React.useEffect(() => {
+  //   const fileName = '/ruins.hsc'
+  //   fetch(fileName)
+  //   .then((response) => {
+  //       return response.arrayBuffer()
+  //     })
+  //     .then(async (arrayBuffer) => {
+  //       const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
+  //       const vsMap = buildupVSFileMap(vsFileData.tiles, vsFileData.name)
+  //       loadMap(vsMap)
 
-        /* GZIP JSON MAPS BELOW */
-        // const data = await processGZippedJsonArrayBuffer(arrayBuffer)
-        // if (data) {
-        //   const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
-        //   if (!jsonMap.hexMap.name) {
-        //     jsonMap.hexMap.name = fileName
-        //   }
-        //   loadMap(jsonMap)
-        // }
+  //     })
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   }, [])
+
+  // USE EFFECT: automatically load up GZIP/JSON map (browser fetch auto unzips gz to json)
+  React.useEffect(() => {
+    // const fileName = '/coolmap.gz'
+    const fileName = '/SunkenCrypt.json'
+    fetch(fileName)
+      .then(async (response) => {
+        // const data = response.json()
+        const data = await response.json() as MapFileState
+        const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+        if (!jsonMap.hexMap.name) {
+          jsonMap.hexMap.name = fileName
+        }
+        loadMap(jsonMap)
       })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+
 
   const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr)
 
