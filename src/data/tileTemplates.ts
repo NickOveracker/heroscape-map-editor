@@ -1,6 +1,5 @@
 import { Dictionary } from 'lodash'
 import { CubeCoordinate, Pieces } from '../types'
-import { hexUtilsAdd } from '../utils/hex-utils'
 
 const origin = { q: 0, r: 0, s: 0 }
 const basic1 = [origin]
@@ -234,20 +233,35 @@ const wallWalk9 = [
   },
 ]
 
-const ruinsExtraBackHex = {
-  q: 0,
-  r: -1,
-  s: 1,
-}
+const ruinsCornerExterior = [
+  {
+    q: 0,
+    r: -1,
+    s: 1,
+  },
+  {
+    q: -1,
+    r: 0,
+    s: 1,
+  },
+]
 const ruins2 = [
-  // the ruins have one extra hex at the end of their short leg that is blocked for a few hexes vertically and ASSUMED to require flat ground
-  ...wallWalk7.map((c) => hexUtilsAdd(c, { q: -1, r: 0, s: 1 })), // the ruins template is shifted one hex to the left
-  ruinsExtraBackHex,
+  ...glacier6,
+  ...ruinsCornerExterior,
 ]
 const ruins3 = [
-  // the ruins have one extra hex at the end of their short leg that is blocked for a few hexes vertically and ASSUMED to require flat ground
-  ...wallWalk9.map((c) => hexUtilsAdd(c, { q: -1, r: 0, s: 1 })), // the ruins template is shifted one hex to the left
-  ruinsExtraBackHex,
+  ...glacier6,
+  {
+    q: 3,
+    r: 0,
+    s: -3,
+  },
+  {
+    q: 2,
+    r: 1,
+    s: -3,
+  },
+  ...ruinsCornerExterior,
 ]
 const tileTemplates: Dictionary<CubeCoordinate[]> = {
   '1': basic1,
