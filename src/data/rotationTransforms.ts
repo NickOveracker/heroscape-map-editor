@@ -4,7 +4,7 @@ import { hexUtilsAdd, hexUtilsRotateAroundOrigin_000 } from '../utils/hex-utils'
 import tileTemplates from './tileTemplates'
 import { ORIGIN_000 } from '../utils/constants'
 
-export default function getVSTileTemplate({
+export default function getPieceTemplateCoords({
   clickedHex,
   rotation,
   template,

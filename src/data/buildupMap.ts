@@ -18,7 +18,7 @@ import {
 } from '../utils/board-utils'
 import { hexUtilsOddRToCube } from '../utils/hex-utils'
 import { genBoardHexID, genPieceID } from '../utils/map-utils'
-import getVSTileTemplate from './rotationTransforms'
+import getPieceTemplateCoords from './rotationTransforms'
 import { makeHexagonScenario, makeRectangleScenario } from '../utils/map-gen'
 import { pieceCodes } from './pieceCodes'
 import { piecesSoFar } from './pieces'
@@ -146,7 +146,7 @@ export function getBoardHexesWithPieceAdded({
 }: PieceAddArgs): PieceAddReturn {
   const newBoardHexes = clone(boardHexes)
   const newBoardPieces = clone(boardPieces)
-  const piecePlaneCoords = getVSTileTemplate({
+  const piecePlaneCoords = getPieceTemplateCoords({
     clickedHex: { q: cubeCoords.q, r: cubeCoords.r, s: cubeCoords.s },
     rotation,
     template: piece.template,
