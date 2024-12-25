@@ -2,10 +2,9 @@ import React, { ChangeEvent } from 'react'
 import { Button } from '@mui/material'
 import { MdFileOpen } from 'react-icons/md'
 import { GiDevilMask } from 'react-icons/gi'
-import readVirtualscapeMapFile from '../data/readVirtualscapeMapFile'
+import readVirtualscapeMapFile, { readGzipMapFile } from '../data/readVirtualscapeMapFile'
 import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap'
 import useBoundStore from '../store/store'
-import { MapState } from '../types'
 
 const ImportFileButton = () => {
   const loadMap = useBoundStore((state) => state.loadMap)
@@ -23,36 +22,22 @@ const ImportFileButton = () => {
       element.click()
     }
   }
-  const readJsonFile = (event: ChangeEvent<HTMLInputElement>): void => {
+  const readJsonFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event?.target?.files?.[0]
     if (!file) {
       return
     }
-    const fileReader = new FileReader()
-    fileReader.onloadend = async (e) => {
-      try {
-        const compressedBlob = new Blob([e?.target?.result ?? ''])
-        const decompressedStream = compressedBlob
-          .stream()
-          .pipeThrough(new DecompressionStream('gzip'))
-        const decompressedData = await new Response(decompressedStream).text()
-        const data = JSON.parse(decompressedData)
-        const jsonMap: MapState = {
-          boardHexes: buildupJsonFileMap(data.boardPieces, data.hexMap).boardHexes,
-          hexMap: data.hexMap,
-          boardPieces: data.boardPieces,
-        }
-        loadMap(jsonMap)
-      } catch (error) {
-        console.error(error)
-      }
-    }
     try {
-      fileReader.readAsArrayBuffer(file)
+      const data = await readGzipMapFile(file)
+      const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+      if (!jsonMap.hexMap.name) {
+        jsonMap.hexMap.name = file.name
+      }
+      loadMap(jsonMap)
     } catch (error) {
       console.error(error)
     }
-    event.target.value = '' // Reset the input value
+    event.target.value = '' // Reset the input value, otherwise choosing same file again will do nothing
   }
 
   const readVSFile = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +53,7 @@ const ImportFileButton = () => {
     } catch (error) {
       console.error(error)
     }
-    event.target.value = '' // Reset the input value
+    event.target.value = '' // Reset the input value, otherwise choosing same file again will do nothing
   }
 
   return (
@@ -78,7 +63,7 @@ const ImportFileButton = () => {
         onClick={handleClickFileSelect}
         variant="contained"
       >
-        Import Map File (.hexoscape.gz)
+        Import Gzip Map File (.gz)
       </Button>
       <Button
         startIcon={<GiDevilMask />}
@@ -115,7 +100,7 @@ const ReadFile = ({ id, readFile }: ReadFileProps) => {
       id={id}
       type="file"
       style={hiddenStyle}
-      accept=".hexoscape.gz"
+      accept=".gz"
       onChange={readFile}
     />
   )

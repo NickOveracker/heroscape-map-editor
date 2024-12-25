@@ -152,6 +152,7 @@ export function getBoardHexesWithPieceAdded({
     template: piece.template,
     isVsTile,
   })
+  console.log("🚀 ~ piecePlaneCoords:", piecePlaneCoords)
   const clickedHexIDOrTileCoordsPresumedID = genBoardHexID({ ...(isVsTile ? piecePlaneCoords[0] : cubeCoords), altitude: placementAltitude })
   const pieceID = genPieceID(clickedHexIDOrTileCoordsPresumedID, piece.id, rotation)
   const genIds = (altitude: number) => {
@@ -526,7 +527,7 @@ export function getBoardHexesWithPieceAdded({
     newHexIds.forEach((newHexID, i) => {
       const isObstacleAuxiliary =
         interiorHexTemplates[piece.id][i] === 1 // 1 marks auxiliary hexes, 2 marks the origin, in these template arrays
-      const isPieceOrigin = i === 1 // hacking off the template order, should be 0 but we shift the template for ruins, (because then the wallWalk template handily matches the vertical clearance of a ruin)
+      const isPieceOrigin = i === 0 // hacking off the template order, should be 0 but we shift the template for ruins, (because then the wallWalk template handily matches the vertical clearance of a ruin)
       // write in vertical clearances for all the hexes a ruin borders
       Array(verticalObstructionTemplates[piece.id][i])
         .fill(0)

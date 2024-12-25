@@ -6,7 +6,7 @@ import { MapHex3D } from './maphex/MapHex3D.tsx'
 import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
 import { BoardHex, HexTerrain, PenMode } from '../types.ts'
-import buildupVSFileMap from '../data/buildupMap.ts'
+import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
 import {
   isFluidTerrainHex,
   isJungleTerrainHex,
@@ -14,7 +14,7 @@ import {
   isSolidTerrainHex,
 } from '../utils/board-utils.ts'
 import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
-import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
+import { processGZippedJsonArrayBuffer, processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
@@ -42,15 +42,30 @@ export default function MapDisplay3D({
   // USE EFFECT: automatically load up the map while devving
   React.useEffect(() => {
     const fileName = '/ruins.hsc'
+    // const fileName = '/sunken_crypt_based.gz'
     fetch(fileName)
       .then((response) => {
+        // console.log("🚀 ~ .then ~ response:", response.text())
+        // const myThingie = (response?.body ?? new ReadableStream()).pipeThrough(new DecompressionStream('gzip'))
+        // const decompressedData = await new Response(decompressedStream).text()
+        // const data: MapFileState = JSON.parse(decompressedData)
         return response.arrayBuffer()
       })
-      .then((arrayBuffer) => {
-        const vsMap = processVirtualScapeArrayBuffer(arrayBuffer)
-        console.log('🚀 ~ React.useEffect ~ vsMap:', vsMap)
-        const hexoscapeMap = buildupVSFileMap(vsMap.tiles, vsMap.name)
-        loadMap(hexoscapeMap)
+      .then(async (arrayBuffer) => {
+        // /* VS MAPS BELOW */
+        const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
+        const vsMap = buildupVSFileMap(vsFileData.tiles, vsFileData.name)
+        loadMap(vsMap)
+
+        /* GZIP JSON MAPS BELOW */
+        // const data = await processGZippedJsonArrayBuffer(arrayBuffer)
+        // if (data) {
+        //   const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+        //   if (!jsonMap.hexMap.name) {
+        //     jsonMap.hexMap.name = fileName
+        //   }
+        //   loadMap(jsonMap)
+        // }
       })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

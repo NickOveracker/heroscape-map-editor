@@ -1,15 +1,16 @@
-export interface MapState {
+export type MapState = MapFileState & {
   boardHexes: BoardHexes
+}
+export type MapFileState = {
   hexMap: HexMap
   boardPieces: BoardPieces
 }
-
 export type HexMap = {
-    id: string
-    name: string
-    shape: string // 'hexagon' | 'rectangle'
-    height: number // for hexagon shaped maps width=height=size
-    width: number // for hexagon shaped maps width=height=size
+  id: string
+  name: string
+  shape: string // 'hexagon' | 'rectangle'
+  height: number // for hexagon shaped maps width=height=size
+  width: number // for hexagon shaped maps width=height=size
 }
 export type CubeCoordinate = {
   q: number
