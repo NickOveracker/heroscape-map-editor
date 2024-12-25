@@ -1,6 +1,7 @@
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import useBoundStore from '../store/store'
+import { MdOutlineEast, MdOutlineNorthEast, MdOutlineNorthWest, MdOutlineSouthEast, MdOutlineSouthWest, MdOutlineWest } from 'react-icons/md'
 
 export default function RotationSelect() {
   const pieceRotation = useBoundStore((s) => s.pieceRotation)
@@ -27,7 +28,13 @@ export default function RotationSelect() {
             value={`${r}`}
             aria-label={`${r}-times rotated 60 degrees`}
           >
-            {r}
+            {r === 0 ? <MdOutlineEast></MdOutlineEast> :
+              r === 1 ? <MdOutlineSouthEast></MdOutlineSouthEast> :
+                r === 2 ? <MdOutlineSouthWest></MdOutlineSouthWest> :
+                  r === 3 ? <MdOutlineWest></MdOutlineWest> :
+                    r === 4 ? <MdOutlineNorthWest></MdOutlineNorthWest> :
+                      <MdOutlineNorthEast></MdOutlineNorthEast>
+            }
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
