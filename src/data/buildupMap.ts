@@ -152,7 +152,7 @@ export function getBoardHexesWithPieceAdded({
     template: piece.template,
     isVsTile,
   })
-  const clickedHexIDOrTileCoordsPresumedID = genBoardHexID({ ...cubeCoords, altitude: placementAltitude })
+  const clickedHexIDOrTileCoordsPresumedID = genBoardHexID({ ...(isVsTile ? piecePlaneCoords[0] : cubeCoords), altitude: placementAltitude })
   const pieceID = genPieceID(clickedHexIDOrTileCoordsPresumedID, piece.id, rotation)
   const genIds = (altitude: number) => {
     return piecePlaneCoords.map((cubeCoord) =>
