@@ -85,7 +85,7 @@ export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): Ma
     }).boardHexes
   }
   const newBoardHexes = Object.keys(boardPieces).reduce((boardHexes: BoardHexes, pieceQraID): BoardHexes => {
-    // For JSON maps, we build the tile coords by parsin the ID
+    // For JSON maps, we build the tile coords by parsing the ID
     const arrayThing = pieceQraID.split('.')
     const placementAltitude = parseInt(arrayThing[0])
     const q = parseInt(arrayThing[1])
@@ -133,8 +133,11 @@ type PieceAddArgs = {
   placementAltitude: number
   rotation: number
   isVsTile: boolean
+  laurSide?: string
 }
 type PieceAddReturn = { newBoardHexes: BoardHexes; newBoardPieces: BoardPieces }
+
+
 
 export function getBoardHexesWithPieceAdded({
   piece,
@@ -143,6 +146,7 @@ export function getBoardHexesWithPieceAdded({
   cubeCoords,
   placementAltitude,
   rotation,
+  laurSide,
   isVsTile,
 }: PieceAddArgs): PieceAddReturn {
   const newBoardHexes = clone(boardHexes)
@@ -181,8 +185,8 @@ export function getBoardHexesWithPieceAdded({
   const isEmptyUnderAll = underHexIds.every(
     (id) => (newBoardHexes?.[id]?.terrain ?? '') === HexTerrain.empty,
   )
-  const isVerticalClearanceForObstacle = newHexIds.every((_, i) => {
-    const clearanceHexIds = Array(piece.height)
+  const isVerticalClearanceForPiece = newHexIds.every((_, i) => {
+    const clearanceHexIds = Array(verticalObstructionTemplates?.[piece.id]?.[i] ?? piece.height)
       .fill(0)
       .map((_, j) => {
         const altitude = newPieceAltitude + 1 + j
@@ -199,6 +203,45 @@ export function getBoardHexesWithPieceAdded({
       return !isBlocked
     })
   })
+
+  const rotationMapLaurRuin = {
+    // +/-Y project along hexagon radii, not apothems like rest of pieces
+    0: {
+      plusX: 0,
+      minusY: 7, // 7 is south,down,+r
+      minusX: 3,
+      plusY: 10, // 10 is north,up,-r
+    },
+  }
+  const isLaurAddonPiece =
+    piece.terrain === HexTerrain.laurWall &&
+    piece.id !== Pieces.laurWallPillar
+  const isLaurWallRuin = piece.id !== Pieces.laurWallRuin
+  const isLaurWallShort = piece.id !== Pieces.laurWallShort
+  const isLaurWallLong = piece.id !== Pieces.laurWallLong
+  const isLaurPillarUnder = underHexIds.some(
+    (id) => newBoardHexes?.[id]?.terrain === HexTerrain.laurWall,
+  )
+
+  const isSlotOnWall = underHexIds.every((id) => {
+    return !(newBoardHexes?.[id]?.laurAddons?.[(laurSide ?? '')])
+    // need to know,
+    // const shortWallMap = {
+    //   '0':  
+    // }
+  })
+  const isPlacingLaurAddon =
+    isLaurAddonPiece && isLaurPillarUnder && isSlotOnWall && isVerticalClearanceForPiece
+  // LAUR WALL
+  if (isPlacingLaurAddon) {
+
+    // TODO: WRITE NEW PILLAR IF THERE IS ONE
+    // write the new laur addon piece
+    // newBoardPieces[pieceID] = piece.id
+    return { newBoardHexes, newBoardPieces }
+  }
+
+
   const isCastleWallUnder = underHexIds.some(
     (id) => newBoardHexes?.[id]?.terrain === HexTerrain.castle,
   )
@@ -254,7 +297,7 @@ export function getBoardHexesWithPieceAdded({
     ((isCastleArchPiece && isCastleArchSupported) ||
       (isCastleWallPiece && isCastleWallSupported)) &&
     isSpaceFree &&
-    isVerticalClearanceForObstacle
+    isVerticalClearanceForPiece
   if (isPlacingWallArch) {
     newHexIds.forEach((newHexID, i) => {
       const hexUnderneath = newBoardHexes?.[underHexIds[i]]
@@ -354,26 +397,6 @@ export function getBoardHexesWithPieceAdded({
     return { newBoardHexes, newBoardPieces }
   }
 
-  const isLaurPillarUnder = underHexIds.some(
-    (id) => newBoardHexes?.[id]?.terrain === HexTerrain.laurWall,
-  )
-  const isLaurAddonPiece =
-    piece.terrain === HexTerrain.laurWall &&
-    piece.id !== Pieces.laurWallPillar
-  const isSpaceForLaurAddon = underHexIds.every((id) => {
-    const pillarHex = newBoardHexes?.[id]
-    return pillarHex
-  })
-  const isPlacingLaurAddon =
-    isLaurAddonPiece && isLaurPillarUnder && isSpaceForLaurAddon
-  // LAUR WALL
-  if (isPlacingLaurAddon) {
-    // TODO: WRITE NEW PILLAR IF THERE IS ONE
-    // write the new laur addon piece
-    // newBoardPieces[pieceID] = piece.id
-    return { newBoardHexes, newBoardPieces }
-  }
-
   const isPlacingLandTile =
     (isFluidTerrainHex(piece.terrain) || isSolidTerrainHex(piece.terrain)) &&
     !isPlacingWallWalkOnWall
@@ -419,10 +442,10 @@ export function getBoardHexesWithPieceAdded({
   const isPlacingObstacle =
     isObstaclePieceID(piece.id) &&
     isSpaceFree &&
-    isVerticalClearanceForObstacle &&
+    isVerticalClearanceForPiece &&
     isObstaclePieceSupported
 
-  // OBSTACLES: laur-pillar
+  // OBSTACLES: (+laurPillar)
   if (isPlacingObstacle) {
     newHexIds.forEach((newHexID, i) => {
       const hexUnderneath = newBoardHexes?.[underHexIds[i]]
@@ -480,27 +503,6 @@ export function getBoardHexesWithPieceAdded({
       ? isSolidTerrainHex(newBoardHexes?.[underHexIds[i]]?.terrain)
       : true
   })
-  const isVerticalClearanceForRuin = newHexIds.every((_, i) => {
-    const clearanceHexIds = Array(
-      // these templates for ruins account for the fact that the ruin is different heights in its various hexes
-      verticalObstructionTemplates?.[piece.id]?.[i],
-    )
-      .fill(0)
-      .map((_, j) => {
-        const altitude = newPieceAltitude + j
-        return genBoardHexID({ ...piecePlaneCoords[i], altitude })
-      })
-    return clearanceHexIds.every((clearanceHexId) => {
-      const hex = newBoardHexes?.[clearanceHexId]
-      if (!hex) return true
-      const terrain = hex?.terrain
-      const isBlocked =
-        isSolidTerrainHex(terrain) ||
-        isFluidTerrainHex(terrain) ||
-        isVerticallyObstructiveTerrain(terrain)
-      return !isBlocked
-    })
-  })
   const isSpaceFreeForRuin = newHexIds.every((newID, i) => {
     // While they block other pieces, Ruins are small enough to share a space with eachother but not land/obstacles
     const hex = newBoardHexes?.[newID]
@@ -519,7 +521,7 @@ export function getBoardHexesWithPieceAdded({
     isRuinPiece &&
     isSpaceFreeForRuin &&
     isSolidUnderAllSupportHexes &&
-    isVerticalClearanceForRuin
+    isVerticalClearanceForPiece
 
   // RUINS
   if (isPlacingRuin) {

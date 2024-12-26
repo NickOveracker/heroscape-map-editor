@@ -21,12 +21,19 @@ export interface BoardHex extends CubeCoordinate {
   id: string
   altitude: number
   pieceID: string // tileID=qraID + piece-UID
-  terrain: string // DUPLICATE STATE
-  pieceRotation: number // DUPLICATE STATE
+  terrain: string
+  pieceRotation: number
   isCap?: boolean // caps are uncovered (no land hex above them) land hexes
   isObstacleOrigin?: boolean // This marks the boardHex that will render the obstacle model
-  isObstacleAuxiliary?: boolean //
+  isObstacleAuxiliary?: boolean // just shows an obstacle base for that hex
   castleWallHeight?: number // used to find the cap hex when clicking a castle wall (it's 9 up with a base, 8 up when wall-on-wall)
+  laurAddons?: { [side: string]: LaurWallAddon }
+}
+type LaurWallAddon = {
+  pieceID: string
+  rotation: number
+  side: string
+  linkID?: string // short/long walls connect to another pillar
 }
 export type BoardPieces = {
   [id: string]: Pieces
