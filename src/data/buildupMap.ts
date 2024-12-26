@@ -354,7 +354,6 @@ export function getBoardHexesWithPieceAdded({
     return { newBoardHexes, newBoardPieces }
   }
 
-  // Laur wall addons
   const isLaurPillarUnder = underHexIds.some(
     (id) => newBoardHexes?.[id]?.terrain === HexTerrain.laurWall,
   )
@@ -367,6 +366,7 @@ export function getBoardHexesWithPieceAdded({
   })
   const isPlacingLaurAddon =
     isLaurAddonPiece && isLaurPillarUnder && isSpaceForLaurAddon
+  // LAUR WALL
   if (isPlacingLaurAddon) {
     // TODO: WRITE NEW PILLAR IF THERE IS ONE
     // write the new laur addon piece
@@ -377,6 +377,7 @@ export function getBoardHexesWithPieceAdded({
   const isPlacingLandTile =
     (isFluidTerrainHex(piece.terrain) || isSolidTerrainHex(piece.terrain)) &&
     !isPlacingWallWalkOnWall
+
   // LAND
   if (isPlacingLandTile) {
     // castle-wallwalk placed here as normal land
@@ -414,13 +415,14 @@ export function getBoardHexesWithPieceAdded({
     return { newBoardHexes, newBoardPieces }
   }
 
-  // OBSTACLES: laur-pillar
   const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
   const isPlacingObstacle =
     isObstaclePieceID(piece.id) &&
     isSpaceFree &&
     isVerticalClearanceForObstacle &&
     isObstaclePieceSupported
+
+  // OBSTACLES: laur-pillar
   if (isPlacingObstacle) {
     newHexIds.forEach((newHexID, i) => {
       const hexUnderneath = newBoardHexes?.[underHexIds[i]]
@@ -467,10 +469,6 @@ export function getBoardHexesWithPieceAdded({
     return { newBoardHexes, newBoardPieces }
   }
 
-  /* 
-  RUINS
-  Land hexes physically cannot be placed adjacent to Ruins
-  */
   const isRuinPiece = piece.terrain === HexTerrain.ruin
   const isSolidUnderAllSupportHexes = underHexIds.every((_, i) => {
     // Ruins only need to be supported under their center of mass, and we could be more liberal than this (allowing combinations of certain hexes)
@@ -483,8 +481,8 @@ export function getBoardHexesWithPieceAdded({
       : true
   })
   const isVerticalClearanceForRuin = newHexIds.every((_, i) => {
-    // Ruins obstruct the placement of some land/obstacles
     const clearanceHexIds = Array(
+      // these templates for ruins account for the fact that the ruin is different heights in its various hexes
       verticalObstructionTemplates?.[piece.id]?.[i],
     )
       .fill(0)
@@ -522,7 +520,8 @@ export function getBoardHexesWithPieceAdded({
     isSpaceFreeForRuin &&
     isSolidUnderAllSupportHexes &&
     isVerticalClearanceForRuin
-  // RUIN
+
+  // RUINS
   if (isPlacingRuin) {
     newHexIds.forEach((newHexID, i) => {
       const isObstacleAuxiliary =
@@ -582,6 +581,7 @@ export function getBoardHexesWithPieceAdded({
     newBoardPieces[pieceID] = piece.id
     return { newBoardHexes, newBoardPieces }
   }
+
   return { newBoardHexes, newBoardPieces }
 }
 
