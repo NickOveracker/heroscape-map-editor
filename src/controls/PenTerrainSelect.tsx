@@ -172,6 +172,20 @@ export default function PenTerrainSelect() {
           <span>Laur Wall Long</span>
         </MenuItem>
         <Divider />
+        {/* RUINS */}
+        <MenuItem value={PenMode.ruins2}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Ruins 2</span>
+        </MenuItem>
+        <MenuItem value={PenMode.ruins3}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Ruins 3</span>
+        </MenuItem>
+        <Divider />
         {/* OBSTACLES */}
         <MenuItem value={PenMode.tree10}>
           <ListItemIcon>
@@ -220,18 +234,6 @@ export default function PenTerrainSelect() {
             <GiWaterfall />
           </ListItemIcon>
           <span>TicallaPalm16</span>
-        </MenuItem>
-        <MenuItem value={PenMode.ruins2}>
-          <ListItemIcon>
-            <GiWaterfall />
-          </ListItemIcon>
-          <span>Ruins 2</span>
-        </MenuItem>
-        <MenuItem value={PenMode.ruins3}>
-          <ListItemIcon>
-            <GiWaterfall />
-          </ListItemIcon>
-          <span>Ruins 3</span>
         </MenuItem>
         <MenuItem value={PenMode.outcrop1}>
           <ListItemIcon>
