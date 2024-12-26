@@ -381,28 +381,28 @@ export const piecesSoFar: Dictionary<Piece> = {
   // LAUR WALL
   [Pieces.laurWallPillar]: {
     id: Pieces.laurWallPillar,
-    terrain: HexTerrain.laurWallPillar,
+    terrain: HexTerrain.laurWall,
     size: 1,
     template: Pieces.laurWallPillar,
     height: 10,
   },
   [Pieces.laurWallShort]: {
     id: Pieces.laurWallShort,
-    terrain: HexTerrain.laurWallPillar,
+    terrain: HexTerrain.laurWall,
     size: 1,
     template: Pieces.laurWallShort,
     height: 10, // will this be used, height on laur stuff?
   },
   [Pieces.laurWallLong]: {
     id: Pieces.laurWallLong,
-    terrain: HexTerrain.laurWallPillar,
+    terrain: HexTerrain.laurWall,
     size: 1,
     template: Pieces.laurWallLong,
     height: 10, // will this be used, height on laur stuff?
   },
   [Pieces.laurWallRuin]: {
     id: Pieces.laurWallRuin,
-    terrain: HexTerrain.laurWallPillar,
+    terrain: HexTerrain.laurWall,
     size: 1,
     template: Pieces.laurWallRuin,
     height: 10, // will this be used, height on laur stuff?

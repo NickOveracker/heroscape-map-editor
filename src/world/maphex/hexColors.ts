@@ -26,7 +26,7 @@ const virtualscapeTileColors: Dictionary<string> = {
   [HexTerrain.castle]: 'rgb(220, 220, 220)',
   castle2: 'rgb(50, 50, 50)', // Castle tiles in virtualscape have a second color for some reason
   [HexTerrain.battlement]: 'rgb(80, 80, 80)',
-  [HexTerrain.castleFlag]: 'rgb(0,100,0)',
+  castleFlag: 'rgb(0,100,0)',
   [HexTerrain.palm]: 'rgb(120,255,120)',
   [HexTerrain.brush]: 'rgb(255,255,0)',
   [HexTerrain.tree]: 'rgb(0,85,0)',
@@ -65,7 +65,8 @@ export const hexTerrainColor: Dictionary<string> = {
   [HexTerrain.outcrop]: '#5F5464',
   hiveModel1: '#668958',
   [HexTerrain.swamp]: '#0f4f00',
-  [HexTerrain.laurWallPillar]: '#7F7CAF',
+  [HexTerrain.laurWall]: '#7F7CAF',
+  laurModelColor2: '#7774AA',
   [HexTerrain.swampWater]: '#8C6A40',
   [HexTerrain.palm]: '#0f4f00', // only gets used as subterrain color, not in model
   ticallaPalmModel1: '#B07156', // palm trunk

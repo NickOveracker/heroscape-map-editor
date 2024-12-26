@@ -6,8 +6,6 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { DoubleSide } from 'three'
-import { LaurWallShort } from './LaurWall'
-// import { useSpring, animated, config } from '@react-spring/three'
 
 export default function LaurWallPillar({
   boardHex,
@@ -40,7 +38,8 @@ export default function LaurWallPillar({
     onPointerEnterPlusX,
     onPointerOutPlusX,
   } = usePillarHoverState()
-  const pillarColor = hexTerrainColor[HexTerrain.laurWallPillar]
+  const pillarColor = hexTerrainColor[HexTerrain.laurWall]
+  const interiorPillarColor = hexTerrainColor.laurModelColor2
   const yellowColor = 'yellow'
   return (
     <group>
@@ -54,23 +53,32 @@ export default function LaurWallPillar({
         >
           <mesh
             geometry={nodes.PillarTop.geometry}
-            // onPointerUp={e => onPointerUp(e, boardHex)}
+          // onPointerUp={e => onPointerUp(e, boardHex)}
           >
             <meshMatcapMaterial color={colorBody ? yellowColor : pillarColor} />
           </mesh>
           <mesh
             geometry={nodes.SubDecorCore.geometry}
-            // onPointerUp={e => onPointerUp(e, boardHex)}
+          // onPointerUp={e => onPointerUp(e, boardHex)}
           >
-            <meshMatcapMaterial color={colorBody ? yellowColor : pillarColor} />
+            <meshMatcapMaterial color={colorBody ? yellowColor : interiorPillarColor} />
           </mesh>
           <mesh
             geometry={nodes.Facade.geometry}
-            // onPointerUp={e => onPointerUp(e, boardHex)}
+          // onPointerUp={e => onPointerUp(e, boardHex)}
           >
             <meshMatcapMaterial
               side={DoubleSide}
               color={colorBody ? yellowColor : pillarColor}
+            />
+          </mesh>
+          <mesh
+            geometry={nodes.FacadeInner.geometry}
+          // onPointerUp={e => onPointerUp(e, boardHex)}
+          >
+            <meshMatcapMaterial
+              side={DoubleSide}
+              color={colorBody ? yellowColor : interiorPillarColor}
             />
           </mesh>
         </group>
@@ -80,7 +88,7 @@ export default function LaurWallPillar({
           onPointerOut={onPointerOutMinusY}
           onPointerUp={(e) => onPointerUpLaurWall(e, boardHex, 'minusY')}
         >
-          <meshMatcapMaterial color={colorMinusY ? yellowColor : pillarColor} />
+          <meshMatcapMaterial color={colorMinusY ? yellowColor : interiorPillarColor} />
         </mesh>
         <mesh
           geometry={nodes.MinusX.geometry}
@@ -88,7 +96,7 @@ export default function LaurWallPillar({
           onPointerOut={onPointerOutMinusX}
           onPointerUp={(e) => onPointerUpLaurWall(e, boardHex, 'minusX')}
         >
-          <meshMatcapMaterial color={colorMinusX ? yellowColor : pillarColor} />
+          <meshMatcapMaterial color={colorMinusX ? yellowColor : interiorPillarColor} />
         </mesh>
         <mesh
           geometry={nodes.PlusY.geometry}
@@ -96,7 +104,7 @@ export default function LaurWallPillar({
           onPointerOut={onPointerOutPlusY}
           onPointerUp={(e) => onPointerUpLaurWall(e, boardHex, 'plusY')}
         >
-          <meshMatcapMaterial color={colorPlusY ? yellowColor : pillarColor} />
+          <meshMatcapMaterial color={colorPlusY ? yellowColor : interiorPillarColor} />
         </mesh>
         <mesh
           geometry={nodes.PlusX.geometry}
@@ -104,7 +112,7 @@ export default function LaurWallPillar({
           onPointerOut={onPointerOutPlusX}
           onPointerUp={(e) => onPointerUpLaurWall(e, boardHex, 'plusX')}
         >
-          <meshMatcapMaterial color={colorPlusX ? yellowColor : pillarColor} />
+          <meshMatcapMaterial color={colorPlusX ? yellowColor : interiorPillarColor} />
         </mesh>
       </group>
       <ObstacleBase x={x} y={yBaseCap} z={z} color={pillarColor} />

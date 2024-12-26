@@ -23,7 +23,7 @@ export function LaurWallShort({
       <mesh geometry={nodes.LaurShortWall.geometry}>
         <meshMatcapMaterial
           side={DoubleSide}
-          color={hexTerrainColor[HexTerrain.laurWallPillar]}
+          color={hexTerrainColor[HexTerrain.laurWall]}
         />
       </mesh>
     </group>
@@ -43,7 +43,7 @@ export function LaurWallRuin({
     <group position={[x + 0.86602540378, yBase, z]}>
       <mesh geometry={nodes.LaurWallRuin.geometry}>
         <meshMatcapMaterial
-          color={hexTerrainColor[HexTerrain.laurWallPillar]}
+          color={hexTerrainColor[HexTerrain.laurWall]}
         />
       </mesh>
     </group>
@@ -63,7 +63,7 @@ export function LaurWallLong({
     <group position={[x, yBase, z]}>
       <mesh geometry={nodes.LaurWallLong.geometry}>
         <meshMatcapMaterial
-          color={hexTerrainColor[HexTerrain.laurWallPillar]}
+          color={hexTerrainColor[HexTerrain.laurWall]}
         />
       </mesh>
     </group>

@@ -40,17 +40,13 @@ export function isJungleTerrainHex(terrain: string) {
   }
 }
 
-export function isObstacleTerrain(terrain: string) {
-  // This fn and its implementations are a big maybe and WIP
+export function isVerticallyObstructiveTerrain(terrain: string) {
+  // These are the terrains don't need land under them (i.e. could hang over a cliff that blocks a tree from being placed!)
   if (
-    terrain === HexTerrain.tree ||
-    terrain === HexTerrain.brush ||
-    terrain === HexTerrain.palm
-    // terrain === HexTerrain.palm ||
-    // terrain === HexTerrain.hive ||
-    // terrain === HexTerrain.glacier ||
-    // terrain === HexTerrain.outcrop ||
-    // terrain === HexTerrain.ruin
+    terrain === HexTerrain.laurWall ||
+    terrain === HexTerrain.ladder ||
+    terrain === HexTerrain.battlement ||
+    terrain === HexTerrain.roadWall
   ) {
     return true
   } else {

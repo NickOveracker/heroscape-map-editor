@@ -13,7 +13,7 @@ import {
 import {
   isFluidTerrainHex,
   isObstaclePieceID,
-  isObstacleTerrain,
+  isVerticallyObstructiveTerrain,
   isSolidTerrainHex,
 } from '../utils/board-utils'
 import { hexUtilsOddRToCube } from '../utils/hex-utils'
@@ -195,12 +195,10 @@ export function getBoardHexesWithPieceAdded({
       const isBlocked =
         isSolidTerrainHex(terrain) ||
         isFluidTerrainHex(terrain) ||
-        isObstacleTerrain(terrain)
+        isVerticallyObstructiveTerrain(terrain)
       return !isBlocked
     })
   })
-
-  // Castle bases, walls, arches
   const isCastleWallUnder = underHexIds.some(
     (id) => newBoardHexes?.[id]?.terrain === HexTerrain.castle,
   )
@@ -208,6 +206,7 @@ export function getBoardHexesWithPieceAdded({
   const isCastleBaseSupported = isPlacingOnTable || isSolidUnderAtLeastOne // castle bases are all 1-hex, currently
   const isPlacingCastleBase =
     isCastleBasePiece && isSpaceFree && isCastleBaseSupported
+  // CASTLE BASE
   if (isPlacingCastleBase) {
     newHexIds.forEach((newHexID, i) => {
       const hexUnderneath = newBoardHexes?.[underHexIds[i]]
@@ -357,10 +356,10 @@ export function getBoardHexesWithPieceAdded({
 
   // Laur wall addons
   const isLaurPillarUnder = underHexIds.some(
-    (id) => newBoardHexes?.[id]?.terrain === HexTerrain.laurWallPillar,
-  ) // add-ons connect to only 1 hex, currently
+    (id) => newBoardHexes?.[id]?.terrain === HexTerrain.laurWall,
+  )
   const isLaurAddonPiece =
-    piece.terrain === HexTerrain.laurWallPillar &&
+    piece.terrain === HexTerrain.laurWall &&
     piece.id !== Pieces.laurWallPillar
   const isSpaceForLaurAddon = underHexIds.every((id) => {
     const pillarHex = newBoardHexes?.[id]
@@ -369,16 +368,16 @@ export function getBoardHexesWithPieceAdded({
   const isPlacingLaurAddon =
     isLaurAddonPiece && isLaurPillarUnder && isSpaceForLaurAddon
   if (isPlacingLaurAddon) {
-    // WRITE NEW PILLAR IF THERE IS ONE
+    // TODO: WRITE NEW PILLAR IF THERE IS ONE
     // write the new laur addon piece
     // newBoardPieces[pieceID] = piece.id
     return { newBoardHexes, newBoardPieces }
   }
 
-  // LAND: SOLID AND FLUID
   const isPlacingLandTile =
     (isFluidTerrainHex(piece.terrain) || isSolidTerrainHex(piece.terrain)) &&
     !isPlacingWallWalkOnWall
+  // LAND
   if (isPlacingLandTile) {
     // castle-wallwalk placed here as normal land
     const isLandPieceSupported =
@@ -415,7 +414,7 @@ export function getBoardHexesWithPieceAdded({
     return { newBoardHexes, newBoardPieces }
   }
 
-  // Obstacles: trees/palms/brush, glaciers, outcrops, marrohive, laur-pillars
+  // OBSTACLES: laur-pillar
   const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
   const isPlacingObstacle =
     isObstaclePieceID(piece.id) &&
@@ -440,7 +439,7 @@ export function getBoardHexesWithPieceAdded({
         isObstacleOrigin: i === 0 ? true : false, //only the first hex is an origin (because we made the template arrays this way. with origin hex at index 0)
         isObstacleAuxiliary: i !== 0 ? true : false, // big tree, glaciers/outcrops, have aux hexes that render only a cap
       }
-      // write in the new clearances, this will block some pieces at these coordinates
+      // write in the new vertical clearances, this will block some pieces at these coordinates
       Array(piece.height)
         .fill(0)
         .forEach((_, j) => {
@@ -500,7 +499,7 @@ export function getBoardHexesWithPieceAdded({
       const isBlocked =
         isSolidTerrainHex(terrain) ||
         isFluidTerrainHex(terrain) ||
-        isObstacleTerrain(terrain)
+        isVerticallyObstructiveTerrain(terrain)
       return !isBlocked
     })
   })
@@ -513,7 +512,7 @@ export function getBoardHexesWithPieceAdded({
     const isBlocked =
       isSolidTerrainHex(terrain) ||
       isFluidTerrainHex(terrain) ||
-      isObstacleTerrain(terrain) ||
+      isVerticallyObstructiveTerrain(terrain) ||
       (isForNewInterior && hex.isObstacleOrigin) ||
       (isForNewInterior && hex.isObstacleAuxiliary)
     return !isBlocked
@@ -523,6 +522,7 @@ export function getBoardHexesWithPieceAdded({
     isSpaceFreeForRuin &&
     isSolidUnderAllSupportHexes &&
     isVerticalClearanceForRuin
+  // RUIN
   if (isPlacingRuin) {
     newHexIds.forEach((newHexID, i) => {
       const isObstacleAuxiliary =
@@ -582,7 +582,6 @@ export function getBoardHexesWithPieceAdded({
     newBoardPieces[pieceID] = piece.id
     return { newBoardHexes, newBoardPieces }
   }
-
   return { newBoardHexes, newBoardPieces }
 }
 

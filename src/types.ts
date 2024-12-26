@@ -36,11 +36,11 @@ export type BoardHexes = {
 }
 export enum HexTerrain {
   empty = 'empty',
-  // solid
+  dirt = 'dirt', // dirt is just the subTerrain for grass/rock/sand
+  // solid land
   grass = 'grass',
   rock = 'rock',
   sand = 'sand',
-  dirt = 'dirt', // dirt is just the subTerrain for grass/rock/sand
   road = 'road',
   snow = 'snow',
   lavaField = 'lavaField',
@@ -48,7 +48,7 @@ export enum HexTerrain {
   asphalt = 'asphalt',
   concrete = 'concrete',
   dungeon = 'dungeon',
-  // fluid
+  // fluid land
   wellspringWater = 'wellspringWater',
   water = 'water',
   lava = 'lava',
@@ -56,10 +56,7 @@ export enum HexTerrain {
   swampWater = 'swampWater',
   shadow = 'shadow',
   // hex obstacle
-  laurWallPillar = 'laurWallPillar',
-  laurWallShort = 'laurWallShort',
-  laurWallLong = 'laurWallLong',
-  laurWallRuin = 'laurWallRuin',
+  laurWall = 'laurWall',
   tree = 'tree',
   palm = 'palm',
   brush = 'brush',
@@ -72,7 +69,6 @@ export enum HexTerrain {
   // edge addon
   roadWall = 'roadWall',
   battlement = 'battlement',
-  castleFlag = 'castleFlag',
   ladder = 'ladder',
   // castle
   castle = 'castle',
@@ -83,7 +79,7 @@ export enum HexTerrain {
   _vsFigure = '_vsFigure',
 }
 export type Piece = {
-  id: Pieces // aqr+pieceID
+  id: Pieces // aqr+pieceID (This is important, as this id structure lets us make real small map strings for the URL -- shareable maps!!)
   terrain: string
   size: number
   template: string
@@ -144,7 +140,6 @@ export enum Pieces {
   // EdgeAddons
   roadWall = 'roadWall',
   battlement = 'battlement',
-  flag = 'castleFlag',
   ladder = 'ladder',
   // LaurWall
   laurWallPillar = 'laurWallPillar',
