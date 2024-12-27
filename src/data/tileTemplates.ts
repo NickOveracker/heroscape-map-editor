@@ -1,31 +1,19 @@
 import { Dictionary } from 'lodash'
 import { CubeCoordinate, Pieces } from '../types'
+import { CUBE_EAST, CUBE_NW, CUBE_SE, CUBE_SW, CUBE_WEST, ORIGIN_000 } from '../utils/constants'
 
-const origin = { q: 0, r: 0, s: 0 }
-const basic1 = [origin]
+const basic1 = [ORIGIN_000]
 const basic2 = [
-  origin,
-  {
-    q: 1,
-    r: 0,
-    s: -1,
-  },
+  ORIGIN_000,
+  CUBE_EAST,
 ]
 const basic3 = [
   ...basic2,
-  {
-    q: 0,
-    r: 1,
-    s: -1,
-  },
+  CUBE_SE,
 ]
 const basic7 = [
   ...basic3,
-  {
-    q: -1,
-    r: 1,
-    s: 0,
-  },
+  CUBE_SW,
   {
     q: 1,
     r: 1,
@@ -167,12 +155,7 @@ const glacier4 = [
 const glacier6 = [
   // marro hive, glacier-6
   ...basic3,
-  {
-    // bottom-left corner
-    q: -1,
-    r: 1,
-    s: 0,
-  },
+  CUBE_SW,
   {
     // top-right corner
     q: 2,
@@ -237,18 +220,8 @@ const wallWalk9 = [
 ]
 
 const ruinsCornerExterior = [
-  {
-    // the short-leg horn, top-most hex
-    q: 0,
-    r: -1,
-    s: 1,
-  },
-  {
-    // the short-leg exterior lee-hex
-    q: -1,
-    r: 0,
-    s: 1,
-  },
+  CUBE_NW,
+  CUBE_WEST,
 ]
 const ruins2 = [
   ...glacier6,
@@ -317,12 +290,6 @@ const tileTemplates: Dictionary<CubeCoordinate[]> = {
   [Pieces.castleWallEnd]: basic1,
 
   [Pieces.roadWall]: straight4,
-  // TODO
-  // start zone
-  // glyph
-  // ladder: basic1,
-  // battlement: basic1,
-  // flag: basic1,
 }
 
 export default tileTemplates

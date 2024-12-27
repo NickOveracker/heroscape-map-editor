@@ -16,7 +16,7 @@ import {
   isVerticallyObstructiveTerrain,
   isSolidTerrainHex,
 } from '../utils/board-utils'
-import { hexUtilsOddRToCube } from '../utils/hex-utils'
+import { hexUtilsGetNeighborForRotation, hexUtilsGetRadialNearNeighborsForRotation, hexUtilsOddRToCube } from '../utils/hex-utils'
 import { genBoardHexID, genPieceID } from '../utils/map-utils'
 import getPieceTemplateCoords from './rotationTransforms'
 import { makeHexagonScenario, makeRectangleScenario } from '../utils/map-gen'
@@ -137,13 +137,6 @@ type PieceAddArgs = {
 }
 type PieceAddReturn = { newBoardHexes: BoardHexes; newBoardPieces: BoardPieces }
 
-const pillarSideRotations = {
-  plusX: 0,
-  minusY: 1.5, // 7 is south,down,+r
-  minusX: 3,
-  plusY: 4.5, // 10 is north,up,-r
-}
-
 export function getBoardHexesWithPieceAdded({
   piece,
   boardHexes,
@@ -151,7 +144,7 @@ export function getBoardHexesWithPieceAdded({
   cubeCoords,
   placementAltitude,
   rotation,
-  laurSide,
+  laurSide = '',
   isVsTile,
 }: PieceAddArgs): PieceAddReturn {
   const newBoardHexes = clone(boardHexes)
@@ -230,11 +223,29 @@ export function getBoardHexesWithPieceAdded({
       return !(newBoardHexes?.[id]?.laurAddons?.[(laurSide ?? '')])
     })
     const isPlacingLaurAddon = isLaurPillarUnder && isSlotOnWall && isVerticalClearanceForPiece
-    const isWallNeedPillarToo = underHexIds.every((id) => {
-      const buddyHex = '' // pillar? 
-      return !(newBoardHexes?.[id]?.laurAddons?.[(laurSide ?? '')])
-    })
     if (isPlacingLaurAddon) {
+      const pillarSideRotations: { [side: string]: number } = {
+        plusX: 0,
+        minusY: 1.5,
+        minusX: 3,
+        plusY: 4.5,
+      }
+      if (isLaurWallRuin) {
+        const rotationOfRuin = rotation + pillarSideRotations[laurSide]
+        let vectorsGettingObstructed: CubeCoordinate[]
+        if (laurSide === 'minusY' || laurSide === 'plusY') {
+          const vectorsGettingObstructed = hexUtilsGetRadialNearNeighborsForRotation(rotationOfRuin)
+        } else {
+          vectorsGettingObstructed = hexUtilsGetNeighborForRotation(rotationOfRuin)
+        }
+        const hexIdsGettingObstructed = vectorsGettingObstructed.map(coord => {
+          genBoardHexID({ ...coord, altitude: placementAltitude })
+        })
+      }
+      const isWallNeedPillarToo = underHexIds.every((id) => {
+        const buddyHex = '' // pillar? 
+        return !(newBoardHexes?.[id]?.laurAddons?.[(laurSide ?? '')])
+      })
 
       // TODO: WRITE NEW PILLAR IF THERE IS ONE
       // write the new laur addon piece
@@ -515,6 +526,7 @@ export function getBoardHexesWithPieceAdded({
         const isObstacleAuxiliary =
           interiorHexTemplates[piece.id][i] === 1 // 1 marks auxiliary hexes, 2 marks the origin, in these template arrays
         const isPieceOrigin = i === 0 // hacking off the template order, should be 0 but we shift the template for ruins, (because then the wallWalk template handily matches the vertical clearance of a ruin)
+
         // write in vertical clearances for all the hexes a ruin borders
         Array(verticalObstructionTemplates[piece.id][i])
           .fill(0)
@@ -524,15 +536,18 @@ export function getBoardHexesWithPieceAdded({
               ...piecePlaneCoords[i],
               altitude: clearanceHexAltitude,
             })
-            newBoardHexes[clearanceID] = {
-              id: clearanceID,
-              q: piecePlaneCoords[i].q,
-              r: piecePlaneCoords[i].r,
-              s: piecePlaneCoords[i].s,
-              altitude: clearanceHexAltitude,
-              terrain: piece.terrain,
-              pieceID,
-              pieceRotation: rotation,
+            if (!newBoardHexes[clearanceID]) {
+              // BUGFIX: only write in vertical clearance if nothing is already there? But...this seems an incomplete solution
+              newBoardHexes[clearanceID] = {
+                id: clearanceID,
+                q: piecePlaneCoords[i].q,
+                r: piecePlaneCoords[i].r,
+                s: piecePlaneCoords[i].s,
+                altitude: clearanceHexAltitude,
+                terrain: piece.terrain,
+                pieceID,
+                pieceRotation: rotation,
+              }
             }
           })
 

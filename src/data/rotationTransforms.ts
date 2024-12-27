@@ -2,7 +2,7 @@ import { Dictionary } from 'lodash'
 import { Pieces, CubeCoordinate } from '../types'
 import { hexUtilsAdd, hexUtilsRotateAroundOrigin_000 } from '../utils/hex-utils'
 import tileTemplates from './tileTemplates'
-import { ORIGIN_000 } from '../utils/constants'
+import { CUBE_EAST, CUBE_SE, CUBE_SW, ORIGIN_000 } from '../utils/constants'
 
 export default function getPieceTemplateCoords({
   clickedHex,
@@ -38,31 +38,31 @@ const straight2 = [
   ORIGIN_000,
   ORIGIN_000,
   ORIGIN_000,
-  { q: 1, r: 0, s: -1 },
-  { q: 0, r: 1, s: -1 },
-  { q: -1, r: 1, s: 0 },
+  CUBE_EAST,
+  CUBE_SE,
+  CUBE_SW,
 ]
 const t3 = [
   // glacier3, outcrop3
   ORIGIN_000,
   ORIGIN_000,
-  { q: 1, r: 0, s: -1 },
-  { q: 0, r: 1, s: -1 },
-  { q: 0, r: 1, s: -1 },
-  { q: -1, r: 1, s: 0 },
+  CUBE_EAST,
+  CUBE_SE,
+  CUBE_SE,
+  CUBE_SW,
 ]
 const t7 = [
   // rose/circle style 7
   ORIGIN_000,
-  { q: 1, r: 0, s: -1 },
+  CUBE_EAST,
   { q: 1, r: 1, s: -2 },
   { q: 0, r: 2, s: -2 },
   { q: -1, r: 2, s: -1 },
-  { q: -1, r: 1, s: 0 },
+  CUBE_SW,
 ]
 const t24 = [
   ORIGIN_000,
-  { q: 1, r: 0, s: -1 },
+  CUBE_EAST,
   { q: 2, r: 3, s: -5 },
   { q: 2, r: 5, s: -7 },
   { q: -5, r: 7, s: -2 },
@@ -98,8 +98,8 @@ const straight5 = [
 const glacier6 = [
   // glacier6, hive
   ORIGIN_000,
-  { q: 1, r: 0, s: -1 },
-  { q: 0, r: 1, s: -1 },
+  CUBE_EAST,
+  CUBE_SE,
   { q: 1, r: 1, s: -2 },
   { q: 0, r: 2, s: -2 },
   { q: -2, r: 2, s: 0 },
@@ -108,15 +108,15 @@ const glacier4 = [
   // glacier4
   ORIGIN_000,
   ORIGIN_000,
-  { q: 1, r: 0, s: -1 },
+  CUBE_EAST,
   { q: 1, r: 1, s: -2 },
   { q: -1, r: 2, s: -1 },
-  { q: -1, r: 1, s: 0 },
+  CUBE_SW,
 ]
 const castle7 = [
   ORIGIN_000,
   ORIGIN_000,
-  { q: 1, r: 0, s: -1 },
+  CUBE_EAST,
   { q: 2, r: 1, s: -3 },
   { q: 0, r: 3, s: -3 },
   { q: -3, r: 3, s: 0 },
@@ -124,7 +124,7 @@ const castle7 = [
 const castle9 = [
   ORIGIN_000,
   ORIGIN_000,
-  { q: 1, r: 0, s: -1 },
+  CUBE_EAST,
   { q: 3, r: 1, s: -4 },
   { q: 0, r: 4, s: -4 },
   { q: -4, r: 4, s: 0 },
@@ -132,7 +132,7 @@ const castle9 = [
 const marvel6 = [
   ORIGIN_000,
   ORIGIN_000,
-  { q: 1, r: 0, s: -1 },
+  CUBE_EAST,
   { q: 3, r: 1, s: -4 },
   { q: -1, r: 4, s: -3 },
   { q: -4, r: 3, s: 1 },

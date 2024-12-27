@@ -1,4 +1,4 @@
-import { HEXGRID_HEX_RADIUS, ORIGIN_000 } from './constants'
+import { CUBE_EAST, CUBE_NE, CUBE_NW, CUBE_SE, CUBE_SW, CUBE_WEST, HEXGRID_HEX_RADIUS, ORIGIN_000 } from './constants'
 import { CubeCoordinate } from '../types'
 import { Dictionary } from 'lodash'
 export const hexUtilsEquals = (
@@ -105,19 +105,56 @@ export function hexUtilsGenRectangleGrid(
   }
   return hexas
 }
-const east: CubeCoordinate = { q: 1, r: 0, s: -1 }
-const southEast: CubeCoordinate = { q: 0, r: 1, s: -1 }
-const southWest: CubeCoordinate = { q: -1, r: 1, s: 0 }
-const west: CubeCoordinate = { q: -1, r: 0, s: 1 }
-const northWest: CubeCoordinate = { q: 0, r: -1, s: 1 }
-const northEast: CubeCoordinate = { q: 1, r: -1, s: 0 }
 const directions: Dictionary<CubeCoordinate> = {
-  '0': east,
-  '1': southEast,
-  '2': southWest,
-  '3': west,
-  '4': northWest,
-  '5': northEast,
+  '0': CUBE_EAST,
+  '1': CUBE_SE,
+  '2': CUBE_SW,
+  '3': CUBE_WEST,
+  '4': CUBE_NW,
+  '5': CUBE_NE,
+}
+
+const CUBE_FAR_NORTH = hexUtilsAdd(CUBE_NE, CUBE_NW)
+const CUBE_FAR_NE = hexUtilsAdd(CUBE_NE, CUBE_EAST)
+const CUBE_FAR_SE = hexUtilsAdd(CUBE_SE, CUBE_EAST)
+const CUBE_FAR_SOUTH = hexUtilsAdd(CUBE_SE, CUBE_SW)
+const CUBE_FAR_SW = hexUtilsAdd(CUBE_SW, CUBE_WEST)
+const CUBE_FAR_NW = hexUtilsAdd(CUBE_NW, CUBE_WEST)
+const radialDirections: Dictionary<CubeCoordinate> = {
+  '0.5': CUBE_FAR_SE,
+  '1.5': CUBE_FAR_SOUTH,
+  '2.5': CUBE_FAR_SW,
+  '3.5': CUBE_FAR_NW,
+  '4.5': CUBE_FAR_NORTH,
+  '5.5': CUBE_FAR_NE,
+}
+
+/* For most calculation, we go hex-center to hex-center, 
+drawing a line from our hex-center through the midpoint of a side.
+This is an apothem, not a radius. A radial line goes to an edge, bordering
+2 hexes and then beyond to a far hex's center.
+Some things, like laur longwall/ruin addons, use this radial line.
+
+No clue if my terminology is geometer approved.
+ */
+// const radialNearNeighbors: Dictionary<[CubeCoordinate, CubeCoordinate]> = {
+//   '0.5': [CUBE_EAST, CUBE_SE],
+//   '1.5': [CUBE_SE, CUBE_SW],
+//   '2.5': [CUBE_SW, CUBE_WEST],
+//   '3.5': [CUBE_WEST, CUBE_NW],
+//   '4.5': [CUBE_NW, CUBE_NE],
+//   '5.5': [CUBE_NE, CUBE_EAST],
+// }
+export const hexUtilsGetRadialNearNeighborsForRotation = (
+  rotation: number,
+): [CubeCoordinate, CubeCoordinate] => {
+  return [directions[`${(rotation - 0.5) % 6}`], directions[`${(rotation + 0.5) % 6}`]]
+}
+export const hexUtilsGetRadialFarNeighborForRotation = (
+  rotation: number,
+): CubeCoordinate => {
+  const rot = `${rotation % 6}`
+  return radialDirections[`${rot}`]
 }
 export const hexUtilsGetNeighborForRotation = (
   rotation: number,
