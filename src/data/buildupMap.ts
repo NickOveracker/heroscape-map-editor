@@ -495,8 +495,6 @@ export function getBoardHexesWithPieceAdded({
       // Ruins only need to be supported under their center of mass, and we could be more liberal than this (allowing combinations of certain hexes)
       const isRequiredToSupportThisOne =
         verticalSupportTemplates?.[piece.id]?.[i]
-      const altitude = placementAltitude
-      genBoardHexID({ ...piecePlaneCoords[i], altitude })
       return isRequiredToSupportThisOne
         ? isSolidTerrainHex(newBoardHexes?.[underHexIds[i]]?.terrain)
         : true
