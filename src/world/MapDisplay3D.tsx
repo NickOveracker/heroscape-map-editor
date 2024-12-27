@@ -95,7 +95,7 @@ export default function MapDisplay3D({
       .then((response) => {
         return response.arrayBuffer()
       })
-      .then(async (arrayBuffer) => {
+      .then((arrayBuffer) => {
         const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
         const vsMap = buildupVSFileMap(vsFileData.tiles, vsFileData.name)
         loadMap(vsMap)
@@ -164,19 +164,17 @@ export default function MapDisplay3D({
   ) => {
     if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
     event.stopPropagation() // prevent pass through
-    console.log('🚀 ~ onPointerUpLaurWall ~ hex:', hex)
-    console.log('🚀 ~ onPointerUpLaurWall ~ side:', side)
     // Early out if camera is active
     if (cameraControlsRef?.current?.active) return
 
     if (penMode.includes('laurWall')) {
       const piece = piecesSoFar[penMode]
-      console.log('🚀 ~ onPointerUpLaurWall ~ piece:', piece)
-      // paintTile({
-      //     piece,
-      //     clickedHex: hex,
-      //     rotation: pieceRotation,
-      // })
+      paintTile({
+        piece,
+        clickedHex: hex,
+        rotation: pieceRotation,
+        laurSide: side
+      })
     }
   }
 

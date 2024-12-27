@@ -1,9 +1,10 @@
 import { StateCreator } from 'zustand'
-import { BoardHex, MapState, Piece } from '../types'
+import { BoardHex, HexTerrain, MapState, Piece, Pieces } from '../types'
 import { AppState } from './store'
 import { rectangleScenario } from '../utils/map-gen'
-import { getBoardHexesWithPieceAdded } from '../data/buildupMap'
 import { produce } from 'immer'
+import { addLaurPiece } from '../data/addLaurPiece'
+import { addPiece } from '../data/addPiece'
 
 export interface MapSlice extends MapState {
   paintTile: (args: PaintTileArgs) => void
@@ -14,22 +15,36 @@ type PaintTileArgs = {
   piece: Piece
   clickedHex: BoardHex
   rotation: number
+  laurSide?: string
 }
 
 const createMapSlice: StateCreator<AppState, [], [], MapSlice> = (set) => ({
   boardHexes: rectangleScenario.boardHexes,
   hexMap: rectangleScenario.hexMap,
   boardPieces: rectangleScenario.boardPieces,
-  paintTile: ({ piece, clickedHex, rotation }: PaintTileArgs) =>
+  paintTile: ({ piece, clickedHex, rotation, laurSide }: PaintTileArgs) =>
     set((state) => {
       return produce(state, (draft) => {
-        const { newBoardHexes, newBoardPieces } = getBoardHexesWithPieceAdded({
+        if (piece.terrain === HexTerrain.laurWall &&
+          piece.id !== Pieces.laurWallPillar && laurSide) {
+          const { newBoardHexes, newBoardPieces } = addLaurPiece({
+            piece,
+            boardHexes: draft.boardHexes,
+            boardPieces: draft.boardPieces,
+            clickedHex,
+            laurSide: laurSide,
+          })
+          draft.boardHexes = newBoardHexes
+          draft.boardPieces = newBoardPieces
+        }
+        const { newBoardHexes, newBoardPieces } = addPiece({
           piece,
           boardHexes: draft.boardHexes,
           boardPieces: draft.boardPieces,
           cubeCoords: clickedHex,
           placementAltitude: clickedHex.altitude,
           rotation,
+          // laurSide,
           isVsTile: false,
         })
         draft.boardHexes = newBoardHexes
