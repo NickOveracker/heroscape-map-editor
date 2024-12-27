@@ -88,8 +88,8 @@ export const hexSidesFromCenter = {
 export function encodeFilename(str: string) {
   return str.replace(/[^\w]/g, '_');
 }
-export function genPieceID(qraID: string, pieceID: string, rotation: number) {
-  return `${qraID}.${rotation}.${pieceID}`
+export function genPieceID(boardHexID: string, pieceID: string, rotation: number) {
+  return `${boardHexID}.${rotation}.${pieceID}`
 }
 export function genBoardHexID(hex: CubeCoordinate & { altitude: number }) {
   /* Hex world global coords (q,r,altitude) => (x,y,z)

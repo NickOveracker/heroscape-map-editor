@@ -5,6 +5,7 @@ import Lights from './Lights'
 import MyCameraControls from './camera/MyCameraControls'
 import MapDisplay3D from './MapDisplay3D'
 import { CAMERA_FOV } from '../utils/constants'
+import GridHelper from './GridHelper'
 
 const World = () => {
   const cameraControlsRef = React.useRef(undefined!)
@@ -22,7 +23,7 @@ const World = () => {
         camera={{
           fov: CAMERA_FOV,
         }}
-        // shadows
+      // shadows
       >
         {/* <Sky /> */}
         <Stars
@@ -38,7 +39,7 @@ const World = () => {
         <Stats className="stats-panel" />
         <MapDisplay3D cameraControlsRef={cameraControlsRef} />
         <Lights />
-        {/* <GridHelper /> */}
+        <GridHelper />
         <MyCameraControls cameraControlsRef={cameraControlsRef} />
       </Canvas>
     </div>

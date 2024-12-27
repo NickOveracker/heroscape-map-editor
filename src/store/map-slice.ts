@@ -44,7 +44,6 @@ const createMapSlice: StateCreator<AppState, [], [], MapSlice> = (set) => ({
           cubeCoords: clickedHex,
           placementAltitude: clickedHex.altitude,
           rotation,
-          // laurSide,
           isVsTile: false,
         })
         draft.boardHexes = newBoardHexes

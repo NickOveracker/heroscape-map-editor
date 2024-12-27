@@ -27,8 +27,7 @@ export function addLaurPiece({
 }: LaurPieceAddArgs): PieceAddReturn {
   const newBoardHexes = clone(boardHexes)
   const newBoardPieces = clone(boardPieces)
-  const clickedHexIDOrTileCoordsPresumedID = genBoardHexID({ ...(originOfTile), altitude: clickedHex.altitude })
-  const pieceID = genPieceID(clickedHexIDOrTileCoordsPresumedID, piece.id, clickedHex.pieceRotation)
+  const pieceID = genPieceID(clickedHex.id, piece.id, clickedHex.pieceRotation)
 
   // LAUR WALL
   const isLaurWallRuin = piece.id !== Pieces.laurWallRuin
@@ -57,7 +56,8 @@ export function addLaurPiece({
 
   // TODO: WRITE NEW PILLAR IF THERE IS ONE
   // write the new laur addon piece
-  // newBoardPieces[pieceID] = piece.id
+  newBoardPieces[pieceID] = piece.id
+  console.log("🚀 ~ newBoardPieces:", newBoardPieces)
 
   return { newBoardHexes, newBoardPieces }
 }

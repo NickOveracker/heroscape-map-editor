@@ -167,15 +167,13 @@ export default function MapDisplay3D({
     // Early out if camera is active
     if (cameraControlsRef?.current?.active) return
 
-    if (penMode.includes('laurWall')) {
-      const piece = piecesSoFar[penMode]
-      paintTile({
-        piece,
-        clickedHex: hex,
-        rotation: pieceRotation,
-        laurSide: side
-      })
-    }
+    const piece = piecesSoFar[penMode]
+    paintTile({
+      piece,
+      clickedHex: hex,
+      rotation: pieceRotation,
+      laurSide: side
+    })
   }
 
   return (

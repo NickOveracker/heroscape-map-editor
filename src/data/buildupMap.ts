@@ -7,6 +7,7 @@ import {
 } from '../types'
 import { hexUtilsOddRToCube } from '../utils/hex-utils'
 import { makeHexagonScenario, makeRectangleScenario } from '../utils/map-gen'
+import { addPiece } from './addPiece'
 import { pieceCodes } from './pieceCodes'
 import { piecesSoFar } from './pieces'
 
@@ -28,7 +29,7 @@ export default function buildupVSFileMap(
         return boardHexes // Should probably handle this different, errors etc.
       }
       // get the new board hexes and new board pieces
-      const { newBoardHexes, newBoardPieces } = getBoardHexesWithPieceAdded({
+      const { newBoardHexes, newBoardPieces } = addPiece({
         piece,
         boardHexes,
         boardPieces,
@@ -50,7 +51,6 @@ export default function buildupVSFileMap(
     boardPieces,
   }
 }
-
 export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): MapState {
   // For JSON maps, the map dimensions are free, we do not have to compute them
   let initialBoardHexes: BoardHexes = {}
@@ -85,7 +85,7 @@ export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): Ma
       return boardHexes // Should probably handle this different, errors etc.
     }
     // get the new board hexes and new board pieces
-    const { newBoardHexes } = getBoardHexesWithPieceAdded({
+    const { newBoardHexes } = addPiece({
       piece,
       boardHexes,
       boardPieces,
@@ -106,7 +106,6 @@ export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): Ma
     boardPieces,
   }
 }
-
 function getBlankHexoscapeMapForVSTiles(
   tiles: VirtualScapeTile[],
   mapName: string,
