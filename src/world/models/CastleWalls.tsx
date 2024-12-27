@@ -90,3 +90,4 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
     </group>
   )
 }
+useGLTF.preload('/adjustable-castle-walls.glb')

@@ -32,28 +32,9 @@ export function LaurWallShort({
 
 useGLTF.preload('/laurwall-short.glb')
 
-export function LaurWallRuin({
-  boardHex,
-  // underHexTerrain,
-  // onPointerUp,
-}: Props) {
-  const { nodes } = useGLTF('/laurwall-ruin.glb') as any
-  const { x, z, yBase } = getBoardHex3DCoords(boardHex)
-  return (
-    <group position={[x + 0.86602540378, yBase, z]}>
-      <mesh geometry={nodes.LaurWallRuin.geometry}>
-        <meshMatcapMaterial
-          color={hexTerrainColor[HexTerrain.laurWall]}
-        />
-      </mesh>
-    </group>
-  )
-}
-
-useGLTF.preload('/laurwall-ruin.glb')
-
 export function LaurWallLong({
   boardHex,
+
   // underHexTerrain,
   // onPointerUp,
 }: Props) {

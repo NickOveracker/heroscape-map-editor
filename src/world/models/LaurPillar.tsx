@@ -1,11 +1,12 @@
 import { useGLTF } from '@react-three/drei'
-import { BoardHex, HexTerrain } from '../../types'
+import { BoardHex, HexTerrain, Pieces } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { DoubleSide } from 'three'
+import { HEXGRID_HEX_APOTHEM } from '../../utils/constants'
 
 export default function LaurWallPillar({
   boardHex,
@@ -18,8 +19,16 @@ export default function LaurWallPillar({
     side: string,
   ) => void
 }) {
-  const { x, z, yBaseCap, yBase } = getBoardHex3DCoords(boardHex)
+  const { x, z, yBaseCap, yWithBase } = getBoardHex3DCoords(boardHex)
   const { nodes } = useGLTF('/laurwall-pillar.glb') as any
+  const {
+    LaurWallRuin,
+    LaurWallRuinBustedConcrete,
+    LaurWallLong,
+    LaurWallLongDecorDeep,
+    LaurWallShort,
+    LaurWallShortDecorDeep } = useGLTF('/laurwall-addons.glb').nodes as any
+
   const rotation = boardHex?.pieceRotation ?? 0
   const {
     colorBody,
@@ -41,10 +50,80 @@ export default function LaurWallPillar({
   const pillarColor = hexTerrainColor[HexTerrain.laurWall]
   const interiorPillarColor = hexTerrainColor.laurModelColor2
   const yellowColor = 'yellow'
+  const laurRuins = Object.values(boardHex?.laurAddons ?? {}).filter(addon => {
+    return addon.pieceID === Pieces.laurWallRuin
+  })
+  const laurLongs = Object.values(boardHex?.laurAddons ?? {}).filter(addon => {
+    return addon.pieceID === Pieces.laurWallLong
+  })
+  const laurShorts = Object.values(boardHex?.laurAddons ?? {}).filter(addon => {
+    return addon.pieceID === Pieces.laurWallShort
+  })
+  // function getOptionsForRotation(laurSide: string, rotation: number) {
+
+  // }
   return (
     <group>
+      {(laurRuins ?? []).map(ruin => {
+        console.log("🚀 ~ ruin:", ruin)
+        return (
+          <group
+            key={`${boardHex.id}.${ruin.side}`}
+            position={[x + HEXGRID_HEX_APOTHEM, yWithBase, z]}
+          >
+            <mesh geometry={LaurWallRuin.geometry}>
+              <meshMatcapMaterial
+                color={hexTerrainColor[HexTerrain.laurWall]}
+              />
+            </mesh>
+            <mesh geometry={LaurWallRuinBustedConcrete.geometry}>
+              <meshMatcapMaterial
+                color={hexTerrainColor.laurModelColor2}
+              />
+            </mesh>
+          </group>
+        )
+      })}
+      {(laurLongs ?? []).map(ruin => {
+        return (
+          <group
+            key={`${boardHex.id}.${ruin.side}`}
+            position={[x, yWithBase, z]}
+          >
+            <mesh geometry={LaurWallLong.geometry}>
+              <meshMatcapMaterial
+                color={hexTerrainColor[HexTerrain.laurWall]}
+              />
+            </mesh>
+            <mesh geometry={LaurWallLongDecorDeep.geometry}>
+              <meshMatcapMaterial
+                color={hexTerrainColor.laurModelColor2}
+              />
+            </mesh>
+          </group>
+        )
+      })}
+      {(laurShorts ?? []).map(ruin => {
+        return (
+          <group
+            key={`${boardHex.id}.${ruin.side}`}
+            position={[x, yWithBase, z]}
+          >
+            <mesh geometry={LaurWallShort.geometry}>
+              <meshMatcapMaterial
+                color={hexTerrainColor[HexTerrain.laurWall]}
+              />
+            </mesh>
+            <mesh geometry={LaurWallShortDecorDeep.geometry}>
+              <meshMatcapMaterial
+                color={hexTerrainColor.laurModelColor2}
+              />
+            </mesh>
+          </group>
+        )
+      })}
       <group
-        position={[x, yBase, z]}
+        position={[x, yWithBase, z]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
       >
         <group
@@ -121,6 +200,7 @@ export default function LaurWallPillar({
 }
 
 useGLTF.preload('/laurwall-pillar.glb')
+useGLTF.preload('/laurwall-addons.glb')
 
 function usePillarHoverState() {
   const [colorBody, setColorBody] = React.useState(false)
