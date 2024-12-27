@@ -168,16 +168,19 @@ const glacier6 = [
   // marro hive, glacier-6
   ...basic3,
   {
+    // bottom-left corner
     q: -1,
     r: 1,
     s: 0,
   },
   {
+    // top-right corner
     q: 2,
     r: 0,
     s: -2,
   },
   {
+    // bottom-right corner
     q: 1,
     r: 1,
     s: -2,
@@ -235,11 +238,13 @@ const wallWalk9 = [
 
 const ruinsCornerExterior = [
   {
+    // the short-leg horn, top-most hex
     q: 0,
     r: -1,
     s: 1,
   },
   {
+    // the short-leg exterior lee-hex
     q: -1,
     r: 0,
     s: 1,
@@ -252,11 +257,13 @@ const ruins2 = [
 const ruins3 = [
   ...glacier6,
   {
+    // top-right of ruins footprint
     q: 3,
     r: 0,
     s: -3,
   },
   {
+    // bottom-right of ruins footprint
     q: 2,
     r: 1,
     s: -3,
@@ -274,6 +281,9 @@ const tileTemplates: Dictionary<CubeCoordinate[]> = {
   '24': basic24,
   // hex obstructions below
   [Pieces.laurWallPillar]: basic1,
+  [Pieces.laurWallRuin]: basic1,
+  [Pieces.laurWallShort]: basic1,
+  [Pieces.laurWallLong]: basic1,
   [Pieces.tree10]: basic1,
   [Pieces.tree11]: basic1,
   [Pieces.tree12]: basic1,

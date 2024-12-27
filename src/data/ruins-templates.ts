@@ -5,8 +5,6 @@ export const verticalObstructionTemplates: Dictionary<number[]> = {
   /* 
    The order really matters here.
    These number arrays' indices must line up with the templates' indices, as each hex in a terrain model might have a different height.
-   And WORSE, we shifted left one hex up there ^^^ in the tile templates, so keep it straight that the
-   height arrays are "starting" from the first "9" on line 2 of each comment-template below
   */
   [Pieces.ruins2]: [
     // Played with this in virtualscape, and here's how much I think each hex in the template requires for clearance:
@@ -16,33 +14,28 @@ export const verticalObstructionTemplates: Dictionary<number[]> = {
     9--10x--7x---4
    --10--10x--7--
     */
-    // first the basic3
-    9,
-    10, 10,
-    // then the two to the right
-    7, 4,
-    // then the two down to the right
-    10, 7,
-    // then the extra back hex
-    3,
+    // first the basic3 (the support hexes, coincidentally)
+    10, 7, 10,
+    // then the bottom-left, top-right, and bottom-right of glacier6
+    10, 4, 7,
+    // then the short-leg horn & exterior-lee
+    3, 9
   ],
   [Pieces.ruins3]: [
-    /* Ruins3, second 9 on line 2 is the origin for rotation=0
+    /* Ruins3
     the X's mark Critical support hexes, these must be supported by solid underneath
     --3--
     9---9x----8x---7---3
     ---9---8x---8---7--
     */
-    // so first the basic-3
-    9, 9, 9,
-    // then the two to the right
-    8, 7,
-    // then the two down to the right
-    8, 8,
-    // then the far right and far down-right of wallWalk9
+    // first the basic3 (the support hexes, coincidentally)
+    9, 8, 8,
+    // then the bottom-left, top-right, and bottom-right of glacier6
+    9, 7, 8,
+    // then the top-right, and bottom-right hexes
     3, 7,
-    // then the extra back hex
-    3,
+    // then the short-leg horn & exterior-lee
+    3, 9
   ],
 }
 export const verticalSupportTemplates: Dictionary<number[]> = {
@@ -58,15 +51,10 @@ export const verticalSupportTemplates: Dictionary<number[]> = {
     9--10x--7x---4
    --10--10x--7--
     */
-    // first the basic3
-    0,
-    1, 0,
-    // then the two to the right
-    1, 0,
-    // then the two down to the right
-    1, 0,
-    // then the extra back hex
-    0,
+    // first the basic3 (the support hexes, coincidentally)
+    1, 1, 1,
+    // then the rest are not!
+    0, 0, 0, 0, 0,
   ],
   [Pieces.ruins3]: [
     /* Ruins3, second 9 on line 2 is the origin for rotation=0
@@ -76,21 +64,15 @@ export const verticalSupportTemplates: Dictionary<number[]> = {
     ---9---8x---8---7--
     */
     // so first the basic-3
-    0, 1, 0,
-    // then the two to the right
-    1, 0,
-    // then the two down to the right
-    1, 0,
-    // then the far right and far down-right of wallWalk9
-    0, 0,
-    // then the extra back hex
-    0,
+    // first the basic3 (the support hexes, coincidentally)
+    1, 1, 1,
+    // then the rest are not!
+    0, 0, 0, 0, 0, 0, 0
   ],
 }
 export const interiorHexTemplates: Dictionary<number[]> = {
   /* 
-   The order really matters here.
-   These number arrays' indices must line up with the templates' indices, much like the verticalObstructionTemplates and implemented shortly after them.
+  THESE ARE BROKEN AND DO NOT SOLVE THE PROBLEM OF PERFECT VALID RUIN PLACEMENT: Edges need to be explored, they are different than hexes
   */
   [Pieces.ruins2]: [
     /* the i's mark the interior hexes
@@ -99,14 +81,10 @@ export const interiorHexTemplates: Dictionary<number[]> = {
    --10--10--7--
     */
     // A value of "2"  means origin, "1" means auxiliary
-    // first the basic3
-    0, 2, 0,
-    // then the two to the right
-    1, 0,
-    // then the two down to the right
-    0, 0,
-    // then the extra back hex
-    0,
+    // first the basic3, which contains both of ruins2's interior hexes
+    2, 1, 0,
+    // then the rest are not!
+    0, 0, 0, 0, 0
   ],
   [Pieces.ruins3]: [
     /* the i's mark the interior hexes
@@ -115,15 +93,11 @@ export const interiorHexTemplates: Dictionary<number[]> = {
     ---9---8---8---7--
     */
     // A value of "2"  means origin, "1" means auxiliary
-    // so first the basic-3
-    0, 2, 0,
-    // then the two to the right
-    1, 1,
-    // then the two down to the right
-    0, 0,
-    // then the far right and far down-right of wallWalk9
-    0, 0,
-    // then the extra back hex
-    0,
+    // first the basic3, which contains 2 of ruins3's interior hexes
+    2, 1, 0,
+    // then the bottom-left, top-right, and bottom-right (top-right is our last interior hex)
+    0, 1, 0,
+    // then the rest are not!
+    0, 0, 0, 0
   ],
 }

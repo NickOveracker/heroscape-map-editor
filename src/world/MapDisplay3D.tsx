@@ -99,7 +99,6 @@ export default function MapDisplay3D({
         const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
         const vsMap = buildupVSFileMap(vsFileData.tiles, vsFileData.name)
         loadMap(vsMap)
-
       })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
