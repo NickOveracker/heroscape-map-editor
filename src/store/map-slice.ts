@@ -22,17 +22,18 @@ const createMapSlice: StateCreator<AppState, [], [], MapSlice> = (set) => ({
   boardHexes: rectangleScenario.boardHexes,
   hexMap: rectangleScenario.hexMap,
   boardPieces: rectangleScenario.boardPieces,
-  paintTile: ({ piece, clickedHex, rotation, laurSide }: PaintTileArgs) =>
+  paintTile: ({ piece, clickedHex, rotation }: PaintTileArgs) =>
     set((state) => {
       return produce(state, (draft) => {
         if (piece.terrain === HexTerrain.laurWall &&
-          piece.id !== Pieces.laurWallPillar && laurSide) {
+          piece.id !== Pieces.laurWallPillar) {
           const { newBoardHexes, newBoardPieces } = addLaurPiece({
             piece,
             boardHexes: draft.boardHexes,
             boardPieces: draft.boardPieces,
-            clickedHex,
-            laurSide: laurSide,
+            cubeCoords: clickedHex,
+            placementAltitude: clickedHex.altitude,
+            rotation,
           })
           draft.boardHexes = newBoardHexes
           draft.boardPieces = newBoardPieces

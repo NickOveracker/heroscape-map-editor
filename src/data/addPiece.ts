@@ -22,7 +22,7 @@ import {
 } from './ruins-templates'
 
 
-type PieceAddArgs = {
+export type PieceAddArgs = {
   piece: Piece
   boardHexes: BoardHexes
   boardPieces: BoardPieces
@@ -109,17 +109,15 @@ export function addPiece({
   // LAUR WALL
   // if (piece.terrain === HexTerrain.laurWall &&
   //   piece.id !== Pieces.laurWallPillar) {
-  //   console.log("🚀 ~ piece.terrain:", piece.terrain)
   //   const isLaurWallRuin = piece.id !== Pieces.laurWallRuin
   //   const isLaurWallShort = piece.id !== Pieces.laurWallShort
   //   const isLaurWallLong = piece.id !== Pieces.laurWallLong
-  //   const isLaurPillarUnder = underHexIds.some(
-  //     (id) => newBoardHexes?.[id]?.terrain === HexTerrain.laurWall,
-  //   )
-  //   const isSlotOnWall = underHexIds.every((id) => {
-  //     return !(newBoardHexes?.[id]?.laurAddons?.[(laurSide ?? '')])
-  //   })
-  //   const isPlacingLaurAddon = isLaurPillarUnder && isSlotOnWall && isVerticalClearanceForPiece
+  //   // const pieceID = genPieceID(clickedHex.id, piece.id, addonRotation)
+  //   // const isPlacingLaurAddon = isVerticalClearanceForPiece
+  //   // const underHex = underHexIds.map(
+  //   //   (id) => newBoardHexes?.[id]?. === HexTerrain.castle,
+  //   // )
+  //   // const pillarRotation = 
   //   const pillarSideRotations: { [side: string]: number } = {
   //     plusX: 0,
   //     minusY: 1.5,
@@ -127,14 +125,7 @@ export function addPiece({
   //     plusY: 4.5,
   //   }
   //   if (isLaurWallRuin) {
-  //     const rotationOfRuin = rotation + pillarSideRotations[laurSide]
-  //     const vectorsGettingObstructed = (laurSide === 'minusY' || laurSide === 'plusY') ?
-  //       hexUtilsGetRadialNearNeighborsForRotation(rotationOfRuin) :
-  //       [hexUtilsGetNeighborForRotation(rotationOfRuin)]
-  //     const hexIdsGettingObstructed = vectorsGettingObstructed.map(coord => {
-  //       genBoardHexID({ ...coord, altitude: placementAltitude })
-  //     })
-  //     console.log("🚀 ~ hexIdsGettingObstructed ~ hexIdsGettingObstructed:", hexIdsGettingObstructed)
+
   //   }
   //   // const isWallNeedPillarToo = underHexIds.every((id) => {
   //   //   const buddyHex = '' // pillar? 

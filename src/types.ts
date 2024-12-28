@@ -32,7 +32,7 @@ export interface BoardHex extends CubeCoordinate {
 type LaurWallAddon = {
   pieceID: string
   rotation: number
-  side: string
+  side: string // this might not be needed, since we store rotation
   linkID?: string // short/long walls connect to another pillar
 }
 export type BoardPieces = {

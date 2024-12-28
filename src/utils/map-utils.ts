@@ -85,16 +85,22 @@ export const hexSidesFromCenter = {
   bottomRight: new Vector3(HEXGRID_HEX_APOTHEM / 2, 0, threeQuarterSideLength),
   bottomLeft: new Vector3(-HEXGRID_HEX_APOTHEM / 2, 0, threeQuarterSideLength),
 }
+export const pillarSideRotations: { [side: string]: number } = {
+  plusX: 0,
+  minusY: 1.5,
+  minusX: 3,
+  plusY: 4.5,
+}
 export function encodeFilename(str: string) {
   return str.replace(/[^\w]/g, '_');
 }
 export function genPieceID(boardHexID: string, pieceID: string, rotation: number) {
-  return `${boardHexID}.${rotation}.${pieceID}`
+  return `${boardHexID}-${rotation}-${pieceID}`
 }
 export function genBoardHexID(hex: CubeCoordinate & { altitude: number }) {
   /* Hex world global coords (q,r,altitude) => (x,y,z)
     1. In cube coords, "s" in (qrs) is redundant for cartesian (xy) calculation
     2. Only one hex can exist per global coordinate
     */
-  return `${hex.altitude}.${hex.q}.${hex.r}`
+  return `${hex.altitude}-${hex.q}-${hex.r}`
 }

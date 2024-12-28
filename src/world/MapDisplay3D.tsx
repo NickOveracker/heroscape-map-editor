@@ -17,12 +17,13 @@ import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
-import { genBoardHexID } from '../utils/map-utils.ts'
+import { genBoardHexID, pillarSideRotations } from '../utils/map-utils.ts'
 import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { useLocation } from 'react-router-dom'
 import JSONCrush from 'jsoncrush'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
+import { useSnackbar } from 'notistack'
 
 function useQuery() {
   const { search } = useLocation();
@@ -47,17 +48,19 @@ export default function MapDisplay3D({
     boardHexes,
     // disabled: true, // for when working on camera stuff
   })
+  const { enqueueSnackbar } = useSnackbar()
   const queryParams = useQuery();
-  // USE EFFECT: automatically load up map from URL
+  // USE EFFECT: automatically load up map from URL, OR from file
   React.useEffect(() => {
     const urlMapString = queryParams.get('m')
+    console.log("🚀 ~ React.useEffect ~ urlMapString:", urlMapString)
     if (urlMapString) {
       try {
         const data = JSON.parse(JSONCrush.uncrush(urlMapString))
         const [hexMap, ...pieceIds] = data
         const boardPieces: BoardPieces = pieceIds.reduce((prev: BoardPieces, curr: string) => {
           // get inventory id from pieceID (a,q,r,id)
-          prev[curr] = curr.split('.')[4] as Pieces
+          prev[curr] = curr.split('-')[4] as Pieces
           return prev
         }, {})
         const jsonMap = buildupJsonFileMap(boardPieces, hexMap)
@@ -69,41 +72,33 @@ export default function MapDisplay3D({
       } catch (error) {
         console.error("🚀 ~ React.useEffect ~ error:", error)
       }
+    } else {
+      // AUTO VSCAPE
+      const fileName = '/testMap.hsc'
+      fetch(fileName)
+        .then((response) => {
+          return response.arrayBuffer()
+        })
+        .then((arrayBuffer) => {
+          const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
+          const vsMap = buildupVSFileMap(vsFileData.tiles, vsFileData?.name ?? fileName)
+          loadMap(vsMap)
+          enqueueSnackbar(`Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`)
+        })
+      // AUTO JSON
+      // const fileName = '/coolmap.gz'
+      // fetch(fileName).then(async (response) => {
+      //   // const data = response.json()
+      //   const data = await response.json()
+      //   const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+      //   if (!jsonMap.hexMap.name) {
+      //     jsonMap.hexMap.name = fileName
+      //   }
+      //   loadMap(jsonMap)
+      // })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  // USE EFFECT: automatically load up GZIP/JSON map (browser fetch auto unzips gz to json)
-  // React.useEffect(() => {
-  //   const fileName = '/coolmap.gz'
-  //   fetch(fileName).then(async (response) => {
-  //     // const data = response.json()
-  //     const data = await response.json()
-  //     const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
-  //     if (!jsonMap.hexMap.name) {
-  //       jsonMap.hexMap.name = fileName
-  //     }
-  //     loadMap(jsonMap)
-  //   })
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
-
-  // USE EFFECT: automatically load up VS map
-  React.useEffect(() => {
-    const fileName = '/testMap.hsc'
-    fetch(fileName)
-      .then((response) => {
-        return response.arrayBuffer()
-      })
-      .then((arrayBuffer) => {
-        const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
-        const vsMap = buildupVSFileMap(vsFileData.tiles, vsFileData.name)
-        loadMap(vsMap)
-      })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-
 
   const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr)
 
@@ -166,12 +161,14 @@ export default function MapDisplay3D({
     event.stopPropagation() // prevent pass through
     // Early out if camera is active
     if (cameraControlsRef?.current?.active) return
-
+    const baseSideRotation = pillarSideRotations?.[side] ?? 0
     const piece = piecesSoFar[penMode]
+    const pillarRotation = hex.pieceRotation
+
     paintTile({
       piece,
       clickedHex: hex,
-      rotation: pieceRotation,
+      rotation: (baseSideRotation + pillarRotation) % 6,
       laurSide: side
     })
   }

@@ -9,34 +9,24 @@ import {
 import { hexUtilsAdd, hexUtilsGetNeighborForRotation, hexUtilsGetRadialNearNeighborsForRotation } from '../utils/hex-utils'
 import { genBoardHexID, genPieceID } from '../utils/map-utils'
 import { isFluidTerrainHex, isSolidTerrainHex, isVerticallyObstructiveTerrain } from '../utils/board-utils'
+import { PieceAddArgs } from './addPiece'
 
-type LaurPieceAddArgs = {
-  piece: Piece
-  boardHexes: BoardHexes
-  boardPieces: BoardPieces
-  clickedHex: BoardHex
-  laurSide: string
-}
 type PieceAddReturn = { newBoardHexes: BoardHexes; newBoardPieces: BoardPieces }
 
-const pillarSideRotations: { [side: string]: number } = {
-  plusX: 0,
-  minusY: 1.5,
-  minusX: 3,
-  plusY: 4.5,
-}
+
 export function addLaurPiece({
   piece,
   boardHexes,
   boardPieces,
-  clickedHex,
-  laurSide, // someday, we may want the rotation, when we saturate from data
-}: LaurPieceAddArgs): PieceAddReturn {
+  cubeCoords,
+  placementAltitude,
+  rotation
+}: Omit<PieceAddArgs, 'isVsTile'>;): PieceAddReturn {
   const newBoardHexes = clone(boardHexes)
-  const placementAltitude = clickedHex.altitude
   const newBoardPieces = clone(boardPieces)
-  const pieceID = genPieceID(clickedHex.id, piece.id, clickedHex.pieceRotation)
-  const addonRotation = (clickedHex.pieceRotation + pillarSideRotations[laurSide]) % 6
+  const addonRotation = (rotation) % 6
+  const pieceID = genPieceID(clickedHex.id, piece.id, addonRotation)
+  console.log("🚀 ~ addonRotation:", addonRotation)
 
   // LAUR WALL
   const isLaurWallRuin = piece.id === Pieces.laurWallRuin
@@ -44,6 +34,7 @@ export function addLaurPiece({
   // const isLaurWallLong = piece.id === Pieces.laurWallLong
   if (isLaurWallShort) {
     // const isPillarAtBuddy
+
     // const isSlotOpenOnPillarBuddy
     // const isCanBuildPillarRightThere
     // const build the pillar if needed, and the shortwall

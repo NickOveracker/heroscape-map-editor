@@ -4,9 +4,12 @@ import {
   MapState,
   BoardPieces,
   HexMap,
+  Pieces,
+  HexTerrain,
 } from '../types'
 import { hexUtilsOddRToCube } from '../utils/hex-utils'
 import { makeHexagonScenario, makeRectangleScenario } from '../utils/map-gen'
+import { addLaurPiece } from './addLaurPiece'
 import { addPiece } from './addPiece'
 import { pieceCodes } from './pieceCodes'
 import { piecesSoFar } from './pieces'
@@ -38,18 +41,30 @@ export default function buildupVSFileMap(
         rotation: tile.rotation,
         isVsTile: true,
       })
-      // mark every new piece on the board
       boardPieces = newBoardPieces
       return newBoardHexes
     },
     boardHexes,
   )
-
   return {
     boardHexes: newBoardHexes,
     hexMap: hexMap,
     boardPieces,
   }
+}
+function sortLaurAddonsToEndOfArray(arr: string[]) {
+  // adding the laur addons will only work if pillars are already down
+  return arr.sort((a, b) => {
+    const aPieceID = a.split('-')[4]
+    const bPieceID = b.split('-')[4]
+    if (aPieceID === Pieces.laurWallRuin || aPieceID === Pieces.laurWallLong || aPieceID === Pieces.laurWallShort) {
+      return 1; // Move 'targetValue' to the end
+    } else if (bPieceID === Pieces.laurWallRuin || bPieceID === Pieces.laurWallLong || bPieceID === Pieces.laurWallShort) {
+      return -1; // Move 'targetValue' to the end
+    } else {
+      return 0; // Maintain original order
+    }
+  });
 }
 export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): MapState {
   // For JSON maps, the map dimensions are free, we do not have to compute them
@@ -66,9 +81,10 @@ export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): Ma
       mapName: hexMap.name,
     }).boardHexes
   }
-  const newBoardHexes = Object.keys(boardPieces).reduce((boardHexes: BoardHexes, pieceQraID): BoardHexes => {
+  const piecesArray = sortLaurAddonsToEndOfArray(Object.keys(boardPieces))
+  const newBoardHexes = piecesArray.reduce((boardHexes: BoardHexes, pieceQraID): BoardHexes => {
     // For JSON maps, we build the tile coords by parsing the ID
-    const arrayThing = pieceQraID.split('.')
+    const arrayThing = pieceQraID.split('-')
     const placementAltitude = parseInt(arrayThing[0])
     const q = parseInt(arrayThing[1])
     const r = parseInt(arrayThing[2])
@@ -84,19 +100,36 @@ export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): Ma
     if (!piece) {
       return boardHexes // Should probably handle this different, errors etc.
     }
+
     // get the new board hexes and new board pieces
-    const { newBoardHexes } = addPiece({
-      piece,
-      boardHexes,
-      boardPieces,
-      cubeCoords: tileCoords,
-      placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
-      rotation: rotation,
-      isVsTile: false
-    })
+    let nextBoardHexes: BoardHexes
+    if (piece.terrain === HexTerrain.laurWall &&
+      piece.id !== Pieces.laurWallPillar) {
+      nextBoardHexes = addLaurPiece({
+        piece,
+        boardHexes,
+        boardPieces,
+        cubeCoords: tileCoords,
+        placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
+        rotation: rotation,
+        isVsTile: false
+      }).newBoardHexes
+      return nextBoardHexes
+    } else {
+      nextBoardHexes = addPiece({
+        piece,
+        boardHexes,
+        boardPieces,
+        cubeCoords: tileCoords,
+        placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
+        rotation: rotation,
+        isVsTile: false
+      }).newBoardHexes
+    }
+    return nextBoardHexes
+    // get the new board hexes and new board pieces
     // mark every new piece on the board
     // boardPieces = newBoardPieces
-    return newBoardHexes
     // return boardHexes
   }, initialBoardHexes)
 
