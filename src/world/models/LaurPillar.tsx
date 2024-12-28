@@ -1,11 +1,11 @@
-import { useGLTF } from '@react-three/drei'
+import { DragControls, useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain, Pieces } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
-import { DoubleSide } from 'three'
+import { DoubleSide, Vector3 } from 'three'
 import { HEXGRID_HEX_APOTHEM } from '../../utils/constants'
 
 export default function LaurWallPillar({
@@ -62,13 +62,28 @@ export default function LaurWallPillar({
   // function getOptionsForRotation(laurSide: string, rotation: number) {
 
   // }
+  const ruinPositionMap: { [key: string]: Vector3 } = {
+    '0': new Vector3(HEXGRID_HEX_APOTHEM, 0, 0),
+    '0.5': new Vector3(0.75, 0, HEXGRID_HEX_APOTHEM / 2),
+    '1': new Vector3(HEXGRID_HEX_APOTHEM / 2 + 0.001, 0, HEXGRID_HEX_APOTHEM - 0.114),
+    '1.5': new Vector3(-0.005, 0, HEXGRID_HEX_APOTHEM - 0.005),
+    '2': new Vector3(-HEXGRID_HEX_APOTHEM / 2 - 0.001, 0, HEXGRID_HEX_APOTHEM - 0.114),
+    '2.5': new Vector3(-0.743, 0, (HEXGRID_HEX_APOTHEM / 2) + 0.0018),
+    '3': new Vector3(-HEXGRID_HEX_APOTHEM + 0.01, 0, 0),
+    '3.5': new Vector3(-0.743, 0, -(HEXGRID_HEX_APOTHEM / 2) + 0.0018),
+    '4': new Vector3(-HEXGRID_HEX_APOTHEM / 2 + 0.003, 0, -HEXGRID_HEX_APOTHEM + 0.124),
+    '4.5': new Vector3(0.005, 0, -HEXGRID_HEX_APOTHEM + 0.005),
+    '5': new Vector3(HEXGRID_HEX_APOTHEM / 2 - 0.005, 0, -HEXGRID_HEX_APOTHEM + 0.1235),
+    '5.5': new Vector3(0.75, 0, -(HEXGRID_HEX_APOTHEM / 2 - 0.01)),
+  }
   return (
     <group>
       {(laurRuins ?? []).map(ruin => {
         return (
           <group
             key={`${boardHex.id}.${ruin.side}`}
-            position={[x + HEXGRID_HEX_APOTHEM, yWithBase, z]}
+            position={new Vector3(x, yWithBase, z).add(ruinPositionMap[`${ruin.rotation}`])}
+            rotation={[0, ruin.rotation * (-Math.PI / 3), 0]}
           >
             <mesh geometry={LaurWallRuin.geometry}>
               <meshMatcapMaterial
@@ -106,7 +121,9 @@ export default function LaurWallPillar({
         return (
           <group
             key={`${boardHex.id}.${ruin.side}`}
-            position={[x, yWithBase, z]}
+            // position={[x, yWithBase, z]}
+            position={new Vector3(x, yWithBase, z).add(ruinPositionMap[`${ruin.rotation}`])}
+            rotation={[0, ruin.rotation * (-Math.PI / 3), 0]}
           >
             <mesh geometry={LaurWallShort.geometry}>
               <meshMatcapMaterial
@@ -166,7 +183,7 @@ export default function LaurWallPillar({
           onPointerOut={onPointerOutMinusY}
           onPointerUp={(e) => onPointerUpLaurWall(e, boardHex, 'minusY')}
         >
-          <meshMatcapMaterial color={colorMinusY ? yellowColor : interiorPillarColor} />
+          <meshMatcapMaterial color={colorMinusY ? yellowColor : 'purple'} />
         </mesh>
         <mesh
           geometry={nodes.MinusX.geometry}
@@ -174,7 +191,7 @@ export default function LaurWallPillar({
           onPointerOut={onPointerOutMinusX}
           onPointerUp={(e) => onPointerUpLaurWall(e, boardHex, 'minusX')}
         >
-          <meshMatcapMaterial color={colorMinusX ? yellowColor : interiorPillarColor} />
+          <meshMatcapMaterial color={colorMinusX ? yellowColor : 'blue'} />
         </mesh>
         <mesh
           geometry={nodes.PlusY.geometry}
@@ -182,7 +199,7 @@ export default function LaurWallPillar({
           onPointerOut={onPointerOutPlusY}
           onPointerUp={(e) => onPointerUpLaurWall(e, boardHex, 'plusY')}
         >
-          <meshMatcapMaterial color={colorPlusY ? yellowColor : interiorPillarColor} />
+          <meshMatcapMaterial color={colorPlusY ? yellowColor : 'pink'} />
         </mesh>
         <mesh
           geometry={nodes.PlusX.geometry}
@@ -190,7 +207,7 @@ export default function LaurWallPillar({
           onPointerOut={onPointerOutPlusX}
           onPointerUp={(e) => onPointerUpLaurWall(e, boardHex, 'plusX')}
         >
-          <meshMatcapMaterial color={colorPlusX ? yellowColor : interiorPillarColor} />
+          <meshMatcapMaterial color={colorPlusX ? yellowColor : 'red'} />
         </mesh>
       </group>
       <ObstacleBase x={x} y={yBaseCap} z={z} color={pillarColor} />
