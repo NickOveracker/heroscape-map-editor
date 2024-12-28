@@ -1,6 +1,7 @@
 import { Button } from '@mui/material'
 import useBoundStore from '../store/store'
 import JSONCrush from 'jsoncrush';
+import { HexTerrain } from '../types';
 
 const DEVLogSomethingCoolButton = () => {
   const appState = useBoundStore((state) => state)
@@ -26,9 +27,23 @@ const DEVLogSomethingCoolButton = () => {
     // })
   }
   const onClick2 = () => {
-    console.info({
-      state: appState,
-    })
+    const nonEmpties = Object.values(appState.boardHexes)
+      .filter(bh => bh.terrain !== HexTerrain.empty)
+
+    console.log(
+      `%c${Object.keys(appState.boardPieces).map(s => (
+        `${s}`
+        + '\n'
+      ))}
+`, "color: red; font-size: 14px")
+    console.table(nonEmpties.filter(bh => Boolean(bh.laurAddons)).map(bh => (
+      { id: bh.id, ...bh.laurAddons })))
+    //     console.log(
+    //       `%c${nonEmpties
+    //         .forEach(s => (
+    //           console.dir(s.laurAddons)
+    //         ))}
+    // `, "color: blue; font-size: 16px")
   }
   return (
     <>
