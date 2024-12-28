@@ -1,13 +1,11 @@
 import { clone } from 'lodash'
 import {
   BoardHexes,
-  Piece,
   Pieces,
   BoardPieces,
-  BoardHex,
 } from '../types'
 import { hexUtilsAdd, hexUtilsGetNeighborForRotation, hexUtilsGetRadialNearNeighborsForRotation } from '../utils/hex-utils'
-import { genBoardHexID, genPieceID } from '../utils/map-utils'
+import { genBoardHexID, genPieceID, pillarSideRotations } from '../utils/map-utils'
 import { isFluidTerrainHex, isSolidTerrainHex, isVerticallyObstructiveTerrain } from '../utils/board-utils'
 import { PieceAddArgs } from './addPiece'
 
@@ -18,49 +16,57 @@ export function addLaurPiece({
   piece,
   boardHexes,
   boardPieces,
-  cubeCoords,
+  pieceCoords,
   placementAltitude,
   rotation
-}: Omit<PieceAddArgs, 'isVsTile'>;): PieceAddReturn {
+}: Omit<PieceAddArgs, 'isVsTile'>): PieceAddReturn {
   const newBoardHexes = clone(boardHexes)
   const newBoardPieces = clone(boardPieces)
+  const hexID = genBoardHexID({ ...(pieceCoords), altitude: placementAltitude })
+  const isPillarOnHex = boardHexes[hexID]?.pieceID?.includes(Pieces.laurWallPillar)
+  if (!isPillarOnHex) {
+    console.error('Tried to place Laur Wall Addon where there is no Laur Wall Pillar!')
+  }
+  const pillarRotation = boardHexes[hexID].pieceRotation
   const addonRotation = (rotation) % 6
-  const pieceID = genPieceID(clickedHex.id, piece.id, addonRotation)
-  console.log("🚀 ~ addonRotation:", addonRotation)
-
+  const pieceID = genPieceID(hexID, piece.id, addonRotation)
+  const laurSide = Object.entries(pillarSideRotations).filter(([, rotation]) => {
+    return (rotation === Math.abs(addonRotation - pillarRotation))
+  })?.[0]?.[0] ?? ''
   // LAUR WALL
   const isLaurWallRuin = piece.id === Pieces.laurWallRuin
-  const isLaurWallShort = piece.id === Pieces.laurWallShort
+  // const isLaurWallShort = piece.id === Pieces.laurWallShort
   // const isLaurWallLong = piece.id === Pieces.laurWallLong
-  if (isLaurWallShort) {
-    // const isPillarAtBuddy
+  // if (isLaurWallShort) {
+  //   // const isPillarAtBuddy
 
-    // const isSlotOpenOnPillarBuddy
-    // const isCanBuildPillarRightThere
-    // const build the pillar if needed, and the shortwall
-    if (true) {
-      // write the addon to the boardHex
-      newBoardHexes[clickedHex.id] = {
-        ...newBoardHexes[clickedHex.id],
-        laurAddons: {
-          ...newBoardHexes[clickedHex.id].laurAddons,
-          [laurSide]: {
-            pieceID: piece.id,
-            rotation: addonRotation,
-            side: laurSide, // duplicate
-            // linkID?: string // short/long walls connect to another pillar
-          }
-        }
-      }
-      // write the laur ruin piece to boardPieces
-      // newBoardPieces[pieceID] = piece.id
-    }
-  }
+  //   // const isSlotOpenOnPillarBuddy
+  //   // const isCanBuildPillarRightThere
+  //   // const build the pillar if needed, and the shortwall
+  //   if (true) {
+  //     // write the addon to the boardHex
+  //     newBoardHexes[clickedHex.id] = {
+  //       ...newBoardHexes[clickedHex.id],
+  //       laurAddons: {
+  //         ...newBoardHexes[clickedHex.id].laurAddons,
+  //         [laurSide]: {
+  //           pieceID: piece.id,
+  //           rotation: addonRotation,
+  //           side: laurSide, // duplicate
+  //           // linkID?: string // short/long walls connect to another pillar
+  //         }
+  //       }
+  //     }
+  //     // write the laur ruin piece to boardPieces
+  //     // newBoardPieces[pieceID] = piece.id
+  //   }
+  // }
   if (isLaurWallRuin) {
     const vectorsGettingObstructed = (laurSide === 'minusY' || laurSide === 'plusY') ?
       hexUtilsGetRadialNearNeighborsForRotation(addonRotation) :
       [hexUtilsGetNeighborForRotation(addonRotation)]
-    const piecePlaneCoords = vectorsGettingObstructed.map(coord => hexUtilsAdd(coord, clickedHex))
+    console.log("🚀 ~ vectorsGettingObstructed:", vectorsGettingObstructed)
+    const piecePlaneCoords = vectorsGettingObstructed.map(coord => hexUtilsAdd(coord, pieceCoords))
     const isVerticalClearanceForPiece = piecePlaneCoords.every((_, i) => {
       // const clearanceHexIds = Array(verticalObstructionTemplates?.[piece.id]?.[i] ?? piece.height)
       const clearanceHexIds = Array(piece.height)
@@ -82,10 +88,10 @@ export function addLaurPiece({
     })
     if (isVerticalClearanceForPiece) {
       // write the addon to the boardHex
-      newBoardHexes[clickedHex.id] = {
-        ...newBoardHexes[clickedHex.id],
+      newBoardHexes[hexID] = {
+        ...newBoardHexes[hexID],
         laurAddons: {
-          ...newBoardHexes[clickedHex.id].laurAddons,
+          ...newBoardHexes[hexID].laurAddons,
           [laurSide]: {
             pieceID: piece.id,
             rotation: addonRotation,

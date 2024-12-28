@@ -26,7 +26,7 @@ export type PieceAddArgs = {
   piece: Piece
   boardHexes: BoardHexes
   boardPieces: BoardPieces
-  cubeCoords: CubeCoordinate
+  pieceCoords: CubeCoordinate
   placementAltitude: number
   rotation: number
   isVsTile: boolean
@@ -37,7 +37,7 @@ export function addPiece({
   piece,
   boardHexes,
   boardPieces,
-  cubeCoords,
+  pieceCoords,
   placementAltitude,
   rotation,
   isVsTile,
@@ -45,14 +45,14 @@ export function addPiece({
   const newBoardHexes = clone(boardHexes)
   const newBoardPieces = clone(boardPieces)
   const piecePlaneCoords = getPieceTemplateCoords({
-    clickedHex: { q: cubeCoords.q, r: cubeCoords.r, s: cubeCoords.s },
+    clickedHex: { q: pieceCoords.q, r: pieceCoords.r, s: pieceCoords.s },
     rotation,
     template: piece.template,
     isVsTile,
   })
-  const originOfTile = isVsTile ? piecePlaneCoords[0] : cubeCoords // vs moves it around per rotation, our app will probably not
-  const clickedHexIDOrTileCoordsPresumedID = genBoardHexID({ ...(originOfTile), altitude: placementAltitude })
-  const pieceID = genPieceID(clickedHexIDOrTileCoordsPresumedID, piece.id, rotation)
+  const originOfTile = isVsTile ? piecePlaneCoords[0] : pieceCoords // vs moves it around per rotation, our app will probably not
+  const pieceHexID = genBoardHexID({ ...(originOfTile), altitude: placementAltitude })
+  const pieceID = genPieceID(pieceHexID, piece.id, rotation)
   const genIds = (altitude: number) => {
     return piecePlaneCoords.map((cubeCoord) =>
       genBoardHexID({ ...cubeCoord, altitude: altitude }),

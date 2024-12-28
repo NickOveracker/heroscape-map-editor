@@ -36,7 +36,7 @@ export default function buildupVSFileMap(
         piece,
         boardHexes,
         boardPieces,
-        cubeCoords: tileCoords,
+        pieceCoords: tileCoords,
         placementAltitude: tile.posZ, // z is altitude is virtualscape, y is altitude in our app
         rotation: tile.rotation,
         isVsTile: true,
@@ -83,15 +83,18 @@ export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): Ma
   }
   const piecesArray = sortLaurAddonsToEndOfArray(Object.keys(boardPieces))
   const newBoardHexes = piecesArray.reduce((boardHexes: BoardHexes, pieceQraID): BoardHexes => {
-    // For JSON maps, we build the tile coords by parsing the ID
+    console.log("🚀 ~ newBoardHexes ~ pieceQraID:", pieceQraID)
+    // For JSON maps, we build the piece coords by parsing the ID
     const arrayThing = pieceQraID.split('-')
+    console.log("🚀 ~ newBoardHexes ~ arrayThing:", arrayThing)
     const placementAltitude = parseInt(arrayThing[0])
     const q = parseInt(arrayThing[1])
     const r = parseInt(arrayThing[2])
     const s = -q - r
-    const rotation = parseInt(arrayThing[3])
+    const rotation = parseFloat(arrayThing[3])
+    console.log("🚀 ~ newBoardHexes ~ rotation:", rotation)
     const pieceInventoryID = arrayThing[4]
-    const tileCoords = { q, r, s }
+    const pieceCoords = { q, r, s }
     // start zones
     // if (tile.type === 15001) {
     // }
@@ -109,10 +112,9 @@ export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): Ma
         piece,
         boardHexes,
         boardPieces,
-        cubeCoords: tileCoords,
+        pieceCoords,
         placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
         rotation: rotation,
-        isVsTile: false
       }).newBoardHexes
       return nextBoardHexes
     } else {
@@ -120,7 +122,7 @@ export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): Ma
         piece,
         boardHexes,
         boardPieces,
-        cubeCoords: tileCoords,
+        pieceCoords,
         placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
         rotation: rotation,
         isVsTile: false

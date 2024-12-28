@@ -65,7 +65,6 @@ export default function LaurWallPillar({
   return (
     <group>
       {(laurRuins ?? []).map(ruin => {
-        console.log("🚀 ~ ruin:", ruin)
         return (
           <group
             key={`${boardHex.id}.${ruin.side}`}
