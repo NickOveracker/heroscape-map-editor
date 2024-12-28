@@ -55,8 +55,8 @@ export default function buildupVSFileMap(
 function sortLaurAddonsToEndOfArray(arr: string[]) {
   // adding the laur addons will only work if pillars are already down
   return arr.sort((a, b) => {
-    const aPieceID = a.split('-')[4]
-    const bPieceID = b.split('-')[4]
+    const aPieceID = a.split('~')[4]
+    const bPieceID = b.split('~')[4]
     if (aPieceID === Pieces.laurWallRuin || aPieceID === Pieces.laurWallLong || aPieceID === Pieces.laurWallShort) {
       return 1; // Move 'targetValue' to the end
     } else if (bPieceID === Pieces.laurWallRuin || bPieceID === Pieces.laurWallLong || bPieceID === Pieces.laurWallShort) {
@@ -83,16 +83,13 @@ export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): Ma
   }
   const piecesArray = sortLaurAddonsToEndOfArray(Object.keys(boardPieces))
   const newBoardHexes = piecesArray.reduce((boardHexes: BoardHexes, pieceQraID): BoardHexes => {
-    console.log("🚀 ~ newBoardHexes ~ pieceQraID:", pieceQraID)
     // For JSON maps, we build the piece coords by parsing the ID
-    const arrayThing = pieceQraID.split('-')
-    console.log("🚀 ~ newBoardHexes ~ arrayThing:", arrayThing)
+    const arrayThing = pieceQraID.split('~')
     const placementAltitude = parseInt(arrayThing[0])
     const q = parseInt(arrayThing[1])
     const r = parseInt(arrayThing[2])
     const s = -q - r
     const rotation = parseFloat(arrayThing[3])
-    console.log("🚀 ~ newBoardHexes ~ rotation:", rotation)
     const pieceInventoryID = arrayThing[4]
     const pieceCoords = { q, r, s }
     // start zones

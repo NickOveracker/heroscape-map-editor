@@ -58,8 +58,8 @@ export default function MapDisplay3D({
         const data = JSON.parse(JSONCrush.uncrush(urlMapString))
         const [hexMap, ...pieceIds] = data
         const boardPieces: BoardPieces = pieceIds.reduce((prev: BoardPieces, curr: string) => {
-          // get inventory id from pieceID (a,q,r,id)
-          prev[curr] = curr.split('-')[4] as Pieces
+          // get inventory id from pieceID (a~q~r~id)
+          prev[curr] = curr.split('~')[4] as Pieces
           return prev
         }, {})
         const jsonMap = buildupJsonFileMap(boardPieces, hexMap)
