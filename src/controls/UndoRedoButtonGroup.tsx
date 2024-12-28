@@ -5,10 +5,8 @@ import ControlButtonGroup from './ControlButtonGroup'
 
 const UndoRedoButtonGroup = () => {
   const { undo, redo } = useBoundStore.temporal.getState()
-  useHotkeys('ctrl+z', () => undo())
-  useHotkeys('ctrl+y', () => redo())
-  useHotkeys('cmd+z', () => undo())
-  useHotkeys('cmd+y', () => redo())
+  useHotkeys('mod+z', () => undo())
+  useHotkeys('mod+y', () => redo())
   return (
     <ControlButtonGroup>
       <Button variant="contained" onClick={() => undo()}>

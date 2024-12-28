@@ -1,5 +1,6 @@
 import { CameraControls } from '@react-three/drei'
 import useBoundStore from '../../store/store'
+import { useHotkeys } from 'react-hotkeys-hook'
 // import { useThree } from "@react-three/fiber"
 // import { useControls, button, buttonGroup, folder } from 'leva'
 // import { MathUtils } from "three"
@@ -11,7 +12,21 @@ export default function MyCameraControls({
 }: {
   cameraControlsRef: React.RefObject<CameraControls>
 }) {
+
+
   // const { camera } = useThree()
+  useHotkeys('up', () => {
+    cameraControlsRef?.current?.dolly(5, true)
+  })
+  useHotkeys('shift+up', () => {
+    cameraControlsRef?.current?.dolly(1, true)
+  })
+  useHotkeys('down', () => cameraControlsRef?.current?.dolly(-5, true))
+  useHotkeys('shift+down', () => {
+    cameraControlsRef?.current?.dolly(-1, true)
+  })
+  useHotkeys('left', () => cameraControlsRef?.current?.truck(-1, 0, true))
+  useHotkeys('right', () => cameraControlsRef?.current?.truck(1, 0, true))
   const isCameraDisabled = useBoundStore((s) => s.isCameraDisabled)
   // const { minDistance, enabled, verticalDragToForward, dollyToCursor, infinityDolly } = useControls({
   //     thetaGrp: buttonGroup({
@@ -133,12 +148,12 @@ export default function MyCameraControls({
       // maxZoom={}
       smoothTime={0.3}
 
-      // LEVA EXPLORE
-      // minDistance={minDistance}
-      // enabled={enabled}
-      // verticalDragToForward={verticalDragToForward}
-      // dollyToCursor={dollyToCursor}
-      // infinityDolly={infinityDolly}
+    // LEVA EXPLORE
+    // minDistance={minDistance}
+    // enabled={enabled}
+    // verticalDragToForward={verticalDragToForward}
+    // dollyToCursor={dollyToCursor}
+    // infinityDolly={infinityDolly}
     />
   )
 }
