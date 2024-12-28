@@ -43,9 +43,7 @@ export function LaurWallLong({
   return (
     <group position={[x, yBase, z]}>
       <mesh geometry={nodes.LaurWallLong.geometry}>
-        <meshMatcapMaterial
-          color={hexTerrainColor[HexTerrain.laurWall]}
-        />
+        <meshMatcapMaterial color={hexTerrainColor[HexTerrain.laurWall]} />
       </mesh>
     </group>
   )

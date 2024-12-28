@@ -57,16 +57,27 @@ function sortLaurAddonsToEndOfArray(arr: string[]) {
   return arr.sort((a, b) => {
     const aPieceID = a.split('~')[4]
     const bPieceID = b.split('~')[4]
-    if (aPieceID === Pieces.laurWallRuin || aPieceID === Pieces.laurWallLong || aPieceID === Pieces.laurWallShort) {
-      return 1; // Move 'targetValue' to the end
-    } else if (bPieceID === Pieces.laurWallRuin || bPieceID === Pieces.laurWallLong || bPieceID === Pieces.laurWallShort) {
-      return -1; // Move 'targetValue' to the end
+    if (
+      aPieceID === Pieces.laurWallRuin ||
+      aPieceID === Pieces.laurWallLong ||
+      aPieceID === Pieces.laurWallShort
+    ) {
+      return 1 // Move 'targetValue' to the end
+    } else if (
+      bPieceID === Pieces.laurWallRuin ||
+      bPieceID === Pieces.laurWallLong ||
+      bPieceID === Pieces.laurWallShort
+    ) {
+      return -1 // Move 'targetValue' to the end
     } else {
-      return 0; // Maintain original order
+      return 0 // Maintain original order
     }
-  });
+  })
 }
-export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): MapState {
+export function buildupJsonFileMap(
+  boardPieces: BoardPieces,
+  hexMap: HexMap,
+): MapState {
   // For JSON maps, the map dimensions are free, we do not have to compute them
   let initialBoardHexes: BoardHexes = {}
   if (hexMap.shape === 'rectangle') {
@@ -82,55 +93,60 @@ export function buildupJsonFileMap(boardPieces: BoardPieces, hexMap: HexMap): Ma
     }).boardHexes
   }
   const piecesArray = sortLaurAddonsToEndOfArray(Object.keys(boardPieces))
-  const newBoardHexes = piecesArray.reduce((boardHexes: BoardHexes, pieceQraID): BoardHexes => {
-    // For JSON maps, we build the piece coords by parsing the ID
-    const arrayThing = pieceQraID.split('~')
-    const placementAltitude = parseInt(arrayThing[0])
-    const q = parseInt(arrayThing[1])
-    const r = parseInt(arrayThing[2])
-    const s = -q - r
-    const rotation = parseFloat(arrayThing[3])
-    const pieceInventoryID = arrayThing[4]
-    const pieceCoords = { q, r, s }
-    // start zones
-    // if (tile.type === 15001) {
-    // }
-    // personalTiles
-    const piece = piecesSoFar[pieceInventoryID]
-    if (!piece) {
-      return boardHexes // Should probably handle this different, errors etc.
-    }
+  const newBoardHexes = piecesArray.reduce(
+    (boardHexes: BoardHexes, pieceQraID): BoardHexes => {
+      // For JSON maps, we build the piece coords by parsing the ID
+      const arrayThing = pieceQraID.split('~')
+      const placementAltitude = parseInt(arrayThing[0])
+      const q = parseInt(arrayThing[1])
+      const r = parseInt(arrayThing[2])
+      const s = -q - r
+      const rotation = parseFloat(arrayThing[3])
+      const pieceInventoryID = arrayThing[4]
+      const pieceCoords = { q, r, s }
+      // start zones
+      // if (tile.type === 15001) {
+      // }
+      // personalTiles
+      const piece = piecesSoFar[pieceInventoryID]
+      if (!piece) {
+        return boardHexes // Should probably handle this different, errors etc.
+      }
 
-    // get the new board hexes and new board pieces
-    let nextBoardHexes: BoardHexes
-    if (piece.terrain === HexTerrain.laurWall &&
-      piece.id !== Pieces.laurWallPillar) {
-      nextBoardHexes = addLaurPiece({
-        piece,
-        boardHexes,
-        boardPieces,
-        pieceCoords,
-        placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
-        rotation: rotation,
-      }).newBoardHexes
+      // get the new board hexes and new board pieces
+      let nextBoardHexes: BoardHexes
+      if (
+        piece.terrain === HexTerrain.laurWall &&
+        piece.id !== Pieces.laurWallPillar
+      ) {
+        nextBoardHexes = addLaurPiece({
+          piece,
+          boardHexes,
+          boardPieces,
+          pieceCoords,
+          placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
+          rotation: rotation,
+        }).newBoardHexes
+        return nextBoardHexes
+      } else {
+        nextBoardHexes = addPiece({
+          piece,
+          boardHexes,
+          boardPieces,
+          pieceCoords,
+          placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
+          rotation: rotation,
+          isVsTile: false,
+        }).newBoardHexes
+      }
       return nextBoardHexes
-    } else {
-      nextBoardHexes = addPiece({
-        piece,
-        boardHexes,
-        boardPieces,
-        pieceCoords,
-        placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
-        rotation: rotation,
-        isVsTile: false
-      }).newBoardHexes
-    }
-    return nextBoardHexes
-    // get the new board hexes and new board pieces
-    // mark every new piece on the board
-    // boardPieces = newBoardPieces
-    // return boardHexes
-  }, initialBoardHexes)
+      // get the new board hexes and new board pieces
+      // mark every new piece on the board
+      // boardPieces = newBoardPieces
+      // return boardHexes
+    },
+    initialBoardHexes,
+  )
 
   return {
     boardHexes: newBoardHexes,

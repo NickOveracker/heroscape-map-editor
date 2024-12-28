@@ -1,4 +1,13 @@
-import { CUBE_EAST, CUBE_NE, CUBE_NW, CUBE_SE, CUBE_SW, CUBE_WEST, HEXGRID_HEX_RADIUS, ORIGIN_000 } from './constants'
+import {
+  CUBE_EAST,
+  CUBE_NE,
+  CUBE_NW,
+  CUBE_SE,
+  CUBE_SW,
+  CUBE_WEST,
+  HEXGRID_HEX_RADIUS,
+  ORIGIN_000,
+} from './constants'
 import { CubeCoordinate } from '../types'
 import { Dictionary } from 'lodash'
 export const hexUtilsEquals = (
@@ -148,7 +157,10 @@ No clue if my terminology is geometer approved.
 export const hexUtilsGetRadialNearNeighborsForRotation = (
   rotation: number,
 ): [CubeCoordinate, CubeCoordinate] => {
-  return [directions[`${(rotation - 0.5) % 6}`], directions[`${(rotation + 0.5) % 6}`]]
+  return [
+    directions[`${(rotation - 0.5) % 6}`],
+    directions[`${(rotation + 0.5) % 6}`],
+  ]
 }
 export const hexUtilsGetRadialFarNeighborForRotation = (
   rotation: number,

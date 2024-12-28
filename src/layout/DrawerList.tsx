@@ -4,7 +4,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { ROUTES } from '../routes/ROUTES'
 import { MdHome } from 'react-icons/md'
 

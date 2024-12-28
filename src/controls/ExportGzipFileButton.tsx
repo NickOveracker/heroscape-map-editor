@@ -4,16 +4,14 @@ import useBoundStore from '../store/store'
 import { BoardPieces, HexMap } from '../types'
 import { encodeFilename } from '../utils/map-utils'
 
-
-
 const ExportGzipFileButton = () => {
   const hexMap = useBoundStore((state) => state.hexMap)
   const boardPieces = useBoundStore((state) => state.boardPieces)
   const handleClickExportJson = async () => {
     const filename = `${encodeFilename(hexMap.name)}.gz`
     const data: {
-      hexMap: HexMap,
-      boardPieces: BoardPieces,
+      hexMap: HexMap
+      boardPieces: BoardPieces
     } = {
       hexMap,
       boardPieces,

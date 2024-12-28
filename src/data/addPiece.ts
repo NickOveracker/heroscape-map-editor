@@ -21,7 +21,6 @@ import {
   verticalSupportTemplates,
 } from './ruins-templates'
 
-
 export type PieceAddArgs = {
   piece: Piece
   boardHexes: BoardHexes
@@ -51,7 +50,10 @@ export function addPiece({
     isVsTile,
   })
   const originOfTile = isVsTile ? piecePlaneCoords[0] : pieceCoords // vs moves it around per rotation, our app will probably not
-  const pieceHexID = genBoardHexID({ ...(originOfTile), altitude: placementAltitude })
+  const pieceHexID = genBoardHexID({
+    ...originOfTile,
+    altitude: placementAltitude,
+  })
   const pieceID = genPieceID(pieceHexID, piece.id, rotation)
   const genIds = (altitude: number) => {
     return piecePlaneCoords.map((cubeCoord) =>
@@ -66,8 +68,7 @@ export function addPiece({
   const isFluidTile = isFluidTerrainHex(piece.terrain)
   const isCastleWallPiece = piece.id.includes('castleWall')
   const isCastleArchPiece =
-    piece.id === Pieces.castleArch ||
-    piece.id === Pieces.castleArchNoDoor
+    piece.id === Pieces.castleArch || piece.id === Pieces.castleArchNoDoor
   // Validate
   const isPlacingOnTable = underHexIds.every(
     (id) => (newBoardHexes?.[id]?.terrain ?? '') === HexTerrain.empty,
@@ -83,7 +84,9 @@ export function addPiece({
     (id) => (newBoardHexes?.[id]?.terrain ?? '') === HexTerrain.empty,
   )
   const isVerticalClearanceForPiece = newHexIds.every((_, i) => {
-    const clearanceHexIds = Array(verticalObstructionTemplates?.[piece.id]?.[i] ?? piece.height)
+    const clearanceHexIds = Array(
+      verticalObstructionTemplates?.[piece.id]?.[i] ?? piece.height,
+    )
       .fill(0)
       .map((_, j) => {
         const altitude = newPieceAltitude + 1 + j
@@ -117,7 +120,7 @@ export function addPiece({
   //   // const underHex = underHexIds.map(
   //   //   (id) => newBoardHexes?.[id]?. === HexTerrain.castle,
   //   // )
-  //   // const pillarRotation = 
+  //   // const pillarRotation =
   //   const pillarSideRotations: { [side: string]: number } = {
   //     plusX: 0,
   //     minusY: 1.5,
@@ -128,7 +131,7 @@ export function addPiece({
 
   //   }
   //   // const isWallNeedPillarToo = underHexIds.every((id) => {
-  //   //   const buddyHex = '' // pillar? 
+  //   //   const buddyHex = '' // pillar?
   //   //   return !(newBoardHexes?.[id]?.laurAddons?.[(laurSide ?? '')])
   //   // })
 
@@ -175,8 +178,9 @@ export function addPiece({
     )
     const isCastleWallSupported =
       isSolidUnderAll || isEmptyUnderAll || isCastleUnderAll
-    const isSolidUnder2OuterHexes = underHexIds.every((id, i) =>
-      i === 1 ? true : isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''),
+    const isSolidUnder2OuterHexes = underHexIds.every(
+      (id, i) =>
+        i === 1 ? true : isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''),
       // i=0, i=2, those are the 2 "outer" hexes of the 3-hex arch
     )
     const isCastleArchSupported = isSolidUnder2OuterHexes || isEmptyUnderAll
@@ -384,7 +388,7 @@ export function addPiece({
         : true
     })
     const isSpaceFreeForRuin = newHexIds.every((newID, i) => {
-      // Ruins, and LaurAddons, only block at certain angles per rotation, unlike obstacles that block everything 
+      // Ruins, and LaurAddons, only block at certain angles per rotation, unlike obstacles that block everything
       // Here is where we calculate our Ruin we are placing versus the ruin on the hex, can they co-exist?
       const hex = newBoardHexes?.[newID]
       if (!hex) return true
@@ -405,8 +409,7 @@ export function addPiece({
       isVerticalClearanceForPiece
     if (isPlacingRuin) {
       newHexIds.forEach((newHexID, i) => {
-        const isObstacleAuxiliary =
-          interiorHexTemplates[piece.id][i] === 1 // 1 marks auxiliary hexes, 2 marks the origin, in these template arrays
+        const isObstacleAuxiliary = interiorHexTemplates[piece.id][i] === 1 // 1 marks auxiliary hexes, 2 marks the origin, in these template arrays
         const isPieceOrigin = i === 0 // hacking off the template order, should be 0 but we shift the template for ruins, (because then the wallWalk template handily matches the vertical clearance of a ruin)
 
         // write in vertical clearances for all the hexes a ruin borders

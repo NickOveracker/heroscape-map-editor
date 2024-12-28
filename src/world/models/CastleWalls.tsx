@@ -79,7 +79,7 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
           </mesh>
         </>
       </group>
-      {(boardHex.castleWallHeight === 9) && ( // when it's 8, castle is wall-on-wall and no base is shown
+      {boardHex.castleWallHeight === 9 && ( // when it's 8, castle is wall-on-wall and no base is shown
         <ObstacleBase
           x={x}
           y={yBaseCap}

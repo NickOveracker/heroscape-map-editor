@@ -20,7 +20,11 @@ function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
     //  materials
   } = useGLTF('/forgotten-forest-tree-low-poly-colored.glb') as any
   const { x, z, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
-  const treeHeight = boardHex.pieceID.includes(Pieces.tree12) ? 12 : boardHex.pieceID.includes(Pieces.tree11) ? 11 : 10
+  const treeHeight = boardHex.pieceID.includes(Pieces.tree12)
+    ? 12
+    : boardHex.pieceID.includes(Pieces.tree11)
+      ? 11
+      : 10
   const options = getOptionsForTreeHeight(treeHeight)
   const rotation = boardHex?.pieceRotation ?? 0
   function getOptionsForTreeHeight(treeHeight: number) {

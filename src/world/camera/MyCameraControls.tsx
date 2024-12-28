@@ -12,8 +12,6 @@ export default function MyCameraControls({
 }: {
   cameraControlsRef: React.RefObject<CameraControls>
 }) {
-
-
   // const { camera } = useThree()
   useHotkeys('up', () => {
     cameraControlsRef?.current?.dolly(5, true)
@@ -148,12 +146,12 @@ export default function MyCameraControls({
       // maxZoom={}
       smoothTime={0.3}
 
-    // LEVA EXPLORE
-    // minDistance={minDistance}
-    // enabled={enabled}
-    // verticalDragToForward={verticalDragToForward}
-    // dollyToCursor={dollyToCursor}
-    // infinityDolly={infinityDolly}
+      // LEVA EXPLORE
+      // minDistance={minDistance}
+      // enabled={enabled}
+      // verticalDragToForward={verticalDragToForward}
+      // dollyToCursor={dollyToCursor}
+      // infinityDolly={infinityDolly}
     />
   )
 }

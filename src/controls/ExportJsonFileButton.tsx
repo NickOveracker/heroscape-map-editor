@@ -4,8 +4,6 @@ import useBoundStore from '../store/store'
 import { MapFileState } from '../types'
 import { encodeFilename } from '../utils/map-utils'
 
-
-
 const ExportJsonFileButton = () => {
   const hexMap = useBoundStore((state) => state.hexMap)
   const boardPieces = useBoundStore((state) => state.boardPieces)
@@ -19,8 +17,8 @@ const ExportJsonFileButton = () => {
     element.setAttribute(
       'href',
       `data:application/x-ndjson;charset=utf-8,${encodeURIComponent(
-        JSON.stringify(data)
-      )}`
+        JSON.stringify(data),
+      )}`,
     )
     element.setAttribute('download', filename)
     element.style.display = 'none'

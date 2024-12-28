@@ -15,11 +15,12 @@ export const verticalObstructionTemplates: Dictionary<number[]> = {
    --10--10x--7--
     */
     // first the basic3 (the support hexes, coincidentally)
-    10, 7, 10,
+    10,
+    7, 10,
     // then the bottom-left, top-right, and bottom-right of glacier6
     10, 4, 7,
     // then the short-leg horn & exterior-lee
-    3, 9
+    3, 9,
   ],
   [Pieces.ruins3]: [
     /* Ruins3
@@ -35,7 +36,7 @@ export const verticalObstructionTemplates: Dictionary<number[]> = {
     // then the top-right, and bottom-right hexes
     3, 7,
     // then the short-leg horn & exterior-lee
-    3, 9
+    3, 9,
   ],
 }
 export const verticalSupportTemplates: Dictionary<number[]> = {
@@ -52,7 +53,8 @@ export const verticalSupportTemplates: Dictionary<number[]> = {
    --10--10x--7--
     */
     // first the basic3 (the support hexes, coincidentally)
-    1, 1, 1,
+    1,
+    1, 1,
     // then the rest are not!
     0, 0, 0, 0, 0,
   ],
@@ -67,7 +69,7 @@ export const verticalSupportTemplates: Dictionary<number[]> = {
     // first the basic3 (the support hexes, coincidentally)
     1, 1, 1,
     // then the rest are not!
-    0, 0, 0, 0, 0, 0, 0
+    0, 0, 0, 0, 0, 0, 0,
   ],
 }
 export const interiorHexTemplates: Dictionary<number[]> = {
@@ -84,7 +86,7 @@ export const interiorHexTemplates: Dictionary<number[]> = {
     // first the basic3, which contains both of ruins2's interior hexes
     2, 1, 0,
     // then the rest are not!
-    0, 0, 0, 0, 0
+    0, 0, 0, 0, 0,
   ],
   [Pieces.ruins3]: [
     /* the i's mark the interior hexes
@@ -96,8 +98,9 @@ export const interiorHexTemplates: Dictionary<number[]> = {
     // first the basic3, which contains 2 of ruins3's interior hexes
     2, 1, 0,
     // then the bottom-left, top-right, and bottom-right (top-right is our last interior hex)
-    0, 1, 0,
+    0,
+    1, 0,
     // then the rest are not!
-    0, 0, 0, 0
+    0, 0, 0, 0,
   ],
 }

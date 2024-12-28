@@ -98,9 +98,13 @@ export const pillarSideRotationsFlip: { [rotation: number]: string } = {
   [4.5]: 'plusY',
 }
 export function encodeFilename(str: string) {
-  return str.replace(/[^\w]/g, '_');
+  return str.replace(/[^\w]/g, '_')
 }
-export function genPieceID(boardHexID: string, pieceID: string, rotation: number) {
+export function genPieceID(
+  boardHexID: string,
+  pieceID: string,
+  rotation: number,
+) {
   return `${boardHexID}~${rotation}~${pieceID}`
 }
 export function genBoardHexID(hex: CubeCoordinate & { altitude: number }) {

@@ -1,6 +1,9 @@
 import React from 'react'
+import { useLocation } from 'react-router'
 import { ThreeEvent } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
+import JSONCrush from 'jsoncrush'
+import { useSnackbar } from 'notistack'
 
 import { MapHex3D } from './maphex/MapHex3D.tsx'
 import useBoundStore from '../store/store.ts'
@@ -19,17 +22,13 @@ import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
 import { genBoardHexID, pillarSideRotations } from '../utils/map-utils.ts'
 import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
-import { useLocation } from 'react-router-dom'
-import JSONCrush from 'jsoncrush'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
-import { useSnackbar } from 'notistack'
 
 function useQuery() {
-  const { search } = useLocation();
-  return React.useMemo(() => new URLSearchParams(search), [search]);
+  const { search } = useLocation()
+  return React.useMemo(() => new URLSearchParams(search), [search])
 }
-
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -49,7 +48,7 @@ export default function MapDisplay3D({
     // disabled: true, // for when working on camera stuff
   })
   const { enqueueSnackbar } = useSnackbar()
-  const queryParams = useQuery();
+  const queryParams = useQuery()
   // USE EFFECT: automatically load up map from URL, OR from file
   React.useEffect(() => {
     const urlMapString = queryParams.get('m')
@@ -57,19 +56,21 @@ export default function MapDisplay3D({
       try {
         const data = JSON.parse(JSONCrush.uncrush(urlMapString))
         const [hexMap, ...pieceIds] = data
-        const boardPieces: BoardPieces = pieceIds.reduce((prev: BoardPieces, curr: string) => {
-          // get inventory id from pieceID (a~q~r~id)
-          prev[curr] = curr.split('~')[4] as Pieces
-          return prev
-        }, {})
+        const boardPieces: BoardPieces = pieceIds.reduce(
+          (prev: BoardPieces, curr: string) => {
+            // get inventory id from pieceID (a~q~r~id)
+            prev[curr] = curr.split('~')[4] as Pieces
+            return prev
+          },
+          {},
+        )
         const jsonMap = buildupJsonFileMap(boardPieces, hexMap)
         if (!jsonMap.hexMap.name) {
           jsonMap.hexMap.name = genRandomMapName()
         }
         loadMap(jsonMap)
-
       } catch (error) {
-        console.error("🚀 ~ React.useEffect ~ error:", error)
+        console.error('🚀 ~ React.useEffect ~ error:', error)
       }
     } else {
       // AUTO VSCAPE
@@ -80,9 +81,14 @@ export default function MapDisplay3D({
         })
         .then((arrayBuffer) => {
           const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
-          const vsMap = buildupVSFileMap(vsFileData.tiles, vsFileData?.name ?? fileName)
+          const vsMap = buildupVSFileMap(
+            vsFileData.tiles,
+            vsFileData?.name ?? fileName,
+          )
           loadMap(vsMap)
-          enqueueSnackbar(`Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`)
+          enqueueSnackbar(
+            `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
+          )
         })
       // AUTO JSON
       // const fileName = '/coolmap.gz'
@@ -168,7 +174,7 @@ export default function MapDisplay3D({
       piece,
       clickedHex: hex,
       rotation: (baseSideRotation + pillarRotation) % 6,
-      laurSide: side
+      laurSide: side,
     })
   }
 

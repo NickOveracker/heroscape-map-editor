@@ -2,7 +2,9 @@ import React, { ChangeEvent } from 'react'
 import { Button } from '@mui/material'
 import { MdFileOpen } from 'react-icons/md'
 import { GiDevilMask } from 'react-icons/gi'
-import readVirtualscapeMapFile, { readGzipMapFile } from '../data/readVirtualscapeMapFile'
+import readVirtualscapeMapFile, {
+  readGzipMapFile,
+} from '../data/readVirtualscapeMapFile'
 import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap'
 import useBoundStore from '../store/store'
 

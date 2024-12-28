@@ -1,4 +1,5 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router'
+import { RouterProvider } from 'react-router'
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
 import Layout from './routes/layout'
 import ErrorPage from './layout/error-page'
@@ -15,30 +16,19 @@ const darkTheme = createTheme({
 })
 
 const App = () => {
-  const router = createBrowserRouter(
-    [
-      {
-        path: ROUTES.home,
-        element: <Layout />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: ROUTES.home,
-            element: <World />,
-          },
-        ],
-      },
-    ],
+  const router = createBrowserRouter([
     {
-      future: {
-        v7_relativeSplatPath: true,
-        v7_fetcherPersist: true,
-        v7_normalizeFormMethod: true,
-        v7_partialHydration: true,
-        v7_skipActionErrorRevalidation: true,
-      },
+      path: ROUTES.home,
+      element: <Layout />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: ROUTES.home,
+          element: <World />,
+        },
+      ],
     },
-  )
+  ])
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -48,12 +38,7 @@ const App = () => {
           maxSnack={3}
           autoHideDuration={3000}
         >
-          <RouterProvider
-            router={router}
-            future={{
-              v7_startTransition: true,
-            }}
-          />
+          <RouterProvider router={router} />
         </SnackbarProvider>
       </EventProvider>
     </ThemeProvider>

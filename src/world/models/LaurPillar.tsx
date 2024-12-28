@@ -27,7 +27,8 @@ export default function LaurWallPillar({
     LaurWallLong,
     LaurWallLongDecorDeep,
     LaurWallShort,
-    LaurWallShortDecorDeep } = useGLTF('/laurwall-addons.glb').nodes as any
+    LaurWallShortDecorDeep,
+  } = useGLTF('/laurwall-addons.glb').nodes as any
 
   const rotation = boardHex?.pieceRotation ?? 0
   const {
@@ -50,39 +51,63 @@ export default function LaurWallPillar({
   const pillarColor = hexTerrainColor[HexTerrain.laurWall]
   const interiorPillarColor = hexTerrainColor.laurModelColor2
   const yellowColor = 'yellow'
-  const laurRuins = Object.values(boardHex?.laurAddons ?? {}).filter(addon => {
-    return addon.pieceID === Pieces.laurWallRuin
-  })
-  const laurLongs = Object.values(boardHex?.laurAddons ?? {}).filter(addon => {
-    return addon.pieceID === Pieces.laurWallLong
-  })
-  const laurShorts = Object.values(boardHex?.laurAddons ?? {}).filter(addon => {
-    return addon.pieceID === Pieces.laurWallShort
-  })
+  const laurRuins = Object.values(boardHex?.laurAddons ?? {}).filter(
+    (addon) => {
+      return addon.pieceID === Pieces.laurWallRuin
+    },
+  )
+  const laurLongs = Object.values(boardHex?.laurAddons ?? {}).filter(
+    (addon) => {
+      return addon.pieceID === Pieces.laurWallLong
+    },
+  )
+  const laurShorts = Object.values(boardHex?.laurAddons ?? {}).filter(
+    (addon) => {
+      return addon.pieceID === Pieces.laurWallShort
+    },
+  )
   // function getOptionsForRotation(laurSide: string, rotation: number) {
 
   // }
   const ruinPositionMap: { [key: string]: Vector3 } = {
     '0': new Vector3(HEXGRID_HEX_APOTHEM, 0, 0),
     '0.5': new Vector3(0.75, 0, HEXGRID_HEX_APOTHEM / 2),
-    '1': new Vector3(HEXGRID_HEX_APOTHEM / 2 + 0.001, 0, HEXGRID_HEX_APOTHEM - 0.114),
+    '1': new Vector3(
+      HEXGRID_HEX_APOTHEM / 2 + 0.001,
+      0,
+      HEXGRID_HEX_APOTHEM - 0.114,
+    ),
     '1.5': new Vector3(-0.005, 0, HEXGRID_HEX_APOTHEM - 0.005),
-    '2': new Vector3(-HEXGRID_HEX_APOTHEM / 2 - 0.001, 0, HEXGRID_HEX_APOTHEM - 0.114),
-    '2.5': new Vector3(-0.743, 0, (HEXGRID_HEX_APOTHEM / 2) + 0.0018),
+    '2': new Vector3(
+      -HEXGRID_HEX_APOTHEM / 2 - 0.001,
+      0,
+      HEXGRID_HEX_APOTHEM - 0.114,
+    ),
+    '2.5': new Vector3(-0.743, 0, HEXGRID_HEX_APOTHEM / 2 + 0.0018),
     '3': new Vector3(-HEXGRID_HEX_APOTHEM + 0.01, 0, 0),
     '3.5': new Vector3(-0.743, 0, -(HEXGRID_HEX_APOTHEM / 2) + 0.0018),
-    '4': new Vector3(-HEXGRID_HEX_APOTHEM / 2 + 0.003, 0, -HEXGRID_HEX_APOTHEM + 0.124),
+    '4': new Vector3(
+      -HEXGRID_HEX_APOTHEM / 2 + 0.003,
+      0,
+      -HEXGRID_HEX_APOTHEM + 0.124,
+    ),
     '4.5': new Vector3(0.005, 0, -HEXGRID_HEX_APOTHEM + 0.005),
-    '5': new Vector3(HEXGRID_HEX_APOTHEM / 2 - 0.005, 0, -HEXGRID_HEX_APOTHEM + 0.1235),
+    '5': new Vector3(
+      HEXGRID_HEX_APOTHEM / 2 - 0.005,
+      0,
+      -HEXGRID_HEX_APOTHEM + 0.1235,
+    ),
     '5.5': new Vector3(0.75, 0, -(HEXGRID_HEX_APOTHEM / 2 - 0.01)),
   }
   return (
     <group>
-      {(laurRuins ?? []).map(ruin => {
+      {(laurRuins ?? []).map((ruin) => {
         return (
           <group
             key={`${boardHex.id}.${ruin.side}`}
-            position={new Vector3(x, yWithBase, z).add(ruinPositionMap[`${ruin.rotation}`])}
+            position={new Vector3(x, yWithBase, z).add(
+              ruinPositionMap[`${ruin.rotation}`],
+            )}
             rotation={[0, ruin.rotation * (-Math.PI / 3), 0]}
           >
             <mesh geometry={LaurWallRuin.geometry}>
@@ -91,14 +116,12 @@ export default function LaurWallPillar({
               />
             </mesh>
             <mesh geometry={LaurWallRuinBustedConcrete.geometry}>
-              <meshMatcapMaterial
-                color={hexTerrainColor.laurModelColor2}
-              />
+              <meshMatcapMaterial color={hexTerrainColor.laurModelColor2} />
             </mesh>
           </group>
         )
       })}
-      {(laurLongs ?? []).map(ruin => {
+      {(laurLongs ?? []).map((ruin) => {
         return (
           <group
             key={`${boardHex.id}.${ruin.side}`}
@@ -110,19 +133,19 @@ export default function LaurWallPillar({
               />
             </mesh>
             <mesh geometry={LaurWallLongDecorDeep.geometry}>
-              <meshMatcapMaterial
-                color={hexTerrainColor.laurModelColor2}
-              />
+              <meshMatcapMaterial color={hexTerrainColor.laurModelColor2} />
             </mesh>
           </group>
         )
       })}
-      {(laurShorts ?? []).map(ruin => {
+      {(laurShorts ?? []).map((ruin) => {
         return (
           <group
             key={`${boardHex.id}.${ruin.side}`}
             // position={[x, yWithBase, z]}
-            position={new Vector3(x, yWithBase, z).add(ruinPositionMap[`${ruin.rotation}`])}
+            position={new Vector3(x, yWithBase, z).add(
+              ruinPositionMap[`${ruin.rotation}`],
+            )}
             rotation={[0, ruin.rotation * (-Math.PI / 3), 0]}
           >
             <mesh geometry={LaurWallShort.geometry}>
@@ -131,9 +154,7 @@ export default function LaurWallPillar({
               />
             </mesh>
             <mesh geometry={LaurWallShortDecorDeep.geometry}>
-              <meshMatcapMaterial
-                color={hexTerrainColor.laurModelColor2}
-              />
+              <meshMatcapMaterial color={hexTerrainColor.laurModelColor2} />
             </mesh>
           </group>
         )
@@ -148,19 +169,21 @@ export default function LaurWallPillar({
         >
           <mesh
             geometry={nodes.PillarTop.geometry}
-          // onPointerUp={e => onPointerUp(e, boardHex)}
+            // onPointerUp={e => onPointerUp(e, boardHex)}
           >
             <meshMatcapMaterial color={colorBody ? yellowColor : pillarColor} />
           </mesh>
           <mesh
             geometry={nodes.SubDecorCore.geometry}
-          // onPointerUp={e => onPointerUp(e, boardHex)}
+            // onPointerUp={e => onPointerUp(e, boardHex)}
           >
-            <meshMatcapMaterial color={colorBody ? yellowColor : interiorPillarColor} />
+            <meshMatcapMaterial
+              color={colorBody ? yellowColor : interiorPillarColor}
+            />
           </mesh>
           <mesh
             geometry={nodes.Facade.geometry}
-          // onPointerUp={e => onPointerUp(e, boardHex)}
+            // onPointerUp={e => onPointerUp(e, boardHex)}
           >
             <meshMatcapMaterial
               side={DoubleSide}
@@ -169,7 +192,7 @@ export default function LaurWallPillar({
           </mesh>
           <mesh
             geometry={nodes.FacadeInner.geometry}
-          // onPointerUp={e => onPointerUp(e, boardHex)}
+            // onPointerUp={e => onPointerUp(e, boardHex)}
           >
             <meshMatcapMaterial
               side={DoubleSide}

@@ -1,16 +1,17 @@
 import { Dictionary } from 'lodash'
 import { CubeCoordinate, Pieces } from '../types'
-import { CUBE_EAST, CUBE_NW, CUBE_SE, CUBE_SW, CUBE_WEST, ORIGIN_000 } from '../utils/constants'
+import {
+  CUBE_EAST,
+  CUBE_NW,
+  CUBE_SE,
+  CUBE_SW,
+  CUBE_WEST,
+  ORIGIN_000,
+} from '../utils/constants'
 
 const basic1 = [ORIGIN_000]
-const basic2 = [
-  ORIGIN_000,
-  CUBE_EAST,
-]
-const basic3 = [
-  ...basic2,
-  CUBE_SE,
-]
+const basic2 = [ORIGIN_000, CUBE_EAST]
+const basic3 = [...basic2, CUBE_SE]
 const basic7 = [
   ...basic3,
   CUBE_SW,
@@ -219,14 +220,8 @@ const wallWalk9 = [
   },
 ]
 
-const ruinsCornerExterior = [
-  CUBE_NW,
-  CUBE_WEST,
-]
-const ruins2 = [
-  ...glacier6,
-  ...ruinsCornerExterior,
-]
+const ruinsCornerExterior = [CUBE_NW, CUBE_WEST]
+const ruins2 = [...glacier6, ...ruinsCornerExterior]
 const ruins3 = [
   ...glacier6,
   {

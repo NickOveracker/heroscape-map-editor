@@ -1,11 +1,10 @@
+import React, { PropsWithChildren } from 'react'
 import { Drawer } from '@mui/material'
-import React from 'react'
-import { Outlet } from 'react-router-dom'
 import { DrawerList } from '../layout/DrawerList'
 import HeaderNav from '../layout/HeaderNav'
 import Controls from '../controls/Controls'
 
-export default function Layout() {
+export default function Layout(props: PropsWithChildren) {
   // https://robohash.org/you.png?size=200x200
   const [isNavOpen, setIsNavOpen] = React.useState(false)
   const toggleIsNavOpen = (s: boolean) => {
@@ -38,7 +37,7 @@ export default function Layout() {
           flex: 1,
         }}
       >
-        <Outlet />
+        {props.children}
       </div>
       <div
         style={{

@@ -25,8 +25,10 @@ const createMapSlice: StateCreator<AppState, [], [], MapSlice> = (set) => ({
   paintTile: ({ piece, clickedHex, rotation }: PaintTileArgs) =>
     set((state) => {
       return produce(state, (draft) => {
-        if (piece.terrain === HexTerrain.laurWall &&
-          piece.id !== Pieces.laurWallPillar) {
+        if (
+          piece.terrain === HexTerrain.laurWall &&
+          piece.id !== Pieces.laurWallPillar
+        ) {
           const { newBoardHexes, newBoardPieces } = addLaurPiece({
             piece,
             boardHexes: draft.boardHexes,

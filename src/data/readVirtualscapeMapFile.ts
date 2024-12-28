@@ -200,10 +200,15 @@ export default function readVirtualscapeMapFile(
     reader.readAsArrayBuffer(file)
   })
 }
-export async function processGZippedJsonArrayBuffer(arrayBuffer: ArrayBuffer, readableStream?: ReadableStream<Uint8Array> | null) {
+export async function processGZippedJsonArrayBuffer(
+  arrayBuffer: ArrayBuffer,
+  readableStream?: ReadableStream<Uint8Array> | null,
+) {
   try {
-    const stream = (readableStream || new Blob([arrayBuffer ?? '']).stream())
-    const decompressedStream = stream.pipeThrough(new DecompressionStream('gzip'))
+    const stream = readableStream || new Blob([arrayBuffer ?? '']).stream()
+    const decompressedStream = stream.pipeThrough(
+      new DecompressionStream('gzip'),
+    )
     const decompressedData = await new Response(decompressedStream).text()
     const data: MapFileState = JSON.parse(decompressedData)
     return data
@@ -211,9 +216,7 @@ export async function processGZippedJsonArrayBuffer(arrayBuffer: ArrayBuffer, re
     console.error(error)
   }
 }
-export function readGzipMapFile(
-  file: File,
-): Promise<MapFileState> {
+export function readGzipMapFile(file: File): Promise<MapFileState> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onloadend = async () => {
