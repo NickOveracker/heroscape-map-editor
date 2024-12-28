@@ -53,7 +53,6 @@ export default function MapDisplay3D({
   // USE EFFECT: automatically load up map from URL, OR from file
   React.useEffect(() => {
     const urlMapString = queryParams.get('m')
-    console.log("🚀 ~ React.useEffect ~ urlMapString:", urlMapString)
     if (urlMapString) {
       try {
         const data = JSON.parse(JSONCrush.uncrush(urlMapString))

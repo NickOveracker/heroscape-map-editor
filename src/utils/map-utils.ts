@@ -91,6 +91,12 @@ export const pillarSideRotations: { [side: string]: number } = {
   minusX: 3,
   plusY: 4.5,
 }
+export const pillarSideRotationsFlip: { [rotation: number]: string } = {
+  [0]: 'plusX',
+  [1.5]: 'minusY',
+  [3]: 'minusX',
+  [4.5]: 'plusY',
+}
 export function encodeFilename(str: string) {
   return str.replace(/[^\w]/g, '_');
 }

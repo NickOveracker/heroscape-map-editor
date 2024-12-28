@@ -1,4 +1,4 @@
-import { DragControls, useGLTF } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain, Pieces } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'

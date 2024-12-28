@@ -7,11 +7,19 @@ import {
 import { hexUtilsAdd, hexUtilsGetNeighborForRotation, hexUtilsGetRadialNearNeighborsForRotation } from '../utils/hex-utils'
 import { genBoardHexID, genPieceID, pillarSideRotations } from '../utils/map-utils'
 import { isFluidTerrainHex, isSolidTerrainHex, isVerticallyObstructiveTerrain } from '../utils/board-utils'
-import { PieceAddArgs } from './addPiece'
+import { addPiece, PieceAddArgs } from './addPiece'
+import { piecesSoFar } from './pieces'
 
 type PieceAddReturn = { newBoardHexes: BoardHexes; newBoardPieces: BoardPieces }
 
-
+const nearDirectionFlip: { [key: number]: number } = {
+  0: 3,
+  1: 4,
+  2: 5,
+  3: 0,
+  4: 1,
+  5: 2,
+}
 export function addLaurPiece({
   piece,
   boardHexes,
@@ -45,20 +53,63 @@ export function addLaurPiece({
   // const isLaurWallLong = piece.id === Pieces.laurWallLong
 
   // LaurWallShort only ever attaches to the minusX/plusX sides. Long on minusY/plusY. Ruins can go on both.
-  const vectorsGettingObstructed = (laurSide === 'minusY' || laurSide === 'plusY') ?
+  const isLaurSideY = laurSide === 'minusY' || laurSide === 'plusY'
+  const vectorsGettingObstructed = isLaurSideY ?
     hexUtilsGetRadialNearNeighborsForRotation(addonRotation) :
     [hexUtilsGetNeighborForRotation(addonRotation)]
   const piecePlaneCoords = vectorsGettingObstructed.map(coord => hexUtilsAdd(coord, pieceCoords))
-  if (isLaurWallShort) {
+  if (isLaurWallShort && !isLaurSideY) {
     const buddyHexCoord = piecePlaneCoords[0]
     const buddyHexID = genBoardHexID({ ...buddyHexCoord, altitude: placementAltitude })
     const isPillarAtBuddy = boardHexes?.[buddyHexID]?.pieceID.includes(Pieces.laurWallPillar)
-    // if there is not a pillar there, can we build one?????
-    const isSlotOccupiedOnPillarBuddy = boardHexes?.[buddyHexID]?.laurAddons?.[laurSide]
-    // const isCanBuildPillarRightThere
-    // const build the pillar if needed, and the shortwall
-    if (isPillarAtBuddy && !isSlotOccupiedOnPillarBuddy) {
-      // write the addon to the main pillar boardHex
+    if (!isPillarAtBuddy) {
+      // build the pillar if possible, and the shortwall 
+      const newBuddyPillarRotation = nearDirectionFlip[addonRotation]
+      const { newBoardHexes: boardHexesWithNewPillar, newBoardPieces: boardPiecesWithNewPillar } = addPiece({
+        piece: piecesSoFar[Pieces.laurWallPillar],
+        boardHexes: boardHexes,
+        boardPieces: boardPieces,
+        pieceCoords: buddyHexCoord,
+        placementAltitude: placementAltitude - 1,
+        rotation: newBuddyPillarRotation,
+        isVsTile: false,
+      })
+      const isAPillarNow = boardHexesWithNewPillar?.[buddyHexID]?.pieceID.includes(Pieces.laurWallPillar)
+      if (isAPillarNow) {
+        // write the short wall to the main pillar boardHex
+        boardHexesWithNewPillar[hexID] = {
+          ...boardHexesWithNewPillar[hexID],
+          laurAddons: {
+            ...boardHexesWithNewPillar[hexID].laurAddons,
+            [laurSide]: {
+              pieceID: piece.id,
+              rotation: addonRotation,
+              side: laurSide, // duplicate
+            }
+          }
+        }
+        // write shortwall to new buddy pillar
+        boardHexesWithNewPillar[buddyHexID] = {
+          ...boardHexesWithNewPillar[buddyHexID],
+          laurAddons: {
+            ...boardHexesWithNewPillar[buddyHexID].laurAddons,
+            [laurSide]: {
+              pieceID: piece.id,
+              rotation: nearDirectionFlip[addonRotation],
+              side: 'plusX', // Easiest, it's rotation is 0, just rotate the pillar
+            }
+          }
+        }
+        boardPiecesWithNewPillar[pieceID] = piece.id
+        return { newBoardHexes: boardHexesWithNewPillar, newBoardPieces: boardPiecesWithNewPillar }
+      }
+    }
+    if (isPillarAtBuddy) {
+      console.log("🚀 ~ addonPillar addonRotation:", addonRotation, pillarRotation)
+      console.log("🚀 ~ buddyHex rotation:", newBoardHexes?.[buddyHexID]?.pieceRotation)
+      // const isSlotOccupiedOnPillarBuddy = boardHexes?.[buddyHexID]?.laurAddons?.[laurSide]
+
+      // write the shortwall to the main pillar boardHex
       newBoardHexes[hexID] = {
         ...newBoardHexes[hexID],
         laurAddons: {
@@ -71,22 +122,20 @@ export function addLaurPiece({
           }
         }
       }
-      // write the addon to the buddy pillar boardHex
-      // newBoardHexes[buddyHexID] = {
-      //   ...newBoardHexes[hexID],
-      //   laurAddons: {
-      //     ...newBoardHexes[hexID].laurAddons,
-      //     [laurSide]: {
-      //       pieceID: piece.id,
-      //       rotation: addonRotation,
-      //       // side: laurSide === 'minusY' ? 'plusY' : laurSide === 'plusY' ? 'minusY' : laurSide === 'minusX' ? 'plusX' : 'minusX', // duplicate
-      //       side: , // duplicate
-      //       // linkID?: string // short/long walls connect to another pillar
-      //     }
-      //   }
-      // }
+      // write the shortwall to the buddy pillar boardHex
+      newBoardHexes[buddyHexID] = {
+        ...newBoardHexes[hexID],
+        laurAddons: {
+          ...newBoardHexes[hexID].laurAddons,
+          [laurSide]: {
+            pieceID: piece.id,
+            rotation: nearDirectionFlip[addonRotation],
+            side: laurSide === 'minusY' ? 'plusY' : laurSide === 'plusY' ? 'minusY' : laurSide === 'minusX' ? 'plusX' : 'minusX', // duplicate
+          }
+        }
+      }
       // write the shortwall piece
-      // newBoardPieces[pieceID] = piece.id
+      newBoardPieces[pieceID] = piece.id
     }
   }
   if (isLaurWallRuin) {

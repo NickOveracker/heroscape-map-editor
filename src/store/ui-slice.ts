@@ -20,7 +20,7 @@ export interface UISlice {
   toggleIsCameraDisabled: (b: boolean) => void
 }
 
-const initialPenMode = PenMode.laurWallRuin
+const initialPenMode = PenMode.laurWallShort
 
 const createUISlice: StateCreator<
   // https://immerjs.github.io/immer/#with-immer
