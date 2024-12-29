@@ -2,14 +2,12 @@ import { Button } from '@mui/material'
 import useBoundStore from '../store/store'
 import JSONCrush from 'jsoncrush'
 import { HexTerrain } from '../types'
+import { keyBy } from 'lodash'
+import { getBoardHexesRectangularMapDimensions } from '../utils/map-utils'
 
 const DEVLogSomethingCoolButton = () => {
   const appState = useBoundStore((state) => state)
   const onClick = () => {
-    // const myUrl = encodeURI(JSON.stringify({
-    //   hexMap: appState.hexMap,
-    //   boardPieces: appState.boardPieces,
-    // }))
     const myUrl = encodeURI(
       JSONCrush.crush(
         JSON.stringify([
@@ -18,39 +16,29 @@ const DEVLogSomethingCoolButton = () => {
         ]),
       ),
     )
-    // const myUrl = stringify({
-    //   hexMap: appState.hexMap,
-    //   boardPieces: appState.boardPieces,
-    // }, { short: false })
     console.log('🚀 ~ onClick ~ myUrl:', myUrl, myUrl.length)
-    // console.info({
-    //   boardHexes: appState.boardHexes,
-    //   pieces: appState.boardPieces,
-    //   hexMap: appState.hexMap,
-    //   state: appState,
-    // })
   }
   const onClick2 = () => {
-    const nonEmpties = Object.values(appState.boardHexes).filter(
+    const nonEmpties = keyBy(Object.values(appState.boardHexes).filter(
       (bh) => bh.terrain !== HexTerrain.empty,
-    )
+    ), 'id')
+    console.log("🚀 ~ onClick2 ~ nonEmpties:", Object.values(appState.boardHexes).length)
+    // console.log("🚀 ~ onClick2 ~ map dims without empties:", getBoardHexesRectangularMapDimensions(nonEmpties))
 
-    console.log(
-      `%c${Object.keys(appState.boardPieces).map((s) => `${s}` + '\n')}
-`,
-      'color: red; font-size: 14px',
-    )
-    console.table(
-      nonEmpties
-        .filter((bh) => Boolean(bh.laurAddons))
-        .map((bh) => ({ id: bh.id, ...bh.laurAddons })),
-    )
+    //     console.log(
+    //       `%c${Object.keys(appState.boardPieces).map((s) => `${s}` + '\n')}
+    // `,
+    //       'color: red; font-size: 14px',
+    //     )
+
+
     //     console.log(
     //       `%c${nonEmpties
     //         .forEach(s => (
     //           console.dir(s.laurAddons)
     //         ))}
     // `, "color: blue; font-size: 16px")
+
   }
   return (
     <>

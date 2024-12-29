@@ -1,6 +1,6 @@
 import React from 'react'
 import { Canvas } from '@react-three/fiber'
-import { Stars, Stats } from '@react-three/drei'
+import { Stars } from '@react-three/drei'
 import Lights from './Lights'
 import MyCameraControls from './camera/MyCameraControls'
 import MapDisplay3D from './MapDisplay3D'
@@ -23,7 +23,7 @@ const World = () => {
         camera={{
           fov: CAMERA_FOV,
         }}
-        // shadows
+      // shadows
       >
         {/* <Sky /> */}
         <Stars
@@ -36,7 +36,7 @@ const World = () => {
           speed={1}
         />
         {/* Stats displays the fps */}
-        <Stats className="stats-panel" />
+        {/* <Stats className="stats-panel" /> */}
         <MapDisplay3D cameraControlsRef={cameraControlsRef} />
         <Lights />
         <GridHelper />

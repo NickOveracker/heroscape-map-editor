@@ -17,7 +17,10 @@ type MapDimensions = {
 
 export const getBoardHexesRectangularMapDimensions = (
   boardHexes: BoardHexes,
-): MapDimensions => {
+): MapDimensions & {
+  hexHeight: number
+  hexWidth: number
+} => {
   // Gets the top-most, bottom-most, left-most, and right-most hexes, then calculates the difference for the map width and height
   const qPlusSMax = Math.max(
     ...Object.keys(boardHexes).map(
@@ -39,14 +42,14 @@ export const getBoardHexesRectangularMapDimensions = (
       (hexID) => boardHexes[hexID].s - boardHexes[hexID].q,
     ),
   )
-  const hexHeight = qPlusSMax - qPlusSMin
+  const hexHeight = qPlusSMax - qPlusSMin + 1
   const height = (hexHeight * 1.5 + 2 * HEXGRID_HEX_RADIUS) * HEXGRID_SPACING
-  const hexWidth = sMinusQMax - sMinusQMin
+  const hexWidth = sMinusQMax - sMinusQMin / 2 + 1
   const width = (hexWidth + 2) * HEXGRID_HEX_APOTHEM * HEXGRID_SPACING
   const apex =
     Math.max(...Object.values(boardHexes).map((hex) => hex.altitude)) *
     HEXGRID_HEX_HEIGHT
-  return { height, width, apex }
+  return { height, width, apex, hexHeight, hexWidth }
 }
 export const getBoardHex3DCoords = (
   hex: CubeCoordinate & { altitude: number },

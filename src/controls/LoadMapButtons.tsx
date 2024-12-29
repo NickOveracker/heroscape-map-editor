@@ -1,14 +1,13 @@
 import React, { ChangeEvent } from 'react'
-import { Button } from '@mui/material'
-import { MdFileOpen } from 'react-icons/md'
-import { GiDevilMask } from 'react-icons/gi'
+import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import { MdFolderZip, MdOutlineHexagon } from 'react-icons/md'
 import readVirtualscapeMapFile, {
   readGzipMapFile,
 } from '../data/readVirtualscapeMapFile'
 import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap'
 import useBoundStore from '../store/store'
 
-const ImportFileButton = () => {
+const LoadMapButtons = () => {
   const loadMap = useBoundStore((state) => state.loadMap)
   const uploadElementID = 'upload'
   const virtualScapeUploadElementID = 'vsupload'
@@ -60,26 +59,30 @@ const ImportFileButton = () => {
 
   return (
     <>
-      <Button
-        startIcon={<MdFileOpen />}
-        onClick={handleClickFileSelect}
-        variant="contained"
-      >
-        Import Gzip Map File (.gz)
-      </Button>
-      <Button
-        startIcon={<GiDevilMask />}
-        onClick={handleClickVSFileSelect}
-        variant="contained"
-      >
-        Import VirtualScape File (.hsc)
-      </Button>
       <ReadFile id={uploadElementID} readFile={readJsonFile} />
       <ReadVSFile id={virtualScapeUploadElementID} readFile={readVSFile} />
+      <ListItemButton
+        sx={{ pl: 4 }}
+        onClick={handleClickFileSelect}
+      >
+        <ListItemIcon>
+          <MdFolderZip />
+        </ListItemIcon>
+        <ListItemText primary="Gzip/JSON (.gz/.json)" />
+      </ListItemButton>
+      <ListItemButton
+        sx={{ pl: 4 }}
+        onClick={handleClickVSFileSelect}
+      >
+        <ListItemIcon>
+          <MdOutlineHexagon />
+        </ListItemIcon>
+        <ListItemText primary="Virtualscape (.hsc)" />
+      </ListItemButton>
     </>
   )
 }
-export default ImportFileButton
+export default LoadMapButtons
 
 const hiddenStyle = {
   clip: 'rect(0 0 0 0)',

@@ -1,36 +1,66 @@
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import { MdHome } from 'react-icons/md'
-import { Link } from 'wouter'
+import CreateMapFormDialog from './CreateMapFormDialog'
+import { Collapse, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import { MdExpandLess, MdExpandMore, MdFileDownload, MdUploadFile } from 'react-icons/md'
+import React from 'react'
+import LoadMapButtons from '../controls/LoadMapButtons'
 
 export const DrawerList = ({
   toggleIsNavOpen,
 }: {
   toggleIsNavOpen: (arg0: boolean) => void
 }) => {
+  const [isUploadOpen, setIsUploadOpen] = React.useState(false);
+  const [isDownloadOpen, setIsDownloadOpen] = React.useState(false);
+
+  const handleClick = (e: any) => {
+    e?.stopPropagation()
+    setIsUploadOpen(!isUploadOpen);
+  };
+  const handleClickDownload = (e: any) => {
+    e?.stopPropagation()
+    setIsDownloadOpen(!isDownloadOpen);
+  };
   return (
     <Box
       sx={{ width: 250 }}
       role="presentation"
-      onClick={() => toggleIsNavOpen(false)}
+      onClick={() => { setIsDownloadOpen(false); setIsUploadOpen(false); toggleIsNavOpen(false); }}
     >
       <List>
         <ListItem disablePadding>
-          <ListItemButton component={Link} href={'/'}>
-            <ListItemIcon
-              sx={{
-                color: 'inherit',
-              }}
-            >
-              <MdHome />
-            </ListItemIcon>
-            <ListItemText primary={'Home'} />
-          </ListItemButton>
+          <CreateMapFormDialog />
         </ListItem>
+
+        {/* LOAD MAP */}
+        <ListItemButton onClick={handleClick}>
+          <ListItemIcon>
+            <MdUploadFile />
+          </ListItemIcon>
+          <ListItemText primary="Load Map" />
+          {isUploadOpen ? <MdExpandLess /> : <MdExpandMore />}
+        </ListItemButton>
+        <Collapse in={isUploadOpen} timeout="auto">
+          <List component="div" disablePadding>
+            <LoadMapButtons />
+          </List>
+        </Collapse>
+        {/* DOWNLAD FILE */}
+        <ListItemButton onClick={handleClickDownload}>
+          <ListItemIcon>
+            <MdFileDownload />
+          </ListItemIcon>
+          <ListItemText primary="Download Map File" />
+          {isDownloadOpen ? <MdExpandLess /> : <MdExpandMore />}
+        </ListItemButton>
+        <Collapse in={isDownloadOpen} timeout="auto">
+          <List component="div" disablePadding>
+            <LoadMapButtons />
+          </List>
+        </Collapse>
+
       </List>
     </Box>
   )

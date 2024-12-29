@@ -50,6 +50,6 @@ export const getMapCenterCameraLookAt = (
     centerOfMapLookAt.x,
     centerOfMapLookAt.y,
     centerOfMapLookAt.z,
-    false,
+    true, // enable/disable animation
   ]
 }
