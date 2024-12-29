@@ -61,9 +61,15 @@ export function addPiece({
     )
   }
   const newPieceAltitude = placementAltitude + 1
-  const underHexIds = genIds(placementAltitude)
-  const newHexIds = genIds(newPieceAltitude)
-  const overHexIds = genIds(newPieceAltitude + 1)
+  const underHexIds = piecePlaneCoords.map((cubeCoord) =>
+    genBoardHexID({ ...cubeCoord, altitude: placementAltitude }),
+  )
+  const newHexIds = piecePlaneCoords.map((cubeCoord) =>
+    genBoardHexID({ ...cubeCoord, altitude: newPieceAltitude }),
+  )
+  const overHexIds = piecePlaneCoords.map((cubeCoord) =>
+    genBoardHexID({ ...cubeCoord, altitude: newPieceAltitude + 1 }),
+  )
   const isSolidTile = isSolidTerrainHex(piece.terrain)
   const isFluidTile = isFluidTerrainHex(piece.terrain)
   const isCastleWallPiece = piece.id.includes('castleWall')

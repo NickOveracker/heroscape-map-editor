@@ -27,13 +27,6 @@ export interface BoardHex extends CubeCoordinate {
   isObstacleOrigin?: boolean // This marks the boardHex that will render the obstacle model
   isObstacleAuxiliary?: boolean // just shows an obstacle base for that hex
   castleWallHeight?: number // used to find the cap hex when clicking a castle wall (it's 9 up with a base, 8 up when wall-on-wall)
-  laurAddons?: { [side: string]: LaurWallAddon }
-}
-type LaurWallAddon = {
-  pieceID: string
-  rotation: number
-  side: string // this might not be needed, since we store rotation
-  linkID?: string // short/long walls connect to another pillar
 }
 export type BoardPieces = {
   [id: string]: Pieces

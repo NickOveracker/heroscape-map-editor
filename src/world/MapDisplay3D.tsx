@@ -24,6 +24,7 @@ import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import { useSearch } from 'wouter'
+import { Group, Object3DEventMap } from 'three'
 
 export default function MapDisplay3D({
   cameraControlsRef,
