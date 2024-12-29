@@ -222,7 +222,7 @@ function SplitButton({
         onClick={handleToggle}
         startIcon={<MdSave />}
       >
-        Load / Save Map
+        Load / Save Local Memory Map
       </Button>
       <Popper
         sx={{ zIndex: 1 }}
