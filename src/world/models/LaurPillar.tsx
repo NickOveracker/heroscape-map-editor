@@ -124,7 +124,6 @@ export default function LaurWallPillar({
 }
 
 useGLTF.preload('/laurwall-pillar.glb')
-useGLTF.preload('/laurwall-addons.glb')
 
 function usePillarHoverState() {
   const [colorBody, setColorBody] = React.useState(false)
