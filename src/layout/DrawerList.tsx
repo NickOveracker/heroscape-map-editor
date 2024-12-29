@@ -4,8 +4,6 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import { Link } from 'react-router'
-import { ROUTES } from '../routes/ROUTES'
 import { MdHome } from 'react-icons/md'
 
 export const DrawerList = ({
@@ -21,7 +19,7 @@ export const DrawerList = ({
     >
       <List>
         <ListItem disablePadding>
-          <ListItemButton component={Link} to={ROUTES.home}>
+          <ListItemButton>
             <ListItemIcon
               sx={{
                 color: 'inherit',
