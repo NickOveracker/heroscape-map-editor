@@ -6,9 +6,11 @@ import MyCameraControls from './camera/MyCameraControls'
 import MapDisplay3D from './MapDisplay3D'
 import { CAMERA_FOV } from '../utils/constants'
 import GridHelper from './GridHelper'
+import { Group, Object3DEventMap } from 'three'
 
 const World = () => {
   const cameraControlsRef = React.useRef(undefined!)
+  const mapGroupRef = React.useRef<Group<Object3DEventMap>>(undefined!)
   return (
     <div
       id="canvas-container"
@@ -22,6 +24,7 @@ const World = () => {
         // orthographic // looks really cool, but cannot figure out camera switching yet
         camera={{
           fov: CAMERA_FOV,
+          position: [10, 10, 10]
         }}
       // shadows
       >
@@ -37,10 +40,13 @@ const World = () => {
         />
         {/* Stats displays the fps */}
         {/* <Stats className="stats-panel" /> */}
-        <MapDisplay3D cameraControlsRef={cameraControlsRef} />
+        <MapDisplay3D mapGroupRef={mapGroupRef} cameraControlsRef={cameraControlsRef} />
         <Lights />
         <GridHelper />
-        <MyCameraControls cameraControlsRef={cameraControlsRef} />
+        <MyCameraControls
+          cameraControlsRef={cameraControlsRef}
+          mapGroupRef={mapGroupRef}
+        />
       </Canvas>
     </div>
   )

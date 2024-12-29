@@ -24,7 +24,8 @@ export const MapHexIDDisplay = ({
     <Billboard position={[position.x, position.y, position.z]}>
       <Text fontSize={0.2} color={new Color('white')}>
         {/* {`${boardHex.terrain}:${boardHex.id}`} */}
-        {`${boardHex.q}:${boardHex.r}:${boardHex.s}`}
+        {`${boardHex.id}`}
+        {/* {`${boardHex.q}:${boardHex.r}:${boardHex.s}`} */}
       </Text>
     </Billboard>
   )

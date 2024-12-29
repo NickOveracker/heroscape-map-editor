@@ -6,6 +6,7 @@ import { Collapse, ListItemButton, ListItemIcon, ListItemText } from '@mui/mater
 import { MdExpandLess, MdExpandMore, MdFileDownload, MdUploadFile } from 'react-icons/md'
 import React from 'react'
 import LoadMapButtons from '../controls/LoadMapButtons'
+import DownloadMapFileButtons from '../controls/DownloadMapFileButtons'
 
 export const DrawerList = ({
   toggleIsNavOpen,
@@ -57,7 +58,7 @@ export const DrawerList = ({
         </ListItemButton>
         <Collapse in={isDownloadOpen} timeout="auto">
           <List component="div" disablePadding>
-            <LoadMapButtons />
+            <DownloadMapFileButtons />
           </List>
         </Collapse>
 

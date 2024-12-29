@@ -14,6 +14,9 @@ import Slider from '@mui/material/Slider';
 import { Box, ListItemButton, ListItemIcon, ListItemText, useMediaQuery } from '@mui/material'
 import { genRandomMapName } from '../utils/genRandomMapName'
 import { MdCreateNewFolder } from 'react-icons/md'
+import useBoundStore from '../store/store'
+import { useSnackbar } from 'notistack'
+import { makeHexagonScenario, makeRectangleScenario } from '../utils/map-gen'
 
 const hexagonMarks = [
   {
@@ -47,6 +50,8 @@ const rectangleMarks = [
 
 export default function CreateMapFormDialog() {
   const fullScreen = useMediaQuery('(max-width:600px)');
+  const loadMap = useBoundStore((state) => state.loadMap)
+  const { enqueueSnackbar } = useSnackbar()
   // dialog state
   const [open, setOpen] = React.useState(false)
   const handleClickOpen = () => {
@@ -55,15 +60,30 @@ export default function CreateMapFormDialog() {
   const handleClose = () => {
     setOpen(false)
   }
-
   // new map form state
+  const [mapName, setMapName] = React.useState(() => genRandomMapName());
   const [mapShape, setMapShape] = React.useState('rectangle');
   const handleChangeMapShape = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMapShape((event.target as HTMLInputElement).value);
   };
   const [mapWidth, setMapWidth] = React.useState(20);
-  const [mapHeight, setMapHeight] = React.useState(20);
+  const [mapLength, setMapLength] = React.useState(20);
   const [mapSize, setMapSize] = React.useState(10);
+
+  const handleSubmit = () => {
+    const newMap = mapShape === 'rectangle' ? makeRectangleScenario({
+      mapName,
+      mapWidth,
+      mapLength
+      // mapShape
+    }) : makeHexagonScenario({
+      mapName,
+      size: mapSize
+      // mapShape
+    })
+    loadMap(newMap)
+    enqueueSnackbar(`Created new map: ${newMap.hexMap.name}`)
+  }
 
   return (
     <React.Fragment>
@@ -89,9 +109,7 @@ export default function CreateMapFormDialog() {
           component: 'form',
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault()
-            const formData = new FormData(event.currentTarget)
-            const formJson = Object.fromEntries((formData as any).entries())
-            console.log(formJson)
+            handleSubmit()
             handleClose()
           },
         }}
@@ -102,10 +120,11 @@ export default function CreateMapFormDialog() {
             <TextField
               autoFocus
               required
-              defaultValue={genRandomMapName()}
+              value={mapName}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setMapName(event.target.value);
+              }}
               margin="dense"
-              id="newMapTitle"
-              name="newMapTitle"
               label="Map Title"
               type="text"
               fullWidth
@@ -142,9 +161,9 @@ export default function CreateMapFormDialog() {
                   // size='small'
                   min={1}
                   max={30}
-                  value={mapHeight}
+                  value={mapLength}
                   onChange={(_e: Event, value: number | number[]) => {
-                    setMapHeight(value as number)
+                    setMapLength(value as number)
                   }}
                   step={1}
                   valueLabelDisplay="on"

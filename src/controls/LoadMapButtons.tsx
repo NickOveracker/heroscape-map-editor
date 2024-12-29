@@ -10,9 +10,17 @@ import useBoundStore from '../store/store'
 const LoadMapButtons = () => {
   const loadMap = useBoundStore((state) => state.loadMap)
   const uploadElementID = 'upload'
+  const jsonUploadElementID = 'jsonupload'
   const virtualScapeUploadElementID = 'vsupload'
-  const handleClickFileSelect = () => {
+
+  const handleClickGzipFileSelect = () => {
     const element = document.getElementById(uploadElementID)
+    if (element) {
+      element.click()
+    }
+  }
+  const handleClickJsonFileSelect = () => {
+    const element = document.getElementById(jsonUploadElementID)
     if (element) {
       element.click()
     }
@@ -23,7 +31,8 @@ const LoadMapButtons = () => {
       element.click()
     }
   }
-  const readJsonFile = async (event: ChangeEvent<HTMLInputElement>) => {
+
+  const readGzipFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event?.target?.files?.[0]
     if (!file) {
       return
@@ -40,7 +49,23 @@ const LoadMapButtons = () => {
     }
     event.target.value = '' // Reset the input value, otherwise choosing same file again will do nothing
   }
-
+  const readJsonFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event?.target?.files?.[0]
+    if (!file) {
+      return
+    }
+    try {
+      const data: any = await new Response(file).json()
+      const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+      if (!jsonMap.hexMap.name) {
+        jsonMap.hexMap.name = file.name
+      }
+      loadMap(jsonMap)
+    } catch (error) {
+      console.error(error)
+    }
+    event.target.value = '' // Reset the input value, otherwise choosing same file again will do nothing
+  }
   const readVSFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event?.target?.files?.[0]
     if (!file) {
@@ -59,16 +84,44 @@ const LoadMapButtons = () => {
 
   return (
     <>
-      <ReadFile id={uploadElementID} readFile={readJsonFile} />
-      <ReadVSFile id={virtualScapeUploadElementID} readFile={readVSFile} />
+      <input
+        id={uploadElementID}
+        type="file"
+        style={hiddenStyle}
+        accept=".gz"
+        onChange={readGzipFile}
+      />
+      <input
+        id={jsonUploadElementID}
+        type="file"
+        style={hiddenStyle}
+        accept=".json"
+        onChange={readJsonFile}
+      />
+      <input
+        id={virtualScapeUploadElementID}
+        type="file"
+        style={hiddenStyle}
+        accept=".hsc"
+        onChange={readVSFile}
+      />
       <ListItemButton
         sx={{ pl: 4 }}
-        onClick={handleClickFileSelect}
+        onClick={handleClickGzipFileSelect}
       >
         <ListItemIcon>
           <MdFolderZip />
         </ListItemIcon>
-        <ListItemText primary="Gzip/JSON (.gz/.json)" />
+        <ListItemText primary="Gzip (.gz)" />
+      </ListItemButton>
+      <ListItemButton
+        sx={{ pl: 4 }}
+        onClick={handleClickJsonFileSelect}
+      >
+        <ListItemIcon>
+          <MdFolderZip />
+        </ListItemIcon>
+        <ListItemText primary="JSON (.json)" />
       </ListItemButton>
       <ListItemButton
         sx={{ pl: 4 }}
@@ -94,30 +147,4 @@ const hiddenStyle = {
   left: '0',
   whiteSpace: 'nowrap',
   width: '1',
-}
-type ReadFileProps = {
-  id: string
-  readFile: (event: ChangeEvent<HTMLInputElement>) => void
-}
-const ReadFile = ({ id, readFile }: ReadFileProps) => {
-  return (
-    <input
-      id={id}
-      type="file"
-      style={hiddenStyle}
-      accept=".gz"
-      onChange={readFile}
-    />
-  )
-}
-const ReadVSFile = ({ id, readFile }: ReadFileProps) => {
-  return (
-    <input
-      id={id}
-      type="file"
-      style={hiddenStyle}
-      accept=".hsc"
-      onChange={readFile}
-    />
-  )
 }

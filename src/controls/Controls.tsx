@@ -11,6 +11,7 @@ import { LoadSaveMapButtons } from './LoadSaveMapButtons'
 const Controls = () => {
   return (
     <Container sx={{ padding: 1 }}>
+      <UndoRedoButtonGroup />
       <PenTerrainSelect />
       <PieceSizeSelect />
       <RotationSelect />
@@ -19,7 +20,6 @@ const Controls = () => {
         <LoadSaveMapButtons />
       </ControlButtonGroup>
       {/* <TakePictureButtonGroup /> */}
-      <UndoRedoButtonGroup />
       <ControlButtonGroup>
         <ToggleCameraButton />
         <DEVLogSomethingCoolButton />
