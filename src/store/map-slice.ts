@@ -1,7 +1,6 @@
 import { StateCreator } from 'zustand'
 import { BoardHex, HexTerrain, MapState, Piece, Pieces } from '../types'
 import { AppState } from './store'
-import { rectangleScenario } from '../utils/map-gen'
 import { produce } from 'immer'
 import { addLaurPiece } from '../data/addLaurPiece'
 import { addPiece } from '../data/addPiece'
@@ -19,11 +18,6 @@ type PaintTileArgs = {
 }
 
 const createMapSlice: StateCreator<AppState, [], [], MapSlice> = (set) => ({
-  // boardHexes: rectangleScenario.boardHexes,
-  // hexMap: rectangleScenario.hexMap,
-  // boardPieces: rectangleScenario.boardPieces,
-
-  /* STRANGE, this initial state breaks things? */
   boardHexes: {},
   hexMap: { id: '', name: '', shape: 'hexagon', width: 1, height: 1 },
   boardPieces: {},

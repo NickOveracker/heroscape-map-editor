@@ -16,6 +16,7 @@ export default function MyCameraControls({
   cameraControlsRef: React.RefObject<CameraControls>
   mapGroupRef: React.RefObject<Group<Object3DEventMap>>
 }) {
+  const hexMap = useBoundStore((state) => state.hexMap)
   // const { camera } = useThree()
   useHotkeys('up', () => {
     cameraControlsRef?.current?.dolly(5, true)
@@ -29,7 +30,7 @@ export default function MyCameraControls({
   })
   useHotkeys('left', () => cameraControlsRef?.current?.truck(-1, 0, true))
   useHotkeys('right', () => cameraControlsRef?.current?.truck(1, 0, true))
-  useHotkeys('space', () => mapGroupRef.current ? cameraControlsRef.current?.fitToBox(mapGroupRef.current, true) : noop())
+  useHotkeys('space', () => mapGroupRef.current && hexMap.name ? cameraControlsRef.current?.fitToBox?.(mapGroupRef.current, true) : noop())
   const isCameraDisabled = useBoundStore((s) => s.isCameraDisabled)
   // const { minDistance, enabled, verticalDragToForward, dollyToCursor, infinityDolly } = useControls({
   //     thetaGrp: buttonGroup({

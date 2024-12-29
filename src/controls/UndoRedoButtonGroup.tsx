@@ -9,6 +9,7 @@ const UndoRedoButtonGroup = () => {
   useHotkeys('mod+y', () => redo())
   return (
     <ControlButtonGroup>
+      {/* <Button onClick={() => useBoundStore.temporal.getState().clear()}>CLEAR</Button> */}
       <Button variant="contained" onClick={() => undo()}>
         UNDO (ctrl/cmd + Z)
       </Button>
