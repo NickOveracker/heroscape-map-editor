@@ -47,63 +47,63 @@ export default function MapDisplay3D({
   const { enqueueSnackbar } = useSnackbar()
   const searchString = useSearch();
   // USE EFFECT: automatically load up map from URL, OR from file
-  // React.useEffect(() => {
-  //   const queryParams = new URLSearchParams(searchString)
-  //   const urlMapString = queryParams.get('m')
-  //   if (urlMapString) {
-  //     try {
-  //       const data = JSON.parse(JSONCrush.uncrush(urlMapString))
-  //       const [hexMap, ...pieceIds] = data
-  //       const boardPieces: BoardPieces = pieceIds.reduce(
-  //         (prev: BoardPieces, curr: string) => {
-  //           // get inventory id from pieceID (a~q~r~id)
-  //           prev[curr] = curr.split('~')[4] as Pieces
-  //           return prev
-  //         },
-  //         {},
-  //       )
-  //       const jsonMap = buildupJsonFileMap(boardPieces, hexMap)
-  //       if (!jsonMap.hexMap.name) {
-  //         jsonMap.hexMap.name = genRandomMapName()
-  //       }
-  //       loadMap(jsonMap)
-  //     } catch (error) {
-  //       console.error('🚀 ~ React.useEffect ~ error:', error)
-  //     }
-  //   } else {
-  //     // AUTO VSCAPE
-  //     const fileName = '/testMap.hsc'
-  //     fetch(fileName)
-  //       .then((response) => {
-  //         return response.arrayBuffer()
-  //       })
-  //       .then((arrayBuffer) => {
-  //         const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
-  //         const vsMap = buildupVSFileMap(
-  //           vsFileData.tiles,
-  //           vsFileData?.name ?? fileName,
-  //         )
-  //         loadMap(vsMap)
-  //         enqueueSnackbar(
-  //           `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
-  //         )
-  //       })
-  //   }
+  React.useEffect(() => {
+    const queryParams = new URLSearchParams(searchString)
+    const urlMapString = queryParams.get('m')
+    if (urlMapString) {
+      try {
+        const data = JSON.parse(JSONCrush.uncrush(urlMapString))
+        const [hexMap, ...pieceIds] = data
+        const boardPieces: BoardPieces = pieceIds.reduce(
+          (prev: BoardPieces, curr: string) => {
+            // get inventory id from pieceID (a~q~r~id)
+            prev[curr] = curr.split('~')[4] as Pieces
+            return prev
+          },
+          {},
+        )
+        const jsonMap = buildupJsonFileMap(boardPieces, hexMap)
+        if (!jsonMap.hexMap.name) {
+          jsonMap.hexMap.name = genRandomMapName()
+        }
+        loadMap(jsonMap)
+      } catch (error) {
+        console.error('🚀 ~ React.useEffect ~ error:', error)
+      }
+    } else {
+      // AUTO VSCAPE
+      // const fileName = '/testMap.hsc'
+      // fetch(fileName)
+      //   .then((response) => {
+      //     return response.arrayBuffer()
+      //   })
+      //   .then((arrayBuffer) => {
+      //     const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
+      //     const vsMap = buildupVSFileMap(
+      //       vsFileData.tiles,
+      //       vsFileData?.name ?? fileName,
+      //     )
+      //     loadMap(vsMap)
+      //     enqueueSnackbar(
+      //       `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
+      //     )
+      //   })
+    }
 
 
-  //   // AUTO JSON
-  //   // const fileName = '/coolmap.gz'
-  //   // fetch(fileName).then(async (response) => {
-  //   //   // const data = response.json()
-  //   //   const data = await response.json()
-  //   //   const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
-  //   //   if (!jsonMap.hexMap.name) {
-  //   //     jsonMap.hexMap.name = fileName
-  //   //   }
-  //   //   loadMap(jsonMap)
-  //   // })
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+    // AUTO JSON
+    const fileName = '/PillarTest.gz'
+    fetch(fileName).then(async (response) => {
+      // const data = response.json()
+      const data = await response.json()
+      const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+      if (!jsonMap.hexMap.name) {
+        jsonMap.hexMap.name = fileName
+      }
+      loadMap(jsonMap)
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr)
 
