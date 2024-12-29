@@ -42,6 +42,7 @@ export const hexTerrainColor: Dictionary<string> = {
   [HexTerrain.empty]: '#020300',
   // All these colors below have been verified on coolors: lock a color and explore! https://coolors.co/fcecc9-336aeb-fcb0b3-f93943-355a44
   [HexTerrain.grass]: '#759B1C',
+  // [HexTerrain.grass]: '#4A9A4E', // sample from Renegade map pdfs, but not the palette I generated for everything else :(
   [HexTerrain.rock]: '#3D6A7B',
   [HexTerrain.sand]: '#B4AD2D',
   [HexTerrain.dirt]: '#C46E71',

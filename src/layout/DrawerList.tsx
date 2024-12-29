@@ -5,6 +5,7 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { MdHome } from 'react-icons/md'
+import { Link } from 'wouter'
 
 export const DrawerList = ({
   toggleIsNavOpen,
@@ -19,7 +20,7 @@ export const DrawerList = ({
     >
       <List>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton component={Link} href={'/'}>
             <ListItemIcon
               sx={{
                 color: 'inherit',

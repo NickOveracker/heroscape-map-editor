@@ -1,5 +1,4 @@
 import React from 'react'
-import { useLocation } from 'react-router'
 import { ThreeEvent } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
 import JSONCrush from 'jsoncrush'
@@ -24,11 +23,7 @@ import { genBoardHexID, pillarSideRotations } from '../utils/map-utils.ts'
 import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
-
-function useQuery() {
-  const { search } = useLocation()
-  return React.useMemo(() => new URLSearchParams(search), [search])
-}
+import { useSearch } from 'wouter'
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -48,9 +43,10 @@ export default function MapDisplay3D({
     // disabled: true, // for when working on camera stuff
   })
   const { enqueueSnackbar } = useSnackbar()
-  const queryParams = useQuery()
+  const searchString = useSearch();
   // USE EFFECT: automatically load up map from URL, OR from file
   React.useEffect(() => {
+    const queryParams = new URLSearchParams(searchString)
     const urlMapString = queryParams.get('m')
     if (urlMapString) {
       try {
@@ -90,18 +86,20 @@ export default function MapDisplay3D({
             `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
           )
         })
-      // AUTO JSON
-      // const fileName = '/coolmap.gz'
-      // fetch(fileName).then(async (response) => {
-      //   // const data = response.json()
-      //   const data = await response.json()
-      //   const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
-      //   if (!jsonMap.hexMap.name) {
-      //     jsonMap.hexMap.name = fileName
-      //   }
-      //   loadMap(jsonMap)
-      // })
     }
+
+
+    // AUTO JSON
+    // const fileName = '/coolmap.gz'
+    // fetch(fileName).then(async (response) => {
+    //   // const data = response.json()
+    //   const data = await response.json()
+    //   const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+    //   if (!jsonMap.hexMap.name) {
+    //     jsonMap.hexMap.name = fileName
+    //   }
+    //   loadMap(jsonMap)
+    // })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
