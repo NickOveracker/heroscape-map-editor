@@ -1,6 +1,6 @@
 import React from 'react'
 import { Canvas } from '@react-three/fiber'
-import { Box, OrthographicCamera, PerspectiveCamera, Stars, Stats } from '@react-three/drei'
+import { OrthographicCamera, PerspectiveCamera, Stars, Stats } from '@react-three/drei'
 import Lights from './Lights'
 import MyCameraControls from './camera/MyCameraControls'
 import MapDisplay3D from './MapDisplay3D'
@@ -14,7 +14,8 @@ const World = () => {
   const cameraControlsRef = React.useRef(undefined!)
   const mapGroupRef = React.useRef<THREE.Group<THREE.Object3DEventMap>>(undefined!)
   const isOrthoCam = useBoundStore(s => s.isOrthoCam)
-  const toggleIsOrthoCam = useBoundStore(s => s.toggleIsOrthoCam)
+  const isTakingPicture = useBoundStore(s => s.isTakingPicture)
+
   return (
     <div
       id="canvas-container"
@@ -40,7 +41,7 @@ const World = () => {
         <Stats className="stats-panel" />
         <MapDisplay3D mapGroupRef={mapGroupRef} cameraControlsRef={cameraControlsRef} />
         <Lights />
-        <GridHelper />
+        {!isTakingPicture && <GridHelper />}
         <MyCameraControls
           cameraControlsRef={cameraControlsRef}
           mapGroupRef={mapGroupRef}

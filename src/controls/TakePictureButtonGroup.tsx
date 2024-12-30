@@ -4,24 +4,36 @@ import { EVENTS } from '../utils/constants'
 import useEvent from '../hooks/useEvent'
 import useBoundStore from '../store/store'
 import ControlButtonGroup from './ControlButtonGroup'
+import React from 'react'
 
 const TakePictureButtonGroup = () => {
   const { publish } = useEvent()
   const toggleIsTakingPicture = useBoundStore((s) => s.toggleIsTakingPicture)
+  const isTakingPicture = useBoundStore((s) => s.toggleIsTakingPicture)
+  const takePictureTimeout = React.useRef<number>(null!);
   const toggleIsOrthoCam = useBoundStore(s => s.toggleIsOrthoCam)
   const isOrthoCam = useBoundStore(s => s.isOrthoCam)
+  React.useEffect(() => {
+    // clear the timeout after we take a picture
+    if (!isTakingPicture) {
+      clearTimeout(takePictureTimeout.current);
+    }
+  }, [isTakingPicture])
 
   const handleToggleOrthoCam = () => {
     toggleIsOrthoCam(!isOrthoCam)
-    publish(EVENTS.toggleOrthoCam)
   }
   const handleTakePicturePng = () => {
     toggleIsTakingPicture(true)
-    publish(EVENTS.savePng)
+    takePictureTimeout.current = setTimeout(() => {
+      publish(EVENTS.savePng)
+    }, 100); // Long enough to make some changes to the map and render
   }
   const handleTakePictureJpg = () => {
     toggleIsTakingPicture(true)
-    publish(EVENTS.saveJpg)
+    takePictureTimeout.current = setTimeout(() => {
+      publish(EVENTS.saveJpg)
+    }, 100); // Long enough to make some changes to the map and render
   }
 
   return (

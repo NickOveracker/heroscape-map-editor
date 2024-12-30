@@ -41,6 +41,7 @@ export default function MapDisplay3D({
   const pieceSize = useBoundStore((state) => state.pieceSize)
   const pieceRotation = useBoundStore((state) => state.pieceRotation)
   const setSelectedPieceID = useBoundStore((state) => state.setSelectedPieceID)
+  const isTakingPicture = useBoundStore(s => s.isTakingPicture)
   useZoomCameraToMapCenter({
     cameraControlsRef,
     boardHexes,
@@ -107,7 +108,7 @@ export default function MapDisplay3D({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr)
+  const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr, isTakingPicture)
 
   const onPointerUp = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
     if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
@@ -207,11 +208,11 @@ type InstanceBoardHexes = {
   solidHexCaps: BoardHex[]
   fluidHexCaps: BoardHex[]
 }
-function getInstanceBoardHexes(boardHexesArr: BoardHex[]) {
+function getInstanceBoardHexes(boardHexesArr: BoardHex[], isTakingPicture: boolean) {
   return boardHexesArr.reduce(
     (result: InstanceBoardHexes, current) => {
       const isCap = current.isCap // land hexes that are covered, obstacle origin/auxiliary hexes, vertical clearance hexes
-      const isEmptyCap = isCap && current.terrain === HexTerrain.empty
+      const isEmptyCap = isCap && !isTakingPicture && current.terrain === HexTerrain.empty
       const isSolidCap = isCap && isSolidTerrainHex(current.terrain)
       const isFluidCap = isCap && isFluidTerrainHex(current.terrain)
       const isSubTerrain =
