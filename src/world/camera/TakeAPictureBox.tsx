@@ -8,7 +8,7 @@ import useBoundStore from '../../store/store'
 const TakeAPictureBox = () => {
   const { gl, scene, camera } = useThree()
   const { subscribe, unsubscribe } = useEvent()
-
+  const hexMap = useBoundStore(s => s.hexMap)
   const toggleIsTakingPicture = useBoundStore((s) => s.toggleIsTakingPicture)
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const TakeAPictureBox = () => {
       gl.render(scene, camera)
       const screenshot = gl.domElement.toDataURL()
       const link = document.createElement('a')
-      link.download = `hexmap.png`
+      link.download = `${hexMap.name}.png`
       link.href = screenshot
       // document.body.appendChild(link)
       link.click()
@@ -27,7 +27,7 @@ const TakeAPictureBox = () => {
       gl.render(scene, camera)
       const screenshot = gl.domElement.toDataURL()
       const link = document.createElement('a')
-      link.download = `hexmap.jpg`
+      link.download = `${hexMap.name}.jpg`
       link.href = screenshot
       // document.body.appendChild(link)
       link.click()
@@ -41,7 +41,7 @@ const TakeAPictureBox = () => {
       unsubscribe(EVENTS.savePng, handleDownloadPng)
       unsubscribe(EVENTS.saveJpg, handleDownloadJpg)
     }
-  }, [camera, gl, scene, toggleIsTakingPicture, subscribe, unsubscribe])
+  }, [camera, gl, scene, toggleIsTakingPicture, subscribe, unsubscribe, hexMap.name])
 
   return <Box args={[0, 0, 0]} />
 }

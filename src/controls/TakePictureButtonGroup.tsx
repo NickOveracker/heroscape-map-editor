@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import { MdPhotoCamera } from 'react-icons/md'
+import { MdCameraswitch, MdPhotoCamera } from 'react-icons/md'
 import { EVENTS } from '../utils/constants'
 import useEvent from '../hooks/useEvent'
 import useBoundStore from '../store/store'
@@ -8,6 +8,13 @@ import ControlButtonGroup from './ControlButtonGroup'
 const TakePictureButtonGroup = () => {
   const { publish } = useEvent()
   const toggleIsTakingPicture = useBoundStore((s) => s.toggleIsTakingPicture)
+  const toggleIsOrthoCam = useBoundStore(s => s.toggleIsOrthoCam)
+  const isOrthoCam = useBoundStore(s => s.isOrthoCam)
+
+  const handleToggleOrthoCam = () => {
+    toggleIsOrthoCam(!isOrthoCam)
+    publish(EVENTS.toggleOrthoCam)
+  }
   const handleTakePicturePng = () => {
     toggleIsTakingPicture(true)
     publish(EVENTS.savePng)
@@ -19,6 +26,13 @@ const TakePictureButtonGroup = () => {
 
   return (
     <ControlButtonGroup>
+      <Button
+        startIcon={<MdCameraswitch />}
+        onClick={handleToggleOrthoCam}
+        variant="contained"
+      >
+        Toggle Camera Type
+      </Button>
       <Button
         startIcon={<MdPhotoCamera />}
         onClick={handleTakePicturePng}

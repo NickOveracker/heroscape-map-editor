@@ -22,6 +22,8 @@ export interface UISlice {
   toggleIsTakingPicture: (s: boolean) => void
   isCameraDisabled: false
   toggleIsCameraDisabled: (b: boolean) => void
+  isOrthoCam: false
+  toggleIsOrthoCam: (b: boolean) => void
 }
 
 const initialPenMode = PenMode.select
@@ -96,6 +98,13 @@ const createUISlice: StateCreator<
     set(
       produce((s) => {
         s.isCameraDisabled = b
+      }),
+    ),
+  isOrthoCam: false,
+  toggleIsOrthoCam: (b: boolean) =>
+    set(
+      produce((s) => {
+        s.isOrthoCam = b
       }),
     ),
 })

@@ -38,4 +38,5 @@ export const CAMERA_FOV = 65
 export const EVENTS = {
   savePng: 'savePng',
   saveJpg: 'saveJpg',
+  toggleOrthoCam: 'toggleOrthoCam',
 }

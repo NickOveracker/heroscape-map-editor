@@ -1,16 +1,20 @@
 import React from 'react'
 import { Canvas } from '@react-three/fiber'
-import { Stars, Stats } from '@react-three/drei'
+import { Box, OrthographicCamera, PerspectiveCamera, Stars, Stats } from '@react-three/drei'
 import Lights from './Lights'
 import MyCameraControls from './camera/MyCameraControls'
 import MapDisplay3D from './MapDisplay3D'
 import { CAMERA_FOV } from '../utils/constants'
 import GridHelper from './GridHelper'
-import { Group, Object3DEventMap } from 'three'
+import * as THREE from 'three'
+import useBoundStore from '../store/store'
+import TakeAPictureBox from './camera/TakeAPictureBox'
 
 const World = () => {
   const cameraControlsRef = React.useRef(undefined!)
-  const mapGroupRef = React.useRef<Group<Object3DEventMap>>(undefined!)
+  const mapGroupRef = React.useRef<THREE.Group<THREE.Object3DEventMap>>(undefined!)
+  const isOrthoCam = useBoundStore(s => s.isOrthoCam)
+  const toggleIsOrthoCam = useBoundStore(s => s.toggleIsOrthoCam)
   return (
     <div
       id="canvas-container"
@@ -20,15 +24,9 @@ const World = () => {
         position: 'relative',
       }}
     >
-      <Canvas
-        // orthographic // looks really cool, but cannot figure out camera switching yet
-        camera={{
-          fov: CAMERA_FOV,
-          position: [10, 10, 10]
-        }}
-      // shadows
-      >
-        {/* <Sky /> */}
+      <Canvas>
+        <PerspectiveCamera position={[10, 10, 10]} fov={CAMERA_FOV} makeDefault={!isOrthoCam} />
+        <OrthographicCamera position={[0, 100, 100]} zoom={50} makeDefault={isOrthoCam} />
         <Stars
           radius={100}
           depth={50}
@@ -47,6 +45,7 @@ const World = () => {
           cameraControlsRef={cameraControlsRef}
           mapGroupRef={mapGroupRef}
         />
+        <TakeAPictureBox />
       </Canvas>
     </div>
   )

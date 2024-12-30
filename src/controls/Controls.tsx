@@ -6,6 +6,7 @@ import ToggleCameraButton from './ToggleCameraButton'
 import RotationSelect from './RotationSelect'
 import UndoRedoButtonGroup from './UndoRedoButtonGroup'
 import ControlButtonGroup from './ControlButtonGroup'
+import TakePictureButtonGroup from './TakePictureButtonGroup'
 
 const Controls = () => {
   return (
@@ -15,7 +16,7 @@ const Controls = () => {
       <PieceSizeSelect />
       <RotationSelect />
       {/* <MapLensToggles /> */}
-      {/* <TakePictureButtonGroup /> */}
+      <TakePictureButtonGroup />
       <ControlButtonGroup>
         <ToggleCameraButton />
         <DEVLogSomethingCoolButton />
