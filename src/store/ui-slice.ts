@@ -5,6 +5,8 @@ import { produce } from 'immer'
 import { Dictionary } from 'lodash'
 
 export interface UISlice {
+  selectedPieceID: string
+  setSelectedPieceID: (id: string) => void
   penMode: PenMode
   togglePenMode: (mode: PenMode) => void
   pieceRotation: number
@@ -20,7 +22,7 @@ export interface UISlice {
   toggleIsCameraDisabled: (b: boolean) => void
 }
 
-const initialPenMode = PenMode.laurWallShort
+const initialPenMode = PenMode.select
 
 const createUISlice: StateCreator<
   // https://immerjs.github.io/immer/#with-immer
@@ -29,6 +31,13 @@ const createUISlice: StateCreator<
   [],
   UISlice
 > = (set) => ({
+  selectedPieceID: '',
+  setSelectedPieceID: (pieceID: string) =>
+    set(
+      produce((state) => {
+        state.selectedPieceID = pieceID
+      }),
+    ),
   penMode: initialPenMode,
   togglePenMode: (mode: PenMode) =>
     set(

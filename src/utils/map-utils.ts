@@ -79,17 +79,12 @@ export const hexPointsFromCenter = {
   topLeft: new Vector3(-HEXGRID_HEX_APOTHEM, 0, halfASideLength), // top-left
   top: new Vector3(0, 0, HEXGRID_HEX_RADIUS), // top
 }
-export const pillarSideRotations: { [side: string]: number } = {
-  plusX: 0,
-  minusY: 1.5,
-  minusX: 3,
-  plusY: 4.5,
-}
-export const pillarSideRotationsFlip: { [rotation: number]: string } = {
-  [0]: 'plusX',
-  [1.5]: 'minusY',
-  [3]: 'minusX',
-  [4.5]: 'plusY',
+export const pillarSideRotations = [0, 1.5, 3, 4.5]
+export const pillarSideRotationsFlip: { [rotation: number]: number } = {
+  [0]: 3,
+  [1.5]: 4.5,
+  [3]: 0,
+  [4.5]: 1.5,
 }
 export function encodeFilename(str: string) {
   return str.replace(/[^\w]/g, '_')

@@ -40,6 +40,7 @@ export default function MapDisplay3D({
   const loadMap = useBoundStore((state) => state.loadMap)
   const pieceSize = useBoundStore((state) => state.pieceSize)
   const pieceRotation = useBoundStore((state) => state.pieceRotation)
+  const setSelectedPieceID = useBoundStore((state) => state.setSelectedPieceID)
   useZoomCameraToMapCenter({
     cameraControlsRef,
     boardHexes,
@@ -161,22 +162,14 @@ export default function MapDisplay3D({
   const onPointerUpLaurWall = (
     event: ThreeEvent<PointerEvent>,
     hex: BoardHex,
-    side: string,
   ) => {
     if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
     event.stopPropagation() // prevent pass through
     // Early out if camera is active
     if (cameraControlsRef?.current?.active) return
-    const baseSideRotation = pillarSideRotations?.[side] ?? 0
-    const piece = piecesSoFar[penMode]
-    const pillarRotation = hex.pieceRotation
+    setSelectedPieceID(hex.pieceID)
+    // const baseSideRotation = pillarSideRotations?.[side] ?? 0
 
-    paintTile({
-      piece,
-      clickedHex: hex,
-      rotation: (baseSideRotation + pillarRotation) % 6,
-      laurSide: side,
-    })
   }
 
   return (
