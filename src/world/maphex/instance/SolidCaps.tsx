@@ -1,4 +1,4 @@
-import { Instance, Instances } from '@react-three/drei'
+import { Instance, Instances, Sparkles, Wireframe } from '@react-three/drei'
 import React from 'react'
 import {
   CylinderGeometryArgs,
@@ -11,6 +11,7 @@ import { HEXGRID_HEXCAP_HEIGHT, INSTANCE_LIMIT } from '../../../utils/constants'
 import { hexTerrainColor } from '../hexColors'
 import { ThreeEvent, useFrame } from '@react-three/fiber'
 import useBoundStore from '../../../store/store'
+import { CylinderGeometry } from 'three'
 
 const baseSolidCapCylinderArgs: CylinderGeometryArgs = [
   0.9,
@@ -25,6 +26,7 @@ const baseSolidCapCylinderArgs: CylinderGeometryArgs = [
 
 const SolidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
+  const isCameraDisabled = useBoundStore(s => s.isCameraDisabled)
   if (boardHexArr.length === 0) return null
   return (
     <Instances
@@ -34,7 +36,8 @@ const SolidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
       frustumCulled={false}
     >
       <cylinderGeometry args={baseSolidCapCylinderArgs} />
-      <meshMatcapMaterial />
+      {isCameraDisabled ? <meshPhongMaterial wireframe={true} /> :
+        <meshMatcapMaterial />}
       {boardHexArr.map((hex, i) => (
         <SolidCap
           key={hex.id + i}
@@ -56,17 +59,14 @@ function SolidCap({
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
-  const setHoveredPieceID = useBoundStore(s => s.setHoveredPieceID)
-  const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
-  useFrame(() => {
-    // console.log("Hey, I'm executing every frame!")
-    if (hoveredPieceID === boardHex.pieceID) {
-      ref.current.color.set('yellow')
-    } else {
-      ref.current.color.set(hexTerrainColor[boardHex.terrain])
+  const hoverTimeout = React.useRef<number>(null!);
 
-    }
-  })
+  const setHoveredPieceID = useBoundStore(s => s.setHoveredPieceID)
+  // const setSelectedPieceID = useBoundStore(s => s.setSelectedPieceID)
+  const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
+  // const selectedPieceID = useBoundStore(s => s.selectedPieceID)
+
+  // Effect: Initial color/position
   React.useEffect(() => {
     const { x, y, z } = getBoardHex3DCoords(boardHex)
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
@@ -75,15 +75,22 @@ function SolidCap({
 
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
-    // if (e.instanceId === 0 || !!e.instanceId) {
-    //   ref.current.color.set('yellow')
-    // }
-    setHoveredPieceID(boardHex.pieceID)
+    if (e.instanceId === 0 || !!e.instanceId) {
+      ref.current.color.set('yellow')
+    }
+    hoverTimeout.current = setTimeout(() => {
+      // setIsHovered(true);
+      setHoveredPieceID(boardHex.pieceID)
+    }, 500); // Adjust the delay (in milliseconds) as needed
   }
-  const handleOut = () => {
+  const handleOut = (e: ThreeEvent<PointerEvent>) => {
     // if (hoveredPieceID === boardHex.id) {
-    setHoveredPieceID('')
     // }
+    if (e.instanceId === 0 || !!e.instanceId) {
+      ref.current.color.set(hexTerrainColor[boardHexArr[e.instanceId].terrain])
+    }
+    clearTimeout(hoverTimeout.current);
+    setHoveredPieceID('')
   }
   const handleUp = (e: ThreeEvent<PointerEvent>) => {
     if (e.instanceId === 0 || !!e.instanceId) {
@@ -92,12 +99,15 @@ function SolidCap({
   }
 
   return (
-    <Instance
-      ref={ref}
-      onPointerUp={handleUp}
-      onPointerEnter={handleEnter}
-      onPointerOut={handleOut}
-      frustumCulled={false}
-    />
+    <group>
+      {hoveredPieceID === boardHex.pieceID && <Sparkles />}
+      <Instance
+        ref={ref}
+        onPointerUp={handleUp}
+        onPointerEnter={handleEnter}
+        onPointerOut={handleOut}
+        frustumCulled={false}
+      />
+    </group>
   )
 }

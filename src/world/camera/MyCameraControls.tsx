@@ -20,32 +20,11 @@ export default function MyCameraControls({
   mapGroupRef: React.RefObject<Group<Object3DEventMap>>
 }) {
   const hexMap = useBoundStore((state) => state.hexMap)
-  const { subscribe, unsubscribe } = useEvent()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fitToMap = () => {
     if (mapGroupRef.current && hexMap.name) {
       cameraControlsRef.current?.fitToBox?.(mapGroupRef.current, true)
     }
   }
-  React.useEffect(() => {
-    // const handleDownloadPng = () => {
-    //   gl.render(scene, camera)
-    //   const screenshot = gl.domElement.toDataURL()
-    //   const link = document.createElement('a')
-    //   link.download = `${hexMap.name}.png`
-    //   link.href = screenshot
-    //   // document.body.appendChild(link)
-    //   link.click()
-    //   // document.body.removeChild(link)
-    //   toggleIsTakingPicture(false)
-    // }
-    subscribe(EVENTS.toggleOrthoCam, fitToMap)
-
-    return () => {
-      unsubscribe(EVENTS.toggleOrthoCam, fitToMap)
-    }
-  }, [subscribe, unsubscribe, fitToMap])
-  // const { camera } = useThree()
   useHotkeys('up', () => {
     cameraControlsRef?.current?.dolly(5, true)
   })
@@ -59,7 +38,7 @@ export default function MyCameraControls({
   useHotkeys('left', () => cameraControlsRef?.current?.truck(-1, 0, true))
   useHotkeys('right', () => cameraControlsRef?.current?.truck(1, 0, true))
   useHotkeys('space', () => fitToMap())
-  const isCameraDisabled = useBoundStore((s) => s.isCameraDisabled)
+  const isCameraDisabled = useBoundStore((s) => s.isCameraDisabled || s.isTakingPicture)
   // const { minDistance, enabled, verticalDragToForward, dollyToCursor, infinityDolly } = useControls({
   //     thetaGrp: buttonGroup({
   //         label: 'rotate theta',

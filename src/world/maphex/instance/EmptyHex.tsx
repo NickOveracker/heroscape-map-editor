@@ -60,7 +60,6 @@ function EmptyHex({
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
-
   React.useLayoutEffect(() => {
     const { x, z, y } = getBoardHex3DCoords(boardHex)
     ref.current.color.set(emptyHexColor)

@@ -26,6 +26,7 @@ const dirtColor = hexTerrainColor[HexTerrain.dirt]
 
 const SubTerrains = ({ boardHexArr }: Props) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
+  const isCameraDisabled = useBoundStore(s => s.isCameraDisabled)
   if (boardHexArr.length === 0) return null
   return (
     <Instances
@@ -35,7 +36,8 @@ const SubTerrains = ({ boardHexArr }: Props) => {
       frustumCulled={false}
     >
       <cylinderGeometry args={baseSubTerrainCylinderArgs} />
-      <meshMatcapMaterial />
+      {isCameraDisabled ? <meshPhongMaterial wireframe={true} /> :
+        <meshMatcapMaterial />}
       {boardHexArr.map((hex, i) => (
         <SubTerrain key={hex.id + i + 'sub'} boardHex={hex} />
       ))}
@@ -92,8 +94,8 @@ function SubTerrain({ boardHex }: { boardHex: BoardHex }) {
       ref={ref}
       onPointerDown={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
       // onPointerEnter={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
-      onPointerEnter={handleEnter}
-      onPointerOut={handleOut}
+      // onPointerEnter={handleEnter}
+      // onPointerOut={handleOut}
       frustumCulled={false}
     />
   )
