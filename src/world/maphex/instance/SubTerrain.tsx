@@ -5,7 +5,8 @@ import { CylinderGeometryArgs, InstanceRefType } from '../instance-hex'
 import { getBoardHex3DCoords } from '../../../utils/map-utils'
 import { HEXGRID_HEX_HEIGHT, INSTANCE_LIMIT } from '../../../utils/constants'
 import { hexTerrainColor } from '../hexColors'
-import { ThreeEvent } from '@react-three/fiber'
+import { ThreeEvent, useFrame } from '@react-three/fiber'
+import useBoundStore from '../../../store/store'
 
 type Props = {
   boardHexArr: BoardHex[]
@@ -45,6 +46,29 @@ const SubTerrains = ({ boardHexArr }: Props) => {
 export default SubTerrains
 
 function SubTerrain({ boardHex }: { boardHex: BoardHex }) {
+  const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
+  const setHoveredPieceID = useBoundStore(s => s.setHoveredPieceID)
+  useFrame(() => {
+    // console.log("Hey, I'm executing every frame!")
+    if (hoveredPieceID === boardHex.pieceID) {
+      ref.current.color.set('yellow')
+    } else {
+      ref.current.color.set(hexTerrainColor[boardHex.terrain])
+
+    }
+  })
+  const handleEnter = (e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation() // prevent this hover from passing through and affecting behind
+    // if (e.instanceId === 0 || !!e.instanceId) {
+    //   ref.current.color.set('yellow')
+    // }
+    setHoveredPieceID(boardHex.pieceID)
+  }
+  const handleOut = () => {
+    // if (hoveredPieceID === boardHex.id) {
+    setHoveredPieceID('')
+    // }
+  }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
   React.useEffect(() => {
@@ -62,11 +86,14 @@ function SubTerrain({ boardHex }: { boardHex: BoardHex }) {
     ref.current.color.set(subTerrainColor)
     ref.current.position.set(x, posY, z)
   }, [boardHex])
+
   return (
     <Instance
       ref={ref}
       onPointerDown={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
-      onPointerEnter={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
+      // onPointerEnter={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
+      onPointerEnter={handleEnter}
+      onPointerOut={handleOut}
       frustumCulled={false}
     />
   )

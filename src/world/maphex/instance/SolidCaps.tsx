@@ -9,7 +9,8 @@ import {
 import { getBoardHex3DCoords } from '../../../utils/map-utils'
 import { HEXGRID_HEXCAP_HEIGHT, INSTANCE_LIMIT } from '../../../utils/constants'
 import { hexTerrainColor } from '../hexColors'
-import { ThreeEvent } from '@react-three/fiber'
+import { ThreeEvent, useFrame } from '@react-three/fiber'
+import useBoundStore from '../../../store/store'
 
 const baseSolidCapCylinderArgs: CylinderGeometryArgs = [
   0.9,
@@ -55,7 +56,17 @@ function SolidCap({
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
+  const setHoveredPieceID = useBoundStore(s => s.setHoveredPieceID)
+  const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
+  useFrame(() => {
+    // console.log("Hey, I'm executing every frame!")
+    if (hoveredPieceID === boardHex.pieceID) {
+      ref.current.color.set('yellow')
+    } else {
+      ref.current.color.set(hexTerrainColor[boardHex.terrain])
 
+    }
+  })
   React.useEffect(() => {
     const { x, y, z } = getBoardHex3DCoords(boardHex)
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
@@ -64,14 +75,15 @@ function SolidCap({
 
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
-    if (e.instanceId === 0 || !!e.instanceId) {
-      ref.current.color.set('yellow')
-    }
+    // if (e.instanceId === 0 || !!e.instanceId) {
+    //   ref.current.color.set('yellow')
+    // }
+    setHoveredPieceID(boardHex.pieceID)
   }
-  const handleOut = (e: ThreeEvent<PointerEvent>) => {
-    if (e.instanceId === 0 || !!e.instanceId) {
-      ref.current.color.set(hexTerrainColor[boardHexArr[e.instanceId].terrain])
-    }
+  const handleOut = () => {
+    // if (hoveredPieceID === boardHex.id) {
+    setHoveredPieceID('')
+    // }
   }
   const handleUp = (e: ThreeEvent<PointerEvent>) => {
     if (e.instanceId === 0 || !!e.instanceId) {
