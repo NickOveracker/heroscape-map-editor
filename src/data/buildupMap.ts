@@ -9,6 +9,7 @@ import {
 } from '../types'
 import { hexUtilsOddRToCube } from '../utils/hex-utils'
 import { makeHexagonScenario, makeRectangleScenario } from '../utils/map-gen'
+import { decodePieceID } from '../utils/map-utils'
 import { addLaurPiece } from './addLaurPiece'
 import { addPiece } from './addPiece'
 import { pieceCodes } from './pieceCodes'
@@ -55,8 +56,8 @@ export default function buildupVSFileMap(
 function sortLaurAddonsToEndOfArray(arr: string[]) {
   // adding the laur addons will only work if pillars are already down
   return arr.sort((a, b) => {
-    const aPieceID = a.split('~')[4]
-    const bPieceID = b.split('~')[4]
+    const aPieceID = decodePieceID(a).pieceID
+    const bPieceID = decodePieceID(b).pieceID
     if (
       aPieceID === Pieces.laurWallRuin ||
       aPieceID === Pieces.laurWallLong ||
@@ -94,21 +95,18 @@ export function buildupJsonFileMap(
   }
   const piecesArray = sortLaurAddonsToEndOfArray(Object.keys(boardPieces))
   const newBoardHexes = piecesArray.reduce(
-    (boardHexes: BoardHexes, pieceQraID): BoardHexes => {
-      // For JSON maps, we build the piece coords by parsing the ID
-      const arrayThing = pieceQraID.split('~')
-      const placementAltitude = parseInt(arrayThing[0])
-      const q = parseInt(arrayThing[1])
-      const r = parseInt(arrayThing[2])
-      const s = -q - r
-      const rotation = parseFloat(arrayThing[3])
-      const pieceInventoryID = arrayThing[4]
-      const pieceCoords = { q, r, s }
+    (boardHexes: BoardHexes, pieceAqrrID): BoardHexes => {
+      const {
+        pieceCoords,
+        altitude: placementAltitude,
+        rotation,
+        pieceID
+      } = decodePieceID(pieceAqrrID)
       // start zones
       // if (tile.type === 15001) {
       // }
       // personalTiles
-      const piece = piecesSoFar[pieceInventoryID]
+      const piece = piecesSoFar[pieceID]
       if (!piece) {
         return boardHexes // Should probably handle this different, errors etc.
       }

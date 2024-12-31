@@ -1,5 +1,5 @@
 import { clone } from 'lodash'
-import { BoardHexes, Pieces, BoardPieces } from '../types'
+import { BoardHexes, Pieces, BoardPieces, BoardHex } from '../types'
 import {
   hexUtilsAdd,
   hexUtilsGetNeighborForRotation,
@@ -27,6 +27,24 @@ const nearDirectionFlip: { [key: number]: number } = {
   3: 0,
   4: 1,
   5: 2,
+}
+
+function getPillarReport({
+  boardHexes,
+  boardPieces,
+  pillarHex
+}: {
+  boardHexes: BoardHexes
+  boardPieces: BoardPieces
+  pillarHex: BoardHex
+}) {
+  const wallBuddies = pillarSideRotations.map(r => {
+    const actualRotation = pillarHex.pieceRotation + r
+    // if(r === 1.5 || r === 4.5){
+    //   getPill
+    // }
+    console.log("🚀 ~ actualRotation:", actualRotation)
+  })
 }
 
 export function addLaurPiece({

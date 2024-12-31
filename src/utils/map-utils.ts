@@ -1,5 +1,5 @@
 import { Vector3 } from 'three'
-import { BoardHexes, CubeCoordinate } from '../types'
+import { BoardHex, BoardHexes, CubeCoordinate } from '../types'
 import {
   HEXGRID_HEX_APOTHEM,
   HEXGRID_HEX_HEIGHT,
@@ -7,7 +7,7 @@ import {
   HEXGRID_SPACING,
   HEXGRID_HEXCAP_FLUID_HEIGHT,
 } from './constants'
-import { cubeToPixel } from './hex-utils'
+import { cubeToPixel, hexUtilsAdd, hexUtilsGetNeighborForRotation } from './hex-utils'
 
 type MapDimensions = {
   width: number
@@ -70,6 +70,13 @@ export const getBoardHex3DCoords = (
     yBase,
   }
 }
+export const getBoardHexNearNeighbor = (
+  hex: BoardHex,
+  boardHexes: BoardHexes,
+  rotation: number
+) => {
+  return boardHexes[genBoardHexID({ ...hexUtilsAdd({ q: hex.q, r: hex.r, s: hex.s }, hexUtilsGetNeighborForRotation(rotation)), altitude: hex.altitude })]
+}
 const halfASideLength = HEXGRID_HEX_RADIUS / 2
 export const hexPointsFromCenter = {
   topRight: new Vector3(HEXGRID_HEX_APOTHEM, 0, halfASideLength), // top-right
@@ -95,6 +102,23 @@ export function genPieceID(
   rotation: number,
 ) {
   return `${boardHexID}~${rotation}~${pieceID}`
+}
+export function decodePieceID(aqrrID: string) {
+  const parsed = aqrrID.split('~')
+  const altitude = parseInt(parsed[0])
+  const q = parseInt(parsed[1])
+  const r = parseInt(parsed[2])
+  const s = -q - r
+  const rotation = parseFloat(parsed[3])
+  const pieceID = parsed[4]
+  const pieceCoords = { q, r, s }
+  return {
+    pieceID,
+    altitude,
+    rotation,
+    boardHexID: genBoardHexID({ ...pieceCoords, altitude }),
+    pieceCoords
+  }
 }
 export function genBoardHexID(hex: CubeCoordinate & { altitude: number }) {
   /* Hex world global coords (q,r,altitude) => (x,y,z)

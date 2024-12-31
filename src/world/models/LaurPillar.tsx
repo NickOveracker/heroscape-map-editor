@@ -2,13 +2,39 @@ import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { DoubleSide } from 'three'
 import { Billboard, Html, useGLTF } from '@react-three/drei'
-import { BoardHex, HexTerrain } from '../../types'
-import { getBoardHex3DCoords } from '../../utils/map-utils'
+import { BoardHex, BoardHexes, BoardPieces, HexTerrain, Pieces } from '../../types'
+import { decodePieceID, getBoardHex3DCoords, getBoardHexNearNeighbor, pillarSideRotations } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 import useBoundStore from '../../store/store'
 import { Button } from '@mui/material'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
+
+
+
+function getPillarReport({
+  boardHexes,
+  boardPieces,
+  boardHex
+}: {
+  boardHexes: BoardHexes
+  boardPieces: BoardPieces
+  boardHex: BoardHex
+}) {
+  const pillarAddons = Object.keys(boardPieces)
+    .map(key => decodePieceID(key))
+    .filter(piece => piece.pieceID === Pieces.laurWallLong ||
+      piece.pieceID === Pieces.laurWallShort ||
+      piece.pieceID === Pieces.laurWallRuin)
+  console.log("🚀 ~ pillarAddons ~ pillarAddons:", pillarAddons)
+  const sideBuddyHexes = pillarSideRotations.map(sideRot => {
+    const actualRotation = (boardHex.pieceRotation + sideRot) % 6
+    if (Number.isInteger(actualRotation)) {
+      return getBoardHexNearNeighbor(boardHex, boardHexes, actualRotation)
+    }
+  })
+  console.log("🚀 ~ sideBuddyHexes:", sideBuddyHexes)
+}
 
 export default function LaurWallPillar({
   boardHex,
@@ -22,6 +48,8 @@ export default function LaurWallPillar({
 }) {
   const { x, z, yBaseCap, yWithBase } = getBoardHex3DCoords(boardHex)
   const selectedPieceID = useBoundStore(s => s.selectedPieceID)
+  const boardHexes = useBoundStore(s => s.boardHexes)
+  const boardPieces = useBoundStore(s => s.boardPieces)
   const { nodes } = useGLTF('/laurwall-pillar.glb') as any
   const rotation = boardHex?.pieceRotation ?? 0
   const {
@@ -33,14 +61,16 @@ export default function LaurWallPillar({
   const interiorPillarColor = hexTerrainColor.laurModelColor2
   const yellowColor = 'yellow'
 
-  // // update color when piece is hovered
-  // React.useEffect(() => {
-  //   if (selectedPieceID === boardHex.pieceID) {
-  //     ref.current.color.set('yellow')
-  //   } else {
-  //     ref.current.color.set(color)
-  //   }
-  // }, [boardHex.pieceID, hoveredPieceID, color])
+  const handleClickBuildShortWall = () => {
+
+  }
+
+
+  // const pillarReport = getPillarReport({
+  //   boardHexes,
+  //   boardPieces,
+  //   boardHex
+  // })
 
   const buttonPositions: [x: number, y: number, z: number][] = [
     [0.5, 1, 0],
@@ -48,6 +78,7 @@ export default function LaurWallPillar({
     [-1.5, 1, 0],
     [-0.5, 1, -1],
   ].map(xyz => [xyz[0] - 0.1, xyz[1], xyz[2] - 0.2])
+
   return (
     <>
       <group

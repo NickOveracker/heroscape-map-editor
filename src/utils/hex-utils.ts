@@ -10,6 +10,7 @@ import {
 } from './constants'
 import { CubeCoordinate } from '../types'
 import { Dictionary } from 'lodash'
+
 export const hexUtilsEquals = (
   a: CubeCoordinate,
   b: CubeCoordinate,

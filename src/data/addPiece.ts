@@ -55,11 +55,6 @@ export function addPiece({
     altitude: placementAltitude,
   })
   const pieceID = genPieceID(pieceHexID, piece.id, rotation)
-  const genIds = (altitude: number) => {
-    return piecePlaneCoords.map((cubeCoord) =>
-      genBoardHexID({ ...cubeCoord, altitude: altitude }),
-    )
-  }
   const newPieceAltitude = placementAltitude + 1
   const underHexIds = piecePlaneCoords.map((cubeCoord) =>
     genBoardHexID({ ...cubeCoord, altitude: placementAltitude }),

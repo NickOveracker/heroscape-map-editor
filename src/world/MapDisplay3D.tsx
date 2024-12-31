@@ -19,7 +19,7 @@ import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
-import { genBoardHexID } from '../utils/map-utils.ts'
+import { decodePieceID, genBoardHexID } from '../utils/map-utils.ts'
 import { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { useSearch } from 'wouter'
@@ -58,8 +58,8 @@ export default function MapDisplay3D({
         const [hexMap, ...pieceIds] = data
         const boardPieces: BoardPieces = pieceIds.reduce(
           (prev: BoardPieces, curr: string) => {
-            // get inventory id from pieceID (a~q~r~id)
-            prev[curr] = curr.split('~')[4] as Pieces
+            // get inventory id from pieceID (a~q~r~rot~id)
+            prev[curr] = decodePieceID(curr).pieceID as Pieces
             return prev
           },
           {},
