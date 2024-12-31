@@ -2,11 +2,11 @@ import { Container } from '@mui/material'
 import DEVLogSomethingCoolButton from './DEVLogSomethingCoolButton'
 import PieceSizeSelect from './PieceSizeSelect'
 import PenTerrainSelect from './PenTerrainSelect'
-import ToggleCameraButton from './ToggleCameraButton'
 import RotationSelect from './RotationSelect'
 import UndoRedoButtonGroup from './UndoRedoButtonGroup'
 import ControlButtonGroup from './ControlButtonGroup'
 import TakePictureButtonGroup from './TakePictureButtonGroup'
+import ViewingLevelInput from './ViewingLevelInput'
 
 const Controls = () => {
   return (
@@ -18,9 +18,9 @@ const Controls = () => {
       {/* <MapLensToggles /> */}
       <TakePictureButtonGroup />
       <ControlButtonGroup>
-        <ToggleCameraButton />
         <DEVLogSomethingCoolButton />
       </ControlButtonGroup>
+      <ViewingLevelInput />
     </Container>
   )
 }

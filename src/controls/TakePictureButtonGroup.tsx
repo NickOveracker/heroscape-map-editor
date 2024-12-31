@@ -5,6 +5,7 @@ import useEvent from '../hooks/useEvent'
 import useBoundStore from '../store/store'
 import ControlButtonGroup from './ControlButtonGroup'
 import React from 'react'
+import ToggleCameraButton from './ToggleCameraButton'
 
 const TakePictureButtonGroup = () => {
   const { publish } = useEvent()
@@ -45,6 +46,7 @@ const TakePictureButtonGroup = () => {
       >
         Toggle Camera Type
       </Button>
+      <ToggleCameraButton />
       <Button
         startIcon={<MdPhotoCamera />}
         onClick={handleTakePicturePng}
