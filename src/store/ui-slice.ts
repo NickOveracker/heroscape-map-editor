@@ -24,6 +24,8 @@ export interface UISlice {
   toggleIsCameraDisabled: (b: boolean) => void
   isOrthoCam: false
   toggleIsOrthoCam: (b: boolean) => void
+  viewingLevel: number
+  toggleViewingLevel: (level: number) => void
 }
 
 const initialPenMode = PenMode.select
@@ -105,6 +107,13 @@ const createUISlice: StateCreator<
     set(
       produce((s) => {
         s.isOrthoCam = b
+      }),
+    ),
+  viewingLevel: 0,
+  toggleViewingLevel: (level: number) =>
+    set(
+      produce((s) => {
+        s.viewingLevel = level
       }),
     ),
 })

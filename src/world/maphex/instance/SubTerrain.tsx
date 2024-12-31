@@ -27,6 +27,7 @@ const dirtColor = hexTerrainColor[HexTerrain.dirt]
 const SubTerrains = ({ boardHexArr }: Props) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
   // const isCameraDisabled = useBoundStore(s => s.isCameraDisabled)
+  // const viewingLevel = useBoundStore(s => s.viewingLevel)
   if (boardHexArr.length === 0) return null
   return (
     <Instances
@@ -38,7 +39,7 @@ const SubTerrains = ({ boardHexArr }: Props) => {
       <cylinderGeometry args={baseSubTerrainCylinderArgs} />
       {/* {!isCameraDisabled ? <meshPhongMaterial opacity={0.8} transparent /> :
         <meshMatcapMaterial />} */}
-      {/* {isCameraDisabled ? <meshPhongMaterial wireframe={true} wireframeLinewidth={0.01} /> :
+      {/* {viewingLevel !== 0 ? <meshPhongMaterial wireframe={true} wireframeLinewidth={0.01} /> :
         <meshMatcapMaterial />} */}
       <meshMatcapMaterial />
       {boardHexArr.map((hex, i) => (
