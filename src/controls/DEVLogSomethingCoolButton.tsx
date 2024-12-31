@@ -1,9 +1,6 @@
 import { Button } from '@mui/material'
 import useBoundStore from '../store/store'
 import JSONCrush from 'jsoncrush'
-import { HexTerrain } from '../types'
-import { keyBy } from 'lodash'
-import { getBoardHexesRectangularMapDimensions } from '../utils/map-utils'
 
 const DEVLogSomethingCoolButton = () => {
   const appState = useBoundStore((state) => state)
@@ -22,9 +19,9 @@ const DEVLogSomethingCoolButton = () => {
     console.log(`c%App State:`, appState)
   }
   const onClick2 = () => {
-    const nonEmpties = Object.values(appState.boardHexes).filter(
-      (bh) => bh.terrain !== HexTerrain.empty,
-    )
+    // const nonEmpties = Object.values(appState.boardHexes).filter(
+    //   (bh) => bh.terrain !== HexTerrain.empty,
+    // )
     // console.log("🚀 ~ onClick2 ~ nonEmpties:", Object.values(appState.boardHexes).length)
     // console.log("🚀 ~ onClick2 ~ map dims without empties:", getBoardHexesRectangularMapDimensions(nonEmpties))
 
@@ -35,12 +32,12 @@ const DEVLogSomethingCoolButton = () => {
     )
 
 
-    console.log(
-      `%c${nonEmpties
-        .forEach(s => (
-          console.dir(s.laurAddons)
-        ))}
-    `, "color: blue; font-size: 16px")
+    // console.log(
+    //   `%c${nonEmpties
+    //     .forEach(s => (
+    //       console.dir(s.laurAddons)
+    //     ))}
+    // `, "color: blue; font-size: 16px")
 
   }
   return (

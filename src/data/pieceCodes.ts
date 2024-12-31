@@ -89,7 +89,7 @@ export const pieceCodes: Dictionary<string> = {
   '12004': Pieces.roadWall,
   '16301': Pieces.battlement,
   '16402': Pieces.ladder,
-  '16403': Pieces.flag,
+  // '16403': Pieces.flag,
   // castle
   '16001': Pieces.wallWalk1,
   '16007': Pieces.wallWalk7,

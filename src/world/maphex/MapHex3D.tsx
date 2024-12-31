@@ -31,7 +31,6 @@ export const MapHex3D = ({
   onPointerUpLaurWall: (
     e: ThreeEvent<PointerEvent>,
     hex: BoardHex,
-    side: string,
   ) => void
 }) => {
   const boardPieces = useBoundStore((s) => s.boardPieces)

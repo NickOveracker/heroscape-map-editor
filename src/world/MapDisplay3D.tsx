@@ -19,10 +19,9 @@ import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
-import { genBoardHexID, pillarSideRotations } from '../utils/map-utils.ts'
-import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
+import { genBoardHexID } from '../utils/map-utils.ts'
+import { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
-import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import { useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
 
@@ -70,6 +69,10 @@ export default function MapDisplay3D({
           jsonMap.hexMap.name = genRandomMapName()
         }
         loadMap(jsonMap)
+        enqueueSnackbar({
+          message: `Loaded map from URL: ${jsonMap.hexMap.name}`,
+          autoHideDuration: 5000,
+        })
       } catch (error) {
         console.error('🚀 ~ React.useEffect ~ error:', error)
       }
@@ -91,20 +94,22 @@ export default function MapDisplay3D({
       //       `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
       //     )
       //   })
+      // AUTO JSON
+      const fileName = '/PillarTest.gz'
+      fetch(fileName).then(async (response) => {
+        // const data = response.json()
+        const data = await response.json()
+        const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+        if (!jsonMap.hexMap.name) {
+          jsonMap.hexMap.name = fileName
+        }
+        loadMap(jsonMap)
+        enqueueSnackbar({
+          message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
+          autoHideDuration: 5000,
+        })
+      })
     }
-
-
-    // AUTO JSON
-    const fileName = '/PillarTest.gz'
-    fetch(fileName).then(async (response) => {
-      // const data = response.json()
-      const data = await response.json()
-      const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
-      if (!jsonMap.hexMap.name) {
-        jsonMap.hexMap.name = fileName
-      }
-      loadMap(jsonMap)
-    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
