@@ -124,7 +124,7 @@ const createUISlice: StateCreator<
   toggleIsEditMapDialogOpen: (b: boolean) =>
     set(
       produce((s) => {
-        s.isNewMapDialogOpen = b
+        s.isEditMapDialogOpen = b
       }),
     ),
   viewingLevel: 0,

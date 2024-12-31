@@ -2,6 +2,7 @@ import React from 'react'
 import Layout from '../routes/Layout'
 import World from '../world/World'
 import CreateMapFormDialog from './CreateMapFormDialog'
+import EditMapFormDialog from './EditMapFormDialog'
 
 
 const HomePage = () => {
@@ -9,6 +10,7 @@ const HomePage = () => {
     <Layout>
       <World />
       <CreateMapFormDialog />
+      <EditMapFormDialog />
     </Layout>
   )
 }

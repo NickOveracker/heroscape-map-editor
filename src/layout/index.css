@@ -42,7 +42,7 @@ canvas {
   animation: fade-in 5s ease 1s forwards;
 }
 .stats-panel {
-  /* margin-left: 100px; */
+  margin-left: 95vw;
   margin-top: 68px;
 }
 /* This gets the debug panel looking normal again, the water.css styles were messing with the button sizes, some colors */

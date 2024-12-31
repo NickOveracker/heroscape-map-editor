@@ -8,6 +8,7 @@ import { addPiece } from '../data/addPiece'
 export interface MapSlice extends MapState {
   paintTile: (args: PaintTileArgs) => void
   loadMap: (map: MapState) => void
+  changeMapName: (mapName: string) => void
 }
 
 type PaintTileArgs = {
@@ -50,6 +51,12 @@ const createMapSlice: StateCreator<AppState, [], [], MapSlice> = (set) => ({
         })
         draft.boardHexes = newBoardHexes
         draft.boardPieces = newBoardPieces
+      })
+    }),
+  changeMapName: (mapName: string) =>
+    set((state) => {
+      return produce(state, (draft) => {
+        draft.hexMap.name = mapName
       })
     }),
   loadMap: (mapState: MapState) =>
