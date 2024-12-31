@@ -24,6 +24,10 @@ export interface UISlice {
   toggleIsCameraDisabled: (b: boolean) => void
   isOrthoCam: false
   toggleIsOrthoCam: (b: boolean) => void
+  isNewMapDialogOpen: false
+  toggleIsNewMapDialogOpen: (b: boolean) => void
+  isEditMapDialogOpen: false
+  toggleIsEditMapDialogOpen: (b: boolean) => void
   viewingLevel: number
   toggleViewingLevel: (level: number) => void
 }
@@ -107,6 +111,20 @@ const createUISlice: StateCreator<
     set(
       produce((s) => {
         s.isOrthoCam = b
+      }),
+    ),
+  isNewMapDialogOpen: false,
+  toggleIsNewMapDialogOpen: (b: boolean) =>
+    set(
+      produce((s) => {
+        s.isNewMapDialogOpen = b
+      }),
+    ),
+  isEditMapDialogOpen: false,
+  toggleIsEditMapDialogOpen: (b: boolean) =>
+    set(
+      produce((s) => {
+        s.isNewMapDialogOpen = b
       }),
     ),
   viewingLevel: 0,

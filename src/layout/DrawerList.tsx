@@ -1,12 +1,12 @@
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
-import CreateMapFormDialog from './CreateMapFormDialog'
 import { Collapse, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
-import { MdExpandLess, MdExpandMore, MdFileDownload, MdUploadFile } from 'react-icons/md'
+import { MdCreateNewFolder, MdExpandLess, MdExpandMore, MdFileDownload, MdUploadFile } from 'react-icons/md'
 import React from 'react'
 import LoadMapButtons from '../controls/LoadMapButtons'
 import DownloadMapFileButtons from '../controls/DownloadMapFileButtons'
+import useBoundStore from '../store/store'
 
 export const DrawerList = ({
   toggleIsNavOpen,
@@ -15,7 +15,8 @@ export const DrawerList = ({
 }) => {
   const [isUploadOpen, setIsUploadOpen] = React.useState(false);
   const [isDownloadOpen, setIsDownloadOpen] = React.useState(false);
-
+  const toggleIsNewMapDialogOpen = useBoundStore((state) => state.toggleIsNewMapDialogOpen)
+  const isNewMapDialogOpen = useBoundStore((state) => state.isNewMapDialogOpen)
   const handleClick = (e: any) => {
     e?.stopPropagation()
     setIsUploadOpen(!isUploadOpen);
@@ -32,7 +33,16 @@ export const DrawerList = ({
     >
       <List>
         <ListItem disablePadding>
-          <CreateMapFormDialog />
+          <ListItemButton onClick={() => toggleIsNewMapDialogOpen(!isNewMapDialogOpen)}>
+            <ListItemIcon
+              sx={{
+                color: 'inherit',
+              }}
+            >
+              <MdCreateNewFolder />
+            </ListItemIcon>
+            <ListItemText primary={'Create New Map'} />
+          </ListItemButton>
         </ListItem>
 
         {/* LOAD MAP */}

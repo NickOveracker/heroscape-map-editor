@@ -11,9 +11,8 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import Slider from '@mui/material/Slider';
-import { Box, ListItemButton, ListItemIcon, ListItemText, useMediaQuery } from '@mui/material'
+import { Box, useMediaQuery } from '@mui/material'
 import { genRandomMapName } from '../utils/genRandomMapName'
-import { MdCreateNewFolder } from 'react-icons/md'
 import useBoundStore from '../store/store'
 import { useSnackbar } from 'notistack'
 import { makeHexagonScenario, makeRectangleScenario } from '../utils/map-gen'
@@ -51,15 +50,10 @@ const rectangleMarks = [
 export default function CreateMapFormDialog() {
   const fullScreen = useMediaQuery('(max-width:600px)');
   const loadMap = useBoundStore((state) => state.loadMap)
+  const toggleIsNewMapDialogOpen = useBoundStore((state) => state.toggleIsNewMapDialogOpen)
+  const isNewMapDialogOpen = useBoundStore((state) => state.isNewMapDialogOpen)
+  const handleClose = () => toggleIsNewMapDialogOpen(false)
   const { enqueueSnackbar } = useSnackbar()
-  // dialog state
-  const [open, setOpen] = React.useState(false)
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
-  const handleClose = () => {
-    setOpen(false)
-  }
   // new map form state
   const [mapName, setMapName] = React.useState(() => genRandomMapName());
   const [mapShape, setMapShape] = React.useState('rectangle');
@@ -75,33 +69,21 @@ export default function CreateMapFormDialog() {
       mapName,
       mapWidth,
       mapLength
-      // mapShape
     }) : makeHexagonScenario({
       mapName,
       size: mapSize
-      // mapShape
     })
     loadMap(newMap)
-    enqueueSnackbar(`Created new map: ${newMap.hexMap.name}`)
+    enqueueSnackbar({
+      message: `Created new map: ${newMap.hexMap.name}`,
+      autoHideDuration: 5000,
+    })
   }
 
   return (
     <React.Fragment>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
-      </Button> */}
-      <ListItemButton onClick={handleClickOpen}>
-        <ListItemIcon
-          sx={{
-            color: 'inherit',
-          }}
-        >
-          <MdCreateNewFolder />
-        </ListItemIcon>
-        <ListItemText primary={'Create New Map'} />
-      </ListItemButton>
       <Dialog
-        open={open}
+        open={isNewMapDialogOpen}
         onClose={handleClose}
         fullScreen={fullScreen}
         fullWidth={!fullScreen}
