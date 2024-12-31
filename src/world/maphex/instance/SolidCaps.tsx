@@ -61,8 +61,8 @@ function SolidCap({
   const ref = React.useRef<any>(undefined!)
   const hoverTimeout = React.useRef<number>(null!);
 
-  const setHoveredPieceID = useBoundStore(s => s.setHoveredPieceID)
-  // const setSelectedPieceID = useBoundStore(s => s.setSelectedPieceID)
+  const toggleHoveredPieceID = useBoundStore(s => s.toggleHoveredPieceID)
+  // const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
   const color = hexTerrainColor[boardHex.terrain]
   // const selectedPieceID = useBoundStore(s => s.selectedPieceID)
@@ -87,13 +87,15 @@ function SolidCap({
     e.stopPropagation() // prevent this hover from passing through and affecting behind
     ref.current.color.set('yellow')
     hoverTimeout.current = setTimeout(() => {
-      setHoveredPieceID(boardHex.pieceID)
+      toggleHoveredPieceID(boardHex.pieceID)
     }, 10); // Adjust the delay (in milliseconds) as needed
   }
   const handleOut = () => {
-    ref.current.color.set(color)
+    if (hoveredPieceID !== boardHex.pieceID) {
+      ref.current.color.set(color)
+      toggleHoveredPieceID('')
+    }
     clearTimeout(hoverTimeout.current);
-    setHoveredPieceID('')
   }
   const handleUp = (e: ThreeEvent<PointerEvent>) => {
     onPointerUp(e, boardHex)

@@ -8,6 +8,7 @@ import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 import useBoundStore from '../../store/store'
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
+import usePieceHoverState from '../../hooks/usePieceHoverState'
 
 export default function LaurWallPillar({
   boardHex,
@@ -24,10 +25,10 @@ export default function LaurWallPillar({
   const { nodes } = useGLTF('/laurwall-pillar.glb') as any
   const rotation = boardHex?.pieceRotation ?? 0
   const {
-    colorBody,
-    onPointerEnterBody,
-    onPointerOutBody,
-  } = usePillarHoverState()
+    isHovered,
+    onPointerEnter,
+    onPointerOut,
+  } = usePieceHoverState()
   const pillarColor = hexTerrainColor[HexTerrain.laurWall]
   const interiorPillarColor = hexTerrainColor.laurModelColor2
   const yellowColor = 'yellow'
@@ -65,22 +66,22 @@ export default function LaurWallPillar({
       <group
         position={[x, yWithBase, z]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
-        onPointerEnter={onPointerEnterBody}
-        onPointerOut={onPointerOutBody}
+        onPointerEnter={e => onPointerEnter(e, boardHex)}
+        onPointerOut={e => onPointerOut(e, boardHex)}
         onPointerUp={e => onPointerUpLaurWall(e, boardHex)}
       >
         <mesh
           geometry={nodes.PillarTop.geometry}
         // onPointerUp={e => onPointerUp(e, boardHex)}
         >
-          <meshMatcapMaterial color={colorBody ? yellowColor : pillarColor} />
+          <meshMatcapMaterial color={isHovered ? yellowColor : pillarColor} />
         </mesh>
         <mesh
           geometry={nodes.SubDecorCore.geometry}
         // onPointerUp={e => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial
-            color={colorBody ? yellowColor : interiorPillarColor}
+            color={isHovered ? yellowColor : interiorPillarColor}
           />
         </mesh>
         <mesh
@@ -89,7 +90,7 @@ export default function LaurWallPillar({
         >
           <meshMatcapMaterial
             side={DoubleSide}
-            color={colorBody ? yellowColor : pillarColor}
+            color={isHovered ? yellowColor : pillarColor}
           />
         </mesh>
         <mesh
@@ -98,7 +99,7 @@ export default function LaurWallPillar({
         >
           <meshMatcapMaterial
             side={DoubleSide}
-            color={colorBody ? yellowColor : interiorPillarColor}
+            color={isHovered ? yellowColor : interiorPillarColor}
           />
         </mesh>
       </group>
@@ -109,19 +110,3 @@ export default function LaurWallPillar({
 
 useGLTF.preload('/laurwall-pillar.glb')
 
-function usePillarHoverState() {
-  const [colorBody, setColorBody] = React.useState(false)
-  const onPointerEnterBody = (e: ThreeEvent<PointerEvent>) => {
-    setColorBody(true)
-    e.stopPropagation()
-  }
-  const onPointerOutBody = (e: ThreeEvent<PointerEvent>) => {
-    setColorBody(false)
-    e.stopPropagation()
-  }
-  return {
-    colorBody,
-    onPointerEnterBody,
-    onPointerOutBody,
-  }
-}

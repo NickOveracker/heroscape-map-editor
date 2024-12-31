@@ -40,7 +40,7 @@ export default function MapDisplay3D({
   const loadMap = useBoundStore((state) => state.loadMap)
   const pieceSize = useBoundStore((state) => state.pieceSize)
   const pieceRotation = useBoundStore((state) => state.pieceRotation)
-  const setSelectedPieceID = useBoundStore((state) => state.setSelectedPieceID)
+  const toggleSelectedPieceID = useBoundStore((state) => state.toggleSelectedPieceID)
   const isTakingPicture = useBoundStore(s => s.isTakingPicture)
   useZoomCameraToMapCenter({
     cameraControlsRef,
@@ -168,7 +168,7 @@ export default function MapDisplay3D({
     event.stopPropagation() // prevent pass through
     // Early out if camera is active
     if (cameraControlsRef?.current?.active) return
-    setSelectedPieceID(hex.pieceID)
+    toggleSelectedPieceID(hex.pieceID)
     // const baseSideRotation = pillarSideRotations?.[side] ?? 0
 
   }

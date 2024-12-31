@@ -6,9 +6,9 @@ import { Dictionary } from 'lodash'
 
 export interface UISlice {
   selectedPieceID: string
-  setSelectedPieceID: (id: string) => void
+  toggleSelectedPieceID: (id: string) => void
   hoveredPieceID: string
-  setHoveredPieceID: (id: string) => void
+  toggleHoveredPieceID: (id: string) => void
   penMode: PenMode
   togglePenMode: (mode: PenMode) => void
   pieceRotation: number
@@ -42,14 +42,14 @@ const createUISlice: StateCreator<
   UISlice
 > = (set) => ({
   selectedPieceID: '',
-  setSelectedPieceID: (pieceID: string) =>
+  toggleSelectedPieceID: (pieceID: string) =>
     set(
       produce((state) => {
         state.selectedPieceID = pieceID
       }),
     ),
   hoveredPieceID: '',
-  setHoveredPieceID: (pieceID: string) =>
+  toggleHoveredPieceID: (pieceID: string) =>
     set(
       produce((state) => {
         state.hoveredPieceID = pieceID

@@ -57,7 +57,7 @@ function SubTerrain({
   boardHex: BoardHex,
 }) {
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
-  const setHoveredPieceID = useBoundStore(s => s.setHoveredPieceID)
+  const toggleHoveredPieceID = useBoundStore(s => s.toggleHoveredPieceID)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
   const isDirtSubterrain =
@@ -88,21 +88,18 @@ function SubTerrain({
   const hoverTimeout = React.useRef<number>(null!);
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
-    if (e.instanceId === 0 || !!e.instanceId) {
-      ref.current.color.set('yellow')
-    }
+    ref.current.color.set('yellow')
     hoverTimeout.current = setTimeout(() => {
       // setIsHovered(true);
-      setHoveredPieceID(boardHex.pieceID)
+      toggleHoveredPieceID(boardHex.pieceID)
     }, 10); // Adjust the delay (in milliseconds) as needed
-    setHoveredPieceID(boardHex.pieceID)
   }
-  const handleOut = (e: ThreeEvent<PointerEvent>) => {
-    if (e.instanceId === 0 || !!e.instanceId) {
+  const handleOut = () => {
+    if (hoveredPieceID !== boardHex.pieceID) {
       ref.current.color.set(subTerrainColor)
+      toggleHoveredPieceID('')
     }
     clearTimeout(hoverTimeout.current);
-    setHoveredPieceID('')
   }
 
   return (
