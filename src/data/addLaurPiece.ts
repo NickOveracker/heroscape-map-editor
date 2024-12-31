@@ -28,6 +28,7 @@ const nearDirectionFlip: { [key: number]: number } = {
   4: 1,
   5: 2,
 }
+
 export function addLaurPiece({
   piece,
   boardHexes,
@@ -52,18 +53,7 @@ export function addLaurPiece({
   const pieceID = genPieceID(hexID, piece.id, addonRotation)
   const rotDiff = addonRotation - pillarRotation
   const pillarSideRot = rotDiff > 0 ? rotDiff : rotDiff + 6 // 0, 1.5, 3, or 4.5
-  const pillarReport = pillarSideRotations.map
-  // TODO: check if slot is occupied, if needed, 
-  // const isPillarSlotOccupied = Object.keys(newBoardPieces).filter(bp => bp.includes('laur') && !bp.includes('Pillar')).some(bp =>{
-  //   bp.split('~')[4]
-  // })
-  // if (isPillarSlotOccupied) {
-  //   console.error(
-  //     'Tried to place Laur Wall Addon where there is an existing Addon!',
-  //     boardHexes[hexID]?.laurAddons,
-  //   )
-  //   return { newBoardHexes, newBoardPieces }
-  // }
+  // const pillarReport = pillarSideRotations.map
   // LAUR WALL
   const isLaurWallRuin = piece.id === Pieces.laurWallRuin
   const isLaurWallShort = piece.id === Pieces.laurWallShort

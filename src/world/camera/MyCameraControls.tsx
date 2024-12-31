@@ -2,7 +2,7 @@ import React from 'react'
 import { CameraControls } from '@react-three/drei'
 import useBoundStore from '../../store/store'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { Group, Object3DEventMap } from 'three'
+import { Group, Object3DEventMap, Vector3 } from 'three'
 
 export default function MyCameraControls({
   cameraControlsRef,

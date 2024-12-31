@@ -1,13 +1,13 @@
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { DoubleSide } from 'three'
-import { Billboard, Html, Text, useGLTF } from '@react-three/drei'
+import { Billboard, Html, useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 import useBoundStore from '../../store/store'
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
+import { Button } from '@mui/material'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 
 export default function LaurWallPillar({
@@ -33,31 +33,50 @@ export default function LaurWallPillar({
   const interiorPillarColor = hexTerrainColor.laurModelColor2
   const yellowColor = 'yellow'
 
+  // // update color when piece is hovered
+  // React.useEffect(() => {
+  //   if (selectedPieceID === boardHex.pieceID) {
+  //     ref.current.color.set('yellow')
+  //   } else {
+  //     ref.current.color.set(color)
+  //   }
+  // }, [boardHex.pieceID, hoveredPieceID, color])
+
+  const buttonPositions: [x: number, y: number, z: number][] = [
+    [0.5, 1, 0],
+    [-0.5, 1, 1],
+    [-1.5, 1, 0],
+    [-0.5, 1, -1],
+  ].map(xyz => [xyz[0] - 0.1, xyz[1], xyz[2] - 0.2])
   return (
     <>
       <group
         position={[x, yWithBase, z]}
       >
         {(selectedPieceID === boardHex.pieceID) && (
-          <Billboard position={[0.5, 1, 0]}>
+          <Billboard
+            position={buttonPositions[0]}>
             <Html>
               <Button variant='contained' size="small">1,0</Button>
             </Html>
           </Billboard>)}
         {(selectedPieceID === boardHex.pieceID) && (
-          <Billboard position={[-0.5, 1, 1]}>
+          <Billboard
+            position={buttonPositions[1]}>
             <Html>
               <Button variant='contained' size="small">0,1</Button>
             </Html>
           </Billboard>)}
         {(selectedPieceID === boardHex.pieceID) && (
-          <Billboard position={[-1.5, 1, 0]}>
+          <Billboard
+            position={buttonPositions[2]}>
             <Html>
               <Button variant='contained' size="small">-1,0</Button>
             </Html>
           </Billboard>)}
         {(selectedPieceID === boardHex.pieceID) && (
-          <Billboard position={[-0.5, 1, -1]}>
+          <Billboard
+            position={buttonPositions[3]}>
             <Html>
               <Button variant='contained' size="small">0,-1</Button>
             </Html>
@@ -74,7 +93,7 @@ export default function LaurWallPillar({
           geometry={nodes.PillarTop.geometry}
         // onPointerUp={e => onPointerUp(e, boardHex)}
         >
-          <meshMatcapMaterial color={isHovered ? yellowColor : pillarColor} />
+          <meshMatcapMaterial color={(isHovered || selectedPieceID === boardHex.pieceID) ? yellowColor : pillarColor} />
         </mesh>
         <mesh
           geometry={nodes.SubDecorCore.geometry}
