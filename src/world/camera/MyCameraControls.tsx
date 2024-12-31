@@ -18,8 +18,8 @@ export default function MyCameraControls({
     }
   }
 
-  // useHotkeys('space', () => fitToMap())
-  useHotkeys('space', () => console.log("🚀 ~ cameraControlsRef.current.camera.zoom:", cameraControlsRef?.current?.camera?.zoom))
+  useHotkeys('space', () => fitToMap())
+  useHotkeys('0', () => cameraControlsRef?.current?.reset(true))
   useHotkeys('up', () => { cameraControlsRef?.current?.truck(0, -1, true) })
   useHotkeys('down', () => cameraControlsRef?.current?.truck(0, 1, true))
   useHotkeys('left', () => cameraControlsRef?.current?.truck(-1, 0, true))
