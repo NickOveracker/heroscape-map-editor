@@ -42,7 +42,6 @@ const FluidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
         <FluidCap
           key={hex.id + i + 'fluid'}
           boardHex={hex}
-          boardHexArr={boardHexArr}
           onPointerUp={onPointerUp}
         />
       ))}
@@ -54,7 +53,6 @@ export default FluidCaps
 
 function FluidCap({
   boardHex,
-  boardHexArr,
   onPointerUp,
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -71,18 +69,14 @@ function FluidCap({
 
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
-    if (e.instanceId === 0 || !!e.instanceId) {
-      ref.current.color.set('yellow')
-    }
+    ref.current.color.set('yellow')
   }
-  const handleOut = (e: ThreeEvent<PointerEvent>) => {
-    if (e.instanceId === 0 || !!e.instanceId) {
-      ref.current.color.set(hexTerrainColor[boardHexArr[e.instanceId].terrain])
-    }
+  const handleOut = () => {
+    ref.current.color.set(hexTerrainColor[boardHex.terrain])
   }
   const handleUp = (e: ThreeEvent<PointerEvent>) => {
     if (e.instanceId === 0 || !!e.instanceId) {
-      onPointerUp(e, boardHexArr[e.instanceId])
+      onPointerUp(e, boardHex)
     }
   }
 

@@ -1,4 +1,4 @@
-import { Instance, Instances, Sparkles, Wireframe } from '@react-three/drei'
+import { Instance, Instances, Sparkles } from '@react-three/drei'
 import React from 'react'
 import {
   CylinderGeometryArgs,
@@ -9,9 +9,8 @@ import {
 import { getBoardHex3DCoords } from '../../../utils/map-utils'
 import { HEXGRID_HEXCAP_HEIGHT, INSTANCE_LIMIT } from '../../../utils/constants'
 import { hexTerrainColor } from '../hexColors'
-import { ThreeEvent, useFrame } from '@react-three/fiber'
+import { ThreeEvent } from '@react-three/fiber'
 import useBoundStore from '../../../store/store'
-import { CylinderGeometry } from 'three'
 
 const baseSolidCapCylinderArgs: CylinderGeometryArgs = [
   0.9,
@@ -26,7 +25,7 @@ const baseSolidCapCylinderArgs: CylinderGeometryArgs = [
 
 const SolidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
-  const isCameraDisabled = useBoundStore(s => s.isCameraDisabled)
+  // const isCameraDisabled = useBoundStore(s => s.isCameraDisabled)
   if (boardHexArr.length === 0) return null
   return (
     <Instances
@@ -36,13 +35,15 @@ const SolidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
       frustumCulled={false}
     >
       <cylinderGeometry args={baseSolidCapCylinderArgs} />
-      {isCameraDisabled ? <meshPhongMaterial wireframe={true} /> :
-        <meshMatcapMaterial />}
+      {/* {isCameraDisabled ? <meshPhongMaterial wireframe={true} wireframeLinewidth={0.01} wireframeLinecap='' /> :
+        <meshMatcapMaterial />} */}
+      {/* {!isCameraDisabled ? <meshLambertMaterial opacity={0.8} transparent /> :
+        <meshMatcapMaterial />} */}
+      <meshMatcapMaterial />
       {boardHexArr.map((hex, i) => (
         <SolidCap
           key={hex.id + i}
           boardHex={hex}
-          boardHexArr={boardHexArr}
           onPointerUp={onPointerUp}
         />
       ))}
@@ -54,7 +55,6 @@ export default SolidCaps
 
 function SolidCap({
   boardHex,
-  boardHexArr,
   onPointerUp,
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,38 +64,39 @@ function SolidCap({
   const setHoveredPieceID = useBoundStore(s => s.setHoveredPieceID)
   // const setSelectedPieceID = useBoundStore(s => s.setSelectedPieceID)
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
+  const color = hexTerrainColor[boardHex.terrain]
   // const selectedPieceID = useBoundStore(s => s.selectedPieceID)
 
   // Effect: Initial color/position
   React.useEffect(() => {
     const { x, y, z } = getBoardHex3DCoords(boardHex)
-    ref.current.color.set(hexTerrainColor[boardHex.terrain])
+    ref.current.color.set(color)
     ref.current.position.set(x, y, z)
-  }, [boardHex])
+  }, [boardHex, color])
+
+  // update color when piece is hovered
+  React.useEffect(() => {
+    if (hoveredPieceID === boardHex.pieceID) {
+      ref.current.color.set('yellow')
+    } else {
+      ref.current.color.set(color)
+    }
+  }, [boardHex.pieceID, hoveredPieceID, color])
 
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
-    if (e.instanceId === 0 || !!e.instanceId) {
-      ref.current.color.set('yellow')
-    }
+    ref.current.color.set('yellow')
     hoverTimeout.current = setTimeout(() => {
-      // setIsHovered(true);
       setHoveredPieceID(boardHex.pieceID)
-    }, 500); // Adjust the delay (in milliseconds) as needed
+    }, 10); // Adjust the delay (in milliseconds) as needed
   }
-  const handleOut = (e: ThreeEvent<PointerEvent>) => {
-    // if (hoveredPieceID === boardHex.id) {
-    // }
-    if (e.instanceId === 0 || !!e.instanceId) {
-      ref.current.color.set(hexTerrainColor[boardHexArr[e.instanceId].terrain])
-    }
+  const handleOut = () => {
+    ref.current.color.set(color)
     clearTimeout(hoverTimeout.current);
     setHoveredPieceID('')
   }
   const handleUp = (e: ThreeEvent<PointerEvent>) => {
-    if (e.instanceId === 0 || !!e.instanceId) {
-      onPointerUp(e, boardHexArr[e.instanceId])
-    }
+    onPointerUp(e, boardHex)
   }
 
   return (
@@ -105,7 +106,7 @@ function SolidCap({
         ref={ref}
         onPointerUp={handleUp}
         onPointerEnter={handleEnter}
-        onPointerOut={handleOut}
+        onPointerLeave={handleOut}
         frustumCulled={false}
       />
     </group>

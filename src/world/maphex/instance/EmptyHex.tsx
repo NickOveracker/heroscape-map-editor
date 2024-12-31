@@ -43,7 +43,6 @@ const EmptyHexes = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
         <EmptyHex
           key={hex.id + i + 'empty'}
           boardHex={hex}
-          boardHexArr={boardHexArr}
           onPointerUp={onPointerUp}
         />
       ))}
@@ -55,7 +54,6 @@ export default EmptyHexes
 
 function EmptyHex({
   boardHex,
-  boardHexArr,
   onPointerUp,
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -74,12 +72,12 @@ function EmptyHex({
   }
   const handleOut = (e: ThreeEvent<PointerEvent>) => {
     if (e.instanceId === 0 || !!e.instanceId) {
-      ref.current.color.set(hexTerrainColor[boardHexArr[e.instanceId].terrain])
+      ref.current.color.set(hexTerrainColor[boardHex.terrain])
     }
   }
   const handleUp = (e: ThreeEvent<PointerEvent>) => {
     if (e.instanceId === 0 || !!e.instanceId) {
-      onPointerUp(e, boardHexArr[e.instanceId])
+      onPointerUp(e, boardHex)
     }
   }
 
