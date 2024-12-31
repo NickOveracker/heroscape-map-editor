@@ -112,7 +112,7 @@ const LoadMapButtons = () => {
         <ListItemIcon>
           <MdFolderZip />
         </ListItemIcon>
-        <ListItemText primary="Gzip (.gz)" />
+        <ListItemText primary="Gzip file (.gz)" />
       </ListItemButton>
       <ListItemButton
         sx={{ pl: 4 }}
@@ -121,7 +121,7 @@ const LoadMapButtons = () => {
         <ListItemIcon>
           <MdFolderZip />
         </ListItemIcon>
-        <ListItemText primary="JSON (.json)" />
+        <ListItemText primary="JSON file (.json)" />
       </ListItemButton>
       <ListItemButton
         sx={{ pl: 4 }}
@@ -130,7 +130,7 @@ const LoadMapButtons = () => {
         <ListItemIcon>
           <MdOutlineHexagon />
         </ListItemIcon>
-        <ListItemText primary="Virtualscape (.hsc)" />
+        <ListItemText primary="Virtualscape file (.hsc)" />
       </ListItemButton>
     </>
   )

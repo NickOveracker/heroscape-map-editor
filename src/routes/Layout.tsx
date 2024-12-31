@@ -24,8 +24,9 @@ export default function Layout(props: PropsWithChildren) {
       }}
     >
       <Drawer
-        keepMounted={true}
+        // keepMounted={true} // don't know why this was enabled, but disabling closes collapse buttons in nav nicely
         open={isNavOpen}
+        // open={true} // DEV toggle
         onClose={() => toggleIsNavOpen(false)}
       >
         <DrawerList toggleIsNavOpen={toggleIsNavOpen} />
