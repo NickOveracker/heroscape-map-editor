@@ -134,7 +134,7 @@ export default function MapDisplay3D({
     ) {
       const boardHexOfCapForWall = genBoardHexID({
         ...hex,
-        altitude: hex.altitude + (hex?.castleWallHeight ?? 0),
+        altitude: hex.altitude + (hex?.obstacleHeight ?? 0),
       })
       const isCastleWallArchClicked =
         hex.pieceID.includes('castleWall') || hex.pieceID.includes('castleArch')

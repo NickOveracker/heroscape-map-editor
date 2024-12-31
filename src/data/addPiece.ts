@@ -203,7 +203,7 @@ export function addPiece({
         const wallAltitude = isHexUnderneathCastleBase
           ? placementAltitude
           : newPieceAltitude
-        const castleWallHeight =
+        const obstacleHeight =
           piece.height -
           (isHexUnderneathCastleBase || isSolidUnderAll || isEmptyUnderAll
             ? 0
@@ -239,12 +239,12 @@ export function addPiece({
             pieceRotation: rotation,
             isObstacleOrigin: i === 0 ? true : false, // The first boardHex is marked to render the obstacle model
             isObstacleAuxiliary: i !== 0 ? true : false,
-            castleWallHeight: castleWallHeight,
+            obstacleHeight: obstacleHeight,
           }
         }
 
         // vertical clearances will be adjusted to start lower if placing on a base
-        Array(castleWallHeight)
+        Array(obstacleHeight)
           .fill(0)
           .forEach((_, j) => {
             const clearanceHexAltitude = wallAltitude + 1 + j
@@ -355,6 +355,7 @@ export function addPiece({
         pieceRotation: rotation,
         isObstacleOrigin: i === 0 ? true : false, //only the first hex is an origin (because we made the template arrays this way. with origin hex at index 0)
         isObstacleAuxiliary: i !== 0 ? true : false, // big tree, glaciers/outcrops, have aux hexes that render only a cap
+        obstacleHeight: piece.height
       }
       // write in the new vertical clearances, this will block some pieces at these coordinates
       Array(piece.height)
