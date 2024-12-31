@@ -3,14 +3,6 @@ import { CameraControls } from '@react-three/drei'
 import useBoundStore from '../../store/store'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Group, Object3DEventMap } from 'three'
-import { noop } from 'lodash'
-import useEvent from '../../hooks/useEvent'
-import { EVENTS } from '../../utils/constants'
-// import { useThree } from "@react-three/fiber"
-// import { useControls, button, buttonGroup, folder } from 'leva'
-// import { MathUtils } from "three"
-// type MyTuple = [number, number, number]
-// const { DEG2RAD } = MathUtils
 
 export default function MyCameraControls({
   cameraControlsRef,
@@ -25,19 +17,22 @@ export default function MyCameraControls({
       cameraControlsRef.current?.fitToBox?.(mapGroupRef.current, true)
     }
   }
-  useHotkeys('up', () => {
-    cameraControlsRef?.current?.dolly(5, true)
-  })
-  useHotkeys('shift+up', () => {
-    cameraControlsRef?.current?.dolly(1, true)
-  })
-  useHotkeys('down', () => cameraControlsRef?.current?.dolly(-5, true))
-  useHotkeys('shift+down', () => {
-    cameraControlsRef?.current?.dolly(-1, true)
-  })
+
+  // useHotkeys('space', () => fitToMap())
+  useHotkeys('space', () => console.log("🚀 ~ cameraControlsRef.current.camera.zoom:", cameraControlsRef?.current?.camera?.zoom))
+  useHotkeys('up', () => { cameraControlsRef?.current?.truck(0, -1, true) })
+  useHotkeys('down', () => cameraControlsRef?.current?.truck(0, 1, true))
   useHotkeys('left', () => cameraControlsRef?.current?.truck(-1, 0, true))
   useHotkeys('right', () => cameraControlsRef?.current?.truck(1, 0, true))
-  useHotkeys('space', () => fitToMap())
+  useHotkeys('shift+up', () => { cameraControlsRef.current?.rotate(0, -Math.PI / 27, true) })
+  useHotkeys('shift+down', () => { cameraControlsRef.current?.rotate(0, Math.PI / 27, true) })
+  useHotkeys('shift+left', () => { cameraControlsRef.current?.rotate(-Math.PI / 27, 0, true) })
+  useHotkeys('shift+right', () => { cameraControlsRef.current?.rotate(Math.PI / 27, 0, true) })
+  useHotkeys('mod+up', () => { cameraControlsRef?.current?.dolly(1, true) })
+  useHotkeys('mod+down', () => { cameraControlsRef?.current?.dolly(-1, true) })
+  useHotkeys('mod+left', () => { cameraControlsRef?.current?.zoom(-cameraControlsRef.current.camera.zoom / 2, true) })
+  useHotkeys('mod+right', () => { cameraControlsRef?.current?.zoom(cameraControlsRef.current.camera.zoom / 2, true) })
+
   const isCameraDisabled = useBoundStore((s) => s.isCameraDisabled || s.isTakingPicture)
   // const { minDistance, enabled, verticalDragToForward, dollyToCursor, infinityDolly } = useControls({
   //     thetaGrp: buttonGroup({
@@ -140,8 +135,6 @@ export default function MyCameraControls({
       ref={cameraControlsRef}
       makeDefault
       enabled={!isCameraDisabled}
-      // camera: Persp | Ortho
-      // domElement: HTML element
       // onStart
       // onEnd
       // onChange
