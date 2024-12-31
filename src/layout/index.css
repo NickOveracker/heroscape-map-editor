@@ -28,6 +28,19 @@ html {
 .notistack-SnackbarContainer {
   margin-top: 50px;
 }
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+canvas {
+  touch-action: none; /* This style prevents this TRAP: pinch-and-zoom into the canvas (because camera controls did not pick up the pinch but user device did) and losing the rest of the UI because camera controls starts working again and user cannot pinch zoom back out */
+  opacity: 0;
+  animation: fade-in 5s ease 1s forwards;
+}
 .stats-panel {
   /* margin-left: 100px; */
   margin-top: 68px;
