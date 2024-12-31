@@ -14,7 +14,7 @@ export default function usePieceHoverState() {
     setIsHovered(true)
     hoverTimeout.current = setTimeout(() => {
       toggleHoveredPieceID(boardHex.pieceID)
-    }, 10); // Adjust the delay (in milliseconds) as needed
+    }, 100); // Adjust the delay (in milliseconds) as needed
   }
   const onPointerOut = (e: ThreeEvent<PointerEvent>, boardHex: BoardHex) => {
     e.stopPropagation()
@@ -22,6 +22,7 @@ export default function usePieceHoverState() {
       toggleHoveredPieceID('')
     }
     setIsHovered(false)
+    clearTimeout(hoverTimeout.current);
   }
   return {
     isHovered,

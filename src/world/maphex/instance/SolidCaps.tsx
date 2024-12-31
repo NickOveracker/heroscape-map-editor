@@ -11,6 +11,7 @@ import { HEXGRID_HEXCAP_HEIGHT, INSTANCE_LIMIT } from '../../../utils/constants'
 import { hexTerrainColor } from '../hexColors'
 import { ThreeEvent } from '@react-three/fiber'
 import useBoundStore from '../../../store/store'
+import usePieceHoverState from '../../../hooks/usePieceHoverState'
 
 const baseSolidCapCylinderArgs: CylinderGeometryArgs = [
   0.9,
@@ -59,9 +60,10 @@ function SolidCap({
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
-  const hoverTimeout = React.useRef<number>(null!);
-
-  const toggleHoveredPieceID = useBoundStore(s => s.toggleHoveredPieceID)
+  const {
+    onPointerEnter,
+    onPointerOut,
+  } = usePieceHoverState()
   // const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
   const color = hexTerrainColor[boardHex.terrain]
@@ -85,17 +87,14 @@ function SolidCap({
 
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
+    onPointerEnter(e, boardHex)
     ref.current.color.set('yellow')
-    hoverTimeout.current = setTimeout(() => {
-      toggleHoveredPieceID(boardHex.pieceID)
-    }, 10); // Adjust the delay (in milliseconds) as needed
   }
-  const handleOut = () => {
+  const handleOut = (e: ThreeEvent<PointerEvent>) => {
     if (hoveredPieceID !== boardHex.pieceID) {
       ref.current.color.set(color)
-      toggleHoveredPieceID('')
+      onPointerOut(e, boardHex)
     }
-    clearTimeout(hoverTimeout.current);
   }
   const handleUp = (e: ThreeEvent<PointerEvent>) => {
     onPointerUp(e, boardHex)

@@ -7,6 +7,7 @@ import { HEXGRID_HEX_HEIGHT, INSTANCE_LIMIT } from '../../../utils/constants'
 import { hexTerrainColor } from '../hexColors'
 import { ThreeEvent } from '@react-three/fiber'
 import useBoundStore from '../../../store/store'
+import usePieceHoverState from '../../../hooks/usePieceHoverState'
 
 type Props = {
   boardHexArr: BoardHex[]
@@ -57,7 +58,6 @@ function SubTerrain({
   boardHex: BoardHex,
 }) {
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
-  const toggleHoveredPieceID = useBoundStore(s => s.toggleHoveredPieceID)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
   const isDirtSubterrain =
@@ -67,6 +67,10 @@ function SubTerrain({
   const subTerrainColor = isDirtSubterrain
     ? dirtColor
     : hexTerrainColor[boardHex.terrain]
+  const {
+    onPointerEnter,
+    onPointerOut,
+  } = usePieceHoverState()
   // Effect: Initial color/position
   React.useEffect(() => {
     const { x, z, y } = getBoardHex3DCoords(boardHex)
@@ -85,21 +89,16 @@ function SubTerrain({
     }
   }, [boardHex.pieceID, hoveredPieceID, subTerrainColor])
 
-  const hoverTimeout = React.useRef<number>(null!);
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
+    onPointerEnter(e, boardHex)
     ref.current.color.set('yellow')
-    hoverTimeout.current = setTimeout(() => {
-      // setIsHovered(true);
-      toggleHoveredPieceID(boardHex.pieceID)
-    }, 10); // Adjust the delay (in milliseconds) as needed
   }
-  const handleOut = () => {
+  const handleOut = (e: ThreeEvent<PointerEvent>) => {
     if (hoveredPieceID !== boardHex.pieceID) {
       ref.current.color.set(subTerrainColor)
-      toggleHoveredPieceID('')
+      onPointerOut(e, boardHex)
     }
-    clearTimeout(hoverTimeout.current);
   }
 
   return (

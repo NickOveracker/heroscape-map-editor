@@ -14,6 +14,8 @@ import {
 } from '../../../utils/constants'
 import { hexTerrainColor } from '../hexColors'
 import { ThreeEvent } from '@react-three/fiber'
+import usePieceHoverState from '../../../hooks/usePieceHoverState'
+import useBoundStore from '../../../store/store'
 
 const baseFluidCapCylinderArgs: CylinderGeometryArgs = [
   1,
@@ -57,7 +59,10 @@ function FluidCap({
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
+  const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
+  const color = hexTerrainColor[boardHex.terrain]
 
+  // Effect: Initial color/position
   React.useEffect(() => {
     const { x, z } = getBoardHex3DCoords(boardHex)
     const y =
@@ -67,17 +72,32 @@ function FluidCap({
     ref.current.position.set(x, y, z)
   }, [boardHex])
 
+  // update color when piece is hovered
+  React.useEffect(() => {
+    if (hoveredPieceID === boardHex.pieceID) {
+      ref.current.color.set('yellow')
+    } else {
+      ref.current.color.set(color)
+    }
+  }, [boardHex.pieceID, hoveredPieceID, color])
+
+  const {
+    onPointerEnter,
+    onPointerOut,
+  } = usePieceHoverState()
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
+    onPointerEnter(e, boardHex)
     ref.current.color.set('yellow')
   }
-  const handleOut = () => {
-    ref.current.color.set(hexTerrainColor[boardHex.terrain])
+  const handleOut = (e: ThreeEvent<PointerEvent>) => {
+    if (hoveredPieceID !== boardHex.pieceID) {
+      ref.current.color.set(color)
+      onPointerOut(e, boardHex)
+    }
   }
   const handleUp = (e: ThreeEvent<PointerEvent>) => {
-    if (e.instanceId === 0 || !!e.instanceId) {
-      onPointerUp(e, boardHex)
-    }
+    onPointerUp(e, boardHex)
   }
 
   return (
