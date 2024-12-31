@@ -26,7 +26,7 @@ const World = () => {
       }}
     >
       <Canvas >
-        <color attach="background" args={["white"]} />
+        {/* <color attach="background" args={["white"]} /> */}
         <PerspectiveCamera position={[10, 10, 10]} fov={CAMERA_FOV} makeDefault={!isOrthoCam} />
         <OrthographicCamera position={[0, 100, 100]} zoom={50} makeDefault={isOrthoCam} />
         <Stars
