@@ -7,11 +7,11 @@ import readVirtualscapeMapFile, {
 import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap'
 import useBoundStore from '../store/store'
 
+const uploadElementID = 'upload'
+const jsonUploadElementID = 'jsonupload'
+const virtualScapeUploadElementID = 'vsupload'
+
 const LoadMapButtons = () => {
-  const loadMap = useBoundStore((state) => state.loadMap)
-  const uploadElementID = 'upload'
-  const jsonUploadElementID = 'jsonupload'
-  const virtualScapeUploadElementID = 'vsupload'
 
   const handleClickGzipFileSelect = () => {
     const element = document.getElementById(uploadElementID)
@@ -25,12 +25,49 @@ const LoadMapButtons = () => {
       element.click()
     }
   }
-  const handleClickVSFileSelect = () => {
+  const handleClickVSFileSelect = async () => {
     const element = document.getElementById(virtualScapeUploadElementID)
     if (element) {
       element.click()
     }
   }
+
+
+  return (
+    <>
+      <ListItemButton
+        sx={{ pl: 4 }}
+        onClick={handleClickGzipFileSelect}
+      >
+        <ListItemIcon>
+          <MdFolderZip />
+        </ListItemIcon>
+        <ListItemText primary="Gzip file (.gz)" />
+      </ListItemButton>
+      <ListItemButton
+        sx={{ pl: 4 }}
+        onClick={handleClickJsonFileSelect}
+      >
+        <ListItemIcon>
+          <MdFolderZip />
+        </ListItemIcon>
+        <ListItemText primary="JSON file (.json)" />
+      </ListItemButton>
+      <ListItemButton
+        sx={{ pl: 4 }}
+        onClick={handleClickVSFileSelect}
+      >
+        <ListItemIcon>
+          <MdOutlineHexagon />
+        </ListItemIcon>
+        <ListItemText primary="Virtualscape file (.hsc)" />
+      </ListItemButton>
+    </>
+  )
+}
+
+export const LoadMapInputs = () => {
+  const loadMap = useBoundStore((state) => state.loadMap)
 
   const readGzipFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event?.target?.files?.[0]
@@ -74,7 +111,9 @@ const LoadMapButtons = () => {
 
     try {
       const myMap = await readVirtualscapeMapFile(file)
+      console.log("🚀 ~ readVSFile ~ myMap:", myMap)
       const myVirtualscapeMap = buildupVSFileMap(myMap.tiles, myMap.name)
+      console.log("🚀 ~ readVSFile ~ myVirtualscapeMap:", myVirtualscapeMap)
       loadMap(myVirtualscapeMap)
     } catch (error) {
       console.error(error)
@@ -105,36 +144,10 @@ const LoadMapButtons = () => {
         accept=".hsc"
         onChange={readVSFile}
       />
-      <ListItemButton
-        sx={{ pl: 4 }}
-        onClick={handleClickGzipFileSelect}
-      >
-        <ListItemIcon>
-          <MdFolderZip />
-        </ListItemIcon>
-        <ListItemText primary="Gzip file (.gz)" />
-      </ListItemButton>
-      <ListItemButton
-        sx={{ pl: 4 }}
-        onClick={handleClickJsonFileSelect}
-      >
-        <ListItemIcon>
-          <MdFolderZip />
-        </ListItemIcon>
-        <ListItemText primary="JSON file (.json)" />
-      </ListItemButton>
-      <ListItemButton
-        sx={{ pl: 4 }}
-        onClick={handleClickVSFileSelect}
-      >
-        <ListItemIcon>
-          <MdOutlineHexagon />
-        </ListItemIcon>
-        <ListItemText primary="Virtualscape file (.hsc)" />
-      </ListItemButton>
     </>
   )
 }
+
 export default LoadMapButtons
 
 const hiddenStyle = {

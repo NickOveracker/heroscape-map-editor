@@ -6,6 +6,7 @@ import Controls from '../controls/Controls'
 import World from '../world/World'
 import CreateMapFormDialog from './CreateMapFormDialog'
 import EditMapFormDialog from './EditMapFormDialog'
+import { LoadMapInputs } from '../controls/LoadMapButtons'
 
 export default function HomePage() {
   const cameraControlsRef = React.useRef(undefined!)
@@ -56,6 +57,7 @@ export default function HomePage() {
         }}
       >
         <Controls cameraControlsRef={cameraControlsRef} />
+        <LoadMapInputs />
       </div>
     </div>
   )

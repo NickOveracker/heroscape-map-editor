@@ -11,9 +11,8 @@ export default function MyCameraControls({
   cameraControlsRef: React.RefObject<CameraControls>
   mapGroupRef: React.RefObject<Group<Object3DEventMap>>
 }) {
-  const hexMap = useBoundStore((state) => state.hexMap)
   const fitToMap = () => {
-    if (mapGroupRef.current && hexMap.name) {
+    if (mapGroupRef.current) {
       cameraControlsRef.current?.fitToBox?.(mapGroupRef.current, true)
     }
   }
