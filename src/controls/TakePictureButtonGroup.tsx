@@ -6,8 +6,14 @@ import useBoundStore from '../store/store'
 import ControlButtonGroup from './ControlButtonGroup'
 import React from 'react'
 import ToggleCameraButton from './ToggleCameraButton'
+import { CameraControls } from '@react-three/drei'
+import { RiRestartLine } from 'react-icons/ri'
 
-const TakePictureButtonGroup = () => {
+const CameraControlsButtonGroup = ({
+  cameraControlsRef
+}: {
+  cameraControlsRef: React.RefObject<CameraControls>
+}) => {
   const { publish } = useEvent()
   const toggleIsTakingPicture = useBoundStore((s) => s.toggleIsTakingPicture)
   const isTakingPicture = useBoundStore((s) => s.toggleIsTakingPicture)
@@ -20,7 +26,9 @@ const TakePictureButtonGroup = () => {
       clearTimeout(takePictureTimeout.current);
     }
   }, [isTakingPicture])
-
+  const resetCamera = () => {
+    cameraControlsRef?.current?.reset(true)
+  }
   const handleToggleOrthoCam = () => {
     toggleIsOrthoCam(!isOrthoCam)
   }
@@ -39,6 +47,13 @@ const TakePictureButtonGroup = () => {
 
   return (
     <ControlButtonGroup>
+      <Button
+        startIcon={<RiRestartLine />}
+        onClick={resetCamera}
+        variant="contained"
+      >
+        Reset Camera Zoom/Position
+      </Button>
       <Button
         startIcon={<MdCameraswitch />}
         onClick={handleToggleOrthoCam}
@@ -64,4 +79,4 @@ const TakePictureButtonGroup = () => {
     </ControlButtonGroup>
   )
 }
-export default TakePictureButtonGroup
+export default CameraControlsButtonGroup

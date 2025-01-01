@@ -5,9 +5,9 @@ import * as Sentry from "@sentry/react";
 
 import { EventProvider } from './hooks/useEvent'
 import ErrorPage from './layout/ErrorPage';
-import HomePage from './layout/HomePage';
 import './layout/index.css'
 import { ROUTES } from './ROUTES';
+import HomePage from './layout/HomePage';
 
 const darkTheme = createTheme({
   palette: {

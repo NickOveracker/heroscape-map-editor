@@ -1,18 +1,62 @@
 import React from 'react'
-import Layout from '../routes/Layout'
+import { Drawer } from '@mui/material'
+import { DrawerList } from './DrawerList'
+import HeaderNav from './HeaderNav'
+import Controls from '../controls/Controls'
 import World from '../world/World'
 import CreateMapFormDialog from './CreateMapFormDialog'
 import EditMapFormDialog from './EditMapFormDialog'
 
-
-const HomePage = () => {
+export default function HomePage() {
+  const cameraControlsRef = React.useRef(undefined!)
+  // https://robohash.org/you.png?size=200x200
+  const [isNavOpen, setIsNavOpen] = React.useState(false)
+  const toggleIsNavOpen = (s: boolean) => {
+    setIsNavOpen(s)
+  }
   return (
-    <Layout>
-      <World />
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: '100vh',
+        padding: 0,
+        margin: 0,
+        backgroundColor: 'var(--outer-space)',
+        justifyContent: 'space-between',
+      }}
+    >
       <CreateMapFormDialog />
       <EditMapFormDialog />
-    </Layout>
+      <HeaderNav toggleIsNavOpen={toggleIsNavOpen} />
+      <Drawer
+        open={isNavOpen}
+        // open={true} // DEV toggle
+        onClose={() => toggleIsNavOpen(false)}
+      >
+        <DrawerList toggleIsNavOpen={toggleIsNavOpen} />
+      </Drawer>
+      <div
+        style={{
+          width: '100%',
+          flex: 1,
+        }}
+      >
+        <World cameraControlsRef={cameraControlsRef} />
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexFlow: 'column nowrap',
+          width: '100%',
+          height: '30vh',
+          background: 'var(--black)',
+          overflow: 'auto',
+        }}
+      >
+        <Controls cameraControlsRef={cameraControlsRef} />
+      </div>
+    </div>
   )
 }
-
-export default HomePage
