@@ -1,5 +1,5 @@
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
-import { Route, Switch } from "wouter";
+import { Redirect, Route, Switch } from "wouter";
 import { SnackbarProvider } from 'notistack'
 import * as Sentry from "@sentry/react";
 
@@ -7,6 +7,7 @@ import { EventProvider } from './hooks/useEvent'
 import ErrorPage from './layout/ErrorPage';
 import HomePage from './layout/HomePage';
 import './layout/index.css'
+import { ROUTES } from './ROUTES';
 
 const darkTheme = createTheme({
   palette: {
@@ -20,7 +21,11 @@ const darkTheme = createTheme({
     },
   },
 })
-
+const RootPage = () => {
+  return (
+    <Redirect to={ROUTES.heroscapeHome} />
+  )
+}
 const App = () => {
   return (
     <Sentry.ErrorBoundary fallback={ErrorPage} showDialog>
@@ -33,7 +38,8 @@ const App = () => {
             autoHideDuration={3000}
           >
             <Switch>
-              <Route path="/" component={HomePage} />
+              <Route path={ROUTES.root} component={RootPage} />
+              <Route path={ROUTES.heroscapeHome} component={HomePage} />
 
               {/* Default route in a switch */}
               <Route><ErrorPage /></Route>

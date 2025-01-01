@@ -15,7 +15,7 @@ const DEVLogSomethingCoolButton = () => {
         ]),
       ),
     )
-    const fullUrl = window.location.href + '?m=' + myUrl
+    const fullUrl = window.location.origin + window.location.pathname + '?m=' + myUrl
     if (fullUrl.length > 2082) {
       enqueueSnackbar({
         message: `Map is too big to be stored in a URL, sorry!`,

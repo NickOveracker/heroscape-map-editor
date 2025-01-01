@@ -40,20 +40,6 @@ export function isJungleTerrainHex(terrain: string) {
   }
 }
 
-export function isVerticallyObstructiveTerrain(terrain: string) {
-  // These are the terrains don't need land under them (i.e. could hang over a cliff that blocks a tree from being placed!)
-  if (
-    // terrain === HexTerrain.laurWall ||
-    terrain === HexTerrain.ladder ||
-    terrain === HexTerrain.battlement ||
-    terrain === HexTerrain.roadWall
-  ) {
-    return true
-  } else {
-    return false
-  }
-}
-
 export function isObstaclePieceID(id: string) {
   if (
     id === Pieces.laurWallPillar ||

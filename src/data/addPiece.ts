@@ -10,7 +10,6 @@ import {
 import {
   isFluidTerrainHex,
   isObstaclePieceID,
-  isVerticallyObstructiveTerrain,
   isSolidTerrainHex,
 } from '../utils/board-utils'
 import { genBoardHexID, genPieceID } from '../utils/map-utils'
@@ -99,8 +98,7 @@ export function addPiece({
       const terrain = hex?.terrain
       const isBlocked =
         isSolidTerrainHex(terrain) ||
-        isFluidTerrainHex(terrain) ||
-        isVerticallyObstructiveTerrain(terrain)
+        isFluidTerrainHex(terrain)
       return !isBlocked
     })
   })
@@ -399,7 +397,6 @@ export function addPiece({
       const isBlocked =
         isSolidTerrainHex(terrain) ||
         isFluidTerrainHex(terrain) ||
-        isVerticallyObstructiveTerrain(terrain) ||
         (isForNewInterior && hex.isObstacleOrigin) ||
         (isForNewInterior && hex.isObstacleAuxiliary)
       return !isBlocked

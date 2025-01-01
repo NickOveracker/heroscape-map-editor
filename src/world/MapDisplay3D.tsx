@@ -22,8 +22,9 @@ import SolidCaps from './maphex/instance/SolidCaps.tsx'
 import { decodePieceID, genBoardHexID } from '../utils/map-utils.ts'
 import { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
-import { useSearch } from 'wouter'
+import { useLocation, useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
+import { ROUTES } from '../ROUTES.ts'
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -41,6 +42,7 @@ export default function MapDisplay3D({
   const pieceRotation = useBoundStore((state) => state.pieceRotation)
   const toggleSelectedPieceID = useBoundStore((state) => state.toggleSelectedPieceID)
   const isTakingPicture = useBoundStore(s => s.isTakingPicture)
+  const [, navigate] = useLocation();
   useZoomCameraToMapCenter({
     cameraControlsRef,
     boardHexes,
@@ -70,10 +72,22 @@ export default function MapDisplay3D({
         }
         loadMap(jsonMap)
         enqueueSnackbar({
-          message: `Loaded map from URL: ${jsonMap.hexMap.name}`,
+          message: `Loaded map from URL: ${jsonMap.hexMap.name}.`,
+          variant: 'success',
           autoHideDuration: 5000,
         })
-      } catch (error) {
+        enqueueSnackbar({
+          message: `Map data has been removed from your URL bar, to return it please press the back button in your browser.`,
+          variant: 'info',
+          autoHideDuration: 6000,
+        })
+        navigate(ROUTES.heroscapeHome)
+      } catch (error: any) {
+        enqueueSnackbar({
+          message: `Error loading map from URL: ${error?.message ?? error}`,
+          variant: 'error',
+          autoHideDuration: 5000,
+        })
         console.error('🚀 ~ React.useEffect ~ error:', error)
       }
     } else {

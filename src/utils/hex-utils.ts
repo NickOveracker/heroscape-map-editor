@@ -115,13 +115,13 @@ export function hexUtilsGenRectangleGrid(
   }
   return hexas
 }
-const directions: Dictionary<CubeCoordinate> = {
-  '0': CUBE_EAST,
-  '1': CUBE_SE,
-  '2': CUBE_SW,
-  '3': CUBE_WEST,
-  '4': CUBE_NW,
-  '5': CUBE_NE,
+const directions: { [rotation: number]: CubeCoordinate } = {
+  0: CUBE_EAST,
+  1: CUBE_SE,
+  2: CUBE_SW,
+  3: CUBE_WEST,
+  4: CUBE_NW,
+  5: CUBE_NE,
 }
 
 const CUBE_FAR_NORTH = hexUtilsAdd(CUBE_NE, CUBE_NW)
@@ -130,13 +130,13 @@ const CUBE_FAR_SE = hexUtilsAdd(CUBE_SE, CUBE_EAST)
 const CUBE_FAR_SOUTH = hexUtilsAdd(CUBE_SE, CUBE_SW)
 const CUBE_FAR_SW = hexUtilsAdd(CUBE_SW, CUBE_WEST)
 const CUBE_FAR_NW = hexUtilsAdd(CUBE_NW, CUBE_WEST)
-const radialDirections: Dictionary<CubeCoordinate> = {
-  '0.5': CUBE_FAR_SE,
-  '1.5': CUBE_FAR_SOUTH,
-  '2.5': CUBE_FAR_SW,
-  '3.5': CUBE_FAR_NW,
-  '4.5': CUBE_FAR_NORTH,
-  '5.5': CUBE_FAR_NE,
+const radialDirections: { [rotation: number]: CubeCoordinate } = {
+  0.5: CUBE_FAR_SE,
+  1.5: CUBE_FAR_SOUTH,
+  2.5: CUBE_FAR_SW,
+  3.5: CUBE_FAR_NW,
+  4.5: CUBE_FAR_NORTH,
+  5.5: CUBE_FAR_NE,
 }
 
 /* For most calculation, we go hex-center to hex-center, 
@@ -159,19 +159,19 @@ export const hexUtilsGetRadialNearNeighborsForRotation = (
   rotation: number,
 ): [CubeCoordinate, CubeCoordinate] => {
   return [
-    directions[`${(rotation - 0.5) % 6}`],
-    directions[`${(rotation + 0.5) % 6}`],
+    directions[(rotation - 0.5) % 6],
+    directions[(rotation + 0.5) % 6],
   ]
 }
 export const hexUtilsGetRadialFarNeighborForRotation = (
   rotation: number,
 ): CubeCoordinate => {
-  const rot = `${rotation % 6}`
-  return radialDirections[`${rot}`]
+  const rot = rotation % 6
+  return radialDirections[rot]
 }
 export const hexUtilsGetNeighborForRotation = (
   rotation: number,
 ): CubeCoordinate => {
-  const rot = `${rotation % 6}`
+  const rot = rotation % 6
   return directions[rot]
 }

@@ -13,10 +13,8 @@ import {
 import {
   isFluidTerrainHex,
   isSolidTerrainHex,
-  isVerticallyObstructiveTerrain,
 } from '../utils/board-utils'
-import { addPiece, PieceAddArgs } from './addPiece'
-import { piecesSoFar } from './pieces'
+import { PieceAddArgs } from './addPiece'
 
 type PieceAddReturn = { newBoardHexes: BoardHexes; newBoardPieces: BoardPieces }
 
@@ -207,9 +205,7 @@ export function addLaurPiece({
         const terrain = hex?.terrain
         const isBlocked =
           isSolidTerrainHex(terrain) ||
-          isFluidTerrainHex(terrain) ||
-
-          isVerticallyObstructiveTerrain(terrain)
+          isFluidTerrainHex(terrain)
         return !isBlocked
       })
     })
