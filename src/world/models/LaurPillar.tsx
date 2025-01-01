@@ -3,12 +3,14 @@ import { ThreeEvent } from '@react-three/fiber'
 import { DoubleSide } from 'three'
 import { Billboard, Html, useGLTF } from '@react-three/drei'
 import { BoardHex, BoardHexes, BoardPieces, HexTerrain, Pieces } from '../../types'
-import { decodePieceID, getBoardHex3DCoords, getHexNeighborByRotAlt, getHexNearNeighborByRotation, pillarSideRotations } from '../../utils/map-utils'
+import { decodePieceID, getBoardHex3DCoords, getHexNeighborByRotAlt, getHexNearNeighborByRotation, pillarSideRotations, genBoardHexID } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 import useBoundStore from '../../store/store'
 import { Button } from '@mui/material'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
+import { hexUtilsAdd, hexUtilsGetNeighborForRotation, hexUtilsGetRadialNearNeighborsForRotation } from '../../utils/hex-utils'
+import { isFluidTerrainHex, isSolidTerrainHex } from '../../utils/board-utils'
 
 
 
@@ -39,10 +41,45 @@ function getPillarReport({
       return
     }
   })
+  const sideCanBuildRuins = pillarSideRotations.map(sideRot => {
+    const actualRotation = (boardHex.pieceRotation + sideRot) % 6
+    console.log("🚀 ~ actualRotation:", actualRotation)
+    const coordsObstructedByRuins = Number.isInteger(actualRotation)
+      ? [hexUtilsGetNeighborForRotation(actualRotation)]
+      : hexUtilsGetRadialNearNeighborsForRotation(actualRotation)
+    const piecePlaneCoords = coordsObstructedByRuins.filter(c => !!c).map((coord) =>
+      hexUtilsAdd(coord, { q: boardHex.q, r: boardHex.r, s: boardHex.s, }),
+    )
+    console.log("🚀 ~ piecePlaneCoords:", piecePlaneCoords)
+    const isVerticalClearanceForPiece = piecePlaneCoords.every((coord, i) => {
+      if (!coord) { return false }
+      const clearanceHexIds = Array(10) //using 10, not 9, because unlike in addPiece we are not starting from the placement altitude
+        .fill(0)
+        .map((_, j) => {
+          const altitude = boardHex.altitude + j
+          return genBoardHexID({ ...piecePlaneCoords[i], altitude })
+        })
+      return clearanceHexIds.every((clearanceHexId) => {
+        const hex = boardHexes?.[clearanceHexId]
+        if (!hex) return true // if no boardHex is written, then it is definitely empty
+        const terrain = hex.terrain
+        const isBlocked =
+          isSolidTerrainHex(terrain) ||
+          isFluidTerrainHex(terrain)
+        return !isBlocked
+      })
+    })
+    if (isVerticalClearanceForPiece) {
+      return true
+    } else {
+      return false
+    }
+  })
 
-  console.log("🚀 ~ pillarAddons ~ pillarAddons:", pillarAddons)
-  console.log("🚀 ~ sideLandHexes:", sideLandHexes)
-  console.log("🚀 ~ sidePillarHexes:", sidePillarHexes)
+  // console.log("🚀 ~ pillarAddons ~ pillarAddons:", pillarAddons)
+  // console.log("🚀 ~ sideLandHexes:", sideLandHexes)
+  // console.log("🚀 ~ sidePillarHexes:", sidePillarHexes)
+  // console.log("🚀 ~ sideCanBuildRuins:", sideCanBuildRuins)
 }
 
 export default function LaurWallPillar({
