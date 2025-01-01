@@ -71,21 +71,14 @@ export default function LaurWallPillar({
   const yellowColor = 'yellow'
   const isSelected = selectedPieceID === boardHex.pieceID
   const isHighlighted = isHovered || isSelected
-  const pillarReport = getPillarReport({
-    boardHexes,
-    boardPieces,
-    boardHex
-  })
-  // const handleClickBuildShortWall = () => {
 
-  // }
-
-
-  // const pillarReport = getPillarReport({
-  //   boardHexes,
-  //   boardPieces,
-  //   boardHex
-  // })
+  if (isSelected) {
+    const pillarReport = getPillarReport({
+      boardHexes,
+      boardPieces,
+      boardHex
+    })
+  }
 
   const buttonPositions: [x: number, y: number, z: number][] = [
     [0.5, 1, 0],
