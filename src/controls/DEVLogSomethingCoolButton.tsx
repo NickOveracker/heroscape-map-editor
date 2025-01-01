@@ -1,10 +1,12 @@
 import { Button } from '@mui/material'
 import useBoundStore from '../store/store'
 import JSONCrush from 'jsoncrush'
+import { useSnackbar } from 'notistack';
 
 const DEVLogSomethingCoolButton = () => {
   const appState = useBoundStore((state) => state)
-  const onClick = () => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  const onClickCopy = async () => {
     const myUrl = encodeURI(
       JSONCrush.crush(
         JSON.stringify([
@@ -13,7 +15,42 @@ const DEVLogSomethingCoolButton = () => {
         ]),
       ),
     )
-    console.log('🚀 ~ onClick ~ myUrl:', myUrl, myUrl.length)
+    const fullUrl = window.location.href + '?m=' + myUrl
+    if (fullUrl.length > 2082) {
+      enqueueSnackbar({
+        message: `Map is too big to be stored in a URL, sorry!`,
+        variant: 'error',
+        autoHideDuration: 3000,
+      })
+      return
+    }
+    try {
+      await navigator.clipboard.writeText(fullUrl);
+      enqueueSnackbar({
+        message: `Copied shareable map URL to clipboard`,
+        autoHideDuration: 3000,
+      })
+
+    } catch (err) {
+      console.log("Attempted clipboard write, failed:", err)
+      const action: any = (snackbarId: string) => (
+        <>
+          {/* <button onClick={() => { alert(`I belong to snackbar with id ${snackbarId}`); }}>
+            Undo
+          </button> */}
+          <button onClick={() => { closeSnackbar(snackbarId) }}>
+            Dismiss
+          </button>
+        </>
+      );
+      enqueueSnackbar({
+        message: `Failed to copy map state to clipboard, here it is: ${fullUrl}`,
+        variant: 'error',
+        // autoHideDuration: 3000,
+        action: action
+      })
+    }
+    console.log('🚀 ~ onClick ~ myUrl:', window.location)
   }
   const onClickLogState = () => {
     console.log(`c%App State:`, appState)
@@ -42,7 +79,7 @@ const DEVLogSomethingCoolButton = () => {
   }
   return (
     <>
-      <Button variant="contained" onClick={onClick}>
+      <Button variant="contained" onClick={onClickCopy}>
         Log URL
       </Button>
       <Button variant="contained" onClick={onClickLogState}>
