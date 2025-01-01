@@ -1,5 +1,5 @@
 import { Vector3 } from 'three'
-import { BoardHex, BoardHexes, CubeCoordinate } from '../types'
+import { BoardHex, BoardHexes, BoardPieces, CubeCoordinate } from '../types'
 import {
   HEXGRID_HEX_APOTHEM,
   HEXGRID_HEX_HEIGHT,
@@ -141,4 +141,10 @@ export function genBoardHexID(hex: CubeCoordinate & { altitude: number }) {
     2. Only one hex can exist per global coordinate
     */
   return `${hex.altitude}~${hex.q}~${hex.r}`
+}
+export const getBoardPiecesMaxLevel = (boardPieces: BoardPieces) => {
+  const maxLevel = 1 + Object.keys(boardPieces)
+    .map(bp => decodePieceID(bp).altitude) // get their altitudes
+    .sort((a, b) => b - a)[0] // sort them high to low and grab the first
+  return maxLevel
 }

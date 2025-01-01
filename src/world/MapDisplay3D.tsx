@@ -33,14 +33,14 @@ export default function MapDisplay3D({
   cameraControlsRef: React.RefObject<CameraControls>
   mapGroupRef: React.RefObject<Group<Object3DEventMap>>
 }) {
-  const boardHexes = useBoundStore((state) => state.boardHexes)
+  const boardHexes = useBoundStore((s) => s.boardHexes)
   const boardHexesArr = Object.values(boardHexes)
-  const penMode = useBoundStore((state) => state.penMode)
-  const paintTile = useBoundStore((state) => state.paintTile)
-  const loadMap = useBoundStore((state) => state.loadMap)
-  const pieceSize = useBoundStore((state) => state.pieceSize)
-  const pieceRotation = useBoundStore((state) => state.pieceRotation)
-  const toggleSelectedPieceID = useBoundStore((state) => state.toggleSelectedPieceID)
+  const penMode = useBoundStore((s) => s.penMode)
+  const paintTile = useBoundStore((s) => s.paintTile)
+  const loadMap = useBoundStore((s) => s.loadMap)
+  const pieceSize = useBoundStore((s) => s.pieceSize)
+  const pieceRotation = useBoundStore((s) => s.pieceRotation)
+  const toggleSelectedPieceID = useBoundStore((s) => s.toggleSelectedPieceID)
   const isTakingPicture = useBoundStore(s => s.isTakingPicture)
   const [, navigate] = useLocation();
   useZoomCameraToMapCenter({
