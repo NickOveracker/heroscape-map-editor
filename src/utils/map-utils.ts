@@ -70,7 +70,15 @@ export const getBoardHex3DCoords = (
     yBase,
   }
 }
-export const getBoardHexNearNeighbor = (
+export const getPillarHexLandNeighbor = (
+  hex: BoardHex,
+  boardHexes: BoardHexes,
+  rotation: number
+) => {
+  // main thing is the lower altitude of 1, otherwise this would work for regular land hexes too
+  return boardHexes[genBoardHexID({ ...hexUtilsAdd({ q: hex.q, r: hex.r, s: hex.s }, hexUtilsGetNeighborForRotation(rotation)), altitude: hex.altitude - 1 })]
+}
+export const getHexNearNeighborByRotation = (
   hex: BoardHex,
   boardHexes: BoardHexes,
   rotation: number

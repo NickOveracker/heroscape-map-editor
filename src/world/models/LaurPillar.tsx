@@ -3,7 +3,7 @@ import { ThreeEvent } from '@react-three/fiber'
 import { DoubleSide } from 'three'
 import { Billboard, Html, useGLTF } from '@react-three/drei'
 import { BoardHex, BoardHexes, BoardPieces, HexTerrain, Pieces } from '../../types'
-import { decodePieceID, getBoardHex3DCoords, getBoardHexNearNeighbor, pillarSideRotations } from '../../utils/map-utils'
+import { decodePieceID, getBoardHex3DCoords, getPillarHexLandNeighbor, getHexNearNeighborByRotation, pillarSideRotations } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 import useBoundStore from '../../store/store'
@@ -27,13 +27,22 @@ function getPillarReport({
       piece.pieceID === Pieces.laurWallShort ||
       piece.pieceID === Pieces.laurWallRuin)
   console.log("🚀 ~ pillarAddons ~ pillarAddons:", pillarAddons)
-  const sideBuddyHexes = pillarSideRotations.map(sideRot => {
+  const sideLandHexes = pillarSideRotations.map(sideRot => {
     const actualRotation = (boardHex.pieceRotation + sideRot) % 6
     if (Number.isInteger(actualRotation)) {
-      return getBoardHexNearNeighbor(boardHex, boardHexes, actualRotation)
+      return getPillarHexLandNeighbor(boardHex, boardHexes, actualRotation)
     }
   })
-  console.log("🚀 ~ sideBuddyHexes:", sideBuddyHexes)
+  const sidePillarHexes = pillarSideRotations.map(sideRot => {
+    const actualRotation = (boardHex.pieceRotation + sideRot) % 6
+    if (Number.isInteger(actualRotation)) {
+      return getHexNearNeighborByRotation(boardHex, boardHexes, actualRotation)
+    } else {
+      return
+    }
+  }).filter(bh => bh?.pieceID.includes(Pieces.laurWallPillar) && bh.isObstacleOrigin)
+  console.log("🚀 ~ sidePillarHexes:", sidePillarHexes)
+  console.log("🚀 ~ sideBuddyHexes:", sideLandHexes)
 }
 
 export default function LaurWallPillar({
@@ -60,10 +69,16 @@ export default function LaurWallPillar({
   const pillarColor = hexTerrainColor[HexTerrain.laurWall]
   const interiorPillarColor = hexTerrainColor.laurModelColor2
   const yellowColor = 'yellow'
+  const isSelected = selectedPieceID === boardHex.pieceID
+  const isHighlighted = isHovered || isSelected
+  const pillarReport = getPillarReport({
+    boardHexes,
+    boardPieces,
+    boardHex
+  })
+  // const handleClickBuildShortWall = () => {
 
-  const handleClickBuildShortWall = () => {
-
-  }
+  // }
 
 
   // const pillarReport = getPillarReport({
@@ -84,28 +99,29 @@ export default function LaurWallPillar({
       <group
         position={[x, yWithBase, z]}
       >
-        {(selectedPieceID === boardHex.pieceID) && (
+        {/* {isSelected && pillarSideRotations.map } */}
+        {(isSelected) && (
           <Billboard
             position={buttonPositions[0]}>
             <Html>
               <Button variant='contained' size="small">1,0</Button>
             </Html>
           </Billboard>)}
-        {(selectedPieceID === boardHex.pieceID) && (
+        {(isSelected) && (
           <Billboard
             position={buttonPositions[1]}>
             <Html>
               <Button variant='contained' size="small">0,1</Button>
             </Html>
           </Billboard>)}
-        {(selectedPieceID === boardHex.pieceID) && (
+        {(isSelected) && (
           <Billboard
             position={buttonPositions[2]}>
             <Html>
               <Button variant='contained' size="small">-1,0</Button>
             </Html>
           </Billboard>)}
-        {(selectedPieceID === boardHex.pieceID) && (
+        {(isSelected) && (
           <Billboard
             position={buttonPositions[3]}>
             <Html>
@@ -124,14 +140,14 @@ export default function LaurWallPillar({
           geometry={nodes.PillarTop.geometry}
         // onPointerUp={e => onPointerUp(e, boardHex)}
         >
-          <meshMatcapMaterial color={(isHovered || selectedPieceID === boardHex.pieceID) ? yellowColor : pillarColor} />
+          <meshMatcapMaterial color={isHighlighted ? yellowColor : pillarColor} />
         </mesh>
         <mesh
           geometry={nodes.SubDecorCore.geometry}
         // onPointerUp={e => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial
-            color={isHovered ? yellowColor : interiorPillarColor}
+            color={isHighlighted ? yellowColor : interiorPillarColor}
           />
         </mesh>
         <mesh
@@ -140,7 +156,7 @@ export default function LaurWallPillar({
         >
           <meshMatcapMaterial
             side={DoubleSide}
-            color={isHovered ? yellowColor : pillarColor}
+            color={isHighlighted ? yellowColor : pillarColor}
           />
         </mesh>
         <mesh
@@ -149,7 +165,7 @@ export default function LaurWallPillar({
         >
           <meshMatcapMaterial
             side={DoubleSide}
-            color={isHovered ? yellowColor : interiorPillarColor}
+            color={isHighlighted ? yellowColor : interiorPillarColor}
           />
         </mesh>
       </group>
