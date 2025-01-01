@@ -44,7 +44,8 @@ const CameraControlsButtonGroup = ({
       publish(EVENTS.saveJpg)
     }, 100); // Long enough to make some changes to the map and render
   }
-
+  const currentCameraText = isOrthoCam ? 'orthographic' : 'perspective'
+  const nextCameraText = isOrthoCam ? 'perspective' : 'orthographic'
   return (
     <ControlButtonGroup>
       <Button
@@ -55,6 +56,7 @@ const CameraControlsButtonGroup = ({
         Reset Camera Zoom/Position
       </Button>
       <Button
+        title={`Switch from ${currentCameraText} to ${nextCameraText}`}
         startIcon={<MdCameraswitch />}
         onClick={handleToggleOrthoCam}
         variant="contained"
