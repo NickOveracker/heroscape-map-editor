@@ -7,7 +7,7 @@ import {
   HEXGRID_SPACING,
   HEXGRID_HEXCAP_FLUID_HEIGHT,
 } from './constants'
-import { cubeToPixel, hexUtilsAdd, hexUtilsGetNeighborForRotation } from './hex-utils'
+import { cubeToPixel, hexUtilsAdd, hexUtilsGetNeighborForRotation, hexUtilsGetRadialFarNeighborForRotation } from './hex-utils'
 
 type MapDimensions = {
   width: number
@@ -70,13 +70,20 @@ export const getBoardHex3DCoords = (
     yBase,
   }
 }
-export const getPillarHexLandNeighbor = (
+export const getHexNeighborByRotAlt = (
   hex: BoardHex,
   boardHexes: BoardHexes,
-  rotation: number
+  rotation: number,
+  altitudeDelta?: number
 ) => {
+  let neighborCoord: CubeCoordinate
+  if (Number.isInteger(rotation)) {
+    neighborCoord = hexUtilsAdd({ q: hex.q, r: hex.r, s: hex.s }, hexUtilsGetNeighborForRotation(rotation))
+  } else {
+    neighborCoord = hexUtilsAdd({ q: hex.q, r: hex.r, s: hex.s }, hexUtilsGetRadialFarNeighborForRotation(rotation))
+  }
   // main thing is the lower altitude of 1, otherwise this would work for regular land hexes too
-  return boardHexes[genBoardHexID({ ...hexUtilsAdd({ q: hex.q, r: hex.r, s: hex.s }, hexUtilsGetNeighborForRotation(rotation)), altitude: hex.altitude - 1 })]
+  return boardHexes[genBoardHexID({ ...neighborCoord, altitude: hex.altitude + (altitudeDelta ?? 0) })]
 }
 export const getHexNearNeighborByRotation = (
   hex: BoardHex,

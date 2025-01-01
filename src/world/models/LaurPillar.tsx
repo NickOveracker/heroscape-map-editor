@@ -3,7 +3,7 @@ import { ThreeEvent } from '@react-three/fiber'
 import { DoubleSide } from 'three'
 import { Billboard, Html, useGLTF } from '@react-three/drei'
 import { BoardHex, BoardHexes, BoardPieces, HexTerrain, Pieces } from '../../types'
-import { decodePieceID, getBoardHex3DCoords, getPillarHexLandNeighbor, getHexNearNeighborByRotation, pillarSideRotations } from '../../utils/map-utils'
+import { decodePieceID, getBoardHex3DCoords, getHexNeighborByRotAlt, getHexNearNeighborByRotation, pillarSideRotations } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 import useBoundStore from '../../store/store'
@@ -26,23 +26,23 @@ function getPillarReport({
     .filter(piece => piece.pieceID === Pieces.laurWallLong ||
       piece.pieceID === Pieces.laurWallShort ||
       piece.pieceID === Pieces.laurWallRuin)
-  console.log("🚀 ~ pillarAddons ~ pillarAddons:", pillarAddons)
   const sideLandHexes = pillarSideRotations.map(sideRot => {
     const actualRotation = (boardHex.pieceRotation + sideRot) % 6
-    if (Number.isInteger(actualRotation)) {
-      return getPillarHexLandNeighbor(boardHex, boardHexes, actualRotation)
-    }
+    return getHexNeighborByRotAlt(boardHex, boardHexes, actualRotation, -1) // pass -1 to get one below pillar
   })
   const sidePillarHexes = pillarSideRotations.map(sideRot => {
     const actualRotation = (boardHex.pieceRotation + sideRot) % 6
-    if (Number.isInteger(actualRotation)) {
-      return getHexNearNeighborByRotation(boardHex, boardHexes, actualRotation)
+    const pillarHex = getHexNeighborByRotAlt(boardHex, boardHexes, actualRotation)
+    if (pillarHex?.pieceID?.includes(Pieces.laurWallPillar) && pillarHex?.isObstacleOrigin) {
+      return pillarHex
     } else {
       return
     }
-  }).filter(bh => bh?.pieceID.includes(Pieces.laurWallPillar) && bh.isObstacleOrigin)
+  })
+
+  console.log("🚀 ~ pillarAddons ~ pillarAddons:", pillarAddons)
+  console.log("🚀 ~ sideLandHexes:", sideLandHexes)
   console.log("🚀 ~ sidePillarHexes:", sidePillarHexes)
-  console.log("🚀 ~ sideBuddyHexes:", sideLandHexes)
 }
 
 export default function LaurWallPillar({
