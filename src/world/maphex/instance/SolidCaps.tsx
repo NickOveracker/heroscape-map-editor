@@ -1,4 +1,4 @@
-import { Instance, Instances, Sparkles } from '@react-three/drei'
+import { Instance, Instances } from '@react-three/drei'
 import React from 'react'
 import {
   CylinderGeometryArgs,
@@ -102,7 +102,6 @@ function SolidCap({
 
   return (
     <group>
-      {hoveredPieceID === boardHex.pieceID && <Sparkles />}
       <Instance
         ref={ref}
         onPointerUp={handleUp}

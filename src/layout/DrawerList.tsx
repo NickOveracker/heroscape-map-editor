@@ -115,6 +115,7 @@ export const DrawerList = ({
             }}
           >
             <Link
+              title="contact@hexoscape.com"
               href={"mailto:contact@hexoscape.com"}
               underline="hover"
               sx={{
