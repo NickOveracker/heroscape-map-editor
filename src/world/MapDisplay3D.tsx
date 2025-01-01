@@ -129,9 +129,11 @@ export default function MapDisplay3D({
 
   const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr, isTakingPicture)
 
-  const onPointerUp = (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
+  const onPointerUp = async (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
     if (event.button !== 0) {
       // THIS IS A RIGHT CLICK
+      // TODO: Can paste in copied templates! BUT, user must agree to reading text/images from the clipboard
+      // const myClipboard = await navigator.clipboard.readText()
       return
     } // ignore right clicks(event.button=2), middle mouse clicks(1)
     event.stopPropagation() // prevent pass through
