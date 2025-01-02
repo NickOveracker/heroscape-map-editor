@@ -77,6 +77,14 @@ export const hexTerrainColor: Dictionary<string> = {
   ticallaBrush1: '#1EA300',
   ticallaBrush2: '#25CC00',
   ticallaBrush3: '#22B800',
+  [HexTerrain.laurBrush]: '#0f4f00', // only gets used as subterrain color, not in model
+  laurBrush1: '#1EA300',
+  laurBrush2: '#25CC00',
+  laurBrush3: '#22B800',
+  [HexTerrain.laurPalm]: '#0f4f00', // only gets used as subterrain color, not in model
+  laurPalm1: '#1EA300',
+  laurPalm2: '#25CC00',
+  laurPalm3: '#22B800',
 }
 // const hsColors = {
 //     // selected by color picker on webp image of renegade paint set, so probably horrible

@@ -45,8 +45,14 @@ export const MapHex3D = ({
   const isTreeHex = boardHex.terrain === HexTerrain.tree && isObstacleHex
   const isLaurPillarHex =
     boardHex.terrain === HexTerrain.laurWall && isObstacleHex
+  const isBrushHex =
+    boardHex.terrain === HexTerrain.brush && boardHex.isObstacleOrigin
   const isPalmHex =
     boardHex.terrain === HexTerrain.palm && boardHex.isObstacleOrigin
+  const isLaurPalmHex =
+    boardHex.terrain === HexTerrain.laurPalm && boardHex.isObstacleOrigin
+  const isLaurBrushHex =
+    boardHex.terrain === HexTerrain.laurBrush && boardHex.isObstacleOrigin
   const isGlacier1Hex = pieceID === Pieces.glacier1 && isObstacleHex
   const isOutcrop1Hex = pieceID === Pieces.outcrop1 && isObstacleHex
   const isOutcrop3Hex = pieceID === Pieces.outcrop3 && isObstacleHex
@@ -55,8 +61,6 @@ export const MapHex3D = ({
   const isGlacier6Hex = pieceID === Pieces.glacier6 && isObstacleHex
   const isHiveHex =
     boardPieces[boardHex.pieceID] === Pieces.hive && isObstacleHex
-  const isBrushHex =
-    boardHex.terrain === HexTerrain.brush && boardHex.isObstacleOrigin
   const isRuin2OriginHex =
     pieceID === Pieces.ruins2 && boardHex.isObstacleOrigin
   const isRuin3OriginHex =
@@ -99,6 +103,8 @@ export const MapHex3D = ({
       {isTreeHex && <ForestTree boardHex={boardHex} />}
       {isPalmHex && <TicallaPalm boardHex={boardHex} />}
       {isBrushHex && <TicallaBrush boardHex={boardHex} />}
+      {isLaurPalmHex && <TicallaPalm boardHex={boardHex} />}
+      {isLaurBrushHex && <TicallaBrush boardHex={boardHex} />}
       {isRuin2OriginHex && <Ruins2 boardHex={boardHex} />}
       {isRuin3OriginHex && <Ruins3 boardHex={boardHex} />}
       {isGlacier1Hex && <Outcrop1 boardHex={boardHex} isGlacier={true} />}

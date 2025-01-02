@@ -235,6 +235,30 @@ export default function PenTerrainSelect() {
           </ListItemIcon>
           <span>TicallaPalm16</span>
         </MenuItem>
+        <MenuItem value={PenMode.laurBrush10}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>LaurBrush10</span>
+        </MenuItem>
+        <MenuItem value={PenMode.laurPalm13}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>LaurPalm13</span>
+        </MenuItem>
+        <MenuItem value={PenMode.laurPalm14}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>LaurPalm14</span>
+        </MenuItem>
+        <MenuItem value={PenMode.laurPalm15}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>LaurPalm15</span>
+        </MenuItem>
         <MenuItem value={PenMode.outcrop1}>
           <ListItemIcon>
             <GiWaterfall />
