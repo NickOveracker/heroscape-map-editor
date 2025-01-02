@@ -153,7 +153,7 @@ export default function PenTerrainSelect() {
           </ListItemIcon>
           <span>Laur Pillar</span>
         </MenuItem>
-        <MenuItem value={PenMode.laurWallRuin}>
+        {/* <MenuItem value={PenMode.laurWallRuin}>
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
@@ -170,7 +170,7 @@ export default function PenTerrainSelect() {
             <GiWaterfall />
           </ListItemIcon>
           <span>Laur Wall Long</span>
-        </MenuItem>
+        </MenuItem> */}
         <Divider />
         {/* RUINS */}
         <MenuItem value={PenMode.ruins2}>

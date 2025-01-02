@@ -58,6 +58,7 @@ export default function MapDisplay3D({
   const pieceSize = useBoundStore((s) => s.pieceSize)
   const pieceRotation = useBoundStore((s) => s.pieceRotation)
   const toggleSelectedPieceID = useBoundStore((s) => s.toggleSelectedPieceID)
+  const { clear } = useBoundStore.temporal.getState()
   const isTakingPicture = useBoundStore(s => s.isTakingPicture)
   const [, navigate] = useLocation();
   useZoomCameraToMapCenter({
@@ -99,6 +100,7 @@ export default function MapDisplay3D({
           autoHideDuration: 6000,
         })
         navigate(ROUTES.heroscapeHome)
+        clear() // clear undo history, initial load should not be undoable
       } catch (error: any) {
         enqueueSnackbar({
           message: `Error loading map from URL: ${error?.message ?? error}`,
@@ -139,6 +141,7 @@ export default function MapDisplay3D({
           message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
           autoHideDuration: 5000,
         })
+        clear() // clear undo history, initial load should not be undoable
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
