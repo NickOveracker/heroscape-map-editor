@@ -37,9 +37,14 @@ export default function CameraSpeedDial({
     }
   }, [isTakingPicture])
 
+  const id1 = 'camera-unlock-icon'
+  const id2 = 'camera-lock-icon'
   const onClickDisableCamera = (e: any) => {
-    console.log("🚀 ~ onClickDisableCamera ~ e:", e.nativeEvent.target.id)
-    toggleIsCameraDisabled(!isCamerDisabled)
+    const targetId = e?.nativeEvent?.target?.id ?? ''
+    const classList = Array.from(e?.nativeEvent?.target?.classList ?? [])
+    if (targetId === id1 || targetId === id2 || classList.includes("MuiFab-primary")) {
+      toggleIsCameraDisabled(!isCamerDisabled)
+    }
     setOpen(false)
   }
   const resetCamera = () => {
@@ -73,20 +78,14 @@ export default function CameraSpeedDial({
           }
         }
       }
-      icon={isCamerDisabled ? <MdOutlineVideocamOff id='camera-unlock-icon' style={{ backgroundColor: 'red', color: 'white' }} /> : <MdOutlineVideocam id='camera-lock-icon' />}
+      icon={isCamerDisabled ? <MdOutlineVideocamOff id={id1} style={{ backgroundColor: 'red', color: 'white' }} /> : <MdOutlineVideocam id={id2} />}
       transitionDuration={100}
       direction="right"
-      title={isCamerDisabled ? 'Unlock camera' : 'Lock camera'}
       open={open}
       onClick={e => onClickDisableCamera(e)}
       onClose={handleClose}
       onOpen={handleOpen}
     >
-      <SpeedDialAction
-        icon={<RiRestartLine />}
-        tooltipTitle={'Reset'}
-        onClick={resetCamera}
-      />
       <SpeedDialAction
         icon={<RiRestartLine />}
         tooltipTitle={'Reset'}
