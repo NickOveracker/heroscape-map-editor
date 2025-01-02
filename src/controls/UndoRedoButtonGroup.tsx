@@ -1,15 +1,14 @@
 import { Button } from '@mui/material'
-// import useBoundStore from '../store/store'
 import { useHotkeys } from 'react-hotkeys-hook'
-import ControlButtonGroup from './ControlButtonGroup'
 import useTemporalStore from '../hooks/useTemporalStore'
+import ControlButtonGroup from './ControlButtonGroup';
 
 
 const UndoRedoButtonGroup = () => {
   // we do things strange in this component to have react pastStates/futureStates and show
   // the user a count of actions in either direction
   // const { undo, redo } = useBoundStore.temporal.getState()
-  const { undo, redo, clear, pastStates, futureStates } = useTemporalStore(
+  const { undo, redo, pastStates, futureStates } = useTemporalStore(
     (state: any) => state,
   );
   useHotkeys('mod+z', () => undo())

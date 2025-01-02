@@ -1,8 +1,7 @@
 import { StateCreator } from 'zustand'
-import { BoardHex, HexTerrain, MapState, Piece, Pieces } from '../types'
+import { BoardHex, MapState, Piece } from '../types'
 import { AppState } from './store'
 import { produce } from 'immer'
-import { addLaurPiece } from '../data/addLaurPiece'
 import { addPiece } from '../data/addPiece'
 
 export interface MapSlice extends MapState {
@@ -25,21 +24,6 @@ const createMapSlice: StateCreator<AppState, [], [], MapSlice> = (set) => ({
   paintTile: ({ piece, clickedHex, rotation }: PaintTileArgs) =>
     set((state) => {
       return produce(state, (draft) => {
-        if (
-          piece.terrain === HexTerrain.laurWall &&
-          piece.id !== Pieces.laurWallPillar
-        ) {
-          const { newBoardHexes, newBoardPieces } = addLaurPiece({
-            piece,
-            boardHexes: draft.boardHexes,
-            boardPieces: draft.boardPieces,
-            pieceCoords: clickedHex,
-            placementAltitude: clickedHex.altitude,
-            rotation,
-          })
-          draft.boardHexes = newBoardHexes
-          draft.boardPieces = newBoardPieces
-        }
         const { newBoardHexes, newBoardPieces } = addPiece({
           piece,
           boardHexes: draft.boardHexes,

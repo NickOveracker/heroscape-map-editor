@@ -6,8 +6,8 @@ import Controls from '../controls/Controls'
 import World from '../world/World'
 import CreateMapFormDialog from './CreateMapFormDialog'
 import EditMapFormDialog from './EditMapFormDialog'
-import { LoadMapInputs } from '../controls/LoadMapButtons'
-import CameraSpeedDial from '../controls/CameraSpeedDial'
+import { LoadMapInputs } from './LoadMapButtons'
+import CameraSpeedDial from './CameraSpeedDial'
 
 export default function HomePage() {
   const cameraControlsRef = React.useRef(undefined!)

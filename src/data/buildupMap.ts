@@ -5,12 +5,10 @@ import {
   BoardPieces,
   HexMap,
   Pieces,
-  HexTerrain,
 } from '../types'
 import { hexUtilsOddRToCube } from '../utils/hex-utils'
 import { makeHexagonScenario, makeRectangleScenario } from '../utils/map-gen'
 import { decodePieceID } from '../utils/map-utils'
-import { addLaurPiece } from './addLaurPiece'
 import { addPiece } from './addPiece'
 import { pieceCodes } from './pieceCodes'
 import { piecesSoFar } from './pieces'
@@ -112,31 +110,15 @@ export function buildupJsonFileMap(
       }
 
       // get the new board hexes and new board pieces
-      let nextBoardHexes: BoardHexes
-      if (
-        piece.terrain === HexTerrain.laurWall &&
-        piece.id !== Pieces.laurWallPillar
-      ) {
-        nextBoardHexes = addLaurPiece({
-          piece,
-          boardHexes,
-          boardPieces,
-          pieceCoords,
-          placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
-          rotation: rotation,
-        }).newBoardHexes
-        return nextBoardHexes
-      } else {
-        nextBoardHexes = addPiece({
-          piece,
-          boardHexes,
-          boardPieces,
-          pieceCoords,
-          placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
-          rotation: rotation,
-          isVsTile: false,
-        }).newBoardHexes
-      }
+      const nextBoardHexes = addPiece({
+        piece,
+        boardHexes,
+        boardPieces,
+        pieceCoords,
+        placementAltitude: placementAltitude, // z is altitude is virtualscape, y is altitude in our app
+        rotation: rotation,
+        isVsTile: false,
+      }).newBoardHexes
       return nextBoardHexes
       // get the new board hexes and new board pieces
       // mark every new piece on the board
