@@ -5,15 +5,9 @@ import PenTerrainSelect from './PenTerrainSelect'
 import RotationSelect from './RotationSelect'
 import UndoRedoButtonGroup from './UndoRedoButtonGroup'
 import ControlButtonGroup from './ControlButtonGroup'
-import CameraControlsButtonGroup from './TakePictureButtonGroup'
 import ViewingLevelInput from './ViewingLevelInput'
-import { CameraControls } from '@react-three/drei'
 
-const Controls = ({
-  cameraControlsRef
-}: {
-  cameraControlsRef: React.RefObject<CameraControls>
-}) => {
+const Controls = () => {
   return (
     <Container sx={{ padding: 1 }}>
       <UndoRedoButtonGroup />
@@ -21,7 +15,6 @@ const Controls = ({
       <PieceSizeSelect />
       <RotationSelect />
       {/* <MapLensToggles /> */}
-      <CameraControlsButtonGroup cameraControlsRef={cameraControlsRef} />
       <ControlButtonGroup>
         <DEVLogSomethingCoolButton />
       </ControlButtonGroup>

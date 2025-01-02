@@ -26,8 +26,8 @@ const World = ({
   }
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
+
       <div
-        id="canvas-container"
         style={{
           width: '100%',
           height: '100%',

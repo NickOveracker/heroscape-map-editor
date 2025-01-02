@@ -7,6 +7,7 @@ import World from '../world/World'
 import CreateMapFormDialog from './CreateMapFormDialog'
 import EditMapFormDialog from './EditMapFormDialog'
 import { LoadMapInputs } from '../controls/LoadMapButtons'
+import CameraSpeedDial from '../controls/CameraSpeedDial'
 
 export default function HomePage() {
   const cameraControlsRef = React.useRef(undefined!)
@@ -40,10 +41,12 @@ export default function HomePage() {
       </Drawer>
       <div
         style={{
+          position: 'relative',
           width: '100%',
           flex: 1,
         }}
       >
+        <CameraSpeedDial cameraControlsRef={cameraControlsRef} />
         <World cameraControlsRef={cameraControlsRef} />
       </div>
       <div
@@ -56,7 +59,7 @@ export default function HomePage() {
           overflow: 'auto',
         }}
       >
-        <Controls cameraControlsRef={cameraControlsRef} />
+        <Controls />
         <LoadMapInputs />
       </div>
     </div>

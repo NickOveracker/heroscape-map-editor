@@ -25,7 +25,6 @@ import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { useLocation, useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
 import { ROUTES } from '../ROUTES.ts'
-import { keyBy } from 'lodash'
 
 export default function MapDisplay3D({
   cameraControlsRef,
