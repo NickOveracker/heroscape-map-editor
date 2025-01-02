@@ -4,7 +4,7 @@ import { CameraControls, OrthographicCamera, PerspectiveCamera, Stars } from '@r
 import Lights from './Lights'
 import MyCameraControls from './camera/MyCameraControls'
 import MapDisplay3D from './MapDisplay3D'
-import GridHelper from './GridHelper'
+// import GridHelper from './GridHelper'
 import * as THREE from 'three'
 import useBoundStore from '../store/store'
 import TakeAPictureBox from './camera/TakeAPictureBox'
@@ -17,7 +17,7 @@ const World = ({
 }) => {
   const mapGroupRef = React.useRef<THREE.Group<THREE.Object3DEventMap>>(undefined!)
   const isOrthoCam = useBoundStore(s => s.isOrthoCam)
-  const isTakingPicture = useBoundStore(s => s.isTakingPicture)
+  // const isTakingPicture = useBoundStore(s => s.isTakingPicture)
   const toggleHoveredPieceID = useBoundStore(s => s.toggleHoveredPieceID)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const handleClickAway = () => {
@@ -60,7 +60,7 @@ const World = ({
           {/* <Stats className="stats-panel" /> */}
           <MapDisplay3D mapGroupRef={mapGroupRef} cameraControlsRef={cameraControlsRef} />
           <Lights />
-          {!isTakingPicture && <GridHelper />}
+          {/* {!isTakingPicture && <GridHelper />} */}
           <MyCameraControls
             cameraControlsRef={cameraControlsRef}
             mapGroupRef={mapGroupRef}
