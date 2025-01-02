@@ -94,12 +94,12 @@ export default function MapDisplay3D({
           variant: 'success',
           autoHideDuration: 5000,
         })
-        enqueueSnackbar({
-          message: `Map data has been removed from your URL bar, to return it please press the back button in your browser.`,
-          variant: 'info',
-          autoHideDuration: 6000,
-        })
-        navigate(ROUTES.heroscapeHome)
+        // enqueueSnackbar({
+        //   message: `Map data has been removed from your URL bar, to return it please press the back button in your browser.`,
+        //   variant: 'info',
+        //   autoHideDuration: 6000,
+        // })
+        navigate(ROUTES.heroscapeHome, { replace: true })
         clear() // clear undo history, initial load should not be undoable
       } catch (error: any) {
         enqueueSnackbar({
@@ -139,6 +139,7 @@ export default function MapDisplay3D({
         loadMap(jsonMap)
         enqueueSnackbar({
           message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
+          variant: 'success',
           autoHideDuration: 5000,
         })
         clear() // clear undo history, initial load should not be undoable
