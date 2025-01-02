@@ -26,7 +26,6 @@ const World = ({
   }
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-
       <div
         style={{
           width: '100%',

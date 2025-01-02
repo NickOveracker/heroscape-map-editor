@@ -39,7 +39,7 @@ const App = () => {
           >
             <Switch>
               <Route path={ROUTES.root} component={RootPage} />
-              <Route path={ROUTES.heroscapeHome} component={HomePage} />
+              <Route path={`${ROUTES.heroscapeHome}/`} component={HomePage} />
 
               {/* Default route in a switch */}
               <Route><ErrorPage /></Route>

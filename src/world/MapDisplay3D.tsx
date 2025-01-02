@@ -128,7 +128,7 @@ export default function MapDisplay3D({
       //     )
       //   })
       // AUTO JSON
-      const fileName = '/PillarTest.gz'
+      const fileName = '/Welcome.json'
       fetch(fileName).then(async (response) => {
         // const data = response.json()
         const data = await response.json()
@@ -138,7 +138,8 @@ export default function MapDisplay3D({
         }
         loadMap(jsonMap)
         enqueueSnackbar({
-          message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
+          // message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
+          message: `WELCOME!`,
           variant: 'success',
           autoHideDuration: 5000,
         })
