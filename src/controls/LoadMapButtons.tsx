@@ -6,6 +6,9 @@ import readVirtualscapeMapFile, {
 } from '../data/readVirtualscapeMapFile'
 import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap'
 import useBoundStore from '../store/store'
+import { useLocation } from 'wouter'
+import { ROUTES } from '../ROUTES'
+import { useSnackbar } from 'notistack'
 
 const uploadElementID = 'upload'
 const jsonUploadElementID = 'jsonupload'
@@ -68,7 +71,19 @@ const LoadMapButtons = () => {
 
 export const LoadMapInputs = () => {
   const loadMap = useBoundStore((state) => state.loadMap)
-
+  // const { clear } = useBoundStore.temporal.getState()
+  const [, navigate] = useLocation();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  const closeSnackbarIDAction: any = (snackbarId: string) => (
+    <>
+      {/* <button onClick={() => { alert(`I belong to snackbar with id ${snackbarId}`); }}>
+        Undo
+      </button> */}
+      <button onClick={() => { closeSnackbar(snackbarId) }}>
+        Dismiss
+      </button>
+    </>
+  );
   const readGzipFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event?.target?.files?.[0]
     if (!file) {
@@ -81,7 +96,19 @@ export const LoadMapInputs = () => {
         jsonMap.hexMap.name = file.name
       }
       loadMap(jsonMap)
-    } catch (error) {
+      enqueueSnackbar({
+        message: `Loaded map: ${jsonMap.hexMap.name}`,
+        variant: 'success',
+        autoHideDuration: 3000,
+      })
+      navigate(ROUTES.heroscapeHome)
+      // clear() // clear undo history, initial load should not be undoable
+    } catch (error: any) {
+      enqueueSnackbar({
+        message: `Error loading json map: ${error?.message ?? error}`,
+        variant: 'error',
+        action: closeSnackbarIDAction,
+      })
       console.error(error)
     }
     event.target.value = '' // Reset the input value, otherwise choosing same file again will do nothing
@@ -98,7 +125,19 @@ export const LoadMapInputs = () => {
         jsonMap.hexMap.name = file.name
       }
       loadMap(jsonMap)
-    } catch (error) {
+      enqueueSnackbar({
+        message: `Loaded map: ${jsonMap.hexMap.name}`,
+        variant: 'success',
+        autoHideDuration: 3000,
+      })
+      navigate(ROUTES.heroscapeHome)
+      // clear() // clear undo history, initial load should not be undoable
+    } catch (error: any) {
+      enqueueSnackbar({
+        message: `Error loading json map: ${error?.message ?? error}`,
+        variant: 'error',
+        action: closeSnackbarIDAction,
+      })
       console.error(error)
     }
     event.target.value = '' // Reset the input value, otherwise choosing same file again will do nothing
@@ -110,12 +149,21 @@ export const LoadMapInputs = () => {
     }
 
     try {
-      const myMap = await readVirtualscapeMapFile(file)
-      console.log("🚀 ~ readVSFile ~ myMap:", myMap)
-      const myVirtualscapeMap = buildupVSFileMap(myMap.tiles, myMap.name)
-      console.log("🚀 ~ readVSFile ~ myVirtualscapeMap:", myVirtualscapeMap)
-      loadMap(myVirtualscapeMap)
-    } catch (error) {
+      const vsMap = await readVirtualscapeMapFile(file)
+      const loadedMap = buildupVSFileMap(vsMap.tiles, vsMap.name)
+      loadMap(loadedMap)
+      enqueueSnackbar({
+        message: `Loaded map: ${loadedMap.hexMap.name}`,
+        variant: 'success',
+        autoHideDuration: 3000,
+      })
+      navigate(ROUTES.heroscapeHome)
+    } catch (error: any) {
+      enqueueSnackbar({
+        message: `Error loading virtualscape map: ${error?.message ?? error}`,
+        variant: 'error',
+        action: closeSnackbarIDAction,
+      })
       console.error(error)
     }
     event.target.value = '' // Reset the input value, otherwise choosing same file again will do nothing
