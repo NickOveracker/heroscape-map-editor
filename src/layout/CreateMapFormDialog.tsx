@@ -16,6 +16,8 @@ import { genRandomMapName } from '../utils/genRandomMapName'
 import useBoundStore from '../store/store'
 import { useSnackbar } from 'notistack'
 import { makeHexagonScenario, makeRectangleScenario } from '../utils/map-gen'
+import { useLocation } from 'wouter'
+import { ROUTES } from '../ROUTES'
 
 const hexagonMarks = [
   {
@@ -48,6 +50,7 @@ const rectangleMarks = [
 
 
 export default function CreateMapFormDialog() {
+  const [, navigate] = useLocation();
   const fullScreen = useMediaQuery('(max-width:600px)');
   const loadMap = useBoundStore((state) => state.loadMap)
   const toggleIsNewMapDialogOpen = useBoundStore((state) => state.toggleIsNewMapDialogOpen)
@@ -74,6 +77,7 @@ export default function CreateMapFormDialog() {
       size: mapSize
     })
     loadMap(newMap)
+    navigate(ROUTES.heroscapeHome)
     enqueueSnackbar({
       message: `Created new map: ${newMap.hexMap.name}`,
       autoHideDuration: 5000,
