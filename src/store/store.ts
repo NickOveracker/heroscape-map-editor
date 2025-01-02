@@ -13,7 +13,7 @@ const useBoundStore = create<AppState>()(
       ...createUISlice(...a),
     }),
     {
-      limit: 100,
+      limit: 30,
       // onSave: (state) => console.log('saved', state),
       partialize: (state) => {
         return {
@@ -23,6 +23,7 @@ const useBoundStore = create<AppState>()(
         }
       },
       equality: (pastState, currentState) =>
+
         isEqual(pastState.boardHexes, currentState.boardHexes) &&
         isEqual(pastState.boardPieces, currentState.boardPieces) &&
         isEqual(pastState.hexMap, currentState.hexMap),
