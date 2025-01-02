@@ -146,5 +146,5 @@ export const getBoardPiecesMaxLevel = (boardPieces: BoardPieces) => {
   const maxLevel = 1 + Object.keys(boardPieces)
     .map(bp => decodePieceID(bp).altitude) // get their altitudes
     .sort((a, b) => b - a)[0] // sort them high to low and grab the first
-  return maxLevel
+  return Number.isNaN(maxLevel) ? 0 : maxLevel
 }

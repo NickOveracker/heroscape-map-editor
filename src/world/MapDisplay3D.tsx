@@ -25,6 +25,7 @@ import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { useLocation, useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
 import { ROUTES } from '../ROUTES.ts'
+import { keyBy } from 'lodash'
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -34,7 +35,24 @@ export default function MapDisplay3D({
   mapGroupRef: React.RefObject<Group<Object3DEventMap>>
 }) {
   const boardHexes = useBoundStore((s) => s.boardHexes)
+  const boardPieces = useBoundStore((s) => s.boardPieces)
+  const hexMap = useBoundStore((s) => s.hexMap)
+  const viewingLevel = useBoundStore((s) => s.viewingLevel)
   const boardHexesArr = Object.values(boardHexes)
+  const [visibleBoardHexesArr, setVisibleBoardHexesArr] = React.useState(boardHexesArr)
+
+  React.useEffect(() => {
+    const filteredBoardPieces = Object.keys(boardPieces).reduce((prev: BoardPieces, pid: string) => {
+      if (decodePieceID(pid).altitude < viewingLevel) {
+        return { ...prev, [pid]: decodePieceID(pid).pieceID as Pieces }
+      } else {
+        return prev
+      }
+    }, {} as BoardPieces)
+    const myLevelMap = buildupJsonFileMap(filteredBoardPieces as BoardPieces, hexMap)
+    setVisibleBoardHexesArr(Object.values(myLevelMap.boardHexes))
+  }, [boardPieces, hexMap, viewingLevel])
+
   const penMode = useBoundStore((s) => s.penMode)
   const paintTile = useBoundStore((s) => s.paintTile)
   const loadMap = useBoundStore((s) => s.loadMap)
@@ -127,7 +145,7 @@ export default function MapDisplay3D({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr, isTakingPicture)
+  const instanceBoardHexes = getInstanceBoardHexes(visibleBoardHexesArr, isTakingPicture)
 
   const onPointerUp = async (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
     if (event.button !== 0) {
@@ -212,7 +230,7 @@ export default function MapDisplay3D({
         boardHexArr={instanceBoardHexes.fluidHexCaps}
         onPointerUp={onPointerUp}
       />
-      {boardHexesArr.map((bh) => {
+      {visibleBoardHexesArr.map((bh) => {
         return (
           <MapHex3D
             key={bh.id}
