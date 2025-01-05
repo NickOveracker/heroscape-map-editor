@@ -1,4 +1,4 @@
-import { Button, Tooltip } from '@mui/material'
+import { Button } from '@mui/material'
 import { useHotkeys } from 'react-hotkeys-hook'
 import useTemporalStore from '../hooks/useTemporalStore'
 import ControlButtonGroup from './ControlButtonGroup';
