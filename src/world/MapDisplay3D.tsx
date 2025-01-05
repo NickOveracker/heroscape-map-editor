@@ -99,7 +99,7 @@ export default function MapDisplay3D({
         //   variant: 'info',
         //   autoHideDuration: 6000,
         // })
-        navigate(ROUTES.heroscapeHome, { replace: true })
+        // navigate(ROUTES.heroscapeHome)
         clear() // clear undo history, initial load should not be undoable
       } catch (error: any) {
         enqueueSnackbar({
