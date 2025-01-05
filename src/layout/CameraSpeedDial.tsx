@@ -78,7 +78,18 @@ export default function CameraSpeedDial({
           }
         }
       }
-      icon={isCamerDisabled ? <MdOutlineVideocamOff id={id1} style={{ backgroundColor: 'red', color: 'white' }} /> : <MdOutlineVideocam id={id2} />}
+      icon={isCamerDisabled ?
+        <MdOutlineVideocamOff
+          title="Unlock camera"
+          id={id1}
+          style={{ backgroundColor: 'red', color: 'white' }}
+        />
+        :
+        <MdOutlineVideocam
+          title="Lock camera"
+          id={id2}
+        />
+      }
       transitionDuration={100}
       direction="right"
       open={open}
