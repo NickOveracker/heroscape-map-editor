@@ -15,9 +15,11 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
   const yBase = y + HEXGRID_HEXCAP_HEIGHT / 2
   const treeHeight = boardHex.pieceID.includes(Pieces.palm16)
     ? 16
-    : boardHex.pieceID.includes(Pieces.palm15)
+    : boardHex.pieceID.includes(Pieces.palm15) || boardHex.pieceID.includes(Pieces.laurPalm15)
       ? 15
-      : 14
+      : boardHex.pieceID.includes(Pieces.palm14) || boardHex.pieceID.includes(Pieces.laurPalm14)
+        ? 14
+        : 13 // laurPalm13
   const options = getOptionsForTreeHeight(treeHeight)
   const rotation = boardHex?.pieceRotation ?? 0
   const {
@@ -29,6 +31,8 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
   function getOptionsForTreeHeight(height: number) {
     // We use the same model and just stretch it a little for the taller trees
     switch (height) {
+      case 13:
+        return { scaleX: 0.038, scaleY: 0.035 }
       case 14:
         return { scaleX: 0.038, scaleY: 0.038 }
       case 15:
