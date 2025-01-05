@@ -15,10 +15,10 @@ const darkTheme = createTheme({
   },
   typography: {
     fontFamily: ['-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', 'Helvetica', 'Arial', 'sans-serif', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"].join(','),
-    button: {
-      // fontSize: 16,
-      fontWeight: 600,
-    },
+    // button: {
+    // fontSize: 16,
+    // fontWeight: 600,
+    // },
   },
 })
 const RootPage = () => {
