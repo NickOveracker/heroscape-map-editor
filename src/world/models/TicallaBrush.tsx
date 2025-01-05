@@ -17,7 +17,7 @@ export default function TicallaBrush({ boardHex }: { boardHex: BoardHex }) {
   return (
     <group>
       <group
-        position={[x - 0.1, yTree, z + 0.4]} // I botched this positioning in Blender
+        position={[x + 0.35, yTree, z - 0.2]} // I botched this positioning in Blender
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
       >
         <mesh geometry={nodes.PlankFern1_1.geometry}>
