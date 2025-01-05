@@ -1,7 +1,8 @@
-import { Button } from '@mui/material'
+import { Button, Tooltip } from '@mui/material'
 import { useHotkeys } from 'react-hotkeys-hook'
 import useTemporalStore from '../hooks/useTemporalStore'
 import ControlButtonGroup from './ControlButtonGroup';
+import { FcRedo, FcUndo } from 'react-icons/fc';
 
 
 const UndoRedoButtonGroup = () => {
@@ -16,11 +17,21 @@ const UndoRedoButtonGroup = () => {
   return (
     <ControlButtonGroup>
       {/* <Button onClick={() => useBoundStore.temporal.getState().clear()}>CLEAR</Button> */}
-      <Button variant="contained" onClick={() => undo()}>
-        UNDO (ctrl/cmd + Z) ({pastStates.length} undoable actions)
+      <Button
+        variant="contained"
+        title={`(ctrl/cmd + Z) (${pastStates.length} undoable actions)`}
+        onClick={() => undo()}
+        startIcon={<FcUndo />}
+      >
+        Undo
       </Button>
-      <Button variant="contained" onClick={() => redo()}>
-        REDO (ctrl/cmd + Z) ({futureStates.length} redoable actions)
+      <Button
+        variant="contained"
+        title={`(ctrl/cmd + Z) (${futureStates.length} redoable actions)`}
+        onClick={() => redo()}
+        startIcon={<FcRedo />}
+      >
+        Redo
       </Button>
     </ControlButtonGroup>
   )

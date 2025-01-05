@@ -1,12 +1,11 @@
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import React from 'react';
-import { MdCameraswitch, MdOutlineVideocam, MdOutlineVideocamOff, MdPhotoCamera } from 'react-icons/md';
 import useBoundStore from '../store/store';
-import { RiRestartLine } from 'react-icons/ri';
 import useEvent from '../hooks/useEvent';
 import { EVENTS } from '../utils/constants';
 import { CameraControls } from '@react-three/drei';
+import { FcCamcorderPro, FcNoVideo, FcOldTimeCamera, FcSwitchCamera, FcSynchronize, FcVideoCall } from 'react-icons/fc';
 
 
 export default function CameraSpeedDial({
@@ -27,6 +26,14 @@ export default function CameraSpeedDial({
   const toggleIsCameraDisabled = useBoundStore(
     (s) => s.toggleIsCameraDisabled,
   )
+  // const onClickDisableCamera = (e: any) => {
+  //   const targetId = e?.nativeEvent?.target?.id ?? ''
+  //   const classList = Array.from(e?.nativeEvent?.target?.classList ?? [])
+  //   if (targetId === id1 || targetId === id2 || classList.includes("MuiFab-primary")) {
+  //     toggleIsCameraDisabled(!isCamerDisabled)
+  //   }
+  //   setOpen(false)
+  // }
 
   // this timeout gives the World enough time to re-render without empty hexes etc.
   const takePictureTimeout = React.useRef<number>(null!);
@@ -39,26 +46,18 @@ export default function CameraSpeedDial({
 
   const id1 = 'camera-unlock-icon'
   const id2 = 'camera-lock-icon'
-  const onClickDisableCamera = (e: any) => {
-    const targetId = e?.nativeEvent?.target?.id ?? ''
-    const classList = Array.from(e?.nativeEvent?.target?.classList ?? [])
-    if (targetId === id1 || targetId === id2 || classList.includes("MuiFab-primary")) {
-      toggleIsCameraDisabled(!isCamerDisabled)
-    }
-    setOpen(false)
-  }
   const resetCamera = () => {
     cameraControlsRef?.current?.reset(true)
   }
   const handleToggleOrthoCam = () => {
     toggleIsOrthoCam(!isOrthoCam)
   }
-  const handleTakePicturePng = () => {
-    toggleIsTakingPicture(true)
-    takePictureTimeout.current = setTimeout(() => {
-      publish(EVENTS.savePng)
-    }, 100); // Long enough to make some changes to the map and render
-  }
+  // const handleTakePicturePng = () => {
+  //   toggleIsTakingPicture(true)
+  //   takePictureTimeout.current = setTimeout(() => {
+  //     publish(EVENTS.savePng)
+  //   }, 100); // Long enough to make some changes to the map and render
+  // }
   const handleTakePictureJpg = () => {
     toggleIsTakingPicture(true)
     takePictureTimeout.current = setTimeout(() => {
@@ -78,43 +77,44 @@ export default function CameraSpeedDial({
           }
         }
       }
-      icon={isCamerDisabled ?
-        <MdOutlineVideocamOff
-          title="Unlock camera"
-          id={id1}
-          style={{ backgroundColor: 'red', color: 'white' }}
-        />
-        :
-        <MdOutlineVideocam
-          title="Lock camera"
-          id={id2}
-        />
-      }
+      icon={<FcCamcorderPro />}
       transitionDuration={100}
       direction="right"
       open={open}
-      onClick={e => onClickDisableCamera(e)}
       onClose={handleClose}
       onOpen={handleOpen}
     >
       <SpeedDialAction
-        icon={<RiRestartLine />}
-        tooltipTitle={'Reset'}
+        icon={isCamerDisabled ?
+          <FcVideoCall
+            id={id2}
+          />
+          :
+          <FcNoVideo
+            id={id1}
+          />
+        }
+        tooltipTitle={isCamerDisabled ? "Unlock camera controls" : "Lock camera controls"}
+        onClick={() => toggleIsCameraDisabled(!isCamerDisabled)}
+      />
+      <SpeedDialAction
+        icon={<FcSynchronize />}
+        tooltipTitle={'Reset camera defaults'}
         onClick={resetCamera}
       />
       <SpeedDialAction
-        icon={<MdCameraswitch />}
-        tooltipTitle={isOrthoCam ? 'Perspective' : 'Orthographic'}
+        icon={<FcSwitchCamera />}
+        tooltipTitle={isOrthoCam ? 'Switch to perspective camera' : 'Switch to orthographic camera'}
         onClick={handleToggleOrthoCam}
       />
-      <SpeedDialAction
-        icon={<MdPhotoCamera />}
-        tooltipTitle={'.PNG'}
+      {/* <SpeedDialAction
+        icon={<FcOldTimeCamera />}
+        tooltipTitle={'Take map picture .PNG'}
         onClick={handleTakePicturePng}
-      />
+      /> */}
       <SpeedDialAction
-        icon={<MdPhotoCamera />}
-        tooltipTitle={'.JPG'}
+        icon={<FcOldTimeCamera />}
+        tooltipTitle={'Take map picture .JPG'}
         onClick={handleTakePictureJpg}
       />
     </SpeedDial>
