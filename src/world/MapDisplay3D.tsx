@@ -163,6 +163,10 @@ export default function MapDisplay3D({
       return
     }
 
+    if (penMode === PenMode.select) {
+      console.log("🚀 ~ onPointerUp ~ SELECT hex.pieceID:", hex.pieceID)
+      toggleSelectedPieceID(hex.pieceID)
+    }
     const isLandHex = isSolidTerrainHex(penMode) || isFluidTerrainHex(penMode)
     if (
       penMode.startsWith('castleBase') ||
