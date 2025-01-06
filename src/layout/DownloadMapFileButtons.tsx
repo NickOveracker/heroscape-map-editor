@@ -65,7 +65,7 @@ const DownloadMapFileButtons = () => {
         <ListItemIcon>
           <MdFolderZip />
         </ListItemIcon>
-        <ListItemText primary="Download Map File (.gz)" />
+        <ListItemText primary="Download file (.gz)" />
       </ListItemButton>
 
       <ListItemButton
@@ -75,7 +75,7 @@ const DownloadMapFileButtons = () => {
         <ListItemIcon>
           <MdFolderZip />
         </ListItemIcon>
-        <ListItemText primary="Download Map File (.json)" />
+        <ListItemText primary="Download file (.json)" />
       </ListItemButton>
     </>
   )

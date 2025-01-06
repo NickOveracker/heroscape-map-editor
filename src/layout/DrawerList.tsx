@@ -1,11 +1,12 @@
 import React from 'react'
 import { Box, List, Collapse, ListItemButton, ListItemIcon, ListItemText, Typography, Divider, Link } from '@mui/material'
-import { MdCreateNewFolder, MdEdit, MdExpandLess, MdExpandMore, MdFileDownload, MdOutlineShare, MdUploadFile } from 'react-icons/md'
+import { MdExpandLess, MdExpandMore } from 'react-icons/md'
 import LoadMapButtons from './LoadMapButtons'
 import DownloadMapFileButtons from './DownloadMapFileButtons'
 import useBoundStore from '../store/store'
 import { useSnackbar } from 'notistack'
 import JSONCrush from 'jsoncrush'
+import { FcAddImage, FcDownload, FcLink, FcUpload, FcVlc } from 'react-icons/fc'
 
 export const DrawerList = ({
   toggleIsNavOpen,
@@ -105,14 +106,14 @@ export const DrawerList = ({
           {/* OPEN EDIT MAP DETAILS DIALOG */}
           <ListItemButton onClick={() => toggleIsEditMapDialogOpen(true)}>
             <ListItemIcon>
-              <MdEdit />
+              <FcVlc />
             </ListItemIcon>
             <ListItemText primary={"Edit Map Details"} />
           </ListItemButton>
           {/* COPY URL */}
           <ListItemButton onClick={onClickCopy}>
             <ListItemIcon>
-              <MdOutlineShare />
+              <FcLink />
             </ListItemIcon>
             <ListItemText primary="Copy Shareable URL" />
           </ListItemButton>
@@ -120,7 +121,7 @@ export const DrawerList = ({
           {/* EXPAND DOWNLAD MAP FILE BTNS */}
           <ListItemButton onClick={handleClickDownload}>
             <ListItemIcon>
-              <MdFileDownload />
+              <FcDownload />
             </ListItemIcon>
             <ListItemText primary="Download Map File" />
             {isDownloadOpen ? <MdExpandLess /> : <MdExpandMore />}
@@ -137,7 +138,7 @@ export const DrawerList = ({
                 color: 'inherit',
               }}
             >
-              <MdCreateNewFolder />
+              <FcAddImage />
             </ListItemIcon>
             <ListItemText primary={'Create New Map'} />
           </ListItemButton>
@@ -145,7 +146,7 @@ export const DrawerList = ({
           {/* EXPAND LOAD MAP BTNS */}
           <ListItemButton onClick={handleClick}>
             <ListItemIcon>
-              <MdUploadFile />
+              <FcUpload />
             </ListItemIcon>
             <ListItemText primary="Load Map" />
             {isUploadOpen ? <MdExpandLess /> : <MdExpandMore />}

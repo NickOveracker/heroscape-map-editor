@@ -22,7 +22,6 @@ export default function MyCameraControls({
   }
 
   useHotkeys('home', () => fitToMap(), enabled)
-  useHotkeys('0', () => cameraControlsRef?.current?.reset(true), enabled)
   useHotkeys('up', () => { cameraControlsRef?.current?.truck(0, -1, true) }, enabled)
   useHotkeys('down', () => cameraControlsRef?.current?.truck(0, 1, true), enabled)
   useHotkeys('left', () => cameraControlsRef?.current?.truck(-1, 0, true), enabled)
