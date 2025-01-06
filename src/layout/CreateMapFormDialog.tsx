@@ -51,7 +51,7 @@ const rectangleMarks = [
 
 export default function CreateMapFormDialog() {
   const [, navigate] = useLocation();
-  const fullScreen = useMediaQuery('(max-width:600px)');
+  const fullScreen = useMediaQuery('(max-width:900px)');
   const loadMap = useBoundStore((state) => state.loadMap)
   const toggleIsNewMapDialogOpen = useBoundStore((state) => state.toggleIsNewMapDialogOpen)
   const isNewMapDialogOpen = useBoundStore((state) => state.isNewMapDialogOpen)

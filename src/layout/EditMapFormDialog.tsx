@@ -10,7 +10,7 @@ import useBoundStore from '../store/store'
 import { useSnackbar } from 'notistack'
 
 export default function EditMapFormDialog() {
-  const fullScreen = useMediaQuery('(max-width:600px)');
+  const fullScreen = useMediaQuery('(max-width:900px)');
   const changeMapName = useBoundStore((state) => state.changeMapName)
   const mapName = useBoundStore((state) => state.hexMap.name)
   const toggleIsEditMapDialogOpen = useBoundStore((state) => state.toggleIsEditMapDialogOpen)
