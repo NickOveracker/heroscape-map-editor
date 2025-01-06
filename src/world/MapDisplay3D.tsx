@@ -150,26 +150,29 @@ export default function MapDisplay3D({
   const instanceBoardHexes = getInstanceBoardHexes(visibleBoardHexesArr, isTakingPicture)
 
   const onPointerUp = async (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
+    event.stopPropagation() // prevent pass through
+    // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (event.button !== 0) {
       // THIS IS A RIGHT CLICK
       // TODO: Can paste in copied templates! BUT, user must agree to reading text/images from the clipboard
       // const myClipboard = await navigator.clipboard.readText()
       return
-    } // ignore right clicks(event.button=2), middle mouse clicks(1)
-    event.stopPropagation() // prevent pass through
+    }
     // Early out if camera is active
-    if (cameraControlsRef?.current?.active) return
+    if (cameraControlsRef?.current?.active) {
+      return
+    }
 
-    const isWallWalkPen = penMode.startsWith('wallWalk')
-    const isCastleBasePen = penMode.startsWith('castleBase')
-    const isCastleWallArchPen =
-      penMode.startsWith('castleWall') || penMode.startsWith('castleArch')
+    const isLandHex = isSolidTerrainHex(penMode) || isFluidTerrainHex(penMode)
     if (
-      isWallWalkPen ||
-      isCastleBasePen ||
-      isCastleWallArchPen ||
-      isSolidTerrainHex(penMode) ||
-      isFluidTerrainHex(penMode)
+      penMode.startsWith('castleBase') ||
+      penMode.startsWith('castleWall') ||
+      penMode.startsWith('castleArch') ||
+      penMode.startsWith('wallWalk') ||
+      isLandHex ||
+      isObstaclePieceID(penMode) ||
+      penMode === PenMode.ruins2 ||
+      penMode === PenMode.ruins3
     ) {
       const boardHexOfCapForWall = genBoardHexID({
         ...hex,
@@ -177,28 +180,14 @@ export default function MapDisplay3D({
       })
       const isCastleWallArchClicked =
         hex.pieceID.includes('castleWall') || hex.pieceID.includes('castleArch')
+      // for wall-walk pieces, if we clicked a wall or arch cap, then the clicked hex needs to be computed
       const clickedHex = isCastleWallArchClicked
         ? boardHexes[boardHexOfCapForWall]
         : hex
-      const piece =
-        isWallWalkPen || isCastleBasePen || isCastleWallArchPen
-          ? piecesSoFar[penMode]
-          : getPieceByTerrainAndSize(penMode, pieceSize)
+      const piece = isLandHex ? getPieceByTerrainAndSize(penMode, pieceSize) : piecesSoFar[penMode]
       paintTile({
         piece,
         clickedHex: clickedHex,
-        rotation: pieceRotation,
-      })
-    }
-
-    if (
-      isObstaclePieceID(penMode) ||
-      penMode === PenMode.ruins2 ||
-      penMode === PenMode.ruins3
-    ) {
-      paintTile({
-        piece: piecesSoFar[penMode],
-        clickedHex: hex,
         rotation: pieceRotation,
       })
     }
