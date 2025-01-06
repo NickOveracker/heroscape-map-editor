@@ -79,7 +79,7 @@ function SolidCap({
   // update color when piece is hovered
   React.useEffect(() => {
     if (hoveredPieceID === boardHex.pieceID) {
-      ref.current.color.set('yellow')
+      // ref.current.color.set('yellow')
     } else {
       ref.current.color.set(color)
     }
@@ -91,10 +91,10 @@ function SolidCap({
     ref.current.color.set('yellow')
   }
   const handleOut = (e: ThreeEvent<PointerEvent>) => {
-    if (hoveredPieceID !== boardHex.pieceID) {
-      ref.current.color.set(color)
-      onPointerOut(e, boardHex)
-    }
+    // if (hoveredPieceID !== boardHex.pieceID) {
+    ref.current.color.set(color)
+    onPointerOut(e, boardHex)
+    // }
   }
   const handleUp = (e: ThreeEvent<PointerEvent>) => {
     onPointerUp(e, boardHex)

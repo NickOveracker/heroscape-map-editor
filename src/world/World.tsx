@@ -38,6 +38,9 @@ const World = ({
             toggleHoveredPieceID('')
             toggleSelectedPieceID('')
           }}
+          onPointerLeave={() => {
+            toggleHoveredPieceID('')
+          }}
         >
           {/* <color attach="background" args={["white"]} /> */}
           <PerspectiveCamera
@@ -45,7 +48,7 @@ const World = ({
             // fov={CAMERA_FOV}
             makeDefault={!isOrthoCam}
           />
-          <OrthographicCamera position={[0, 100, 100]} zoom={50} makeDefault={isOrthoCam} />
+          <OrthographicCamera position={[100, 1000, 100]} zoom={30} makeDefault={isOrthoCam} />
           <Stars
             radius={100}
             depth={50}
