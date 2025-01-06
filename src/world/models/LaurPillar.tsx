@@ -1,11 +1,11 @@
-import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { DoubleSide } from 'three'
-import { useGLTF } from '@react-three/drei'
+import { DragControls, useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
-import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
+import { HEXGRID_HEX_APOTHEM, HEXGRID_HEXCAP_FLUID_HEIGHT } from '../../utils/constants'
+import { CylinderGeometryArgs } from '../maphex/instance-hex'
 
 
 
@@ -77,6 +77,17 @@ import { hexTerrainColor } from '../maphex/hexColors'
 //   // console.log("🚀 ~ sideCanBuildRuins:", sideCanBuildRuins)
 // }
 
+const baseCylinderArgs: CylinderGeometryArgs = [
+  0.9,
+  0.997,
+  HEXGRID_HEXCAP_FLUID_HEIGHT,
+  6,
+  undefined,
+  false,
+  undefined,
+  undefined,
+]
+
 export default function LaurWallPillar({
   boardHex,
   // onPointerUpLaurWall,
@@ -93,6 +104,7 @@ export default function LaurWallPillar({
   // const boardPieces = useBoundStore(s => s.boardPieces)
   const { nodes } = useGLTF('/laurwall-pillar.glb') as any
   const rotation = boardHex?.pieceRotation ?? 0
+
   // const {
   //   isHovered,
   //   onPointerEnter,
@@ -120,7 +132,29 @@ export default function LaurWallPillar({
   // ].map(xyz => [xyz[0] - 0.1, xyz[1], xyz[2] - 0.2])
 
   return (
-    <>
+    <DragControls
+      axisLock='y'
+      dragLimits={[[-HEXGRID_HEX_APOTHEM * 2, HEXGRID_HEX_APOTHEM * 2], [0, 0], [0, 0]]}
+      onDragStart={(origin) => {
+        console.log("🚀 ~ origin:", origin)
+      }}
+      onDrag={(
+        localMatrix,
+        deltaLocalMatrix,
+        worldMatrix,
+        deltaWorldMatrix
+      ) => {
+        console.dir({
+          localMatrix,
+          deltaLocalMatrix,
+          worldMatrix,
+          deltaWorldMatrix
+        })
+      }}
+      onDragEnd={() => {
+        console.log("🚀 ~ drag ended")
+      }}
+    >
       <group
         position={[x, yWithBase, z]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
@@ -135,7 +169,9 @@ export default function LaurWallPillar({
           geometry={nodes.PillarTop.geometry}
         // onPointerUp={e => onPointerUp(e, boardHex)}
         >
-          <meshMatcapMaterial color={pillarColor} />
+          <meshMatcapMaterial
+            color={pillarColor}
+          />
         </mesh>
         <mesh
           geometry={nodes.SubDecorCore.geometry}
@@ -163,9 +199,14 @@ export default function LaurWallPillar({
             color={interiorPillarColor}
           />
         </mesh>
+        <mesh position={[0, -(yWithBase - yBaseCap), 0]}>
+          <cylinderGeometry args={baseCylinderArgs} />
+          <meshMatcapMaterial
+            color={pillarColor}
+          />
+        </mesh>
       </group>
-      <ObstacleBase x={x} y={yBaseCap} z={z} color={pillarColor} />
-    </>
+    </DragControls>
   )
 }
 
