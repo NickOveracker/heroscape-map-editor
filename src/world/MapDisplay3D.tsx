@@ -22,9 +22,8 @@ import SolidCaps from './maphex/instance/SolidCaps.tsx'
 import { decodePieceID, genBoardHexID } from '../utils/map-utils.ts'
 import { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
-import { useLocation, useSearch } from 'wouter'
+import { useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
-import { ROUTES } from '../ROUTES.ts'
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -60,7 +59,6 @@ export default function MapDisplay3D({
   const toggleSelectedPieceID = useBoundStore((s) => s.toggleSelectedPieceID)
   const { clear } = useBoundStore.temporal.getState()
   const isTakingPicture = useBoundStore(s => s.isTakingPicture)
-  const [, navigate] = useLocation();
   useZoomCameraToMapCenter({
     cameraControlsRef,
     boardHexes,
