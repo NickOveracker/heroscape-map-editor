@@ -97,14 +97,14 @@ function SubTerrain({
   const handleOut = (e: ThreeEvent<PointerEvent>) => {
     if (hoveredPieceID !== boardHex.pieceID) {
       ref.current.color.set(subTerrainColor)
-      onPointerOut(e, boardHex)
+      onPointerOut(e)
     }
   }
 
   return (
     <Instance
       ref={ref}
-      // onPointerDown={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
+      onPointerDown={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
       // onPointerEnter={(e: ThreeEvent<PointerEvent>) => e.stopPropagation()} // prevent clicks from affecting behind subterrains
       onPointerEnter={handleEnter}
       onPointerOut={handleOut}

@@ -93,7 +93,7 @@ function FluidCap({
   const handleOut = (e: ThreeEvent<PointerEvent>) => {
     if (hoveredPieceID !== boardHex.pieceID) {
       ref.current.color.set(color)
-      onPointerOut(e, boardHex)
+      onPointerOut(e)
     }
   }
   const handleUp = (e: ThreeEvent<PointerEvent>) => {
