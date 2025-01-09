@@ -17,7 +17,7 @@ export const MapHexIDDisplay = ({
   position: Vector3
   boardHex: BoardHex
 }) => {
-  return null
+  // return null
   /* 
   DEV VISUAL: toggling the below filters off, such that EVERY boardHex shows a billboardID, really helps to see how the 
   grid works (you can see vertical-clearance hexes, empty hexes)
@@ -30,7 +30,11 @@ export const MapHexIDDisplay = ({
       <Text fontSize={0.2} color={new Color('white')}>
         {/* {`${boardHex.terrain}:${boardHex.id}`} */}
         {/* {`${boardHex.id}`} */}
-        {`${boardHex.q}:${boardHex.r}:${boardHex.s}`}
+        {/* {`${boardHex.q}:${boardHex.r}:${boardHex.s}`} */}
+        {`BottomMaxY: ${boardHex.r - boardHex.s - boardHex.q}`}
+        {/* {`TopMinY: ${boardHex.q + boardHex.s - boardHex.r}`} */}
+        {/* {`RightMaxX: ${boardHex.q - boardHex.s}`} */}
+        {/* {`LeftMinX: ${boardHex.s - boardHex.q}`} */}
       </Text>
     </Billboard>
   )
