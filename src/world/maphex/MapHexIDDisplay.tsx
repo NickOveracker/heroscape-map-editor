@@ -31,10 +31,10 @@ export const MapHexIDDisplay = ({
         {/* {`${boardHex.terrain}:${boardHex.id}`} */}
         {/* {`${boardHex.id}`} */}
         {/* {`${boardHex.q}:${boardHex.r}:${boardHex.s}`} */}
+        {/* {`LeftMinX: ${boardHex.s - boardHex.q}`} */}
+        {/* {`RightMaxX: ${boardHex.q - boardHex.s}`} */}
         {`BottomMaxY: ${boardHex.r - boardHex.s - boardHex.q}`}
         {/* {`TopMinY: ${boardHex.q + boardHex.s - boardHex.r}`} */}
-        {/* {`RightMaxX: ${boardHex.q - boardHex.s}`} */}
-        {/* {`LeftMinX: ${boardHex.s - boardHex.q}`} */}
       </Text>
     </Billboard>
   )
