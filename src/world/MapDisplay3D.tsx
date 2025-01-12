@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack'
 import { MapHex3D } from './maphex/MapHex3D.tsx'
 import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
-import { BoardHex, BoardPieces, HexTerrain, PenMode, Pieces } from '../types.ts'
+import { BoardHex, BoardPieces, HexTerrain, PiecePrefixes, Pieces } from '../types.ts'
 import {
   isFluidTerrainHex,
   isJungleTerrainHex,
@@ -163,32 +163,34 @@ export default function MapDisplay3D({
       return
     }
 
-    if (penMode === PenMode.select) {
+    if (penMode === 'select') {
       console.log("🚀 ~ onPointerUp ~ SELECT hex.pieceID:", hex.pieceID)
       toggleSelectedPieceID(hex.pieceID)
     }
-    const isLandHex = isSolidTerrainHex(penMode) || isFluidTerrainHex(penMode)
+    const pieceMode = pieceSize === 0 ? penMode : `${penMode}${pieceSize}`
+    const piece = piecesSoFar[pieceMode]
+    const isLandHex = isSolidTerrainHex(piece.terrain) || isFluidTerrainHex(piece.terrain)
     if (
-      penMode.startsWith('castleBase') ||
-      penMode.startsWith('castleWall') ||
-      penMode.startsWith('castleArch') ||
-      penMode.startsWith('wallWalk') ||
+      penMode.startsWith(PiecePrefixes.castleBase) ||
+      penMode.startsWith(PiecePrefixes.castleWall) ||
+      penMode.startsWith(PiecePrefixes.castleArch) ||
+      penMode.startsWith(PiecePrefixes.wallWalk) ||
       isLandHex ||
       isObstaclePieceID(penMode) ||
-      penMode === PenMode.ruins2 ||
-      penMode === PenMode.ruins3
+      penMode === Pieces.ruins2 ||
+      penMode === Pieces.ruins3
     ) {
       const boardHexOfCapForWall = genBoardHexID({
         ...hex,
         altitude: hex.altitude + (hex?.obstacleHeight ?? 0),
       })
       const isCastleWallArchClicked =
-        hex.pieceID.includes('castleWall') || hex.pieceID.includes('castleArch')
+        hex.pieceID.includes(PiecePrefixes.castleWall) || hex.pieceID.includes(PiecePrefixes.castleArch)
       // for wall-walk pieces, if we clicked a wall or arch cap, then the clicked hex needs to be computed
       const clickedHex = isCastleWallArchClicked
         ? boardHexes[boardHexOfCapForWall]
         : hex
-      const piece = isLandHex ? getPieceByTerrainAndSize(penMode, pieceSize) : piecesSoFar[penMode]
+      // const piece = isLandHex ? getPieceByTerrainAndSize(penMode, pieceSize) : piecesSoFar[penMode]
       paintTile({
         piece,
         clickedHex: clickedHex,

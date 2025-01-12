@@ -9,7 +9,6 @@ import {
   ORIGIN_000,
 } from './constants'
 import { CubeCoordinate } from '../types'
-import { Dictionary } from 'lodash'
 
 export const hexUtilsEquals = (
   a: CubeCoordinate,
@@ -38,6 +37,12 @@ export const cubeToPixel = (hex: CubeCoordinate) => {
 export function hexUtilsOddRToCube(x: number, y: number) {
   const q = x - (y - (y % 2)) / 2
   return { q, r: y, s: -q - y } // NOTE: Here I discovered JavaScript's negative zero: (-0 - 0)=>(-0) But at least: (-0).toString() => "0"
+}
+export function hexUtilsCubeToOddR(hex: CubeCoordinate) {
+  // https://www.redblobgames.com/grids/hexagons/#conversions-offset
+  const col = hex.q + (hex.r - (hex.r & 1)) / 2
+  const row = hex.r
+  return { x: col, y: row }
 }
 function hexUtilsRotateVector(
   v: CubeCoordinate,
@@ -115,7 +120,7 @@ export function hexUtilsGenRectangleGrid(
   }
   return hexas
 }
-const directions: { [rotation: number]: CubeCoordinate } = {
+export const HEX_DIRECTIONS: { [rotation: number]: CubeCoordinate } = {
   0: CUBE_EAST,
   1: CUBE_SE,
   2: CUBE_SW,
@@ -159,8 +164,8 @@ export const hexUtilsGetRadialNearNeighborsForRotation = (
   rotation: number,
 ): [CubeCoordinate, CubeCoordinate] => {
   return [
-    directions[(rotation - 0.5) % 6],
-    directions[(rotation + 0.5) % 6],
+    HEX_DIRECTIONS[(rotation - 0.5) % 6],
+    HEX_DIRECTIONS[(rotation + 0.5) % 6],
   ]
 }
 export const hexUtilsGetRadialFarNeighborForRotation = (
@@ -173,5 +178,5 @@ export const hexUtilsGetNeighborForRotation = (
   rotation: number,
 ): CubeCoordinate => {
   const rot = rotation % 6
-  return directions[rot]
+  return HEX_DIRECTIONS[rot]
 }

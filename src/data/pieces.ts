@@ -290,14 +290,14 @@ export const piecesSoFar: Dictionary<Piece> = {
     id: Pieces.wallWalk7,
     terrain: HexTerrain.wallWalk,
     size: 7,
-    template: 'wallWalk7',
+    template: Pieces.wallWalk7,
     height: 1,
   },
   [Pieces.wallWalk9]: {
     id: Pieces.wallWalk9,
     terrain: HexTerrain.wallWalk,
     size: 9,
-    template: 'wallWalk9',
+    template: Pieces.wallWalk9,
     height: 1,
   },
   /* FLUID FLUID FLUID */

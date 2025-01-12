@@ -160,7 +160,6 @@ export const DrawerList = ({
 
 
         <div
-        // style={{ overflow: 'clip' }}
         >
           <Divider />
           <Typography variant={"subtitle1"} paddingX={2} paddingY={1}>
@@ -185,16 +184,34 @@ export const DrawerList = ({
               Contact
             </Link>
             <Link
-              href={"https://www.paypal.com/donate/?business=FY675ZX49UCQN&no_recurring=1&item_name=For+my+more+affluent+users%2C+a+%241-10+thank-you+means+a+lot+to+me%2C+and+will+help+buy+time+to+improve+the+app.+Thanks+y%27all%21&currency_code=USD"}
-              underline="hover"
+              title="Donate"
+              href={"https://www.paypal.com/donate/?business=FY675ZX49UCQN&amount=1&no_recurring=1&item_name=For+my+more+affluent+users%2C+a+%241+thank+you+means+a+lot+and+supports+the+project+%3A%29&currency_code=USD"}
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
+              underline="hover"
               sx={{
                 fontSize: '1rem',
               }}
             >
               Donate
             </Link>
+            {/* <form action="https://www.paypal.com/donate" method="post" target="_top">
+              <input type="hidden" name="business" value="FY675ZX49UCQN" />
+              <input type="hidden" name="amount" value="1" />
+              <input type="hidden" name="no_recurring" value="1" />
+              <input type="hidden" name="item_name" value="So you REALLY like hexagons, huh?" />
+              <input type="hidden" name="currency_code" value="USD" />
+              <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" style={{
+                  border: 0,
+                }}
+                 name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+              <img
+                alt=""
+                style={{
+                  border: 0,
+                }}
+                src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+            </form> */}
           </div>
         </div>
       </div>

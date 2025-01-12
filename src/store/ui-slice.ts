@@ -1,21 +1,26 @@
 import { StateCreator } from 'zustand'
-import { HexTerrain, PenMode } from '../types'
+import { PiecePrefixes } from '../types'
 import { AppState } from './store'
 import { produce } from 'immer'
 import { Dictionary } from 'lodash'
 
 export interface UISlice {
-  selectedPieceID: string
-  toggleSelectedPieceID: (id: string) => void
-  hoveredPieceID: string
-  toggleHoveredPieceID: (id: string) => void
-  penMode: PenMode
-  togglePenMode: (mode: PenMode) => void
+  penMode: string
+  togglePenMode: (mode: string) => void
   pieceRotation: number
   togglePieceRotation: (s: number) => void
   pieceSize: number
   togglePieceSize: (s: number) => void
   flatPieceSizes: number[]
+  isNewMapDialogOpen: boolean
+  toggleIsNewMapDialogOpen: (b: boolean) => void
+  isEditMapDialogOpen: boolean
+  toggleIsEditMapDialogOpen: (b: boolean) => void
+  // WORLD STATE
+  selectedPieceID: string
+  toggleSelectedPieceID: (id: string) => void
+  hoveredPieceID: string
+  toggleHoveredPieceID: (id: string) => void
   isShowStartZones: boolean
   toggleIsShowStartZones: (s: boolean) => void
   isTakingPicture: boolean
@@ -24,15 +29,11 @@ export interface UISlice {
   toggleIsCameraDisabled: (b: boolean) => void
   isOrthoCam: boolean
   toggleIsOrthoCam: (b: boolean) => void
-  isNewMapDialogOpen: boolean
-  toggleIsNewMapDialogOpen: (b: boolean) => void
-  isEditMapDialogOpen: boolean
-  toggleIsEditMapDialogOpen: (b: boolean) => void
   viewingLevel: number
   toggleViewingLevel: (level: number) => void
 }
 
-const initialPenMode = PenMode.select
+const initialPenMode = 'select'
 
 const createUISlice: StateCreator<
   // https://immerjs.github.io/immer/#with-immer
@@ -56,7 +57,7 @@ const createUISlice: StateCreator<
       }),
     ),
   penMode: initialPenMode,
-  togglePenMode: (mode: PenMode) =>
+  togglePenMode: (mode: string) =>
     set(
       produce((state) => {
         // when we switch terrains, we have different size options available and must update smartly
@@ -138,23 +139,23 @@ const createUISlice: StateCreator<
 const landSizes: Dictionary<number[]> = {
   // This should be derived, it is duplicate data
   // solid terrain below
-  [HexTerrain.grass]: [1, 2, 3, 7, 24],
-  [HexTerrain.rock]: [1, 2, 3, 7, 24],
-  [HexTerrain.sand]: [1, 2, 3, 7, 24],
-  [HexTerrain.swamp]: [1, 2, 3, 7, 24],
-  [HexTerrain.dungeon]: [1, 2, 3, 7, 24],
-  [HexTerrain.lavaField]: [1, 2, 7],
-  [HexTerrain.concrete]: [1, 2, 7],
-  [HexTerrain.asphalt]: [1, 2, 7],
-  [HexTerrain.road]: [1, 2, 5],
-  [HexTerrain.snow]: [1, 2],
+  [PiecePrefixes.grass]: [1, 2, 3, 7, 24],
+  [PiecePrefixes.rock]: [1, 2, 3, 7, 24],
+  [PiecePrefixes.sand]: [1, 2, 3, 7, 24],
+  [PiecePrefixes.swamp]: [1, 2, 3, 7, 24],
+  [PiecePrefixes.dungeon]: [1, 2, 3, 7, 24],
+  [PiecePrefixes.lavaField]: [1, 2, 7],
+  [PiecePrefixes.concrete]: [1, 2, 7],
+  [PiecePrefixes.asphalt]: [1, 2, 7],
+  [PiecePrefixes.road]: [1, 2, 5],
+  [PiecePrefixes.snow]: [1, 2],
   // fluid terrain below
-  [HexTerrain.water]: [1, 3],
-  [HexTerrain.wellspringWater]: [1],
-  [HexTerrain.swampWater]: [1],
-  [HexTerrain.lava]: [1],
-  [HexTerrain.ice]: [1, 3, 4, 6],
-  [HexTerrain.shadow]: [1, 3],
+  [PiecePrefixes.water]: [1, 3],
+  [PiecePrefixes.wellspringWater]: [1],
+  [PiecePrefixes.swampWater]: [1],
+  [PiecePrefixes.lava]: [1],
+  [PiecePrefixes.ice]: [1, 3, 4, 6],
+  [PiecePrefixes.shadow]: [1, 3],
 }
 const getNewPieceSizeForPenMode = (
   newMode: string,
@@ -168,7 +169,7 @@ const getNewPieceSizeForPenMode = (
     ? landSizes[newMode]
     : []
   if (!(newPieceSizes.length > 0)) {
-    return { newSize: 1, newSizes: [] }
+    return { newSize: 0, newSizes: [] }
   }
   if (newPieceSizes.includes(oldPieceSize)) {
     return { newSize: oldPieceSize, newSizes: newPieceSizes }

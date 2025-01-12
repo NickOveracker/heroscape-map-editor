@@ -29,7 +29,7 @@ export function CastleArch({
   const boardHexes = useBoundStore((s) => s.boardHexes)
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
-  const isDoor = !boardHex.pieceID.includes('NoDoor') // hacky but fast
+  const isDoor = !boardHex.pieceID.endsWith('b') // hacky but fast, marvel ruin and castle arch no door end with "b"
   const isCastleUnder = underHexTerrain === HexTerrain.castle
   const {
     colorNear,

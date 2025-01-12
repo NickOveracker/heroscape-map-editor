@@ -141,8 +141,8 @@ function getBlankHexoscapeMapForVSTiles(
   // cushions have to be an even number because of the coordinate system used in virtualscape
   const cushionToPadY = 8 // 24-hexer's max Y displacement in vscape
   const cushionToPadX = 6 // 24-hexer's max X displacement in vscape
-  const xMin = Math.min(...tiles.map((t) => t.posX - cushionToPadX))
-  const yMin = Math.min(...tiles.map((t) => t.posY - cushionToPadY))
+  const xMin = Math.min(...tiles.map((t) => t.posX - cushionToPadX) ?? 0)
+  const yMin = Math.min(...tiles.map((t) => t.posY - cushionToPadY) ?? 0)
   // remove as many empty hexes as possible from the empty grid we are going to generate
   const xIncrementsWorthEmpty = Math.floor(xMin / 2)
   const yIncrementsWorthEmpty = Math.floor(yMin / 2)
@@ -158,8 +158,8 @@ function getBlankHexoscapeMapForVSTiles(
     })
   }
   // these are the dimensions of the empty map to generate
-  const mapLength = Math.max(...tiles.map((t) => t.posX + cushionToPadX))
-  const mapWidth = Math.max(...tiles.map((t) => t.posY + cushionToPadY))
+  const mapLength = Math.max(...tiles.map((t) => t.posX + cushionToPadX) ?? 0)
+  const mapWidth = Math.max(...tiles.map((t) => t.posY + cushionToPadY) ?? 0)
 
   return makeRectangleScenario({
     mapLength,

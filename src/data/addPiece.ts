@@ -6,6 +6,7 @@ import {
   HexTerrain,
   Pieces,
   BoardPieces,
+  PiecePrefixes,
 } from '../types'
 import {
   isFluidTerrainHex,
@@ -66,7 +67,7 @@ export function addPiece({
   )
   const isSolidTile = isSolidTerrainHex(piece.terrain)
   const isFluidTile = isFluidTerrainHex(piece.terrain)
-  const isCastleWallPiece = piece.id.includes('castleWall')
+  const isCastleWallPiece = piece.id.includes(PiecePrefixes.castleWall)
   const isCastleArchPiece =
     piece.id === Pieces.castleArch || piece.id === Pieces.castleArchNoDoor
   // Validate
@@ -107,7 +108,15 @@ export function addPiece({
   )
   const isPlacingWallWalkOnWall =
     piece.terrain === HexTerrain.wallWalk && isSpaceFree && isCastleWallUnder
-
+  const isPlacingLandTile =
+    (isFluidTerrainHex(piece.terrain) || isSolidTerrainHex(piece.terrain)) &&
+    !isPlacingWallWalkOnWall
+  const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
+  const isPlacingObstacle =
+    isObstaclePieceID(piece.id) &&
+    isSpaceFree &&
+    isVerticalClearanceForPiece &&
+    isObstaclePieceSupported
   // LAUR WALL
   // if (piece.terrain === HexTerrain.laurWall &&
   //   piece.id !== Pieces.laurWallPillar) {
@@ -140,7 +149,7 @@ export function addPiece({
   // }
 
   // CASTLE BASE
-  if (piece.id.includes('castleBase')) {
+  if (piece.id.includes(PiecePrefixes.castleBase)) {
     const isCastleBaseSupported = isPlacingOnTable || isSolidUnderAtLeastOne // castle bases are all 1-hex, currently
     const isPlacingCastleBase = isSpaceFree && isCastleBaseSupported
     if (isPlacingCastleBase) {
@@ -171,9 +180,9 @@ export function addPiece({
   if (isCastleWallPiece || isCastleArchPiece) {
     const isCastleUnderAll = underHexIds.every(
       (id) =>
-        newBoardHexes?.[id]?.pieceID.includes('castleBase') ||
-        newBoardHexes?.[id]?.pieceID.includes('castleWall') ||
-        newBoardHexes?.[id]?.pieceID.includes('castleArch'),
+        newBoardHexes?.[id]?.pieceID.includes(PiecePrefixes.castleBase) ||
+        newBoardHexes?.[id]?.pieceID.includes(PiecePrefixes.castleWall) ||
+        newBoardHexes?.[id]?.pieceID.includes(PiecePrefixes.castleArch),
     )
     const isCastleWallSupported =
       isSolidUnderAll || isEmptyUnderAll || isCastleUnderAll
@@ -192,7 +201,7 @@ export function addPiece({
       newHexIds.forEach((newHexID, i) => {
         const hexUnderneath = newBoardHexes?.[underHexIds[i]]
         const isHexUnderneathCastleBase =
-          hexUnderneath?.pieceID.includes('castleBase')
+          hexUnderneath?.pieceID.includes(PiecePrefixes.castleBase)
         const wallAltitude = isHexUnderneathCastleBase
           ? placementAltitude
           : newPieceAltitude
@@ -261,7 +270,6 @@ export function addPiece({
       newBoardPieces[pieceID] = piece.id
     }
   }
-
   // Castle Wallwalk
   if (isPlacingWallWalkOnWall) {
     newHexIds.forEach((newHexID, iForEach) => {
@@ -282,11 +290,6 @@ export function addPiece({
     // write the new piece
     newBoardPieces[pieceID] = piece.id
   }
-
-  const isPlacingLandTile =
-    (isFluidTerrainHex(piece.terrain) || isSolidTerrainHex(piece.terrain)) &&
-    !isPlacingWallWalkOnWall
-
   // LAND
   if (isPlacingLandTile) {
     // castle-wallwalk placed here as normal land
@@ -322,14 +325,6 @@ export function addPiece({
       newBoardPieces[pieceID] = piece.id
     }
   }
-
-  const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
-  const isPlacingObstacle =
-    isObstaclePieceID(piece.id) &&
-    isSpaceFree &&
-    isVerticalClearanceForPiece &&
-    isObstaclePieceSupported
-
   // OBSTACLES: (+laurPillar)
   if (isPlacingObstacle) {
     newHexIds.forEach((newHexID, i) => {
