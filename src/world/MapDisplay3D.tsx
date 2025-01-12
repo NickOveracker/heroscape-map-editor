@@ -11,10 +11,9 @@ import { BoardHex, BoardPieces, HexTerrain, PiecePrefixes, Pieces } from '../typ
 import {
   isFluidTerrainHex,
   isJungleTerrainHex,
-  isObstaclePieceID,
   isSolidTerrainHex,
 } from '../utils/board-utils.ts'
-import { getPieceByTerrainAndSize, piecesSoFar } from '../data/pieces.ts'
+import { piecesSoFar } from '../data/pieces.ts'
 import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
@@ -166,20 +165,9 @@ export default function MapDisplay3D({
     if (penMode === 'select') {
       console.log("🚀 ~ onPointerUp ~ SELECT hex.pieceID:", hex.pieceID)
       toggleSelectedPieceID(hex.pieceID)
-    }
-    const pieceMode = pieceSize === 0 ? penMode : `${penMode}${pieceSize}`
-    const piece = piecesSoFar[pieceMode]
-    const isLandHex = isSolidTerrainHex(piece.terrain) || isFluidTerrainHex(piece.terrain)
-    if (
-      penMode.startsWith(PiecePrefixes.castleBase) ||
-      penMode.startsWith(PiecePrefixes.castleWall) ||
-      penMode.startsWith(PiecePrefixes.castleArch) ||
-      penMode.startsWith(PiecePrefixes.wallWalk) ||
-      isLandHex ||
-      isObstaclePieceID(penMode) ||
-      penMode === Pieces.ruins2 ||
-      penMode === Pieces.ruins3
-    ) {
+    } else {
+      const pieceMode = pieceSize === 0 ? penMode : `${penMode}${pieceSize}`
+      const piece = piecesSoFar[pieceMode]
       const boardHexOfCapForWall = genBoardHexID({
         ...hex,
         altitude: hex.altitude + (hex?.obstacleHeight ?? 0),

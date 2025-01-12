@@ -8,15 +8,19 @@ import useBoundStore from '../store/store'
 import { BoardPieces, HexTerrain } from '../types'
 import { HEX_DIRECTIONS, hexUtilsAdd } from '../utils/hex-utils'
 import { decodePieceID, genBoardHexID, genPieceID } from '../utils/map-utils'
+import { keyBy } from 'lodash'
 
 const Controls = () => {
   const boardHexes = useBoundStore((s) => s.boardHexes)
   const boardPieces = useBoundStore((s) => s.boardPieces)
   const hexMap = useBoundStore((s) => s.hexMap)
-  const logState = () => {
+  const loadMap = useBoundStore((s) => s.loadMap)
+
+  const handleClickLogState = () => {
     console.log("🚀 ~ Controls ~ boardPieces:", boardPieces)
   }
-  const handleClickAddLeftRow = () => {
+
+  const handleClickAddLeftCol = () => {
     const boardHexArr = Object.values(boardHexes)
 
     const maxX = Math.max(...boardHexArr.map(bh => bh.q - bh.s))
@@ -32,10 +36,17 @@ const Controls = () => {
     const topRow = boardHexArr.filter(bh => bh.q + bh.s - bh.r === 0)
     const isTopRowEmpty = topRow.every(bh => bh.terrain === HexTerrain.empty)
 
-    const newBoardHexes = boardHexArr.map(bh => {
+    const newBoardHexes = keyBy(boardHexArr.map(bh => {
       const newCoords = hexUtilsAdd(bh, HEX_DIRECTIONS[0])
       const newID = genBoardHexID({ ...newCoords, altitude: bh.altitude })
-    })
+      const newPieceID = genPieceID(newID, bh.pieceID, bh.pieceRotation)
+      return {
+        ...bh,
+        id: newID,
+        pieceID: newPieceID,
+      }
+    }), 'id')
+    console.log("🚀 ~ handleClickAddLeftCol ~ newBoardHexes:", newBoardHexes)
     const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
       const {
         pieceID,
@@ -52,13 +63,22 @@ const Controls = () => {
         [newPieceID]: pieceID
       }
     }, {})
+    const newHexMap = {
+      ...hexMap,
+
+    }
+    loadMap({
+      hexMap: newHexMap,
+      boardPieces: newBoardPieces,
+      boardHexes: newBoardHexes,
+    })
     console.log("🚀 ~ newBoardPieces ~ newBoardPieces:", newBoardPieces)
   }
 
   return (
     <Container sx={{ padding: 1 }}>
-      <Button onClick={handleClickAddLeftRow}>Add left column</Button>
-      <Button onClick={logState}>Log boardpieces</Button>
+      <Button onClick={handleClickAddLeftCol}>Add left column</Button>
+      <Button onClick={handleClickLogState}>Log boardpieces</Button>
       <UndoRedoButtonGroup />
       <PenTerrainSelect />
       <PieceSizeSelect />
