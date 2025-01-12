@@ -30,10 +30,10 @@ export const MapHexIDDisplay = ({
       <Text fontSize={0.2} color={new Color('white')}>
         {/* {`${boardHex.terrain}:${boardHex.id}`} */}
         {/* {`${boardHex.id}`} */}
-        {/* {`${boardHex.q}:${boardHex.r}:${boardHex.s}`} */}
+        {`${boardHex.q}:${boardHex.r}:${boardHex.s}`}
         {/* {`LeftMinX: ${boardHex.s - boardHex.q}`} */}
         {/* {`RightMaxX: ${boardHex.q - boardHex.s}`} */}
-        {`BottomMaxY: ${boardHex.r - boardHex.s - boardHex.q}`}
+        {/* {`BottomMaxY: ${boardHex.r - boardHex.s - boardHex.q}`} */}
         {/* {`TopMinY: ${boardHex.q + boardHex.s - boardHex.r}`} */}
       </Text>
     </Billboard>

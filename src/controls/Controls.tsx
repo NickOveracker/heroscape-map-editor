@@ -65,6 +65,7 @@ const Controls = () => {
     }, {})
     const newHexMap = {
       ...hexMap,
+      height: hexMap.height + 1
 
     }
     loadMap({
