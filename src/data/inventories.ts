@@ -22,7 +22,7 @@ const aoaMaster1 = {
   [Pieces.laurWallLong]: 1,
 }
 const battleBox1Wellspring = {
-  // AND TODO 2 LAUR TREES 14H
+  [Pieces.laurPalm14]: 2,
   [Pieces.grass1]: 4,
   [Pieces.grass3]: 3,
   [Pieces.grass7]: 3,
@@ -78,10 +78,10 @@ const watersOfValhalla = {
   [Pieces.wellspringWater1]: 6,
 }
 const laurJungle = {
-  // [Pieces.laurTree13]: 1,
-  // [Pieces.laurTree14]: 1,
-  // [Pieces.laurTree15]: 1,
-  // [Pieces.laurBrush10]: 6,
+  [Pieces.laurPalm13]: 1,
+  [Pieces.laurPalm14]: 1,
+  [Pieces.laurPalm15]: 1,
+  [Pieces.laurBrush10]: 6,
 }
 const ticallaJungle = {
   [Pieces.palm14]: 1,
