@@ -5,10 +5,10 @@ import RotationSelect from './RotationSelect'
 import UndoRedoButtonGroup from './UndoRedoButtonGroup'
 import ViewingLevelInput from './ViewingLevelInput'
 import useBoundStore from '../store/store'
-import { BoardPieces, HexTerrain } from '../types'
+import { HexTerrain } from '../types'
 import { HEX_DIRECTIONS, hexUtilsAdd } from '../utils/hex-utils'
 import { decodePieceID, genBoardHexID, genPieceID } from '../utils/map-utils'
-import { keyBy } from 'lodash'
+import { buildupJsonFileMap } from '../data/buildupMap'
 
 const Controls = () => {
   const boardHexes = useBoundStore((s) => s.boardHexes)
@@ -20,7 +20,7 @@ const Controls = () => {
     console.log("🚀 ~ Controls ~ boardPieces:", boardPieces)
   }
 
-  const handleClickAddLeftCol = () => {
+  const handleClickRemoveLeftCol = () => {
     const boardHexArr = Object.values(boardHexes)
 
     const maxX = Math.max(...boardHexArr.map(bh => bh.q - bh.s))
@@ -36,17 +36,31 @@ const Controls = () => {
     const topRow = boardHexArr.filter(bh => bh.q + bh.s - bh.r === 0)
     const isTopRowEmpty = topRow.every(bh => bh.terrain === HexTerrain.empty)
 
-    const newBoardHexes = keyBy(boardHexArr.map(bh => {
-      const newCoords = hexUtilsAdd(bh, HEX_DIRECTIONS[0])
-      const newID = genBoardHexID({ ...newCoords, altitude: bh.altitude })
-      const newPieceID = genPieceID(newID, bh.pieceID, bh.pieceRotation)
+    const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
+      const {
+        pieceID,
+        altitude,
+        rotation,
+        // boardHexID,
+        pieceCoords
+      } = decodePieceID(pid)
+      const newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[3])
+      const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
+      const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
       return {
-        ...bh,
-        id: newID,
-        pieceID: newPieceID,
+        ...prev,
+        [newPieceID]: pieceID
       }
-    }), 'id')
-    console.log("🚀 ~ handleClickAddLeftCol ~ newBoardHexes:", newBoardHexes)
+    }, {})
+    const newHexMap = {
+      ...hexMap,
+      height: hexMap.height - 1
+
+    }
+    const newMap = buildupJsonFileMap(newBoardPieces, newHexMap)
+    loadMap(newMap)
+  }
+  const handleClickAddMapHeightX = () => {
     const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
       const {
         pieceID,
@@ -68,17 +82,39 @@ const Controls = () => {
       height: hexMap.height + 1
 
     }
-    loadMap({
-      hexMap: newHexMap,
-      boardPieces: newBoardPieces,
-      boardHexes: newBoardHexes,
-    })
-    console.log("🚀 ~ newBoardPieces ~ newBoardPieces:", newBoardPieces)
+    const newMap = buildupJsonFileMap(newBoardPieces, newHexMap)
+    loadMap(newMap)
+  }
+  const handleClickAddMapWidthY = () => {
+    const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
+      const {
+        pieceID,
+        altitude,
+        rotation,
+        // boardHexID,
+        pieceCoords
+      } = decodePieceID(pid)
+      const newPieceCoords = hexUtilsAdd(hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[1]), HEX_DIRECTIONS[2])
+      const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
+      const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
+      return {
+        ...prev,
+        [newPieceID]: pieceID
+      }
+    }, {})
+    const newHexMap = {
+      ...hexMap,
+      width: hexMap.width + 2
+
+    }
+    const newMap = buildupJsonFileMap(newBoardPieces, newHexMap)
+    loadMap(newMap)
   }
 
   return (
     <Container sx={{ padding: 1 }}>
-      <Button onClick={handleClickAddLeftCol}>Add left column</Button>
+      <Button onClick={handleClickAddMapHeightX}>Add left column</Button>
+      <Button onClick={handleClickAddMapWidthY}>Add top row</Button>
       <Button onClick={handleClickLogState}>Log boardpieces</Button>
       <UndoRedoButtonGroup />
       <PenTerrainSelect />
