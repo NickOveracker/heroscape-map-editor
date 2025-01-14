@@ -53,10 +53,10 @@ const Controls = () => {
     }, {})
     const newHexMap = {
       ...hexMap,
-      height: hexMap.height + 1
+      length: hexMap.length + 1
 
     }
-    const newMap = buildupJsonFileMap(newBoardPieces, newHexMap)
+    const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
     clearUndoHistory()
   }
@@ -79,10 +79,10 @@ const Controls = () => {
     }, {})
     const newHexMap = {
       ...hexMap,
-      height: hexMap.height - 1
+      length: hexMap.length - 1
 
     }
-    const newMap = buildupJsonFileMap(newBoardPieces, newHexMap)
+    const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
     clearUndoHistory()
   }
@@ -99,7 +99,6 @@ const Controls = () => {
       let newPieceCoords: CubeCoordinate
       if (isOddRow) {
         newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[2])
-
       } else {
         newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[1])
       }
@@ -115,7 +114,7 @@ const Controls = () => {
       width: hexMap.width + 1
 
     }
-    const newMap = buildupJsonFileMap(newBoardPieces, newHexMap)
+    const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
     clearUndoHistory()
   }
@@ -148,7 +147,7 @@ const Controls = () => {
       width: hexMap.width - 1
 
     }
-    const newMap = buildupJsonFileMap(newBoardPieces, newHexMap)
+    const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
     clearUndoHistory()
   }
@@ -160,7 +159,7 @@ const Controls = () => {
       <Button onClick={handleClickAddMapWidthY}>Add width</Button>
       <Button onClick={handleClickRemoveMapWidthY}>Remove width</Button>
       {/* <Button onClick={handleClickRemoveTop2Rows}>Remove top 2</Button> */}
-      <Button onClick={handleClickLogState}>Log boardpieces</Button>
+      <Button onClick={handleClickLogState}>Log state</Button>
       <UndoRedoButtonGroup />
       <PenTerrainSelect />
       <PieceSizeSelect />
