@@ -18,6 +18,7 @@ import { useSnackbar } from 'notistack'
 import { makeHexagonScenario, makeRectangleScenario } from '../utils/map-gen'
 import { useLocation } from 'wouter'
 import { ROUTES } from '../ROUTES'
+import { MAX_HEXAGON_MAP_DIMENSION, MAX_RECTANGLE_MAP_DIMENSION } from '../utils/constants'
 
 const hexagonMarks = [
   {
@@ -71,8 +72,8 @@ export default function CreateMapFormDialog() {
   const handleSubmit = () => {
     const newMap = mapShape === 'rectangle' ? makeRectangleScenario({
       mapName,
-      mapWidth,
-      mapLength
+      width: mapWidth,
+      length: mapLength,
     }) : makeHexagonScenario({
       mapName,
       size: mapSize
@@ -144,11 +145,11 @@ export default function CreateMapFormDialog() {
           {mapShape === 'rectangle' ? (
             <>
               <Box sx={{ marginY: '1em' }}>
-                <div>Map Height: </div>
+                <div>Map length: </div>
                 <Slider
                   // size='small'
                   min={1}
-                  max={30}
+                  max={MAX_RECTANGLE_MAP_DIMENSION}
                   value={mapLength}
                   onChange={(_e: Event, value: number | number[]) => {
                     setMapLength(value as number)
@@ -159,11 +160,11 @@ export default function CreateMapFormDialog() {
                 />
               </Box>
               <Box sx={{ marginY: '1em' }}>
-                <div>Map Width: </div>
+                <div>Map width: </div>
                 <Slider
                   // size='small'
                   min={1}
-                  max={30}
+                  max={MAX_RECTANGLE_MAP_DIMENSION}
                   value={mapWidth}
                   onChange={(_e: Event, value: number | number[]) => {
                     setMapWidth(value as number)
@@ -179,7 +180,7 @@ export default function CreateMapFormDialog() {
               <Slider
                 // size='small'
                 min={1}
-                max={17}
+                max={MAX_HEXAGON_MAP_DIMENSION}
                 value={mapSize}
                 onChange={(_e: Event, value: number | number[]) => {
                   setMapSize(value as number)

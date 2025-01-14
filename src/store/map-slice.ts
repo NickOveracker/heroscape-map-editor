@@ -19,7 +19,7 @@ type PaintTileArgs = {
 
 const createMapSlice: StateCreator<AppState, [], [], MapSlice> = (set) => ({
   boardHexes: {},
-  hexMap: { id: '', name: '', shape: 'hexagon', width: 1, height: 1 },
+  hexMap: { id: '', name: '', shape: 'rectangle', width: 20, length: 20 },
   boardPieces: {},
   paintTile: ({ piece, clickedHex, rotation }: PaintTileArgs) =>
     set((state) => {

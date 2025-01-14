@@ -7,25 +7,25 @@ import { genRandomMapName } from './genRandomMapName'
 import { generateHexagon, generateRectangle } from './hex-gen'
 
 type RectangleScenarioOptions = {
-  mapWidth?: number
-  mapLength?: number
+  length?: number
+  width?: number
   mapName?: string
 }
 
 export function makeRectangleScenario(
   options?: RectangleScenarioOptions,
 ): MapState {
-  const mapHeightX = options?.mapLength ?? 15
-  const mapWidthY = options?.mapWidth ?? 15
-  if (mapWidthY > MAX_RECTANGLE_MAP_DIMENSION || mapHeightX > MAX_RECTANGLE_MAP_DIMENSION) {
+  const mapLengthX = options?.width ?? 15
+  const apWidthY = options?.length ?? 15
+  if (apWidthY > MAX_RECTANGLE_MAP_DIMENSION || mapLengthX > MAX_RECTANGLE_MAP_DIMENSION) {
     console.error(`Maximum map dimension for rectangular map: ${MAX_RECTANGLE_MAP_DIMENSION}. You passed an option larger than ${MAX_RECTANGLE_MAP_DIMENSION} to makeRectangleScenario`)
   }
-  const mapHeight = Math.min(
-    options?.mapLength ?? 15,
+  const mapLength = Math.min(
+    options?.width ?? 15,
     MAX_RECTANGLE_MAP_DIMENSION,
   )
   const mapWidth = Math.min(
-    options?.mapWidth ?? 15,
+    options?.length ?? 15,
     MAX_RECTANGLE_MAP_DIMENSION,
   )
   const hexMap = {
@@ -33,10 +33,10 @@ export function makeRectangleScenario(
     name: options?.mapName ?? genRandomMapName(),
     shape: 'rectangle',
     width: mapWidth,
-    height: mapHeight,
+    length: mapLength,
   }
 
-  const boardHexes: BoardHexes = generateRectangle(mapHeight, mapWidth)
+  const boardHexes: BoardHexes = generateRectangle(mapLength, mapWidth)
   return {
     boardHexes,
     hexMap,
@@ -60,7 +60,7 @@ export function makeHexagonScenario(
     name: options?.mapName ?? genRandomMapName(),
     shape: 'hexagon',
     width: size,
-    height: size,
+    length: size,
   }
 
   const boardHexes: BoardHexes = generateHexagon(size)

@@ -81,13 +81,13 @@ export function buildupJsonFileMap(
   let initialBoardHexes: BoardHexes = {}
   if (hexMap.shape === 'rectangle') {
     initialBoardHexes = makeRectangleScenario({
-      mapLength: hexMap.height,
-      mapWidth: hexMap.width,
+      length: hexMap.length,
+      width: hexMap.width,
       mapName: hexMap.name,
     }).boardHexes
   } else {
     initialBoardHexes = makeHexagonScenario({
-      size: hexMap.height,
+      size: hexMap.length,
       mapName: hexMap.name,
     }).boardHexes
   }
@@ -162,8 +162,8 @@ function getBlankHexoscapeMapForVSTiles(
   const mapWidth = Math.max(...tiles.map((t) => t.posY + cushionToPadY) ?? 0)
 
   return makeRectangleScenario({
-    mapLength,
-    mapWidth,
+    length: mapLength,
+    width: mapWidth,
     mapName,
   })
 }

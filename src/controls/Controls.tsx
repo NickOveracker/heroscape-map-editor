@@ -155,10 +155,10 @@ const Controls = () => {
 
   return (
     <Container sx={{ padding: 1 }}>
-      <Button onClick={handleClickAddMapHeightX}>Add left column</Button>
-      <Button onClick={handleClickRemoveMapHeightX}>Remove left column</Button>
-      <Button onClick={handleClickAddMapWidthY}>Add top row</Button>
-      <Button onClick={handleClickRemoveMapWidthY}>Remove top row</Button>
+      <Button onClick={handleClickAddMapHeightX}>Add length</Button>
+      <Button onClick={handleClickRemoveMapHeightX}>Remove length</Button>
+      <Button onClick={handleClickAddMapWidthY}>Add width</Button>
+      <Button onClick={handleClickRemoveMapWidthY}>Remove width</Button>
       {/* <Button onClick={handleClickRemoveTop2Rows}>Remove top 2</Button> */}
       <Button onClick={handleClickLogState}>Log boardpieces</Button>
       <UndoRedoButtonGroup />

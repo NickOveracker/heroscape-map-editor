@@ -9,7 +9,7 @@ export const useLocalMapMemory = () => {
       id: '',
       name: '',
       shape: '',
-      height: 0,
+      length: 0,
       width: 0,
     },
   }

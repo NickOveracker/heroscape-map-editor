@@ -9,8 +9,8 @@ export type HexMap = {
   id: string
   name: string
   shape: string // 'hexagon' | 'rectangle'
-  height: number // for hexagon shaped maps width=height=size
-  width: number // for hexagon shaped maps width=height=size
+  length: number // for hexagon shaped maps width=length=size
+  width: number // for hexagon shaped maps width=length=size
 }
 export type CubeCoordinate = {
   q: number
