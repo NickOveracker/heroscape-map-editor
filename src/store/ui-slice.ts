@@ -174,7 +174,7 @@ const getNewPieceSizeForPenMode = (
   if (newPieceSizes.includes(oldPieceSize)) {
     return { newSize: oldPieceSize, newSizes: newPieceSizes }
   } else {
-    const oldIndex = landSizes[oldMode].indexOf(oldPieceSize)
+    const oldIndex = landSizes?.[oldMode]?.indexOf(oldPieceSize)
     return {
       newSize: newPieceSizes?.[oldIndex] ?? newPieceSizes[0],
       newSizes: newPieceSizes,
