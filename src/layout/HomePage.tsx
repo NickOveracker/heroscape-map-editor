@@ -31,7 +31,7 @@ export default function HomePage() {
     >
       <CreateMapFormDialog />
       <EditMapFormDialog />
-      <HeaderNav toggleIsNavOpen={toggleIsNavOpen} />
+      <HeaderNav isNavOpen={isNavOpen} toggleIsNavOpen={toggleIsNavOpen} />
       <Drawer
         open={isNavOpen}
         // open={true} // DEV toggle
