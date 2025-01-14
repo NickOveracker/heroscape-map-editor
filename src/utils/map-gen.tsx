@@ -15,6 +15,11 @@ type RectangleScenarioOptions = {
 export function makeRectangleScenario(
   options?: RectangleScenarioOptions,
 ): MapState {
+  const mapHeightX = options?.mapLength ?? 15
+  const mapWidthY = options?.mapWidth ?? 15
+  if (mapWidthY > MAX_RECTANGLE_MAP_DIMENSION || mapHeightX > MAX_RECTANGLE_MAP_DIMENSION) {
+    console.error(`Maximum map dimension for rectangular map: ${MAX_RECTANGLE_MAP_DIMENSION}. You passed an option larger than ${MAX_RECTANGLE_MAP_DIMENSION} to makeRectangleScenario`)
+  }
   const mapHeight = Math.min(
     options?.mapLength ?? 15,
     MAX_RECTANGLE_MAP_DIMENSION,
@@ -45,7 +50,11 @@ type HexagonScenarioOptions = {
 export function makeHexagonScenario(
   options?: HexagonScenarioOptions,
 ): MapState {
-  const size = Math.min(options?.size ?? 12, MAX_HEXAGON_MAP_DIMENSION)
+  const mapSize = options?.size ?? 12
+  const size = Math.min(mapSize, MAX_HEXAGON_MAP_DIMENSION)
+  if (mapSize > MAX_HEXAGON_MAP_DIMENSION) {
+    console.error(`Maximum map dimension for rectangular map: ${MAX_HEXAGON_MAP_DIMENSION}. You passed an option larger than ${MAX_HEXAGON_MAP_DIMENSION} to makeRectangleScenario`)
+  }
   const hexMap = {
     id: generateTimestampID(),
     name: options?.mapName ?? genRandomMapName(),
