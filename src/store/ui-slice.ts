@@ -107,7 +107,7 @@ const createUISlice: StateCreator<
         s.isCameraDisabled = b
       }),
     ),
-  isOrthoCam: true,
+  isOrthoCam: false,
   toggleIsOrthoCam: (b: boolean) =>
     set(
       produce((s) => {
