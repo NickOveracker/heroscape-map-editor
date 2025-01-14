@@ -181,6 +181,41 @@ export const piecesSoFar: Dictionary<Piece> = {
     template: '24',
     height: 1,
   },
+  [Pieces.snow1]: {
+    id: Pieces.snow1,
+    terrain: HexTerrain.snow,
+    size: 1,
+    template: '1',
+    height: 1,
+  },
+  [Pieces.snow2]: {
+    id: Pieces.snow2,
+    terrain: HexTerrain.snow,
+    size: 2,
+    template: '2',
+    height: 1,
+  },
+  [Pieces.snow3]: {
+    id: Pieces.snow3,
+    terrain: HexTerrain.snow,
+    size: 3,
+    template: '3',
+    height: 1,
+  },
+  [Pieces.snow7]: {
+    id: Pieces.snow7,
+    terrain: HexTerrain.snow,
+    size: 7,
+    template: '7',
+    height: 1,
+  },
+  [Pieces.snow24]: {
+    id: Pieces.snow24,
+    terrain: HexTerrain.snow,
+    size: 24,
+    template: '24',
+    height: 1,
+  },
   [Pieces.lavaField1]: {
     id: Pieces.lavaField1,
     terrain: HexTerrain.lavaField,
@@ -242,20 +277,6 @@ export const piecesSoFar: Dictionary<Piece> = {
     terrain: HexTerrain.concrete,
     size: 7,
     template: '7',
-    height: 1,
-  },
-  [Pieces.snow1]: {
-    id: Pieces.snow1,
-    terrain: HexTerrain.snow,
-    size: 1,
-    template: '1',
-    height: 1,
-  },
-  [Pieces.snow2]: {
-    id: Pieces.snow2,
-    terrain: HexTerrain.snow,
-    size: 2,
-    template: '2',
     height: 1,
   },
   [Pieces.road1]: {
@@ -334,6 +355,13 @@ export const piecesSoFar: Dictionary<Piece> = {
     terrain: HexTerrain.swampWater,
     size: 1,
     template: '1',
+    height: 0,
+  },
+  [Pieces.swampWater3]: {
+    id: Pieces.swampWater3,
+    terrain: HexTerrain.swampWater,
+    size: 3,
+    template: '3',
     height: 0,
   },
   [Pieces.ice1]: {
@@ -423,6 +451,20 @@ export const piecesSoFar: Dictionary<Piece> = {
     height: 6,
   },
   // HEX OBSTACLES
+  [Pieces.snowTree10]: {
+    id: Pieces.snowTree10,
+    terrain: HexTerrain.snowTree,
+    size: 1,
+    template: Pieces.snowTree10,
+    height: 10,
+  },
+  [Pieces.snowTree12]: {
+    id: Pieces.snowTree12,
+    terrain: HexTerrain.snowTree,
+    size: 1,
+    template: Pieces.snowTree12,
+    height: 12,
+  },
   [Pieces.tree10]: {
     id: Pieces.tree10,
     terrain: HexTerrain.tree,
@@ -451,12 +493,19 @@ export const piecesSoFar: Dictionary<Piece> = {
     template: Pieces.tree415,
     height: 15,
   },
+  [Pieces.swampBrush10]: {
+    id: Pieces.swampBrush10,
+    terrain: HexTerrain.swampBrush,
+    size: 1,
+    template: Pieces.swampBrush10,
+    height: 10,
+  },
   [Pieces.laurBrush10]: {
     id: Pieces.laurBrush10,
     terrain: HexTerrain.laurBrush,
     size: 1,
     template: Pieces.laurBrush10,
-    height: 9,
+    height: 10,
   },
   [Pieces.laurPalm13]: {
     id: Pieces.laurPalm13,

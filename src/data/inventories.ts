@@ -53,11 +53,11 @@ const landsOfValhalla = {
 const snowsOfValhalla = {
   [Pieces.snow1]: 2,
   [Pieces.snow2]: 2,
-  // [Pieces.snow3]: 2,
-  // [Pieces.snow7]: 5,
-  // [Pieces.snow24]: 2,
-  // [Pieces.snowTree1XXX]: 1,
-  // [Pieces.snowTree2XXX]: 1,
+  [Pieces.snow3]: 2,
+  [Pieces.snow7]: 5,
+  [Pieces.snow24]: 2,
+  [Pieces.snowTree10]: 1,
+  [Pieces.snowTree12]: 1,
   [Pieces.ice1]: 20,
   [Pieces.ice3]: 3,
 }
@@ -67,10 +67,9 @@ const swampsOfValhalla = {
   [Pieces.swamp3]: 2,
   [Pieces.swamp7]: 5,
   [Pieces.swamp24]: 2,
-  // [Pieces.swampBrush1XXX]: 1,
-  // [Pieces.swampBrush2XXX]: 1,
+  [Pieces.swampBrush10]: 2,
   [Pieces.swampWater1]: 20,
-  // [Pieces.swampWater3]: 3,
+  [Pieces.swampWater3]: 3,
 }
 const watersOfValhalla = {
   [Pieces.water1]: 24,
