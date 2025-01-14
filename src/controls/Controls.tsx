@@ -5,8 +5,8 @@ import RotationSelect from './RotationSelect'
 import UndoRedoButtonGroup from './UndoRedoButtonGroup'
 import ViewingLevelInput from './ViewingLevelInput'
 import useBoundStore from '../store/store'
-import { HexTerrain } from '../types'
-import { HEX_DIRECTIONS, hexUtilsAdd } from '../utils/hex-utils'
+import { CubeCoordinate, HexTerrain } from '../types'
+import { HEX_DIRECTIONS, hexUtilsAdd, hexUtilsSubtract } from '../utils/hex-utils'
 import { decodePieceID, genBoardHexID, genPieceID } from '../utils/map-utils'
 import { buildupJsonFileMap } from '../data/buildupMap'
 
@@ -15,50 +15,24 @@ const Controls = () => {
   const boardPieces = useBoundStore((s) => s.boardPieces)
   const hexMap = useBoundStore((s) => s.hexMap)
   const loadMap = useBoundStore((s) => s.loadMap)
+  const { clear: clearUndoHistory } = useBoundStore.temporal.getState()
+
 
   const handleClickLogState = () => {
     console.log("🚀 ~ Controls ~ boardPieces:", boardPieces)
   }
-
-  const handleClickRemoveLeftCol = () => {
+  const handleTrimMap = () => {
     const boardHexArr = Object.values(boardHexes)
-
     const maxX = Math.max(...boardHexArr.map(bh => bh.q - bh.s))
     const rightColumn = boardHexArr.filter(bh => bh.q - bh.s === maxX || bh.q - bh.s === (maxX - 1))
     const isRightSideEmpty = rightColumn.every(bh => bh.terrain === HexTerrain.empty)
     const leftColumn = boardHexArr.filter(bh => bh.s - bh.q === -1 || bh.s - bh.q === 0)
     const isLeftSideEmpty = leftColumn.every(bh => bh.terrain === HexTerrain.empty)
-
-
     const maxY = Math.max(...boardHexArr.map(bh => bh.r - bh.s - bh.q))
     const bottomRow = boardHexArr.filter(bh => (bh.r - bh.s - bh.q === maxY) || (bh.r - bh.s - bh.q === maxY - 2))
     const isBottomRowEmpty = bottomRow.every(bh => bh.terrain === HexTerrain.empty)
-    const topRow = boardHexArr.filter(bh => bh.q + bh.s - bh.r === 0)
-    const isTopRowEmpty = topRow.every(bh => bh.terrain === HexTerrain.empty)
-
-    const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
-      const {
-        pieceID,
-        altitude,
-        rotation,
-        // boardHexID,
-        pieceCoords
-      } = decodePieceID(pid)
-      const newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[3])
-      const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
-      const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
-      return {
-        ...prev,
-        [newPieceID]: pieceID
-      }
-    }, {})
-    const newHexMap = {
-      ...hexMap,
-      height: hexMap.height - 1
-
-    }
-    const newMap = buildupJsonFileMap(newBoardPieces, newHexMap)
-    loadMap(newMap)
+    const top2Rows = boardHexArr.filter(bh => bh.q + bh.s - bh.r === 0 || bh.q + bh.s - bh.r === -2)
+    const isTop2RowsEmpty = top2Rows.every(bh => bh.terrain === HexTerrain.empty)
   }
   const handleClickAddMapHeightX = () => {
     const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
@@ -84,6 +58,33 @@ const Controls = () => {
     }
     const newMap = buildupJsonFileMap(newBoardPieces, newHexMap)
     loadMap(newMap)
+    clearUndoHistory()
+  }
+  const handleClickRemoveMapHeightX = () => {
+    const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
+      const {
+        pieceID,
+        altitude,
+        rotation,
+        // boardHexID,
+        pieceCoords
+      } = decodePieceID(pid)
+      const newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[3])
+      const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
+      const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
+      return {
+        ...prev,
+        [newPieceID]: pieceID
+      }
+    }, {})
+    const newHexMap = {
+      ...hexMap,
+      height: hexMap.height - 1
+
+    }
+    const newMap = buildupJsonFileMap(newBoardPieces, newHexMap)
+    loadMap(newMap)
+    clearUndoHistory()
   }
   const handleClickAddMapWidthY = () => {
     const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
@@ -94,7 +95,14 @@ const Controls = () => {
         // boardHexID,
         pieceCoords
       } = decodePieceID(pid)
-      const newPieceCoords = hexUtilsAdd(hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[1]), HEX_DIRECTIONS[2])
+      const isOddRow = Boolean(hexMap.width % 2)
+      let newPieceCoords: CubeCoordinate
+      if (isOddRow) {
+        newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[2])
+
+      } else {
+        newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[1])
+      }
       const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
       const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
       return {
@@ -104,17 +112,54 @@ const Controls = () => {
     }, {})
     const newHexMap = {
       ...hexMap,
-      width: hexMap.width + 2
+      width: hexMap.width + 1
 
     }
     const newMap = buildupJsonFileMap(newBoardPieces, newHexMap)
     loadMap(newMap)
+    clearUndoHistory()
+  }
+  const handleClickRemoveMapWidthY = () => {
+    const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
+      const {
+        pieceID,
+        altitude,
+        rotation,
+        // boardHexID,
+        pieceCoords
+      } = decodePieceID(pid)
+      const isOddRow = Boolean(hexMap.width % 2)
+      let newPieceCoords: CubeCoordinate
+      if (isOddRow) {
+        newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[4])
+
+      } else {
+        newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[5])
+      }
+      const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
+      const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
+      return {
+        ...prev,
+        [newPieceID]: pieceID
+      }
+    }, {})
+    const newHexMap = {
+      ...hexMap,
+      width: hexMap.width - 1
+
+    }
+    const newMap = buildupJsonFileMap(newBoardPieces, newHexMap)
+    loadMap(newMap)
+    clearUndoHistory()
   }
 
   return (
     <Container sx={{ padding: 1 }}>
       <Button onClick={handleClickAddMapHeightX}>Add left column</Button>
+      <Button onClick={handleClickRemoveMapHeightX}>Remove left column</Button>
       <Button onClick={handleClickAddMapWidthY}>Add top row</Button>
+      <Button onClick={handleClickRemoveMapWidthY}>Remove top row</Button>
+      {/* <Button onClick={handleClickRemoveTop2Rows}>Remove top 2</Button> */}
       <Button onClick={handleClickLogState}>Log boardpieces</Button>
       <UndoRedoButtonGroup />
       <PenTerrainSelect />

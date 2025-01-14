@@ -70,7 +70,10 @@ export default function CameraSpeedDial({
       ariaLabel="camera-speed-dial"
       sx={
         {
-          position: 'absolute', bottom: 16, left: '2rem',
+          position: 'absolute',
+          bottom: 16,
+          left: '2rem',
+
           // Style the button red when camera is disabled
           ['.MuiSpeedDial-fab']: {
             ...(isCamerDisabled ? { backgroundColor: 'red', color: 'white' } : {})

@@ -16,7 +16,6 @@ export default function PieceSizeSelect() {
   const isSizes = flatPieceSizes?.length > 0
   return (
     <span style={{ margin: '0px 20px' }}>
-      <span>Select piece:</span>
       <ToggleButtonGroup
         disabled={!isSizes}
         value={`${pieceSize}`}
@@ -24,6 +23,7 @@ export default function PieceSizeSelect() {
         exclusive
         aria-label="piece select for current pen mode"
       >
+        <span>Select piece:</span>
         {isSizes ? (
           flatPieceSizes.map((s) => (
             <ToggleButton
