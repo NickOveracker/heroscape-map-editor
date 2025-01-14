@@ -49,7 +49,7 @@ const World = ({
             makeDefault={!isOrthoCam}
           />
           <OrthographicCamera position={[100, 1000, 100]} zoom={30} makeDefault={isOrthoCam} />
-          <Stars
+          {!isOrthoCam && <Stars
             radius={100}
             depth={50}
             count={5000}
@@ -57,7 +57,7 @@ const World = ({
             saturation={0}
             fade
             speed={1}
-          />
+          />}
           {/* Stats displays the fps */}
           {/* <Stats className="stats-panel" /> */}
           <MapDisplay3D mapGroupRef={mapGroupRef} cameraControlsRef={cameraControlsRef} />
