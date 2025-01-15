@@ -55,22 +55,6 @@ const Controls = () => {
     loadMap(newMap)
   }
   const handleClickAddMapLengthX = () => {
-    const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
-      const {
-        pieceID,
-        altitude,
-        rotation,
-        // boardHexID,
-        pieceCoords
-      } = decodePieceID(pid)
-      const newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[0])
-      const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
-      const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
-      return {
-        ...prev,
-        [newPieceID]: pieceID
-      }
-    }, {})
     const newHexMap = {
       ...hexMap,
       length: hexMap.length + 1
@@ -81,22 +65,6 @@ const Controls = () => {
     clearUndoHistory()
   }
   const handleClickRemoveMapLengthX = () => {
-    const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
-      const {
-        pieceID,
-        altitude,
-        rotation,
-        // boardHexID,
-        pieceCoords
-      } = decodePieceID(pid)
-      const newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[3])
-      const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
-      const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
-      return {
-        ...prev,
-        [newPieceID]: pieceID
-      }
-    }, {})
     const newHexMap = {
       ...hexMap,
       length: hexMap.length - 1
@@ -107,28 +75,6 @@ const Controls = () => {
     clearUndoHistory()
   }
   const handleClickAddMapWidthY = () => {
-    const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
-      const {
-        pieceID,
-        altitude,
-        rotation,
-        // boardHexID,
-        pieceCoords
-      } = decodePieceID(pid)
-      const isOddRow = Boolean(hexMap.width % 2)
-      let newPieceCoords: CubeCoordinate
-      if (isOddRow) {
-        newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[2])
-      } else {
-        newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[1])
-      }
-      const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
-      const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
-      return {
-        ...prev,
-        [newPieceID]: pieceID
-      }
-    }, {})
     const newHexMap = {
       ...hexMap,
       width: hexMap.width + 1
@@ -139,29 +85,6 @@ const Controls = () => {
     clearUndoHistory()
   }
   const handleClickRemoveMapWidthY = () => {
-    const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
-      const {
-        pieceID,
-        altitude,
-        rotation,
-        // boardHexID,
-        pieceCoords
-      } = decodePieceID(pid)
-      const isOddRow = Boolean(hexMap.width % 2)
-      let newPieceCoords: CubeCoordinate
-      if (isOddRow) {
-        newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[4])
-
-      } else {
-        newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[5])
-      }
-      const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
-      const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
-      return {
-        ...prev,
-        [newPieceID]: pieceID
-      }
-    }, {})
     const newHexMap = {
       ...hexMap,
       width: hexMap.width - 1
