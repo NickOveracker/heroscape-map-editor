@@ -34,7 +34,27 @@ const Controls = () => {
     const top2Rows = boardHexArr.filter(bh => bh.q + bh.s - bh.r === 0 || bh.q + bh.s - bh.r === -2)
     const isTop2RowsEmpty = top2Rows.every(bh => bh.terrain === HexTerrain.empty)
   }
-  const handleClickAddMapHeightX = () => {
+  const movePieces = (direction: number) => {
+    const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
+      const {
+        pieceID,
+        altitude,
+        rotation,
+        // boardHexID,
+        pieceCoords
+      } = decodePieceID(pid)
+      const newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[direction])
+      const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
+      const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
+      return {
+        ...prev,
+        [newPieceID]: pieceID
+      }
+    }, {})
+    const newMap = buildupJsonFileMap(newBoardPieces, hexMap)
+    loadMap(newMap)
+  }
+  const handleClickAddMapLengthX = () => {
     const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
       const {
         pieceID,
@@ -60,7 +80,7 @@ const Controls = () => {
     loadMap(newMap)
     clearUndoHistory()
   }
-  const handleClickRemoveMapHeightX = () => {
+  const handleClickRemoveMapLengthX = () => {
     const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
       const {
         pieceID,
@@ -154,10 +174,16 @@ const Controls = () => {
 
   return (
     <Container sx={{ padding: 1 }}>
-      <Button onClick={handleClickAddMapHeightX}>Add length</Button>
-      <Button onClick={handleClickRemoveMapHeightX}>Remove length</Button>
+      <Button onClick={handleClickAddMapLengthX}>Add length</Button>
+      <Button onClick={handleClickRemoveMapLengthX}>Remove length</Button>
       <Button onClick={handleClickAddMapWidthY}>Add width</Button>
       <Button onClick={handleClickRemoveMapWidthY}>Remove width</Button>
+      <Button onClick={() => movePieces(0)}>East</Button>
+      <Button onClick={() => movePieces(1)}>SouthEast</Button>
+      <Button onClick={() => movePieces(2)}>SouthWest</Button>
+      <Button onClick={() => movePieces(3)}>West</Button>
+      <Button onClick={() => movePieces(4)}>NorthWest</Button>
+      <Button onClick={() => movePieces(5)}>NorthEast</Button>
       {/* <Button onClick={handleClickRemoveTop2Rows}>Remove top 2</Button> */}
       <Button onClick={handleClickLogState}>Log state</Button>
       <UndoRedoButtonGroup />
