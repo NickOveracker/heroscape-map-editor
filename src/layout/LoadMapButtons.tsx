@@ -150,7 +150,7 @@ export const LoadMapInputs = () => {
 
     try {
       const vsMap = await readVirtualscapeMapFile(file)
-      const loadedMap = buildupVSFileMap(vsMap.tiles, vsMap.name)
+      const loadedMap = buildupVSFileMap(vsMap.tiles, vsMap.name || file.name)
       loadMap(loadedMap)
       enqueueSnackbar({
         message: `Loaded map: ${loadedMap.hexMap.name}`,

@@ -99,6 +99,7 @@ export const DrawerList = ({
               fontSize: '1.8em',
               textAlign: 'center',
               marginY: '20px',
+              wordBreak: 'break-all'
             }}
             variant="h1"
           >{hexMap.name}</Typography>
