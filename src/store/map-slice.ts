@@ -37,6 +37,25 @@ const createMapSlice: StateCreator<AppState, [], [], MapSlice> = (set) => ({
         draft.boardPieces = newBoardPieces
       })
     }),
+  deleteLandPiece: ({ piece, clickedHex }: {
+    piece: Piece
+    clickedHex: BoardHex
+  }) =>
+    set((state) => {
+      return produce(state, (draft) => {
+        const { newBoardHexes, newBoardPieces } = addPiece({
+          piece,
+          boardHexes: draft.boardHexes,
+          boardPieces: draft.boardPieces,
+          pieceCoords: clickedHex,
+          placementAltitude: clickedHex.altitude,
+          rotation,
+          isVsTile: false,
+        })
+        draft.boardHexes = newBoardHexes
+        draft.boardPieces = newBoardPieces
+      })
+    }),
   changeMapName: (mapName: string) =>
     set((state) => {
       return produce(state, (draft) => {
