@@ -132,81 +132,81 @@ export default function LaurWallPillar({
   // ].map(xyz => [xyz[0] - 0.1, xyz[1], xyz[2] - 0.2])
 
   return (
-    <DragControls
-      axisLock='y'
-      dragLimits={[[-HEXGRID_HEX_APOTHEM * 2, HEXGRID_HEX_APOTHEM * 2], [0, 0], [0, 0]]}
-      onDragStart={(origin) => {
-        console.log("🚀 ~ origin:", origin)
-      }}
-      onDrag={(
-        localMatrix,
-        deltaLocalMatrix,
-        worldMatrix,
-        deltaWorldMatrix
-      ) => {
-        console.dir({
-          localMatrix,
-          deltaLocalMatrix,
-          worldMatrix,
-          deltaWorldMatrix
-        })
-      }}
-      onDragEnd={() => {
-        console.log("🚀 ~ drag ended")
-      }}
+    // <DragControls
+    //   axisLock='y'
+    //   dragLimits={[[-HEXGRID_HEX_APOTHEM * 2, HEXGRID_HEX_APOTHEM * 2], [0, 0], [0, 0]]}
+    //   onDragStart={(origin) => {
+    //     console.log("🚀 ~ origin:", origin)
+    //   }}
+    //   onDrag={(
+    //     localMatrix,
+    //     deltaLocalMatrix,
+    //     worldMatrix,
+    //     deltaWorldMatrix
+    //   ) => {
+    //     console.dir({
+    //       localMatrix,
+    //       deltaLocalMatrix,
+    //       worldMatrix,
+    //       deltaWorldMatrix
+    //     })
+    //   }}
+    //   onDragEnd={() => {
+    //     console.log("🚀 ~ drag ended")
+    //   }}
+    // >
+    <group
+      position={[x, yWithBase, z]}
+      rotation={[0, (rotation * -Math.PI) / 3, 0]}
+      onPointerEnter={e => e.stopPropagation()}
+      onPointerOut={e => e.stopPropagation()}
+    // onPointerEnter={e => onPointerEnter(e, boardHex)}
+    // onPointerOut={e => e.stopPropagation()}
+    // onPointerOut={e => onPointerOut(e, boardHex)}
+    // onPointerUp={e => onPointerUpLaurWall(e, boardHex)}
     >
-      <group
-        position={[x, yWithBase, z]}
-        rotation={[0, (rotation * -Math.PI) / 3, 0]}
-        onPointerEnter={e => e.stopPropagation()}
-        onPointerOut={e => e.stopPropagation()}
-      // onPointerEnter={e => onPointerEnter(e, boardHex)}
-      // onPointerOut={e => e.stopPropagation()}
-      // onPointerOut={e => onPointerOut(e, boardHex)}
-      // onPointerUp={e => onPointerUpLaurWall(e, boardHex)}
+      <mesh
+        geometry={nodes.PillarTop.geometry}
+      // onPointerUp={e => onPointerUp(e, boardHex)}
       >
-        <mesh
-          geometry={nodes.PillarTop.geometry}
-        // onPointerUp={e => onPointerUp(e, boardHex)}
-        >
-          <meshMatcapMaterial
-            color={pillarColor}
-          />
-        </mesh>
-        <mesh
-          geometry={nodes.SubDecorCore.geometry}
-        // onPointerUp={e => onPointerUp(e, boardHex)}
-        >
-          <meshMatcapMaterial
-            color={interiorPillarColor}
-          />
-        </mesh>
-        <mesh
-          geometry={nodes.Facade.geometry}
-        // onPointerUp={e => onPointerUp(e, boardHex)}
-        >
-          <meshMatcapMaterial
-            side={DoubleSide}
-            color={pillarColor}
-          />
-        </mesh>
-        <mesh
-          geometry={nodes.FacadeInner.geometry}
-        // onPointerUp={e => onPointerUp(e, boardHex)}
-        >
-          <meshMatcapMaterial
-            side={DoubleSide}
-            color={interiorPillarColor}
-          />
-        </mesh>
-        <mesh position={[0, -(yWithBase - yBaseCap), 0]}>
-          <cylinderGeometry args={baseCylinderArgs} />
-          <meshMatcapMaterial
-            color={pillarColor}
-          />
-        </mesh>
-      </group>
-    </DragControls>
+        <meshMatcapMaterial
+          color={pillarColor}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.SubDecorCore.geometry}
+      // onPointerUp={e => onPointerUp(e, boardHex)}
+      >
+        <meshMatcapMaterial
+          color={interiorPillarColor}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Facade.geometry}
+      // onPointerUp={e => onPointerUp(e, boardHex)}
+      >
+        <meshMatcapMaterial
+          side={DoubleSide}
+          color={pillarColor}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.FacadeInner.geometry}
+      // onPointerUp={e => onPointerUp(e, boardHex)}
+      >
+        <meshMatcapMaterial
+          side={DoubleSide}
+          color={interiorPillarColor}
+        />
+      </mesh>
+      <mesh position={[0, -(yWithBase - yBaseCap), 0]}>
+        <cylinderGeometry args={baseCylinderArgs} />
+        <meshMatcapMaterial
+          color={pillarColor}
+        />
+      </mesh>
+    </group>
+    // </DragControls>
   )
 }
 

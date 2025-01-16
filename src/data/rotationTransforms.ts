@@ -15,7 +15,6 @@ export default function getPieceTemplateCoords({
   template: string
   isVsTile: boolean
 }): CubeCoordinate[] {
-  console.log("🚀 ~ template:", template)
   const originOfTileTransform =
     rotationTransforms?.[template]?.[rotation] ?? ORIGIN_000
   const originOfTile = hexUtilsAdd(clickedHex, originOfTileTransform)

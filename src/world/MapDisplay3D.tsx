@@ -163,7 +163,6 @@ export default function MapDisplay3D({
     }
 
     if (penMode === 'select') {
-      console.log("🚀 ~ onPointerUp ~ SELECT hex.pieceID:", hex.pieceID)
       toggleSelectedPieceID(hex.pieceID)
     } else {
       const pieceMode = pieceSize === 0 ? penMode : `${penMode}${pieceSize}`
