@@ -117,9 +117,7 @@ const Controls = () => {
       <RotationSelect />
       {/* <MapLensToggles /> */}
       <ViewingLevelInput />
-      <ControlButtonGroup>
-        <LocalMapButtons />
-      </ControlButtonGroup>
+      <LocalMapButtons />
     </Container>
   )
 }

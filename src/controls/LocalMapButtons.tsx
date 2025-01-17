@@ -30,6 +30,42 @@ const LocalMapButtons = () => {
       autoHideDuration: 3000,
     })
   }
+  const saveMap2 = () => {
+    setMap2({
+      hexMap,
+      boardPieces,
+      boardHexes
+    })
+    enqueueSnackbar({
+      message: `Saved map to slot 2`,
+      variant: 'success',
+      autoHideDuration: 3000,
+    })
+  }
+  const saveMap3 = () => {
+    setMap3({
+      hexMap,
+      boardPieces,
+      boardHexes
+    })
+    enqueueSnackbar({
+      message: `Saved map to slot 3`,
+      variant: 'success',
+      autoHideDuration: 3000,
+    })
+  }
+  const saveMap4 = () => {
+    setMap4({
+      hexMap,
+      boardPieces,
+      boardHexes
+    })
+    enqueueSnackbar({
+      message: `Saved map to slot 4`,
+      variant: 'success',
+      autoHideDuration: 3000,
+    })
+  }
   const loadMap1 = () => {
     if (map1.hexMap.name) {
       loadMap(map1)
@@ -78,6 +114,9 @@ const LocalMapButtons = () => {
       <Button onClick={loadMap3}>{`Load saved map #3: ${map3.hexMap.name}`}</Button>
       <Button onClick={loadMap4}>{`Load saved map #4: ${map4.hexMap.name}`}</Button>
       <Button onClick={saveMap1}>{`Save map to spot #1`}</Button>
+      <Button onClick={saveMap2}>{`Save map to spot #2`}</Button>
+      <Button onClick={saveMap3}>{`Save map to spot #3`}</Button>
+      <Button onClick={saveMap4}>{`Save map to spot #4`}</Button>
     </Container>
   )
 }
