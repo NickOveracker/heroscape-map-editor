@@ -10,9 +10,9 @@ import {
 import { cubeToPixel, hexUtilsAdd, hexUtilsGetNeighborForRotation, hexUtilsGetRadialFarNeighborForRotation } from './hex-utils'
 
 type MapDimensions = {
-  width: number
-  height: number
-  apex: number
+  width: number // vertex-to-vertex, in our World
+  height: number // vertex-to-vertex, in our World
+  apex: number // this is worthless so far
 }
 
 export const getBoardHexesRectangularMapDimensions = (
@@ -43,13 +43,30 @@ export const getBoardHexesRectangularMapDimensions = (
     ),
   )
   const hexHeight = qPlusSMax - qPlusSMin + 1
-  const height = (hexHeight * 1.5 + 2 * HEXGRID_HEX_RADIUS) * HEXGRID_SPACING
-  const hexWidth = sMinusQMax - sMinusQMin / 2 + 1
-  const width = (hexWidth + 2) * HEXGRID_HEX_APOTHEM * HEXGRID_SPACING
+  console.log("🚀 ~ hexHeight:", hexHeight)
+  const height = (
+    (
+      (2 * HEXGRID_HEX_RADIUS) + // 2 for the first row
+      // 1.5 for each row after that (the short leg from a vertex to the perpendicular shortdiagonal is 1/2 radius)
+      Math.floor(hexHeight - 1) * 1.5 * HEXGRID_HEX_RADIUS
+    ) / HEXGRID_SPACING
+  )
+  console.log("🚀 ~ sMinusQMax:", sMinusQMax)
+  console.log("🚀 ~ sMinusQMin:", sMinusQMin)
+  const hexWidth = Math.floor((sMinusQMax - sMinusQMin) / 2 + 1)
+  console.log("🚀 ~ hexWidth:", hexWidth)
+  const width = (
+    // the short diagonal of the first hex, if height is 1
+    (hexHeight === 1 ? (2 * HEXGRID_HEX_APOTHEM)
+      // otherwise, also the next half from 2nd row
+      : (3 * HEXGRID_HEX_APOTHEM))
+    +
+    (hexWidth - 1) * 2 * HEXGRID_HEX_APOTHEM
+  ) * HEXGRID_SPACING
   const apex =
     Math.max(...Object.values(boardHexes).map((hex) => hex.altitude)) *
     HEXGRID_HEX_HEIGHT
-  return { height, width, apex, hexHeight, hexWidth }
+  return { height, width, apex, hexHeight, hexWidth, }
 }
 export const getBoardHex3DCoords = (
   hex: CubeCoordinate & { altitude: number },

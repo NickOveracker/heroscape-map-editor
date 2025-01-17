@@ -7,6 +7,9 @@ export const generateHexagon = (mapSize: number): BoardHexes => {
   const boardHexes = hexesToEmptyBoardHexes(
     translateHexagonHexesToNormal(hexUtilsGenHexagonGrid(mapSize), mapSize),
   )
+  // const boardHexes = hexesToEmptyBoardHexes(
+  //   hexUtilsGenHexagonGrid(mapSize)
+  // )
   return boardHexes
 }
 
@@ -23,7 +26,7 @@ const translateHexagonHexesToNormal = (
     }
   })
 }
-export const translateHexagonBoardHexesToNormal = (
+const translateHexagonBoardHexesToNormal = (
   boardhexes: BoardHexes,
   mapSize: number,
 ): BoardHexes => {

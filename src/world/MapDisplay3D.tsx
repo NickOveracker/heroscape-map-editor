@@ -18,11 +18,12 @@ import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
-import { decodePieceID, genBoardHexID } from '../utils/map-utils.ts'
+import { decodePieceID, genBoardHexID, getBoardHexesRectangularMapDimensions } from '../utils/map-utils.ts'
 import { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
+import { HEXGRID_HEX_APOTHEM } from '../utils/constants.ts'
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -198,9 +199,25 @@ export default function MapDisplay3D({
     // const baseSideRotation = pillarSideRotations?.[side] ?? 0
 
   }
-
+  const { height, width, apex, hexHeight, hexWidth } = getBoardHexesRectangularMapDimensions(boardHexes)
+  console.log("🚀 ~ height, width:", height, width)
   return (
     <group ref={mapGroupRef}>
+      {/* TOP LEFT */}
+      <axesHelper
+        position={[-HEXGRID_HEX_APOTHEM, 0, -1]}
+        scale={[height, 0, width]}
+      // rotation={new Euler(0, Math.PI, 0)}
+      />
+
+      {/* BOTTOM RIGHT */}
+      <axesHelper
+        // position={[width, 0, height]}
+        position={[width - HEXGRID_HEX_APOTHEM, 0, height - 1]}
+        scale={[height, 0, width]}
+      // rotation={new Euler(0, Math.PI, 0)}
+      />
+
       <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} />
       <EmptyHexes
         boardHexArr={instanceBoardHexes.emptyHexCaps}
