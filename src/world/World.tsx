@@ -34,7 +34,6 @@ const World = ({
         }}
       >
         <Canvas
-          frameloop='demand'
           onPointerMissed={() => {
             toggleHoveredPieceID('')
             toggleSelectedPieceID('')
