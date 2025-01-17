@@ -24,6 +24,9 @@ export default function buildupVSFileMap(
   // const startZoneTiles = tiles.filter(t => t.type === 15001)
   const newBoardHexes = terrainTilesOnly.reduce(
     (boardHexes: BoardHexes, tile) => {
+      if (tile.type === 16301) {
+        console.log("Battlement found in virtualscape map!")
+      }
       const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
       const id = pieceCodes?.[getCodeQuick(tile)] ?? ''
       const piece = piecesSoFar[id]
