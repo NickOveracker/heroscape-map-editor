@@ -9,6 +9,8 @@ import { HexTerrain } from '../types'
 import { HEX_DIRECTIONS, hexUtilsAdd } from '../utils/hex-utils'
 import { decodePieceID, genBoardHexID, genPieceID } from '../utils/map-utils'
 import { buildupJsonFileMap } from '../data/buildupMap'
+import ControlButtonGroup from './ControlButtonGroup'
+import LocalMapButtons from './LocalMapButtons'
 
 const Controls = () => {
   const boardHexes = useBoundStore((s) => s.boardHexes)
@@ -115,6 +117,9 @@ const Controls = () => {
       <RotationSelect />
       {/* <MapLensToggles /> */}
       <ViewingLevelInput />
+      <ControlButtonGroup>
+        <LocalMapButtons />
+      </ControlButtonGroup>
     </Container>
   )
 }
