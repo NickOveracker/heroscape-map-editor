@@ -33,7 +33,7 @@ export const getMapCenterCameraLookAt = (
   const y = (width / 2) * Math.tan(beta) // far enough to see all of bottom of map even if it wall at the apex of the map
   const centerOfMapCamera = {
     x: width / 2,
-    z: height,
+    z: height * 2,
     y: y + apex * 1.4,
   }
   const centerOfMapLookAt = {
