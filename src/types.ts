@@ -170,6 +170,7 @@ export enum Pieces {
   lava1 = `${PiecePrefixes.lava}1`,
   swampWater1 = `${PiecePrefixes.swampWater}1`,
   swampWater3 = `${PiecePrefixes.swampWater}3`,
+  swampWater6 = `${PiecePrefixes.swampWater}6`,
   ice1 = `${PiecePrefixes.ice}1`,
   ice3 = `${PiecePrefixes.ice}3`,
   ice4 = `${PiecePrefixes.ice}4`,

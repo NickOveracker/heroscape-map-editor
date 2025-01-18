@@ -364,6 +364,13 @@ export const piecesSoFar: Dictionary<Piece> = {
     template: '3',
     height: 0,
   },
+  [Pieces.swampWater6]: {
+    id: Pieces.swampWater6,
+    terrain: HexTerrain.swampWater,
+    size: 6,
+    template: '6',
+    height: 0,
+  },
   [Pieces.ice1]: {
     id: Pieces.ice1,
     terrain: HexTerrain.ice,
