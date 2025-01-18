@@ -16,7 +16,6 @@ const Controls = () => {
   const boardPieces = useBoundStore((s) => s.boardPieces)
   const hexMap = useBoundStore((s) => s.hexMap)
   const loadMap = useBoundStore((s) => s.loadMap)
-  const { clear: clearUndoHistory } = useBoundStore.temporal.getState()
 
 
   const handleClickLogState = () => {
@@ -63,7 +62,6 @@ const Controls = () => {
     }
     const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
-    clearUndoHistory()
   }
   const handleClickRemoveMapLengthX = () => {
     const newHexMap = {
@@ -73,7 +71,6 @@ const Controls = () => {
     }
     const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
-    clearUndoHistory()
   }
   const handleClickAddMapWidthY = () => {
     const newHexMap = {
@@ -83,7 +80,6 @@ const Controls = () => {
     }
     const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
-    clearUndoHistory()
   }
   const handleClickRemoveMapWidthY = () => {
     const newHexMap = {
@@ -93,7 +89,6 @@ const Controls = () => {
     }
     const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
-    clearUndoHistory()
   }
 
   return (
