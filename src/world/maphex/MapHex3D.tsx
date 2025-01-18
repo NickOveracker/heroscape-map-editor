@@ -105,8 +105,8 @@ export const MapHex3D = ({
       {isBrushHex && <TicallaBrush boardHex={boardHex} />}
       {isLaurPalmHex && <TicallaPalm boardHex={boardHex} />}
       {isLaurBrushHex && <TicallaBrush boardHex={boardHex} />}
-      {isRuin2OriginHex && <Ruins2 boardHex={boardHex} />}
-      {isRuin3OriginHex && <Ruins3 boardHex={boardHex} />}
+      {isRuin2OriginHex && <Ruins2 boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isRuin3OriginHex && <Ruins3 boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isGlacier1Hex && <Outcrop1 boardHex={boardHex} isGlacier={true} />}
       {isOutcrop1Hex && <Outcrop1 boardHex={boardHex} isGlacier={false} />}
       {isGlacier3Hex && <Outcrop3 boardHex={boardHex} isGlacier={true} />}
