@@ -43,7 +43,6 @@ export const getBoardHexesRectangularMapDimensions = (
     ),
   )
   const hexHeight = qPlusSMax - qPlusSMin + 1
-  console.log("🚀 ~ hexHeight:", hexHeight)
   const height = (
     (
       (2 * HEXGRID_HEX_RADIUS) + // 2 for the first row
@@ -51,10 +50,7 @@ export const getBoardHexesRectangularMapDimensions = (
       Math.floor(hexHeight - 1) * 1.5 * HEXGRID_HEX_RADIUS
     ) / HEXGRID_SPACING
   )
-  console.log("🚀 ~ sMinusQMax:", sMinusQMax)
-  console.log("🚀 ~ sMinusQMin:", sMinusQMin)
   const hexWidth = Math.floor((sMinusQMax - sMinusQMin) / 2 + 1)
-  console.log("🚀 ~ hexWidth:", hexWidth)
   const width = (
     // the short diagonal of the first hex, if height is 1
     (hexHeight === 1 ? (2 * HEXGRID_HEX_APOTHEM)

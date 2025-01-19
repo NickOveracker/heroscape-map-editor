@@ -14,12 +14,13 @@ export const useZoomCameraToMapCenter = ({
   disabled?: boolean
 }) => {
   const mapID = useBoundStore((state) => state.hexMap.id)
+  const mapShape = useBoundStore((state) => state.hexMap.shape)
   React.useEffect(() => {
     if (disabled) {
       console.warn('Zoom to center of map has been disabled!')
       return
     }
-    const cameraArgs = getMapCenterCameraLookAt(boardHexes)
+    const cameraArgs = getMapCenterCameraLookAt(boardHexes, mapShape)
     cameraControlsRef?.current?.setLookAt?.(...cameraArgs)
     // only run on render and load-new-map
     // eslint-disable-next-line react-hooks/exhaustive-deps
