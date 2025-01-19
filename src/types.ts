@@ -163,7 +163,6 @@ export enum Pieces {
   road1 = `${PiecePrefixes.road}1`,
   road2 = `${PiecePrefixes.road}2`,
   road5 = `${PiecePrefixes.road}5`, // only land piece to have the straight-5 template, it's a bridge
-  // Fluid Land: there will be more sizes, and outcrop/glacier/hive bases can be used as multi-hex shadow/ice/swampWater
   wellspringWater1 = `${PiecePrefixes.wellspringWater}1`,
   water1 = `${PiecePrefixes.water}1`,
   water3 = `${PiecePrefixes.water}3`,
