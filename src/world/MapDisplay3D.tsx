@@ -66,6 +66,7 @@ export default function MapDisplay3D({
   })
   const { enqueueSnackbar } = useSnackbar()
   const searchString = useSearch();
+
   // USE EFFECT: automatically load up map from URL, OR from file
   React.useEffect(() => {
     const queryParams = new URLSearchParams(searchString)
@@ -199,13 +200,14 @@ export default function MapDisplay3D({
     // const baseSideRotation = pillarSideRotations?.[side] ?? 0
 
   }
-  const { height, width, apex, hexHeight, hexWidth } = getBoardHexesRectangularMapDimensions(boardHexes)
-  console.log("🚀 ~ height, width:", height, width)
+  const { height, width } = getBoardHexesRectangularMapDimensions(boardHexes)
+  // const topLeft = [-HEXGRID_HEX_APOTHEM, -1]
   return (
     <group ref={mapGroupRef}>
       {/* TOP LEFT */}
       <axesHelper
-        position={[-HEXGRID_HEX_APOTHEM, 0, -1]}
+        // position={[topLeft[0], 0, topLeft[1]]}
+        position={[0, 0, 0]}
         scale={[height, 0, width]}
       // rotation={new Euler(0, Math.PI, 0)}
       />
