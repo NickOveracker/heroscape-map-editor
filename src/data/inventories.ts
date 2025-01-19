@@ -1,6 +1,6 @@
-import { Pieces } from "../types";
+import { PieceInventory, Pieces } from "../types";
 
-const aoaMaster1 = {
+export const aoa1PieceSet: PieceInventory = {
   [Pieces.grass1]: 10,
   [Pieces.grass2]: 6,
   [Pieces.grass3]: 2,
@@ -21,7 +21,7 @@ const aoaMaster1 = {
   [Pieces.laurWallRuin]: 2,
   [Pieces.laurWallLong]: 1,
 }
-const battleBox1Wellspring = {
+export const battleBox1PieceSet: PieceInventory = {
   [Pieces.laurPalm14]: 2,
   [Pieces.grass1]: 4,
   [Pieces.grass3]: 3,
@@ -33,7 +33,7 @@ const battleBox1Wellspring = {
   [Pieces.water1]: 6,
   [Pieces.wellspringWater1]: 7,
 }
-const landsOfValhalla = {
+export const landsPieceSet: PieceInventory = {
   [Pieces.grass1]: 10,
   [Pieces.grass2]: 7,
   [Pieces.grass3]: 3,
@@ -50,7 +50,7 @@ const landsOfValhalla = {
   [Pieces.sand7]: 3,
   [Pieces.sand24]: 2,
 }
-const snowsOfValhalla = {
+export const snowsPieceSet: PieceInventory = {
   [Pieces.snow1]: 2,
   [Pieces.snow2]: 2,
   [Pieces.snow3]: 2,
@@ -61,7 +61,7 @@ const snowsOfValhalla = {
   [Pieces.ice1]: 20,
   [Pieces.ice3]: 3,
 }
-const swampsOfValhalla = {
+export const swampsPieceSet: PieceInventory = {
   [Pieces.swamp1]: 2,
   [Pieces.swamp2]: 2,
   [Pieces.swamp3]: 2,
@@ -71,24 +71,47 @@ const swampsOfValhalla = {
   [Pieces.swampWater1]: 20,
   [Pieces.swampWater3]: 3,
 }
-const watersOfValhalla = {
+export const watersPieceSet: PieceInventory = {
   [Pieces.water1]: 24,
   [Pieces.water3]: 5,
   [Pieces.wellspringWater1]: 6,
 }
-const laurJungle = {
+export const laurJunglePieceSet: PieceInventory = {
   [Pieces.laurPalm13]: 1,
   [Pieces.laurPalm14]: 1,
   [Pieces.laurPalm15]: 1,
   [Pieces.laurBrush10]: 6,
 }
-const ticallaJungle = {
+export const underdarkPieceSet: PieceInventory = {
+  [Pieces.grass1]: 1,
+  [Pieces.grass2]: 1,
+  [Pieces.grass3]: 1,
+  [Pieces.dungeon1]: 16,
+  [Pieces.dungeon2]: 5,
+  [Pieces.dungeon3]: 5,
+  [Pieces.dungeon7]: 5,
+  [Pieces.dungeon24]: 6,
+  [Pieces.rock1]: 1,
+  [Pieces.rock2]: 1,
+  [Pieces.rock3]: 2,
+  [Pieces.rock7]: 3,
+  [Pieces.sand1]: 1,
+  [Pieces.sand2]: 1,
+  [Pieces.sand3]: 0,
+  [Pieces.sand7]: 3,
+  [Pieces.water1]: 12,
+  [Pieces.shadow1]: 11,
+  [Pieces.shadow3]: 1,
+  [Pieces.outcrop1]: 3,
+  [Pieces.outcrop3]: 1,
+}
+export const ticallaJunglePieceSet: PieceInventory = {
   [Pieces.palm14]: 1,
   [Pieces.palm15]: 1,
   [Pieces.palm16]: 1,
   [Pieces.brush9]: 6,
 }
-const fortress = {
+export const fortressPieceSet: PieceInventory = {
   [Pieces.castleBaseCorner]: 10,
   [Pieces.castleBaseStraight]: 7,
   [Pieces.castleBaseEnd]: 4,
@@ -103,7 +126,7 @@ const fortress = {
   [Pieces.wallWalk9]: 1,
   // [Pieces.flag]: 1,
 }
-const marvel = {
+export const marvelPieceSet: PieceInventory = {
   [Pieces.concrete1]: 4,
   [Pieces.concrete2]: 7,
   [Pieces.concrete7]: 3,
@@ -112,7 +135,7 @@ const marvel = {
   [Pieces.asphalt7]: 3,
   [Pieces.marvel]: 1,
 }
-const thalenkTundra = {
+export const thalenkPieceSet: PieceInventory = {
   [Pieces.glacier1]: 1,
   [Pieces.glacier3]: 1,
   [Pieces.glacier4]: 1,
@@ -124,13 +147,13 @@ const thalenkTundra = {
   [Pieces.ice4]: 1,
   [Pieces.ice6]: 1,
 }
-const volcarrenWasteland = {
+export const volcarrenPieceSet: PieceInventory = {
   [Pieces.lava1]: 11,
   [Pieces.lavaField1]: 5,
   [Pieces.lavaField2]: 5,
   [Pieces.lavaField7]: 4,
 }
-const forgottenForest = {
+export const forgottenForestPieceSet: PieceInventory = {
   [Pieces.road1]: 8,
   [Pieces.road2]: 8,
   [Pieces.road5]: 1,
@@ -140,7 +163,7 @@ const forgottenForest = {
   [Pieces.tree11]: 2,
   [Pieces.tree12]: 1,
 }
-const ms1 = {
+export const ms1PieceSet: PieceInventory = {
   [Pieces.grass1]: 16,
   [Pieces.grass2]: 5,
   [Pieces.grass3]: 5,
@@ -159,7 +182,7 @@ const ms1 = {
   [Pieces.ruins2]: 1,
   [Pieces.ruins3]: 1,
 }
-const ms2 = {
+export const ms2PieceSet: PieceInventory = {
   [Pieces.swampWater1]: 34,
   [Pieces.swampWater6]: 1,
   [Pieces.hive]: 1,

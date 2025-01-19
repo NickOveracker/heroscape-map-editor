@@ -82,12 +82,15 @@ export enum HexTerrain {
   _vsPersonal = '_vsPersonal',
   _vsFigure = '_vsFigure',
 }
+export type PieceInventory = { [key: string]: number }
 export type Piece = {
   id: Pieces // aqr+pieceID (This is important, as this id structure lets us make real small map strings for the URL -- shareable maps!!)
+  title: string, // the human friendly name
   terrain: string
   size: number
   template: string
   height: number
+  isUninventoried?: boolean, // so far just marvel-ruins-broken and castle-arch-no-door versions (these are just variations on their inventoried counterparts)
 }
 export enum PiecePrefixes {
   grass = 'g',
