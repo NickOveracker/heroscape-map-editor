@@ -123,7 +123,6 @@ const thalenkTundra = {
   [Pieces.ice3]: 1,
   [Pieces.ice4]: 1,
   [Pieces.ice6]: 1,
-  // [Pieces.ice1]: 3, // BASES
 }
 const volcarrenWasteland = {
   [Pieces.lava1]: 11,
@@ -162,7 +161,7 @@ const ms1 = {
 }
 const ms2 = {
   [Pieces.swampWater1]: 34,
-  // [Pieces.swampWater6]: 1,
+  [Pieces.swampWater6]: 1,
   [Pieces.hive]: 1,
   [Pieces.swamp1]: 2,
   [Pieces.swamp2]: 2,
