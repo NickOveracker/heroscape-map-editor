@@ -60,7 +60,7 @@ export default function HomePage() {
           overflow: 'auto',
         }}
       >
-        <InventoryForm />
+        <Controls />
         <LoadMapInputs />
       </div>
     </div>
