@@ -773,4 +773,20 @@ export const piecesSoFar: Dictionary<Piece> = {
     template: Pieces.castleWallCorner,
     height: 9,
   },
+  [Pieces.ladder]: {
+    id: Pieces.ladder,
+    title: `${Pieces.ladder}`,
+    terrain: HexTerrain.ladder,
+    size: 1,
+    template: Pieces.ladder,
+    height: 2,
+  },
+  [Pieces.battlement]: {
+    id: Pieces.battlement,
+    title: `${Pieces.battlement}`,
+    terrain: HexTerrain.battlement,
+    size: 1,
+    template: Pieces.battlement,
+    height: 6, // see example 8, pg 3 of Fortress rulebook https://github.com/Dissolutio/heroscape-map-editor/issues/1
+  },
 }

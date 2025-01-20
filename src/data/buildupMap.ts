@@ -54,7 +54,7 @@ export default function buildupVSFileMap(
     boardPieces,
   }
 }
-function sortLaurAddonsToEndOfArray(arr: string[]) {
+function sortLaurAddonsLaddersBattlementsToEndOfArray(arr: string[]) {
   // adding the laur addons will only work if pillars are already down
   return arr.sort((a, b) => {
     const aPieceID = decodePieceID(a).pieceID
@@ -62,13 +62,17 @@ function sortLaurAddonsToEndOfArray(arr: string[]) {
     if (
       aPieceID === Pieces.laurWallRuin ||
       aPieceID === Pieces.laurWallLong ||
-      aPieceID === Pieces.laurWallShort
+      aPieceID === Pieces.laurWallShort ||
+      aPieceID === Pieces.ladder ||
+      aPieceID === Pieces.battlement
     ) {
       return 1 // Move 'targetValue' to the end
     } else if (
       bPieceID === Pieces.laurWallRuin ||
       bPieceID === Pieces.laurWallLong ||
-      bPieceID === Pieces.laurWallShort
+      bPieceID === Pieces.laurWallShort ||
+      aPieceID === Pieces.ladder ||
+      aPieceID === Pieces.battlement
     ) {
       return -1 // Move 'targetValue' to the end
     } else {
@@ -94,7 +98,7 @@ export function buildupJsonFileMap(
       mapName: hexMap.name,
     }).boardHexes
   }
-  const piecesArray = sortLaurAddonsToEndOfArray(Object.keys(boardPieces))
+  const piecesArray = sortLaurAddonsLaddersBattlementsToEndOfArray(Object.keys(boardPieces))
   const newBoardHexes = piecesArray.reduce(
     (boardHexes: BoardHexes, pieceAqrrID): BoardHexes => {
       const {

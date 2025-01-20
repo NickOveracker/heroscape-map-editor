@@ -19,11 +19,12 @@ import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
 import { decodePieceID, genBoardHexID, getBoardHexesRectangularMapDimensions } from '../utils/map-utils.ts'
-import { buildupJsonFileMap } from '../data/buildupMap.ts'
+import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
 import { HEXGRID_HEX_APOTHEM } from '../utils/constants.ts'
+import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -110,40 +111,40 @@ export default function MapDisplay3D({
       }
     } else {
       // AUTO VSCAPE
-      // const fileName = '/testMap.hsc'
-      // fetch(fileName)
-      //   .then((response) => {
-      //     return response.arrayBuffer()
-      //   })
-      //   .then((arrayBuffer) => {
-      //     const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
-      //     const vsMap = buildupVSFileMap(
-      //       vsFileData.tiles,
-      //       vsFileData?.name ?? fileName,
-      //     )
-      //     loadMap(vsMap)
-      //     enqueueSnackbar(
-      //       `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
-      //     )
-      //   })
-      // AUTO JSON
-      const fileName = '/Welcome.json'
-      fetch(fileName).then(async (response) => {
-        // const data = response.json()
-        const data = await response.json()
-        const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
-        if (!jsonMap.hexMap.name) {
-          jsonMap.hexMap.name = fileName
-        }
-        loadMap(jsonMap)
-        enqueueSnackbar({
-          // message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
-          message: `WELCOME!`,
-          variant: 'success',
-          autoHideDuration: 5000,
+      const fileName = '/ladders.hsc'
+      fetch(fileName)
+        .then((response) => {
+          return response.arrayBuffer()
         })
-        clearUndoHistory() // clear undo history, initial load should not be undoable
-      })
+        .then((arrayBuffer) => {
+          const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
+          const vsMap = buildupVSFileMap(
+            vsFileData.tiles,
+            vsFileData?.name ?? fileName,
+          )
+          loadMap(vsMap)
+          enqueueSnackbar(
+            `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
+          )
+        })
+      // AUTO JSON
+      // const fileName = '/Welcome.json'
+      // fetch(fileName).then(async (response) => {
+      //   // const data = response.json()
+      //   const data = await response.json()
+      //   const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+      //   if (!jsonMap.hexMap.name) {
+      //     jsonMap.hexMap.name = fileName
+      //   }
+      //   loadMap(jsonMap)
+      //   enqueueSnackbar({
+      //     // message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
+      //     message: `WELCOME!`,
+      //     variant: 'success',
+      //     autoHideDuration: 5000,
+      //   })
+      //   clearUndoHistory() // clear undo history, initial load should not be undoable
+      // })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
