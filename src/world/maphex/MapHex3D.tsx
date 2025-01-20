@@ -20,6 +20,8 @@ import { ThreeEvent } from '@react-three/fiber'
 import { CastleArch } from '../models/CastleArch'
 import CastleBases from '../models/CastleBases'
 import LaurPillar from '../models/LaurPillar'
+import { Battlement } from '../models/Battlement'
+import { Ladder } from '../models/Ladder'
 
 export const MapHex3D = ({
   boardHex,
@@ -101,7 +103,9 @@ export const MapHex3D = ({
         />
       )}
       {isTreeHex && <ForestTree boardHex={boardHex} />}
-      {isPalmHex && <TicallaPalm boardHex={boardHex} />}
+      {/* {isPalmHex && <TicallaPalm boardHex={boardHex} />} */}
+      {isPalmHex && <Ladder boardHex={boardHex} />}
+      {/* {isPalmHex && <Battlement boardHex={boardHex} />} */}
       {isBrushHex && <TicallaBrush boardHex={boardHex} />}
       {isLaurPalmHex && <TicallaPalm boardHex={boardHex} />}
       {isLaurBrushHex && <TicallaBrush boardHex={boardHex} />}
