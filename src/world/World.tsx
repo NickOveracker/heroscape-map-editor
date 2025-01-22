@@ -4,7 +4,6 @@ import { CameraControls, OrthographicCamera, PerspectiveCamera, Stars } from '@r
 import Lights from './Lights'
 import MyCameraControls from './camera/MyCameraControls'
 import MapDisplay3D from './MapDisplay3D'
-// import GridHelper from './GridHelper'
 import * as THREE from 'three'
 import useBoundStore from '../store/store'
 import TakeAPictureBox from './camera/TakeAPictureBox'

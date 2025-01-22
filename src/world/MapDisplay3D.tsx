@@ -118,6 +118,7 @@ export default function MapDisplay3D({
         })
         .then((arrayBuffer) => {
           const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
+          // buildupVSFileMap should return errorArr for enqueueSnackbar
           const vsMap = buildupVSFileMap(
             vsFileData.tiles,
             vsFileData?.name ?? fileName,
@@ -204,7 +205,7 @@ export default function MapDisplay3D({
   const { height, width } = getBoardHexesRectangularMapDimensions(boardHexes)
   // const topLeft = [-HEXGRID_HEX_APOTHEM, -1]
   return (
-    <group ref={mapGroupRef}>
+    <group ref={mapGroupRef} scale={0.2}>
       {/* TOP LEFT */}
       <axesHelper
         // position={[topLeft[0], 0, topLeft[1]]}

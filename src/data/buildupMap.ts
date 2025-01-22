@@ -20,14 +20,24 @@ export default function buildupVSFileMap(
   const blankMap = getBlankHexoscapeMapForVSTiles(tiles, mapName)
   let { boardPieces } = blankMap
   const { boardHexes, hexMap } = blankMap
-  const terrainTilesOnly = tiles.filter((t) => t.type !== 15001)
+  console.log("🚀 ~ tiles:", tiles
+    .filter(t => t.type.toString().startsWith('14'))
+    .map(t => t.glyphLetter), tiles
+      .filter(t => t.type.toString().startsWith('14'))
+      .map(t => t.type))
   // const startZoneTiles = tiles.filter(t => t.type === 15001)
-  const newBoardHexes = terrainTilesOnly.reduce(
+  const newBoardHexes = tiles.reduce(
     (boardHexes: BoardHexes, tile) => {
-      if (tile.type === 16301) {
-        console.log("Battlement found in virtualscape map!")
-      }
       const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
+      if (tile.type === 16301) {
+        console.log("Battlement found in virtualscape map!", tileCoords, tile.posZ)
+      }
+      if (tile.type === 16402) {
+        console.log("Ladder found in virtualscape map!", tileCoords, tile.posZ)
+      }
+      if (tile.type === 15001) {
+        console.log("Startzone found in virtualscape map!", tileCoords, tile.colorf)
+      }
       const id = pieceCodes?.[getCodeQuick(tile)] ?? ''
       const piece = piecesSoFar[id]
       if (!piece) {
@@ -107,10 +117,6 @@ export function buildupJsonFileMap(
         rotation,
         pieceID
       } = decodePieceID(pieceAqrrID)
-      // start zones
-      // if (tile.type === 15001) {
-      // }
-      // personalTiles
       const piece = piecesSoFar[pieceID]
       if (!piece) {
         return boardHexes // Should probably handle this different, errors etc.
@@ -127,10 +133,6 @@ export function buildupJsonFileMap(
         isVsTile: false,
       }).newBoardHexes
       return nextBoardHexes
-      // get the new board hexes and new board pieces
-      // mark every new piece on the board
-      // boardPieces = newBoardPieces
-      // return boardHexes
     },
     initialBoardHexes,
   )

@@ -117,6 +117,11 @@ export function addPiece({
     isSpaceFree &&
     isVerticalClearanceForPiece &&
     isObstaclePieceSupported
+  // LADDERS, BATTLEMENTS
+  if (piece.terrain === HexTerrain.ladder || piece.terrain === HexTerrain.ladder) {
+    //
+  }
+
   // LAUR WALL
   // if (piece.terrain === HexTerrain.laurWall &&
   //   piece.id !== Pieces.laurWallPillar) {
@@ -298,29 +303,33 @@ export function addPiece({
       (isSolidTile && isSolidUnderAtLeastOne) ||
       (isFluidTile && isSolidUnderAll)
     if (isSpaceFree && isLandPieceSupported) {
-      newHexIds.forEach((newHexID, iForEach) => {
-        const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
-        const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
-        const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
-        const isSolidUnderneath = isSolidTerrainHex(hexUnderneath?.terrain)
-        if (isSolidUnderneath || isPlacingOnTable) {
-          // solids and fluids can replace the cap below
-          // remove cap beneath this land hex
-          newBoardHexes[hexUnderneath.id].isCap = false
-        }
+      try {
+        newHexIds.forEach((newHexID, iForEach) => {
+          const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
+          const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
+          const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
+          const isSolidUnderneath = isSolidTerrainHex(hexUnderneath?.terrain)
+          if (isSolidUnderneath || isPlacingOnTable) {
+            // solids and fluids can replace the cap below
+            // remove cap beneath this land hex
+            newBoardHexes[hexUnderneath.id].isCap = false
+          }
 
-        newBoardHexes[newHexID] = {
-          id: newHexID,
-          q: piecePlaneCoords[iForEach].q,
-          r: piecePlaneCoords[iForEach].r,
-          s: piecePlaneCoords[iForEach].s,
-          altitude: newPieceAltitude,
-          terrain: piece.terrain,
-          pieceID,
-          pieceRotation: rotation,
-          isCap: !isSolidAbove, // not a cap if solid hex directly above
-        }
-      })
+          newBoardHexes[newHexID] = {
+            id: newHexID,
+            q: piecePlaneCoords[iForEach].q,
+            r: piecePlaneCoords[iForEach].r,
+            s: piecePlaneCoords[iForEach].s,
+            altitude: newPieceAltitude,
+            terrain: piece.terrain,
+            pieceID,
+            pieceRotation: rotation,
+            isCap: !isSolidAbove, // not a cap if solid hex directly above
+          }
+        })
+      } catch (error) {
+        console.log("🚀 ~ newHexIds.forEach ~ error:", error)
+      }
       // write the new piece
       newBoardPieces[pieceID] = piece.id
     }
