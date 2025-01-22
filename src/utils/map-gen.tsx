@@ -15,17 +15,17 @@ type RectangleScenarioOptions = {
 export function makeRectangleScenario(
   options?: RectangleScenarioOptions,
 ): MapState {
-  const mapLengthX = options?.width ?? 15
-  const apWidthY = options?.length ?? 15
-  if (apWidthY > MAX_RECTANGLE_MAP_DIMENSION || mapLengthX > MAX_RECTANGLE_MAP_DIMENSION) {
+  const mapLengthY = options?.length ?? 15
+  const mapWidthX = options?.width ?? 15
+  if (mapWidthX > MAX_RECTANGLE_MAP_DIMENSION || mapLengthY > MAX_RECTANGLE_MAP_DIMENSION) {
     console.error(`Maximum map dimension for rectangular map: ${MAX_RECTANGLE_MAP_DIMENSION}. You passed an option larger than ${MAX_RECTANGLE_MAP_DIMENSION} to makeRectangleScenario`)
   }
   const mapLength = Math.min(
-    options?.width ?? 15,
+    options?.length ?? 15,
     MAX_RECTANGLE_MAP_DIMENSION,
   )
   const mapWidth = Math.min(
-    options?.length ?? 15,
+    options?.width ?? 15,
     MAX_RECTANGLE_MAP_DIMENSION,
   )
   const hexMap = {

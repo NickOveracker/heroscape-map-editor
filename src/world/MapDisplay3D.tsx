@@ -202,23 +202,23 @@ export default function MapDisplay3D({
     // const baseSideRotation = pillarSideRotations?.[side] ?? 0
 
   }
-  const { height, width } = getBoardHexesRectangularMapDimensions(boardHexes)
+  const { length, width } = getBoardHexesRectangularMapDimensions(boardHexes)
   // const topLeft = [-HEXGRID_HEX_APOTHEM, -1]
   return (
-    <group ref={mapGroupRef} scale={0.2}>
+    <group ref={mapGroupRef}>
       {/* TOP LEFT */}
       <axesHelper
         // position={[topLeft[0], 0, topLeft[1]]}
         position={[0, 0, 0]}
-        scale={[height, 0, width]}
+        scale={[width, 0, length]}
       // rotation={new Euler(0, Math.PI, 0)}
       />
 
       {/* BOTTOM RIGHT */}
       <axesHelper
-        // position={[width, 0, height]}
-        position={[width - HEXGRID_HEX_APOTHEM, 0, height - 1]}
-        scale={[height, 0, width]}
+        position={[width, 0, length]}
+        // position={[height - HEXGRID_HEX_APOTHEM, 0, length - 1]}
+        scale={[width, 0, length]}
       // rotation={new Euler(0, Math.PI, 0)}
       />
 

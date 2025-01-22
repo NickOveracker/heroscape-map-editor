@@ -167,12 +167,12 @@ function getBlankHexoscapeMapForVSTiles(
     })
   }
   // these are the dimensions of the empty map to generate
-  const mapLength = Math.max(...tiles.map((t) => t.posX + cushionToPadX) ?? 0)
-  const mapWidth = Math.max(...tiles.map((t) => t.posY + cushionToPadY) ?? 0)
+  const length = Math.max(...tiles.map((t) => t.posY + cushionToPadY) ?? 0)
+  const width = Math.max(...tiles.map((t) => t.posX + cushionToPadX) ?? 0)
 
   return makeRectangleScenario({
-    length: mapLength,
-    width: mapWidth,
+    length,
+    width,
     mapName,
   })
 }

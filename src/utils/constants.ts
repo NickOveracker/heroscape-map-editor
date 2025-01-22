@@ -28,8 +28,8 @@ export const HEXGRID_HEXCAP_HEIGHT = HEXGRID_HEX_HEIGHT / 7 // for solid tiles t
 export const HEXGRID_HEXCAP_FLUID_HEIGHT = (HEXGRID_HEX_HEIGHT * 3) / 7 // fluid tiles are 3/7 the height of solid tiles, the whole fluid tile is the cap
 export const HEXGRID_EMPTYHEX_HEIGHT = HEXGRID_HEX_HEIGHT / 20
 export const HEXGRID_MAX_ALTITUDE = 25 // Altitude thickness
-export const MAX_RECTANGLE_MAP_DIMENSION = 30 // 2500 global coords
-export const MAX_HEXAGON_MAP_DIMENSION = 17 // 2791 global coords
+export const MAX_RECTANGLE_MAP_DIMENSION = 40 // 2500 global coords
+export const MAX_HEXAGON_MAP_DIMENSION = 20 // 2791 global coords
 export const INSTANCE_LIMIT =
   MAX_RECTANGLE_MAP_DIMENSION *
   MAX_RECTANGLE_MAP_DIMENSION *

@@ -23,7 +23,7 @@ export const getMapCenterCameraLookAt = (
   boardHexes: BoardHexes,
   mapShape: string,
 ): CameraLookAtArgs => {
-  const { width, height, apex } =
+  const { width, length, apex } =
     getBoardHexesRectangularMapDimensions(boardHexes)
   /* 
   TODO: This will need to be updated: Find width and height,
@@ -35,7 +35,7 @@ export const getMapCenterCameraLookAt = (
   if (mapShape === 'hexagon') {
     const centerOfMapCamera = {
       x: 0,
-      z: height,
+      z: length,
       y: y + apex * 1.4,
     }
     const centerOfMapLookAt = {
@@ -57,12 +57,12 @@ export const getMapCenterCameraLookAt = (
   }
   const centerOfMapCamera = {
     x: width / 2,
-    z: height * 2,
+    z: length * 2,
     y: y + apex * 1.4,
   }
   const centerOfMapLookAt = {
     x: width / 2,
-    z: height / 2,
+    z: length / 2,
     y: 0,
   }
   return [

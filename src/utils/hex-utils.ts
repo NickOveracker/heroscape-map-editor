@@ -112,9 +112,9 @@ export function hexUtilsGenRectangleGrid(
   mapHeight: number,
 ): CubeCoordinate[] {
   const hexas: CubeCoordinate[] = []
-  for (let r = 0; r < mapHeight; r++) {
+  for (let r = 0; r < mapWidth; r++) {
     const offset = Math.floor(r / 2) // or r>>1
-    for (let q = -offset; q < mapWidth - offset; q++) {
+    for (let q = -offset; q < mapHeight - offset; q++) {
       hexas.push({ q, r, s: -q - r })
     }
   }
