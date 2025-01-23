@@ -20,6 +20,7 @@ import {
   verticalObstructionTemplates,
   verticalSupportTemplates,
 } from './ruins-templates'
+import { hexUtilsAdd, hexUtilsGetNeighborForRotation } from '../utils/hex-utils'
 
 export type PieceAddArgs = {
   piece: Piece
@@ -121,6 +122,46 @@ export function addPiece({
   const isPlacingBattlement = piece.terrain === HexTerrain.battlement
 
   // LADDERS, BATTLEMENTS
+  if (isPlacingLadder) {
+    // 1, is there a ladder piece below us, or a solid land hex
+    const isLadderUnder = true // TODO
+    const ladderPieceRotation = isVsTile ? (rotation + 5) % 6 : rotation % 6 // VS starts ladders at rotation 5 (top-right, NE), instead of 0 (right, E)
+    const vertices = [ladderPieceRotation + 2, ladderPieceRotation + 3]
+    const buddyHex = genBoardHexID({ ...hexUtilsAdd(pieceCoords, hexUtilsGetNeighborForRotation(ladderPieceRotation)), altitude: placementAltitude })
+    console.log("🚀 ~rotation, buddyHex:", ladderPieceRotation, buddyHex)
+    const isLadderPieceSupported = isLadderUnder || isSolidUnderAll
+    const isSpaceFreeForLadder = true // TODO: clicked hex vertex check
+    try {
+      newHexIds.forEach((newHexID, iForEach) => {
+        // TODO: all kinds of neighbor calculations
+        const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
+        const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
+        const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
+        const isSolidUnderneath = isSolidTerrainHex(hexUnderneath?.terrain)
+        if (isSolidUnderneath || isPlacingOnTable) {
+          // solids and fluids can replace the cap below
+          // remove cap beneath this land hex
+          newBoardHexes[hexUnderneath.id].isCap = false
+        }
+
+        newBoardHexes[newHexID] = {
+          id: newHexID,
+          q: piecePlaneCoords[iForEach].q,
+          r: piecePlaneCoords[iForEach].r,
+          s: piecePlaneCoords[iForEach].s,
+          altitude: newPieceAltitude,
+          terrain: piece.terrain,
+          pieceID,
+          pieceRotation: rotation,
+          isCap: !isSolidAbove, // not a cap if solid hex directly above
+        }
+      })
+    } catch (error) {
+      console.log("🚀 ~ placing ladder piece error:", error)
+    }
+    // TODO: write the new piece to the vertex
+    // newBoardPieces[pieceID] = piece.id
+  }
 
   // RUINS
   if (piece.terrain === HexTerrain.ruin) {

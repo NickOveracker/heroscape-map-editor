@@ -33,7 +33,7 @@ export default function buildupVSFileMap(
         console.log("Battlement found in virtualscape map!", tileCoords, tile.posZ)
       }
       if (tile.type === 16402) {
-        console.log("Ladder found in virtualscape map!", tileCoords, tile.posZ)
+        console.log("Ladder found in virtualscape map! Coords, tile.posZ", tileCoords, tile.posZ)
       }
       if (tile.type === 15001) {
         console.log("Startzone found in virtualscape map!", tileCoords, tile.colorf)
