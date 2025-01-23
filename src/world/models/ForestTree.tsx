@@ -53,6 +53,14 @@ function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
       >
         <meshMatcapMaterial color={hexTerrainColor[HexTerrain.tree]} />
       </mesh>
+      {/* <Billboard
+        position={[x, options.y + 1.5, z]}
+        rotation={[0, (rotation * -Math.PI) / 3, 0]}
+        scale={[1, 3, 1]}
+        onPointerEnter={e => e.stopPropagation()}
+      >
+        <Image url='tree-img.jpg'></Image>
+      </Billboard> */}
       <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor.treeBase} />
     </group>
   )
