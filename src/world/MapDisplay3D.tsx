@@ -25,6 +25,7 @@ import { useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import { Battlement } from './models/Battlement.tsx'
+import { RoadWall } from './models/RoadWall.tsx'
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -39,6 +40,7 @@ export default function MapDisplay3D({
   const viewingLevel = useBoundStore((s) => s.viewingLevel)
   const boardHexesArr = Object.values(boardHexes)
   const battlementPids = Object.keys(boardPieces).filter(pid => pid.endsWith(Pieces.battlement))
+  const roadWallPids = Object.keys(boardPieces).filter(pid => pid.endsWith(Pieces.roadWall))
   const [visibleBoardHexesArr, setVisibleBoardHexesArr] = React.useState(boardHexesArr)
 
   React.useEffect(() => {
@@ -249,6 +251,15 @@ export default function MapDisplay3D({
       {battlementPids.map((pid) => {
         return (
           <Battlement
+            key={pid}
+            pid={pid}
+          // onPointerUp={onPointerUp}
+          />
+        )
+      })}
+      {roadWallPids.map((pid) => {
+        return (
+          <RoadWall
             key={pid}
             pid={pid}
           // onPointerUp={onPointerUp}

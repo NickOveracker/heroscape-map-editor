@@ -57,6 +57,7 @@ export const hexTerrainColor: Dictionary<string> = {
   castleDoor: '#913B3F',
   [HexTerrain.wallWalk]: '#97969C', //same as road
   [HexTerrain.road]: '#97969C',
+  [HexTerrain.roadWall]: '#787D79',
   [HexTerrain.snow]: '#EEEEFF',
   [HexTerrain.ice]: '#55DBCB',
   [HexTerrain.lavaField]: '#A30029',
