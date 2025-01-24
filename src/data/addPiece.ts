@@ -120,6 +120,7 @@ export function addPiece({
     !isPlacingWallWalkOnWall
   const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
   const isLadderPieceSupported = isSolidUnderAll || isLadderAuxiliaryUnderAll
+  const isBattlementPieceSupported_TODO = true // TODO: compute
   const isPlacingObstacle =
     isObstaclePieceID(piece.id) &&
     isSpaceFree &&
@@ -128,6 +129,7 @@ export function addPiece({
   const isLadderPieceID = piece.terrain === HexTerrain.ladder
   const isPlacingLadder = isLadderPieceID && isSpaceFree && isVerticalClearanceForPiece && isLadderPieceSupported
   const isBattlementPieceID = piece.terrain === HexTerrain.battlement
+  const isPlacingBattlement = isBattlementPieceID && isSpaceFree && isVerticalClearanceForPiece && isBattlementPieceSupported_TODO
 
   // LADDERS, BATTLEMENTS
   if (isPlacingLadder) {
@@ -177,14 +179,64 @@ export function addPiece({
           })
       })
 
-      //TODO: write the fluid base for glaciers/outcrops/hive
-      // write the new piece
+      // write the new ladder piece
       newBoardPieces[ladderPieceID] = piece.id
     } catch (error) {
       console.log("🚀 ~ placing ladder piece error:", error)
     }
-    // TODO: write the new piece to the vertex
-    // newBoardPieces[pieceID] = piece.id
+  }
+
+  // BATTLEMENT
+  if (isPlacingBattlement) {
+    // const vertices = [ladderPieceRotation + 2, ladderPieceRotation + 3]
+    // const buddyHex = genBoardHexID({ ...hexUtilsAdd(pieceCoords, hexUtilsGetNeighborForRotation(ladderPieceRotation)), altitude: newPieceAltitude })
+    try {
+      newHexIds.forEach((newHexID, i) => {
+        // newBoardHexes[hexUnderneath.id].isCap = false
+        // write in the new hex
+        newBoardHexes[newHexID] = {
+          id: newHexID,
+          q: piecePlaneCoords[i].q,
+          r: piecePlaneCoords[i].r,
+          s: piecePlaneCoords[i].s,
+          altitude: newPieceAltitude,
+          terrain: piece.terrain,
+          pieceID: ladderPieceID,
+          pieceRotation: ladderPieceRotation,
+          isObstacleOrigin: true, // battlements have one origin, and several vertical clearance aux
+          isObstacleAuxiliary: false, // battlements have one origin, and several vertical clearance aux
+          obstacleHeight: piece.height
+        }
+        // write in the new vertical clearances, this will block some pieces at these coordinates
+        Array(piece.height)
+          .fill(0)
+          .forEach((_, j) => {
+            const clearanceHexAltitude = newPieceAltitude + 1 + j
+            const clearanceID = genBoardHexID({
+              ...piecePlaneCoords[i],
+              altitude: clearanceHexAltitude,
+            })
+            newBoardHexes[clearanceID] = {
+              id: clearanceID,
+              q: piecePlaneCoords[i].q,
+              r: piecePlaneCoords[i].r,
+              s: piecePlaneCoords[i].s,
+              altitude: clearanceHexAltitude,
+              terrain: piece.terrain,
+              pieceID: ladderPieceID,
+              pieceRotation: ladderPieceRotation,
+              isObstacleOrigin: false, // battlements have one origin, and several vertical clearance aux
+              isObstacleAuxiliary: true, // battlements have one origin, and several vertical clearance aux
+              obstacleHeight: piece.height // probably unused
+            }
+          })
+      })
+
+      // write the new ladder piece
+      newBoardPieces[ladderPieceID] = piece.id
+    } catch (error) {
+      console.log("🚀 ~ placing ladder piece error:", error)
+    }
   }
 
   // RUINS

@@ -6,13 +6,16 @@ import { useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from '../maphex/hexColors'
+import { getLadderBattlementOptions } from './getLadderBattlementOptions'
+import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
 
 export function Battlement({ boardHex }: { boardHex: BoardHex }) {
   const { nodes } = useGLTF('/handmade-battlement.glb') as any
-  const { x, z, y, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
+  const { x, z, y } = getBoardHex3DCoords(boardHex)
+  const options = getLadderBattlementOptions(boardHex.pieceRotation)
   return (
     <group
-      position={[x, y, z]}
+      position={[x + options.xAdd, y - HEXGRID_HEX_HEIGHT + (HEXGRID_HEXCAP_HEIGHT / 2), z + options.zAdd]}
       rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
     >
       <mesh

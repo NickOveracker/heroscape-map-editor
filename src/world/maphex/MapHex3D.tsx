@@ -53,6 +53,8 @@ export const MapHex3D = ({
     boardHex.terrain === HexTerrain.palm && boardHex.isObstacleOrigin
   const isLadderHex =
     boardHex.terrain === HexTerrain.ladder && boardHex.isObstacleOrigin
+  const isBattlementHex =
+    boardHex.terrain === HexTerrain.battlement && boardHex.isObstacleOrigin
   const isLaurPalmHex =
     boardHex.terrain === HexTerrain.laurPalm && boardHex.isObstacleOrigin
   const isLaurBrushHex =
@@ -107,6 +109,7 @@ export const MapHex3D = ({
       {isTreeHex && <ForestTree boardHex={boardHex} />}
       {isPalmHex && <TicallaPalm boardHex={boardHex} />}
       {isLadderHex && <Ladder boardHex={boardHex} />}
+      {isBattlementHex && <Battlement boardHex={boardHex} />}
       {/* {isPalmHex && <Battlement boardHex={boardHex} />} */}
       {isBrushHex && <TicallaBrush boardHex={boardHex} />}
       {isLaurPalmHex && <TicallaPalm boardHex={boardHex} />}
