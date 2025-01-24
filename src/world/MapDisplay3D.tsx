@@ -218,12 +218,12 @@ export default function MapDisplay3D({
       />
 
       {/* BOTTOM RIGHT */}
-      <axesHelper
+      {/* <axesHelper
         position={[width, 0, length]}
         // position={[height - HEXGRID_HEX_APOTHEM, 0, length - 1]}
         scale={[width, 0, length]}
       // rotation={new Euler(0, Math.PI, 0)}
-      />
+      /> */}
 
       <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} />
       <EmptyHexes
