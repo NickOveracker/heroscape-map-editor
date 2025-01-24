@@ -789,4 +789,12 @@ export const piecesSoFar: Dictionary<Piece> = {
     template: Pieces.battlement,
     height: 5, // see example 8, pg 3 of Fortress rulebook https://github.com/Dissolutio/heroscape-map-editor/issues/1
   },
+  [Pieces.roadWall]: {
+    id: Pieces.roadWall,
+    title: `${Pieces.roadWall}`,
+    terrain: HexTerrain.roadWall,
+    size: 4,
+    template: Pieces.roadWall,
+    height: 3, // see example 3-6, pg 3 of RoadToTheForgottenForest rulebook https://github.com/Dissolutio/heroscape-map-editor/issues/2
+  },
 }

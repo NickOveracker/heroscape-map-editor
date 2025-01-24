@@ -21,10 +21,11 @@ export default function buildupVSFileMap(
   let { boardPieces } = blankMap
   const { boardHexes, hexMap } = blankMap
   console.log("🚀 ~ tiles:", tiles
-    .filter(t => t.type.toString().startsWith('14'))
-    .map(t => t.glyphLetter), tiles
-      .filter(t => t.type.toString().startsWith('14'))
-      .map(t => t.type))
+    // .filter(t => t.type.toString().startsWith('14'))
+    // .map(t => t.glyphLetter), tiles
+    //   .filter(t => t.type.toString().startsWith('14'))
+    //   .map(t => t.type)
+  )
   // const startZoneTiles = tiles.filter(t => t.type === 15001)
   const newBoardHexes = tiles.reduce(
     (boardHexes: BoardHexes, tile) => {

@@ -129,7 +129,10 @@ export function addPiece({
   const isLadderPieceID = piece.terrain === HexTerrain.ladder
   const isPlacingLadder = isLadderPieceID && isSpaceFree && isVerticalClearanceForPiece && isLadderPieceSupported
   const isBattlementPieceID = piece.terrain === HexTerrain.battlement
+  const isRoadWallPieceID = piece.terrain === HexTerrain.roadWall
+  const isRoadWallPieceSupported_TODO = true // TODO: compute
   const isPlacingBattlement = isBattlementPieceID && isBattlementPieceSupported_TODO
+  const isPlacingRoadWall = isRoadWallPieceID && isRoadWallPieceSupported_TODO
 
   // LADDERS, BATTLEMENTS
   if (isPlacingLadder) {
@@ -186,6 +189,16 @@ export function addPiece({
     }
   }
 
+  // ROADWALLS: Get CRAZY
+  if (isPlacingRoadWall) {
+    try {
+      // Battlements are just going to write piece ID, no matter what, and we will render from that
+      // write the new battlement piece
+      newBoardPieces[pieceID] = piece.id
+    } catch (error) {
+      console.log("🚀 ~ placing ladder piece error:", error)
+    }
+  }
   // BATTLEMENTS: Get CRAZY
   if (isPlacingBattlement) {
     try {
