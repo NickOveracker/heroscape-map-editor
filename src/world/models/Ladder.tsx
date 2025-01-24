@@ -6,30 +6,14 @@ import { useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from '../maphex/hexColors'
-import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_HEIGHT, HEXGRID_HEX_RADIUS, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
+import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
+import { getLadderBattlementOptions } from './getLadderBattlementOptions'
+
 
 export function Ladder({ boardHex }: { boardHex: BoardHex }) {
   const { nodes } = useGLTF('/handmade-ladder.glb') as any
   const { x, z, y } = getBoardHex3DCoords(boardHex)
-  const options = getOptions(boardHex.pieceRotation)
-  function getOptions(rotation: number) {
-    switch (rotation) {
-      case 0:
-        return { xAdd: HEXGRID_HEX_APOTHEM, zAdd: 0 }
-      case 1:
-        return { xAdd: HEXGRID_HEX_RADIUS * Math.sqrt(3) / 4, zAdd: HEXGRID_HEX_RADIUS - (HEXGRID_HEX_RADIUS / 4) }
-      case 2:
-        return { xAdd: -(HEXGRID_HEX_RADIUS * Math.sqrt(3) / 4), zAdd: HEXGRID_HEX_RADIUS - (HEXGRID_HEX_RADIUS / 4) }
-      case 3:
-        return { xAdd: -HEXGRID_HEX_APOTHEM, zAdd: 0 }
-      case 4:
-        return { xAdd: -(HEXGRID_HEX_RADIUS * Math.sqrt(3) / 4), zAdd: -(HEXGRID_HEX_RADIUS - (HEXGRID_HEX_RADIUS / 4)) }
-      case 5:
-        return { xAdd: HEXGRID_HEX_RADIUS * Math.sqrt(3) / 4, zAdd: -(HEXGRID_HEX_RADIUS - (HEXGRID_HEX_RADIUS / 4)) }
-      default:
-        return { xAdd: HEXGRID_HEX_APOTHEM, zAdd: 0 }
-    }
-  }
+  const options = getLadderBattlementOptions(boardHex.pieceRotation)
   return (
     <group
       position={[x + options.xAdd, y - HEXGRID_HEX_HEIGHT + (HEXGRID_HEXCAP_HEIGHT / 2), z + options.zAdd]}
