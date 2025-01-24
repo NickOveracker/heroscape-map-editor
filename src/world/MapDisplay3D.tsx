@@ -23,8 +23,8 @@ import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
-import { HEXGRID_HEX_APOTHEM } from '../utils/constants.ts'
 import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
+import { Battlement } from './models/Battlement.tsx'
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -38,6 +38,7 @@ export default function MapDisplay3D({
   const hexMap = useBoundStore((s) => s.hexMap)
   const viewingLevel = useBoundStore((s) => s.viewingLevel)
   const boardHexesArr = Object.values(boardHexes)
+  const battlementPids = Object.keys(boardPieces).filter(pid => pid.endsWith(Pieces.battlement))
   const [visibleBoardHexesArr, setVisibleBoardHexesArr] = React.useState(boardHexesArr)
 
   React.useEffect(() => {
@@ -242,6 +243,15 @@ export default function MapDisplay3D({
             boardHex={bh}
             onPointerUp={onPointerUp}
             onPointerUpLaurWall={onPointerUpLaurWall}
+          />
+        )
+      })}
+      {battlementPids.map((pid) => {
+        return (
+          <Battlement
+            key={pid}
+            pid={pid}
+          // onPointerUp={onPointerUp}
           />
         )
       })}
