@@ -6,13 +6,33 @@ import { useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from '../maphex/hexColors'
+import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
 
 export function Ladder({ boardHex }: { boardHex: BoardHex }) {
   const { nodes } = useGLTF('/handmade-ladder.glb') as any
-  const { x, z, y, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
+  const { x, z, y } = getBoardHex3DCoords(boardHex)
+  const options = getOptions(boardHex.pieceRotation)
+  function getOptions(rotation: number) {
+    switch (rotation) {
+      case 0:
+        return { xAdd: HEXGRID_HEX_APOTHEM, zAdd: 0 }
+      case 1:
+        return { xAdd: HEXGRID_HEX_APOTHEM, zAdd: 0 }
+      case 2:
+        return { xAdd: HEXGRID_HEX_APOTHEM, zAdd: 0 }
+      case 3:
+        return { xAdd: HEXGRID_HEX_APOTHEM, zAdd: 0 }
+      case 4:
+        return { xAdd: HEXGRID_HEX_APOTHEM, zAdd: 0 }
+      case 5:
+        return { xAdd: HEXGRID_HEX_APOTHEM, zAdd: 0 }
+      default:
+        return { xAdd: HEXGRID_HEX_APOTHEM, zAdd: 0 }
+    }
+  }
   return (
     <group
-      position={[x, y, z]}
+      position={[x + options.xAdd, y - HEXGRID_HEX_HEIGHT + HEXGRID_HEXCAP_HEIGHT, z + options.zAdd]}
       rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
     >
       <mesh

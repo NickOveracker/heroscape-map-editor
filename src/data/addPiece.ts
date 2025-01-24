@@ -56,6 +56,8 @@ export function addPiece({
     altitude: placementAltitude,
   })
   const pieceID = genPieceID(pieceHexID, piece.id, rotation)
+  const ladderPieceRotation = isVsTile ? (rotation + 5) % 6 : rotation % 6 // VS starts ladders at rotation 5 (top-right, NE), instead of 0 (right, E)
+  const ladderPieceID = genPieceID(pieceHexID, piece.id, ladderPieceRotation)
   const newPieceAltitude = placementAltitude + 1
   const underHexIds = piecePlaneCoords.map((cubeCoord) =>
     genBoardHexID({ ...cubeCoord, altitude: placementAltitude }),
@@ -81,6 +83,10 @@ export function addPiece({
   )
   const isSolidUnderAll = underHexIds.every((id) =>
     isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''),
+  )
+  const isLadderAuxiliaryUnderAll = underHexIds.every((id) =>
+    (newBoardHexes?.[id]?.terrain ?? '') === HexTerrain.ladder &&
+    newBoardHexes?.[id]?.isObstacleAuxiliary === true
   )
   const isEmptyUnderAll = underHexIds.every(
     (id) => (newBoardHexes?.[id]?.terrain ?? '') === HexTerrain.empty,
@@ -113,49 +119,67 @@ export function addPiece({
     (isFluidTerrainHex(piece.terrain) || isSolidTerrainHex(piece.terrain)) &&
     !isPlacingWallWalkOnWall
   const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
+  const isLadderPieceSupported = isSolidUnderAll || isLadderAuxiliaryUnderAll
   const isPlacingObstacle =
     isObstaclePieceID(piece.id) &&
     isSpaceFree &&
     isVerticalClearanceForPiece &&
     isObstaclePieceSupported
-  const isPlacingLadder = piece.terrain === HexTerrain.ladder
-  const isPlacingBattlement = piece.terrain === HexTerrain.battlement
+  const isLadderPieceID = piece.terrain === HexTerrain.ladder
+  const isPlacingLadder = isLadderPieceID && isSpaceFree && isVerticalClearanceForPiece && isLadderPieceSupported
+  const isBattlementPieceID = piece.terrain === HexTerrain.battlement
 
   // LADDERS, BATTLEMENTS
   if (isPlacingLadder) {
-    // 1, is there a ladder piece below us, or a solid land hex
-    const isLadderUnder = true // TODO
-    const ladderPieceRotation = isVsTile ? (rotation + 5) % 6 : rotation % 6 // VS starts ladders at rotation 5 (top-right, NE), instead of 0 (right, E)
-    const vertices = [ladderPieceRotation + 2, ladderPieceRotation + 3]
-    const buddyHex = genBoardHexID({ ...hexUtilsAdd(pieceCoords, hexUtilsGetNeighborForRotation(ladderPieceRotation)), altitude: placementAltitude })
-    console.log("🚀 ~rotation, buddyHex:", ladderPieceRotation, buddyHex)
-    const isLadderPieceSupported = isLadderUnder || isSolidUnderAll
-    const isSpaceFreeForLadder = true // TODO: clicked hex vertex check
+    // const vertices = [ladderPieceRotation + 2, ladderPieceRotation + 3]
+    // const buddyHex = genBoardHexID({ ...hexUtilsAdd(pieceCoords, hexUtilsGetNeighborForRotation(ladderPieceRotation)), altitude: newPieceAltitude })
     try {
-      newHexIds.forEach((newHexID, iForEach) => {
-        // TODO: all kinds of neighbor calculations
-        const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
-        const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
-        const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
-        const isSolidUnderneath = isSolidTerrainHex(hexUnderneath?.terrain)
-        if (isSolidUnderneath || isPlacingOnTable) {
-          // solids and fluids can replace the cap below
-          // remove cap beneath this land hex
-          newBoardHexes[hexUnderneath.id].isCap = false
-        }
-
+      newHexIds.forEach((newHexID, i) => {
+        // const hexUnderneath = newBoardHexes?.[underHexIds[i]]
+        // remove caps covered by this obstacle
+        // newBoardHexes[hexUnderneath.id].isCap = false
+        // write in the new hex
         newBoardHexes[newHexID] = {
           id: newHexID,
-          q: piecePlaneCoords[iForEach].q,
-          r: piecePlaneCoords[iForEach].r,
-          s: piecePlaneCoords[iForEach].s,
+          q: piecePlaneCoords[i].q,
+          r: piecePlaneCoords[i].r,
+          s: piecePlaneCoords[i].s,
           altitude: newPieceAltitude,
           terrain: piece.terrain,
-          pieceID,
-          pieceRotation: rotation,
-          isCap: !isSolidAbove, // not a cap if solid hex directly above
+          pieceID: ladderPieceID,
+          pieceRotation: ladderPieceRotation,
+          isObstacleOrigin: true, // ladders have one origin, and one vertical clearance auxiliary
+          isObstacleAuxiliary: false, // ladders have one origin, and one vertical clearance auxiliary
+          obstacleHeight: piece.height
         }
+        // write in the new vertical clearances, this will block some pieces at these coordinates
+        Array(piece.height)
+          .fill(0)
+          .forEach((_, j) => {
+            const clearanceHexAltitude = newPieceAltitude + 1 + j
+            const clearanceID = genBoardHexID({
+              ...piecePlaneCoords[i],
+              altitude: clearanceHexAltitude,
+            })
+            newBoardHexes[clearanceID] = {
+              id: clearanceID,
+              q: piecePlaneCoords[i].q,
+              r: piecePlaneCoords[i].r,
+              s: piecePlaneCoords[i].s,
+              altitude: clearanceHexAltitude,
+              terrain: piece.terrain,
+              pieceID: ladderPieceID,
+              pieceRotation: ladderPieceRotation,
+              isObstacleOrigin: false, // ladders have one origin, and one vertical clearance auxiliary
+              isObstacleAuxiliary: true, // ladders have one origin, and one vertical clearance auxiliary
+              obstacleHeight: piece.height // probably unused
+            }
+          })
       })
+
+      //TODO: write the fluid base for glaciers/outcrops/hive
+      // write the new piece
+      newBoardPieces[ladderPieceID] = piece.id
     } catch (error) {
       console.log("🚀 ~ placing ladder piece error:", error)
     }
