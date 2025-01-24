@@ -524,7 +524,7 @@ export const piecesSoFar: Dictionary<Piece> = {
   [Pieces.marvel]: {
     id: Pieces.marvel,
     title: `${Pieces.marvel}`,
-    terrain: HexTerrain.ruin,
+    terrain: HexTerrain.marvelRuin,
     size: 6,
     template: Pieces.marvel,
     height: 8, // rulebook height is warehoue upper floor 9 levels above base, the windows need a vertical obstruction template done + reality testing

@@ -29,7 +29,7 @@ export interface BoardHex extends CubeCoordinate {
   obstacleHeight?: number // used to find the cap hex when clicking a castle wall (it's 9 up with a base, 8 up when wall-on-wall)
 }
 export type BoardPieces = {
-  [id: string]: Pieces
+  [id: string]: string // string = piece inventory ID
 }
 export type BoardHexes = {
   [qraID: string]: BoardHex

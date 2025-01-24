@@ -20,7 +20,6 @@ import {
   verticalObstructionTemplates,
   verticalSupportTemplates,
 } from './ruins-templates'
-import { hexUtilsAdd, hexUtilsGetNeighborForRotation } from '../utils/hex-utils'
 
 export type PieceAddArgs = {
   piece: Piece

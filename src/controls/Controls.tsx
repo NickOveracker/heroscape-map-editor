@@ -19,6 +19,7 @@ const Controls = () => {
 
 
   const handleClickLogState = () => {
+    console.log("🚀 ~ Controls ~ boardHexes:", boardHexes)
     console.log("🚀 ~ Controls ~ boardPieces:", boardPieces)
     console.log("🚀 ~ Controls ~ hexMap:", hexMap)
   }
