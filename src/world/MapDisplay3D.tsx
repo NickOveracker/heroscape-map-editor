@@ -19,10 +19,11 @@ import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
 import { decodePieceID, genBoardHexID, getBoardHexesRectangularMapDimensions } from '../utils/map-utils.ts'
-import { buildupJsonFileMap } from '../data/buildupMap.ts'
+import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
+import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import { Battlement } from './models/Battlement.tsx'
 import { RoadWall } from './models/RoadWall.tsx'
 
@@ -113,24 +114,23 @@ export default function MapDisplay3D({
       }
     } else {
       // AUTO VSCAPE
-      // const fileName = '/everything_bagle.hsc'
-      // fetch(fileName)
-      //   .then((response) => {
-      //     return response.arrayBuffer()
-      //   })
-      //   .then((arrayBuffer) => {
-      //     const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
-      //     // buildupVSFileMap should return errorArr for enqueueSnackbar
-      //     const vsMap = buildupVSFileMap(
-      //       vsFileData.tiles,
-      //       vsFileData?.name ?? fileName,
-      //     )
-      //     loadMap(vsMap)
-      //     enqueueSnackbar(
-      //       `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
-      //     )
-      //   })
-
+      const fileName = '/ladders.hsc'
+      fetch(fileName)
+        .then((response) => {
+          return response.arrayBuffer()
+        })
+        .then((arrayBuffer) => {
+          const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
+          // buildupVSFileMap should return errorArr for enqueueSnackbar
+          const vsMap = buildupVSFileMap(
+            vsFileData.tiles,
+            vsFileData?.name ?? fileName,
+          )
+          loadMap(vsMap)
+          enqueueSnackbar(
+            `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
+          )
+        })
       // AUTO JSON
       // const fileName = '/Welcome.json'
       // fetch(fileName).then(async (response) => {

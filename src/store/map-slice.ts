@@ -3,7 +3,6 @@ import { BoardHex, MapState, Piece } from '../types'
 import { AppState } from './store'
 import { produce } from 'immer'
 import { addPiece } from '../data/addPiece'
-import initialMapState from './homepageMap'
 
 export interface MapSlice extends MapState {
   paintTile: (args: PaintTileArgs) => void
@@ -19,12 +18,9 @@ type PaintTileArgs = {
 }
 
 const createMapSlice: StateCreator<AppState, [], [], MapSlice> = (set) => ({
-  boardHexes: initialMapState.boardHexes,
-  hexMap: initialMapState.hexMap,
-  boardPieces: initialMapState.boardPieces,
-  // boardHexes: {},
-  // hexMap: { id: '', name: '', shape: 'rectangle', width: 20, length: 20 },
-  // boardPieces: {},
+  boardHexes: {},
+  hexMap: { id: '', name: '', shape: 'rectangle', width: 20, length: 20 },
+  boardPieces: {},
   paintTile: ({ piece, clickedHex, rotation }: PaintTileArgs) =>
     set((state) => {
       return produce(state, (draft) => {
