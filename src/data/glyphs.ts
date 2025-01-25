@@ -289,27 +289,26 @@ Bolt of the Witherwood (Ancient Artifact): After moving and before attacking wit
 Revenant's Tome (Unnatural Revival): This figure may use this tome after revealing an Order Marker on its Army Card. Before taking that turn with this figure, place one previously destroyed Unique figure from your army onto any empty space(s) within five(5) clear sight spaces of this figure. Immediately make a Normal Attack with the placed figure, then immediately destroy that placed figure. While the placed figure is on the board, consider all of its special powers to be negated. The placed figure is considered to have a life of 1, and is not affected by any special power on any Army Card while on the board.
 
 */
-
 // const vsGlyphLetterToName = {
-//   '?': 'unknown', // tile.type: 14063="unknown"
-//   A: 'astrid',
-//   G: 'gerda',
-//   I: 'ivor',
-//   V: 'valda',
-//   D: 'dragmar',
-//   B: 'brandar',
-//   K: 'kelda',
-//   E: 'erland',
-//   M: 'mitonsoul',
-//   L: 'lodin',
-//   S: 'sturla',
-//   R: 'rannveig',
-//   J: 'jalgard',
-//   W: 'wannok',
-//   P: 'proftaka',
-//   O: 'oreld',
-//   N: 'nilrend',
-//   C: 'crevcor',
-//   T: 'thorian',
-//   U: 'ulaniva',
+//   '?': 'unknown',  // 14063
+//   A: 'astrid', // 14065
+//   G: 'gerda',  // 14071
+//   I: 'ivor', // 14073
+//   V: 'valda', // 14086
+//   D: 'dragmar', // 14068
+//   B: 'brandar', // 14066
+//   K: 'kelda', // 14075
+//   E: 'erland', // 14069
+//   M: 'mitonsoul', // 14077
+//   L: 'lodin', // 14076
+//   S: 'sturla', // 14083
+//   R: 'rannveig', // 14082
+//   J: 'jalgard', // 14074
+//   W: 'wannok', // 14087
+//   P: 'proftaka', // 14080
+//   O: 'oreld', // 14079
+//   N: 'nilrend', // 14078
+//   C: 'crevcor', // 14067
+//   T: 'thorian', // 14084
+//   U: 'ulaniva', // 14085
 // }+

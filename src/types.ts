@@ -29,7 +29,7 @@ export interface BoardHex extends CubeCoordinate {
   obstacleHeight?: number // used to find the cap hex when clicking a castle wall (it's 9 up with a base, 8 up when wall-on-wall)
 }
 export type BoardPieces = {
-  [id: string]: Pieces
+  [id: string]: string // string = piece inventory ID
 }
 export type BoardHexes = {
   [qraID: string]: BoardHex
@@ -82,12 +82,15 @@ export enum HexTerrain {
   _vsPersonal = '_vsPersonal',
   _vsFigure = '_vsFigure',
 }
+export type PieceInventory = { [key: string]: number }
 export type Piece = {
   id: Pieces // aqr+pieceID (This is important, as this id structure lets us make real small map strings for the URL -- shareable maps!!)
+  title: string, // the human friendly name
   terrain: string
   size: number
   template: string
   height: number
+  isUninventoried?: boolean, // so far just marvel-ruins-broken and castle-arch-no-door versions (these are just variations on their inventoried counterparts)
 }
 export enum PiecePrefixes {
   grass = 'g',
@@ -163,13 +166,13 @@ export enum Pieces {
   road1 = `${PiecePrefixes.road}1`,
   road2 = `${PiecePrefixes.road}2`,
   road5 = `${PiecePrefixes.road}5`, // only land piece to have the straight-5 template, it's a bridge
-  // Fluid Land: there will be more sizes, and outcrop/glacier/hive bases can be used as multi-hex shadow/ice/swampWater
   wellspringWater1 = `${PiecePrefixes.wellspringWater}1`,
   water1 = `${PiecePrefixes.water}1`,
   water3 = `${PiecePrefixes.water}3`,
   lava1 = `${PiecePrefixes.lava}1`,
   swampWater1 = `${PiecePrefixes.swampWater}1`,
   swampWater3 = `${PiecePrefixes.swampWater}3`,
+  swampWater6 = `${PiecePrefixes.swampWater}6`,
   ice1 = `${PiecePrefixes.ice}1`,
   ice3 = `${PiecePrefixes.ice}3`,
   ice4 = `${PiecePrefixes.ice}4`,

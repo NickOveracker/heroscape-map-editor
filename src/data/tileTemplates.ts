@@ -287,6 +287,8 @@ const tileTemplates: Dictionary<CubeCoordinate[]> = {
   [Pieces.castleWallCorner]: basic1,
   [Pieces.castleWallStraight]: basic1,
   [Pieces.castleWallEnd]: basic1,
+  [Pieces.ladder]: basic1,
+  [Pieces.battlement]: basic1,
 
   [Pieces.roadWall]: straight4,
 }

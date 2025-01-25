@@ -3,7 +3,6 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import useBoundStore from '../store/store'
 
 export default function PieceSizeSelect() {
-  const penMode = useBoundStore((s) => s.penMode)
   const pieceSize = useBoundStore((s) => s.pieceSize)
   const togglePieceSize = useBoundStore((s) => s.togglePieceSize)
   const flatPieceSizes = useBoundStore((s) => s.flatPieceSizes)
@@ -22,26 +21,28 @@ export default function PieceSizeSelect() {
         onChange={handleChange}
         exclusive
         aria-label="piece select for current pen mode"
+        sx={{
+          alignItems: 'center',
+        }}
       >
         <span>Select piece:</span>
-        {isSizes ? (
-          flatPieceSizes.map((s) => (
-            <ToggleButton
-              key={s}
-              value={`${s}`}
-              aria-label={`${s}-hex sized piece`}
-            >
-              {s}
-            </ToggleButton>
-          ))
-        ) : (
-          <ToggleButton
-            value={'1'}
-            aria-label={`only piece for current pen mode`}
-          >
-            {penMode}
-          </ToggleButton>
-        )}
+        <span>
+          {isSizes ? (
+            flatPieceSizes.map((s) => (
+              <ToggleButton
+                key={s}
+                value={`${s}`}
+                aria-label={`${s}-hex sized piece`}
+              >
+                {s}
+              </ToggleButton>
+            ))
+          ) : (
+            <>
+              No sizes
+            </>
+          )}
+        </span>
       </ToggleButtonGroup>
     </span>
   )

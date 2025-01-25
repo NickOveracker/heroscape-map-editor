@@ -55,6 +55,8 @@ export function addPiece({
     altitude: placementAltitude,
   })
   const pieceID = genPieceID(pieceHexID, piece.id, rotation)
+  const ladderBattlementPieceRotation = isVsTile ? (rotation + 5) % 6 : rotation % 6 // VS starts ladders at rotation 5 (top-right, NE), instead of 0 (right, E)
+  const ladderBattlementPieceID = genPieceID(pieceHexID, piece.id, ladderBattlementPieceRotation)
   const newPieceAltitude = placementAltitude + 1
   const underHexIds = piecePlaneCoords.map((cubeCoord) =>
     genBoardHexID({ ...cubeCoord, altitude: placementAltitude }),
@@ -80,6 +82,10 @@ export function addPiece({
   )
   const isSolidUnderAll = underHexIds.every((id) =>
     isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''),
+  )
+  const isLadderAuxiliaryUnderAll = underHexIds.every((id) =>
+    (newBoardHexes?.[id]?.terrain ?? '') === HexTerrain.ladder &&
+    newBoardHexes?.[id]?.isObstacleAuxiliary === true
   )
   const isEmptyUnderAll = underHexIds.every(
     (id) => (newBoardHexes?.[id]?.terrain ?? '') === HexTerrain.empty,
@@ -112,41 +118,218 @@ export function addPiece({
     (isFluidTerrainHex(piece.terrain) || isSolidTerrainHex(piece.terrain)) &&
     !isPlacingWallWalkOnWall
   const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
+  const isLadderPieceSupported = isSolidUnderAll || isLadderAuxiliaryUnderAll
+  const isBattlementPieceSupported_TODO = true // TODO: compute
   const isPlacingObstacle =
     isObstaclePieceID(piece.id) &&
     isSpaceFree &&
     isVerticalClearanceForPiece &&
     isObstaclePieceSupported
+  const isLadderPieceID = piece.terrain === HexTerrain.ladder
+  const isPlacingLadder = isLadderPieceID && isSpaceFree && isVerticalClearanceForPiece && isLadderPieceSupported
+  const isBattlementPieceID = piece.terrain === HexTerrain.battlement
+  const isRoadWallPieceID = piece.terrain === HexTerrain.roadWall
+  const isRoadWallPieceSupported_TODO = true // TODO: compute
+  const isPlacingBattlement = isBattlementPieceID && isBattlementPieceSupported_TODO
+  const isPlacingRoadWall = isRoadWallPieceID && isRoadWallPieceSupported_TODO
+
+  // LADDERS, BATTLEMENTS
+  if (isPlacingLadder) {
+    // const vertices = [ladderPieceRotation + 2, ladderPieceRotation + 3]
+    // const buddyHex = genBoardHexID({ ...hexUtilsAdd(pieceCoords, hexUtilsGetNeighborForRotation(ladderPieceRotation)), altitude: newPieceAltitude })
+    try {
+      newHexIds.forEach((newHexID, i) => {
+        // const hexUnderneath = newBoardHexes?.[underHexIds[i]]
+        // remove caps covered by this obstacle
+        // newBoardHexes[hexUnderneath.id].isCap = false
+        // write in the new hex
+        newBoardHexes[newHexID] = {
+          id: newHexID,
+          q: piecePlaneCoords[i].q,
+          r: piecePlaneCoords[i].r,
+          s: piecePlaneCoords[i].s,
+          altitude: newPieceAltitude,
+          terrain: piece.terrain,
+          pieceID: ladderBattlementPieceID,
+          pieceRotation: ladderBattlementPieceRotation,
+          isObstacleOrigin: true, // ladders have one origin, and one vertical clearance auxiliary
+          isObstacleAuxiliary: false, // ladders have one origin, and one vertical clearance auxiliary
+          obstacleHeight: piece.height
+        }
+        // write in the new vertical clearances, this will block some pieces at these coordinates
+        Array(piece.height)
+          .fill(0)
+          .forEach((_, j) => {
+            const clearanceHexAltitude = newPieceAltitude + 1 + j
+            const clearanceID = genBoardHexID({
+              ...piecePlaneCoords[i],
+              altitude: clearanceHexAltitude,
+            })
+            newBoardHexes[clearanceID] = {
+              id: clearanceID,
+              q: piecePlaneCoords[i].q,
+              r: piecePlaneCoords[i].r,
+              s: piecePlaneCoords[i].s,
+              altitude: clearanceHexAltitude,
+              terrain: piece.terrain,
+              pieceID: ladderBattlementPieceID,
+              pieceRotation: ladderBattlementPieceRotation,
+              isObstacleOrigin: false, // ladders have one origin, and one vertical clearance auxiliary
+              isObstacleAuxiliary: true, // ladders have one origin, and one vertical clearance auxiliary
+              obstacleHeight: piece.height // probably unused
+            }
+          })
+      })
+
+      // write the new ladder piece
+      newBoardPieces[ladderBattlementPieceID] = piece.id
+    } catch (error) {
+      console.log("🚀 ~ placing ladder piece error:", error)
+    }
+  }
+
+  // ROADWALLS: Get CRAZY
+  if (isPlacingRoadWall) {
+    try {
+      // Battlements are just going to write piece ID, no matter what, and we will render from that
+      // write the new battlement piece
+      newBoardPieces[pieceID] = piece.id
+    } catch (error) {
+      console.log("🚀 ~ placing ladder piece error:", error)
+    }
+  }
+  // BATTLEMENTS: Get CRAZY
+  if (isPlacingBattlement) {
+    try {
+      // Battlements are just going to write piece ID, no matter what, and we will render from that
+      // write the new battlement piece
+      newBoardPieces[ladderBattlementPieceID] = piece.id
+    } catch (error) {
+      console.log("🚀 ~ placing ladder piece error:", error)
+    }
+  }
+
+  // RUINS
+  if (piece.terrain === HexTerrain.ruin) {
+    const isSolidUnderAllSupportHexes = underHexIds.every((_, i) => {
+      // Ruins only need to be supported under their center of mass, and we could be more liberal than this (allowing combinations of certain hexes)
+      const isRequiredToSupportThisOne =
+        verticalSupportTemplates?.[piece.id]?.[i]
+      return isRequiredToSupportThisOne
+        ? isSolidTerrainHex(newBoardHexes?.[underHexIds[i]]?.terrain)
+        : true
+    })
+    const isSpaceFreeForRuin = newHexIds.every((newID, i) => {
+      // Ruins, and LaurAddons, only block at certain angles per rotation, unlike obstacles that block everything
+      // Here is where we calculate our Ruin we are placing versus the ruin on the hex, can they co-exist?
+      const hex = newBoardHexes?.[newID]
+      if (!hex) return true
+      const terrain = hex?.terrain
+      const isForNewInterior = interiorHexTemplates?.[piece.id]?.[i] > 0 // origin & aux hexes
+      const isBlocked =
+        isSolidTerrainHex(terrain) ||
+        isFluidTerrainHex(terrain) ||
+        (isForNewInterior && hex.isObstacleOrigin) ||
+        (isForNewInterior && hex.isObstacleAuxiliary)
+      return !isBlocked
+    })
+
+    const isPlacingRuin =
+      isSpaceFreeForRuin &&
+      isSolidUnderAllSupportHexes &&
+      isVerticalClearanceForPiece
+    if (isPlacingRuin) {
+      newHexIds.forEach((newHexID, i) => {
+        const isObstacleAuxiliary = interiorHexTemplates[piece.id][i] === 1 // 1 marks auxiliary hexes, 2 marks the origin, in these template arrays
+        const isPieceOrigin = i === 0 // hacking off the template order, should be 0 but we shift the template for ruins, (because then the wallWalk template handily matches the vertical clearance of a ruin)
+
+        // write in vertical clearances for all the hexes a ruin borders
+        Array(verticalObstructionTemplates[piece.id][i])
+          .fill(0)
+          .forEach((_, j) => {
+            const clearanceHexAltitude = newPieceAltitude + j
+            const clearanceID = genBoardHexID({
+              ...piecePlaneCoords[i],
+              altitude: clearanceHexAltitude,
+            })
+            if (!newBoardHexes[clearanceID]) {
+              // BUGFIX: only write in vertical clearance if nothing is already there? But...this seems an incomplete solution
+              newBoardHexes[clearanceID] = {
+                id: clearanceID,
+                q: piecePlaneCoords[i].q,
+                r: piecePlaneCoords[i].r,
+                s: piecePlaneCoords[i].s,
+                altitude: clearanceHexAltitude,
+                terrain: piece.terrain,
+                pieceID,
+                pieceRotation: rotation,
+              }
+            }
+          })
+
+        // write in the new ruin hex only for one, the one that will get drawn, all the rest are simply marked as occupied
+        if (isPieceOrigin) {
+          newBoardHexes[newHexID] = {
+            id: newHexID,
+            q: piecePlaneCoords[i].q,
+            r: piecePlaneCoords[i].r,
+            s: piecePlaneCoords[i].s,
+            altitude: newPieceAltitude,
+            terrain: piece.terrain,
+            pieceID,
+            pieceRotation: rotation,
+            isObstacleOrigin: true,
+          }
+        }
+        if (isObstacleAuxiliary) {
+          newBoardHexes[newHexID] = {
+            id: newHexID,
+            q: piecePlaneCoords[i].q,
+            r: piecePlaneCoords[i].r,
+            s: piecePlaneCoords[i].s,
+            altitude: newPieceAltitude,
+            terrain: piece.terrain,
+            pieceID,
+            pieceRotation: rotation,
+            isObstacleOrigin: false,
+            isObstacleAuxiliary: true,
+          }
+        }
+      })
+      // write the new piece
+      newBoardPieces[pieceID] = piece.id
+    }
+  }
+
   // LAUR WALL
-  // if (piece.terrain === HexTerrain.laurWall &&
-  //   piece.id !== Pieces.laurWallPillar) {
-  //   const isLaurWallRuin = piece.id !== Pieces.laurWallRuin
-  //   const isLaurWallShort = piece.id !== Pieces.laurWallShort
-  //   const isLaurWallLong = piece.id !== Pieces.laurWallLong
-  //   // const pieceID = genPieceID(clickedHex.id, piece.id, addonRotation)
-  //   // const isPlacingLaurAddon = isVerticalClearanceForPiece
-  //   // const underHex = underHexIds.map(
-  //   //   (id) => newBoardHexes?.[id]?. === HexTerrain.castle,
-  //   // )
-  //   // const pillarRotation =
-  //   const pillarSideRotations: { [side: string]: number } = {
-  //     plusX: 0,
-  //     minusY: 1.5,
-  //     minusX: 3,
-  //     plusY: 4.5,
-  //   }
-  //   if (isLaurWallRuin) {
+  if (piece.terrain === HexTerrain.laurWall && piece.id !== Pieces.laurWallPillar) {
+    // const isLaurWallRuin = piece.id !== Pieces.laurWallRuin
+    // const isLaurWallShort = piece.id !== Pieces.laurWallShort
+    // const isLaurWallLong = piece.id !== Pieces.laurWallLong
+    // // const pieceID = genPieceID(clickedHex.id, piece.id, addonRotation)
+    // // const isPlacingLaurAddon = isVerticalClearanceForPiece
+    // // const underHex = underHexIds.map(
+    // //   (id) => newBoardHexes?.[id]?. === HexTerrain.castle,
+    // // )
+    // // const pillarRotation =
+    // const pillarSideRotations: { [side: string]: number } = {
+    //   plusX: 0,
+    //   minusY: 1.5,
+    //   minusX: 3,
+    //   plusY: 4.5,
+    // }
+    // if (isLaurWallRuin) {
 
-  //   }
-  //   // const isWallNeedPillarToo = underHexIds.every((id) => {
-  //   //   const buddyHex = '' // pillar?
-  //   //   return !(newBoardHexes?.[id]?.laurAddons?.[(laurSide ?? '')])
-  //   // })
+    // }
+    // const isWallNeedPillarToo = underHexIds.every((id) => {
+    //   const buddyHex = '' // pillar?
+    //   return !(newBoardHexes?.[id]?.laurAddons?.[(laurSide ?? '')])
+    // })
 
-  //   // TODO: WRITE NEW PILLAR IF THERE IS ONE
-  //   // write the new laur addon piece
-  //   // newBoardPieces[pieceID] = piece.id
-  // }
+    // TODO: WRITE NEW PILLAR IF THERE IS ONE
+    // write the new laur addon piece
+    // newBoardPieces[pieceID] = piece.id
+  }
 
   // CASTLE BASE
   if (piece.id.includes(PiecePrefixes.castleBase)) {
@@ -298,29 +481,33 @@ export function addPiece({
       (isSolidTile && isSolidUnderAtLeastOne) ||
       (isFluidTile && isSolidUnderAll)
     if (isSpaceFree && isLandPieceSupported) {
-      newHexIds.forEach((newHexID, iForEach) => {
-        const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
-        const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
-        const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
-        const isSolidUnderneath = isSolidTerrainHex(hexUnderneath?.terrain)
-        if (isSolidUnderneath || isPlacingOnTable) {
-          // solids and fluids can replace the cap below
-          // remove cap beneath this land hex
-          newBoardHexes[hexUnderneath.id].isCap = false
-        }
+      try {
+        newHexIds.forEach((newHexID, iForEach) => {
+          const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
+          const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
+          const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
+          const isSolidUnderneath = isSolidTerrainHex(hexUnderneath?.terrain)
+          if (isSolidUnderneath || isPlacingOnTable) {
+            // solids and fluids can replace the cap below
+            // remove cap beneath this land hex
+            newBoardHexes[hexUnderneath.id].isCap = false
+          }
 
-        newBoardHexes[newHexID] = {
-          id: newHexID,
-          q: piecePlaneCoords[iForEach].q,
-          r: piecePlaneCoords[iForEach].r,
-          s: piecePlaneCoords[iForEach].s,
-          altitude: newPieceAltitude,
-          terrain: piece.terrain,
-          pieceID,
-          pieceRotation: rotation,
-          isCap: !isSolidAbove, // not a cap if solid hex directly above
-        }
-      })
+          newBoardHexes[newHexID] = {
+            id: newHexID,
+            q: piecePlaneCoords[iForEach].q,
+            r: piecePlaneCoords[iForEach].r,
+            s: piecePlaneCoords[iForEach].s,
+            altitude: newPieceAltitude,
+            terrain: piece.terrain,
+            pieceID,
+            pieceRotation: rotation,
+            isCap: !isSolidAbove, // not a cap if solid hex directly above
+          }
+        })
+      } catch (error) {
+        console.log("🚀 ~ newHexIds.forEach ~ error:", error)
+      }
       // write the new piece
       newBoardPieces[pieceID] = piece.id
     }
@@ -370,98 +557,6 @@ export function addPiece({
     //TODO: write the fluid base for glaciers/outcrops/hive
     // write the new piece
     newBoardPieces[pieceID] = piece.id
-  }
-
-  // RUINS
-  if (piece.terrain === HexTerrain.ruin) {
-    const isSolidUnderAllSupportHexes = underHexIds.every((_, i) => {
-      // Ruins only need to be supported under their center of mass, and we could be more liberal than this (allowing combinations of certain hexes)
-      const isRequiredToSupportThisOne =
-        verticalSupportTemplates?.[piece.id]?.[i]
-      return isRequiredToSupportThisOne
-        ? isSolidTerrainHex(newBoardHexes?.[underHexIds[i]]?.terrain)
-        : true
-    })
-    const isSpaceFreeForRuin = newHexIds.every((newID, i) => {
-      // Ruins, and LaurAddons, only block at certain angles per rotation, unlike obstacles that block everything
-      // Here is where we calculate our Ruin we are placing versus the ruin on the hex, can they co-exist?
-      const hex = newBoardHexes?.[newID]
-      if (!hex) return true
-      const terrain = hex?.terrain
-      const isForNewInterior = interiorHexTemplates?.[piece.id]?.[i] > 0 // origin & aux hexes
-      const isBlocked =
-        isSolidTerrainHex(terrain) ||
-        isFluidTerrainHex(terrain) ||
-        (isForNewInterior && hex.isObstacleOrigin) ||
-        (isForNewInterior && hex.isObstacleAuxiliary)
-      return !isBlocked
-    })
-
-    const isPlacingRuin =
-      isSpaceFreeForRuin &&
-      isSolidUnderAllSupportHexes &&
-      isVerticalClearanceForPiece
-    if (isPlacingRuin) {
-      newHexIds.forEach((newHexID, i) => {
-        const isObstacleAuxiliary = interiorHexTemplates[piece.id][i] === 1 // 1 marks auxiliary hexes, 2 marks the origin, in these template arrays
-        const isPieceOrigin = i === 0 // hacking off the template order, should be 0 but we shift the template for ruins, (because then the wallWalk template handily matches the vertical clearance of a ruin)
-
-        // write in vertical clearances for all the hexes a ruin borders
-        Array(verticalObstructionTemplates[piece.id][i])
-          .fill(0)
-          .forEach((_, j) => {
-            const clearanceHexAltitude = newPieceAltitude + j
-            const clearanceID = genBoardHexID({
-              ...piecePlaneCoords[i],
-              altitude: clearanceHexAltitude,
-            })
-            if (!newBoardHexes[clearanceID]) {
-              // BUGFIX: only write in vertical clearance if nothing is already there? But...this seems an incomplete solution
-              newBoardHexes[clearanceID] = {
-                id: clearanceID,
-                q: piecePlaneCoords[i].q,
-                r: piecePlaneCoords[i].r,
-                s: piecePlaneCoords[i].s,
-                altitude: clearanceHexAltitude,
-                terrain: piece.terrain,
-                pieceID,
-                pieceRotation: rotation,
-              }
-            }
-          })
-
-        // write in the new ruin hex only for one, the one that will get drawn, all the rest are simply marked as occupied
-        if (isPieceOrigin) {
-          newBoardHexes[newHexID] = {
-            id: newHexID,
-            q: piecePlaneCoords[i].q,
-            r: piecePlaneCoords[i].r,
-            s: piecePlaneCoords[i].s,
-            altitude: newPieceAltitude,
-            terrain: piece.terrain,
-            pieceID,
-            pieceRotation: rotation,
-            isObstacleOrigin: true,
-          }
-        }
-        if (isObstacleAuxiliary) {
-          newBoardHexes[newHexID] = {
-            id: newHexID,
-            q: piecePlaneCoords[i].q,
-            r: piecePlaneCoords[i].r,
-            s: piecePlaneCoords[i].s,
-            altitude: newPieceAltitude,
-            terrain: piece.terrain,
-            pieceID,
-            pieceRotation: rotation,
-            isObstacleOrigin: false,
-            isObstacleAuxiliary: true,
-          }
-        }
-      })
-      // write the new piece
-      newBoardPieces[pieceID] = piece.id
-    }
   }
   return { newBoardHexes, newBoardPieces }
 }

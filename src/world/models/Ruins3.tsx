@@ -7,13 +7,20 @@ import {
   HEXGRID_HEX_RADIUS,
 } from '../../utils/constants'
 import { hexTerrainColor } from '../maphex/hexColors'
+import ObstacleBase from './ObstacleBase'
 
-export default function Ruins3({ boardHex }: { boardHex: BoardHex }) {
+export default function Ruins3({
+  boardHex,
+  underHexTerrain
+}: {
+  boardHex: BoardHex
+  underHexTerrain: string
+}) {
   const {
     nodes,
     //  materials,
   } = useGLTF('/ruin3-colored-lowpoly.glb') as any
-  const { x, z } = getBoardHex3DCoords(boardHex)
+  const { x, z, yBaseCap } = getBoardHex3DCoords(boardHex)
   const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT
   const options = getOptions(boardHex.pieceRotation)
   function getOptions(rotation: number) {
@@ -55,21 +62,29 @@ export default function Ruins3({ boardHex }: { boardHex: BoardHex }) {
     }
   }
   return (
-    <group
-      position={[x + options.xAdd, y, z + options.zAdd]}
-      rotation={[0, options.rotationY, 0]}
-      scale={0.039}
-      onPointerEnter={(e) => {
-        e.stopPropagation() // prevent hover hex from passing thru
-      }}
-    >
-      <mesh
-        geometry={nodes.Ruin_Large_Scanned.geometry}
-        // material={materials.RuinGray}
+    <>
+      <group
+        position={[x + options.xAdd, y, z + options.zAdd]}
+        rotation={[0, options.rotationY, 0]}
+        scale={0.039}
+        onPointerEnter={(e) => {
+          e.stopPropagation() // prevent hover hex from passing thru
+        }}
       >
-        <meshMatcapMaterial color={hexTerrainColor[HexTerrain.ruin]} />
-      </mesh>
-    </group>
+        <mesh
+          geometry={nodes.Ruin_Large_Scanned.geometry}
+        // material={materials.RuinGray}
+        >
+          <meshMatcapMaterial color={hexTerrainColor[HexTerrain.ruin]} />
+        </mesh>
+      </group>
+      <ObstacleBase
+        x={x}
+        y={yBaseCap}
+        z={z}
+        color={hexTerrainColor[underHexTerrain]}
+      />
+    </>
   )
 }
 

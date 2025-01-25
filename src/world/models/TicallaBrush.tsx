@@ -3,15 +3,18 @@ import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
+import { HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
 
 export default function TicallaBrush({ boardHex }: { boardHex: BoardHex }) {
-  const { x, z, yBase, yWithBase } = getBoardHex3DCoords(boardHex)
+  const { x, z, y } = getBoardHex3DCoords(boardHex)
+  const yTree = y + HEXGRID_HEXCAP_HEIGHT / 2
+  const yBase = y + HEXGRID_HEXCAP_HEIGHT / 2
   const { nodes } = useGLTF('/ticalla-brush-colored-lowpoly.glb') as any
   const rotation = boardHex?.pieceRotation ?? 0
   return (
     <group>
       <group
-        position={[x, yWithBase, z]}
+        position={[x, yTree, z]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
       >
         <mesh geometry={nodes.PlankFern1_1.geometry}>

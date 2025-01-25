@@ -4,11 +4,11 @@ import { CameraControls, OrthographicCamera, PerspectiveCamera, Stars } from '@r
 import Lights from './Lights'
 import MyCameraControls from './camera/MyCameraControls'
 import MapDisplay3D from './MapDisplay3D'
-// import GridHelper from './GridHelper'
 import * as THREE from 'three'
 import useBoundStore from '../store/store'
 import TakeAPictureBox from './camera/TakeAPictureBox'
 import { ClickAwayListener } from '@mui/material'
+import { CAMERA_FOV } from '../utils/constants'
 
 const World = ({
   cameraControlsRef
@@ -45,7 +45,7 @@ const World = ({
           {/* <color attach="background" args={["white"]} /> */}
           <PerspectiveCamera
             position={[10, 10, 10]}
-            // fov={CAMERA_FOV}
+            fov={CAMERA_FOV}
             makeDefault={!isOrthoCam}
           />
           <OrthographicCamera position={[100, 1000, 100]} zoom={30} makeDefault={isOrthoCam} />

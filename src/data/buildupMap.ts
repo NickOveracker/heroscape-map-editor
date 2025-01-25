@@ -20,11 +20,25 @@ export default function buildupVSFileMap(
   const blankMap = getBlankHexoscapeMapForVSTiles(tiles, mapName)
   let { boardPieces } = blankMap
   const { boardHexes, hexMap } = blankMap
-  const terrainTilesOnly = tiles.filter((t) => t.type !== 15001)
+  console.log("🚀 ~ tiles:", tiles
+    // .filter(t => t.type.toString().startsWith('14'))
+    // .map(t => t.glyphLetter), tiles
+    //   .filter(t => t.type.toString().startsWith('14'))
+    //   .map(t => t.type)
+  )
   // const startZoneTiles = tiles.filter(t => t.type === 15001)
-  const newBoardHexes = terrainTilesOnly.reduce(
+  const newBoardHexes = tiles.reduce(
     (boardHexes: BoardHexes, tile) => {
       const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
+      if (tile.type === 16301) {
+        console.log("Battlement found in virtualscape map!", tileCoords, tile.posZ)
+      }
+      if (tile.type === 16402) {
+        console.log("Ladder found in virtualscape map! Coords, tile.posZ", tileCoords, tile.posZ)
+      }
+      if (tile.type === 15001) {
+        console.log("Startzone found in virtualscape map!", tileCoords, tile.colorf)
+      }
       const id = pieceCodes?.[getCodeQuick(tile)] ?? ''
       const piece = piecesSoFar[id]
       if (!piece) {
@@ -51,7 +65,7 @@ export default function buildupVSFileMap(
     boardPieces,
   }
 }
-function sortLaurAddonsToEndOfArray(arr: string[]) {
+function sortLaurAddonsLaddersBattlementsToEndOfArray(arr: string[]) {
   // adding the laur addons will only work if pillars are already down
   return arr.sort((a, b) => {
     const aPieceID = decodePieceID(a).pieceID
@@ -59,13 +73,17 @@ function sortLaurAddonsToEndOfArray(arr: string[]) {
     if (
       aPieceID === Pieces.laurWallRuin ||
       aPieceID === Pieces.laurWallLong ||
-      aPieceID === Pieces.laurWallShort
+      aPieceID === Pieces.laurWallShort ||
+      aPieceID === Pieces.ladder ||
+      aPieceID === Pieces.battlement
     ) {
       return 1 // Move 'targetValue' to the end
     } else if (
       bPieceID === Pieces.laurWallRuin ||
       bPieceID === Pieces.laurWallLong ||
-      bPieceID === Pieces.laurWallShort
+      bPieceID === Pieces.laurWallShort ||
+      aPieceID === Pieces.ladder ||
+      aPieceID === Pieces.battlement
     ) {
       return -1 // Move 'targetValue' to the end
     } else {
@@ -91,7 +109,7 @@ export function buildupJsonFileMap(
       mapName: hexMap.name,
     }).boardHexes
   }
-  const piecesArray = sortLaurAddonsToEndOfArray(Object.keys(boardPieces))
+  const piecesArray = sortLaurAddonsLaddersBattlementsToEndOfArray(Object.keys(boardPieces))
   const newBoardHexes = piecesArray.reduce(
     (boardHexes: BoardHexes, pieceAqrrID): BoardHexes => {
       const {
@@ -100,10 +118,6 @@ export function buildupJsonFileMap(
         rotation,
         pieceID
       } = decodePieceID(pieceAqrrID)
-      // start zones
-      // if (tile.type === 15001) {
-      // }
-      // personalTiles
       const piece = piecesSoFar[pieceID]
       if (!piece) {
         return boardHexes // Should probably handle this different, errors etc.
@@ -120,10 +134,6 @@ export function buildupJsonFileMap(
         isVsTile: false,
       }).newBoardHexes
       return nextBoardHexes
-      // get the new board hexes and new board pieces
-      // mark every new piece on the board
-      // boardPieces = newBoardPieces
-      // return boardHexes
     },
     initialBoardHexes,
   )
@@ -158,12 +168,12 @@ function getBlankHexoscapeMapForVSTiles(
     })
   }
   // these are the dimensions of the empty map to generate
-  const mapLength = Math.max(...tiles.map((t) => t.posX + cushionToPadX) ?? 0)
-  const mapWidth = Math.max(...tiles.map((t) => t.posY + cushionToPadY) ?? 0)
+  const length = Math.max(...tiles.map((t) => t.posY + cushionToPadY) ?? 0)
+  const width = Math.max(...tiles.map((t) => t.posX + cushionToPadX) ?? 0)
 
   return makeRectangleScenario({
-    length: mapLength,
-    width: mapWidth,
+    length,
+    width,
     mapName,
   })
 }

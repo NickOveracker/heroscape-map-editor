@@ -9,17 +9,19 @@ import { HexTerrain } from '../types'
 import { HEX_DIRECTIONS, hexUtilsAdd } from '../utils/hex-utils'
 import { decodePieceID, genBoardHexID, genPieceID } from '../utils/map-utils'
 import { buildupJsonFileMap } from '../data/buildupMap'
+import LocalMapButtons from './LocalMapButtons'
 
 const Controls = () => {
   const boardHexes = useBoundStore((s) => s.boardHexes)
   const boardPieces = useBoundStore((s) => s.boardPieces)
   const hexMap = useBoundStore((s) => s.hexMap)
   const loadMap = useBoundStore((s) => s.loadMap)
-  const { clear: clearUndoHistory } = useBoundStore.temporal.getState()
 
 
   const handleClickLogState = () => {
+    console.log("🚀 ~ Controls ~ boardHexes:", boardHexes)
     console.log("🚀 ~ Controls ~ boardPieces:", boardPieces)
+    console.log("🚀 ~ Controls ~ hexMap:", hexMap)
   }
   const handleTrimMap = () => {
     const boardHexArr = Object.values(boardHexes)
@@ -58,11 +60,9 @@ const Controls = () => {
     const newHexMap = {
       ...hexMap,
       length: hexMap.length + 1
-
     }
     const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
-    clearUndoHistory()
   }
   const handleClickRemoveMapLengthX = () => {
     const newHexMap = {
@@ -72,7 +72,6 @@ const Controls = () => {
     }
     const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
-    clearUndoHistory()
   }
   const handleClickAddMapWidthY = () => {
     const newHexMap = {
@@ -82,7 +81,6 @@ const Controls = () => {
     }
     const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
-    clearUndoHistory()
   }
   const handleClickRemoveMapWidthY = () => {
     const newHexMap = {
@@ -92,7 +90,6 @@ const Controls = () => {
     }
     const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
-    clearUndoHistory()
   }
 
   return (
@@ -115,6 +112,7 @@ const Controls = () => {
       <RotationSelect />
       {/* <MapLensToggles /> */}
       <ViewingLevelInput />
+      <LocalMapButtons />
     </Container>
   )
 }

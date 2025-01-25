@@ -2,7 +2,7 @@ import { MapFileState, VirtualScapeMap, VirtualScapeTile } from '../types'
 
 /* 
 This function reads a specific binary file format used by VirtualScape.
-VirtualScape map editor: https://github.com/didiers/virtualscape
+VirtualScape map editor: https://github.com/dkniffin/virtualscape
 */
 const isLittleEndian = true
 let offset = 0

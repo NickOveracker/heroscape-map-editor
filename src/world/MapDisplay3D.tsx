@@ -18,11 +18,14 @@ import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
-import { decodePieceID, genBoardHexID } from '../utils/map-utils.ts'
-import { buildupJsonFileMap } from '../data/buildupMap.ts'
+import { decodePieceID, genBoardHexID, getBoardHexesRectangularMapDimensions } from '../utils/map-utils.ts'
+import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
+import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
+import { Battlement } from './models/Battlement.tsx'
+import { RoadWall } from './models/RoadWall.tsx'
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -36,6 +39,8 @@ export default function MapDisplay3D({
   const hexMap = useBoundStore((s) => s.hexMap)
   const viewingLevel = useBoundStore((s) => s.viewingLevel)
   const boardHexesArr = Object.values(boardHexes)
+  const battlementPids = Object.keys(boardPieces).filter(pid => pid.endsWith(Pieces.battlement))
+  const roadWallPids = Object.keys(boardPieces).filter(pid => pid.endsWith(Pieces.roadWall))
   const [visibleBoardHexesArr, setVisibleBoardHexesArr] = React.useState(boardHexesArr)
 
   React.useEffect(() => {
@@ -65,6 +70,7 @@ export default function MapDisplay3D({
   })
   const { enqueueSnackbar } = useSnackbar()
   const searchString = useSearch();
+
   // USE EFFECT: automatically load up map from URL, OR from file
   React.useEffect(() => {
     const queryParams = new URLSearchParams(searchString)
@@ -108,40 +114,41 @@ export default function MapDisplay3D({
       }
     } else {
       // AUTO VSCAPE
-      // const fileName = '/testMap.hsc'
-      // fetch(fileName)
-      //   .then((response) => {
-      //     return response.arrayBuffer()
-      //   })
-      //   .then((arrayBuffer) => {
-      //     const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
-      //     const vsMap = buildupVSFileMap(
-      //       vsFileData.tiles,
-      //       vsFileData?.name ?? fileName,
-      //     )
-      //     loadMap(vsMap)
-      //     enqueueSnackbar(
-      //       `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
-      //     )
-      //   })
-      // AUTO JSON
-      const fileName = '/Welcome.json'
-      fetch(fileName).then(async (response) => {
-        // const data = response.json()
-        const data = await response.json()
-        const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
-        if (!jsonMap.hexMap.name) {
-          jsonMap.hexMap.name = fileName
-        }
-        loadMap(jsonMap)
-        enqueueSnackbar({
-          // message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
-          message: `WELCOME!`,
-          variant: 'success',
-          autoHideDuration: 5000,
+      const fileName = '/ladders.hsc'
+      fetch(fileName)
+        .then((response) => {
+          return response.arrayBuffer()
         })
-        clearUndoHistory() // clear undo history, initial load should not be undoable
-      })
+        .then((arrayBuffer) => {
+          const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
+          // buildupVSFileMap should return errorArr for enqueueSnackbar
+          const vsMap = buildupVSFileMap(
+            vsFileData.tiles,
+            vsFileData?.name ?? fileName,
+          )
+          loadMap(vsMap)
+          enqueueSnackbar(
+            `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
+          )
+        })
+      // AUTO JSON
+      // const fileName = '/Welcome.json'
+      // fetch(fileName).then(async (response) => {
+      //   // const data = response.json()
+      //   const data = await response.json()
+      //   const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+      //   if (!jsonMap.hexMap.name) {
+      //     jsonMap.hexMap.name = fileName
+      //   }
+      //   loadMap(jsonMap)
+      //   enqueueSnackbar({
+      //     // message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
+      //     message: `WELCOME!`,
+      //     variant: 'success',
+      //     autoHideDuration: 5000,
+      //   })
+      //   clearUndoHistory() // clear undo history, initial load should not be undoable
+      // })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -198,9 +205,26 @@ export default function MapDisplay3D({
     // const baseSideRotation = pillarSideRotations?.[side] ?? 0
 
   }
-
+  const { length, width } = getBoardHexesRectangularMapDimensions(boardHexes)
+  // const topLeft = [-HEXGRID_HEX_APOTHEM, -1]
   return (
     <group ref={mapGroupRef}>
+      {/* TOP LEFT */}
+      <axesHelper
+        // position={[topLeft[0], 0, topLeft[1]]}
+        position={[0, 0, 0]}
+        scale={[width, 0, length]}
+      // rotation={new Euler(0, Math.PI, 0)}
+      />
+
+      {/* BOTTOM RIGHT */}
+      {/* <axesHelper
+        position={[width, 0, length]}
+        // position={[height - HEXGRID_HEX_APOTHEM, 0, length - 1]}
+        scale={[width, 0, length]}
+      // rotation={new Euler(0, Math.PI, 0)}
+      /> */}
+
       <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} />
       <EmptyHexes
         boardHexArr={instanceBoardHexes.emptyHexCaps}
@@ -221,6 +245,24 @@ export default function MapDisplay3D({
             boardHex={bh}
             onPointerUp={onPointerUp}
             onPointerUpLaurWall={onPointerUpLaurWall}
+          />
+        )
+      })}
+      {battlementPids.map((pid) => {
+        return (
+          <Battlement
+            key={pid}
+            pid={pid}
+          // onPointerUp={onPointerUp}
+          />
+        )
+      })}
+      {roadWallPids.map((pid) => {
+        return (
+          <RoadWall
+            key={pid}
+            pid={pid}
+          // onPointerUp={onPointerUp}
           />
         )
       })}

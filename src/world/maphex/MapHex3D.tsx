@@ -20,6 +20,8 @@ import { ThreeEvent } from '@react-three/fiber'
 import { CastleArch } from '../models/CastleArch'
 import CastleBases from '../models/CastleBases'
 import LaurPillar from '../models/LaurPillar'
+import { Battlement } from '../models/Battlement'
+import { Ladder } from '../models/Ladder'
 
 export const MapHex3D = ({
   boardHex,
@@ -49,6 +51,10 @@ export const MapHex3D = ({
     boardHex.terrain === HexTerrain.brush && boardHex.isObstacleOrigin
   const isPalmHex =
     boardHex.terrain === HexTerrain.palm && boardHex.isObstacleOrigin
+  const isLadderHex =
+    boardHex.terrain === HexTerrain.ladder && boardHex.isObstacleOrigin
+  const isBattlementHex =
+    boardHex.terrain === HexTerrain.battlement && boardHex.isObstacleOrigin
   const isLaurPalmHex =
     boardHex.terrain === HexTerrain.laurPalm && boardHex.isObstacleOrigin
   const isLaurBrushHex =
@@ -102,11 +108,14 @@ export const MapHex3D = ({
       )}
       {isTreeHex && <ForestTree boardHex={boardHex} />}
       {isPalmHex && <TicallaPalm boardHex={boardHex} />}
+      {isLadderHex && <Ladder boardHex={boardHex} />}
+      {isBattlementHex && <Battlement boardHex={boardHex} />}
+      {/* {isPalmHex && <Battlement boardHex={boardHex} />} */}
       {isBrushHex && <TicallaBrush boardHex={boardHex} />}
       {isLaurPalmHex && <TicallaPalm boardHex={boardHex} />}
       {isLaurBrushHex && <TicallaBrush boardHex={boardHex} />}
-      {isRuin2OriginHex && <Ruins2 boardHex={boardHex} />}
-      {isRuin3OriginHex && <Ruins3 boardHex={boardHex} />}
+      {isRuin2OriginHex && <Ruins2 boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isRuin3OriginHex && <Ruins3 boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isGlacier1Hex && <Outcrop1 boardHex={boardHex} isGlacier={true} />}
       {isOutcrop1Hex && <Outcrop1 boardHex={boardHex} isGlacier={false} />}
       {isGlacier3Hex && <Outcrop3 boardHex={boardHex} isGlacier={true} />}

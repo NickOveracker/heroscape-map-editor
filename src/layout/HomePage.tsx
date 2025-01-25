@@ -8,6 +8,7 @@ import CreateMapFormDialog from './CreateMapFormDialog'
 import EditMapFormDialog from './EditMapFormDialog'
 import { LoadMapInputs } from './LoadMapButtons'
 import CameraSpeedDial from './CameraSpeedDial'
+import InventoryForm from '../controls/InventoryForm'
 
 export default function HomePage() {
   const cameraControlsRef = React.useRef(undefined!)
