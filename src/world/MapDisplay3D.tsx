@@ -210,12 +210,12 @@ export default function MapDisplay3D({
   return (
     <group ref={mapGroupRef}>
       {/* TOP LEFT */}
-      <axesHelper
+      {!isTakingPicture && (<axesHelper
         // position={[topLeft[0], 0, topLeft[1]]}
         position={[0, 0, 0]}
         scale={[width, 0, length]}
       // rotation={new Euler(0, Math.PI, 0)}
-      />
+      />)}
 
       {/* BOTTOM RIGHT */}
       {/* <axesHelper
