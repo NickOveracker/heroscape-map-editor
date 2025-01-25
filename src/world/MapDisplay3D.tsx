@@ -114,41 +114,41 @@ export default function MapDisplay3D({
       }
     } else {
       // AUTO VSCAPE
-      const fileName = '/ladders.hsc'
-      fetch(fileName)
-        .then((response) => {
-          return response.arrayBuffer()
-        })
-        .then((arrayBuffer) => {
-          const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
-          // buildupVSFileMap should return errorArr for enqueueSnackbar
-          const vsMap = buildupVSFileMap(
-            vsFileData.tiles,
-            vsFileData?.name ?? fileName,
-          )
-          loadMap(vsMap)
-          enqueueSnackbar(
-            `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
-          )
-        })
-      // AUTO JSON
-      // const fileName = '/Welcome.json'
-      // fetch(fileName).then(async (response) => {
-      //   // const data = response.json()
-      //   const data = await response.json()
-      //   const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
-      //   if (!jsonMap.hexMap.name) {
-      //     jsonMap.hexMap.name = fileName
-      //   }
-      //   loadMap(jsonMap)
-      //   enqueueSnackbar({
-      //     // message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
-      //     message: `WELCOME!`,
-      //     variant: 'success',
-      //     autoHideDuration: 5000,
+      // const fileName = '/ladders.hsc'
+      // fetch(fileName)
+      //   .then((response) => {
+      //     return response.arrayBuffer()
       //   })
-      //   clearUndoHistory() // clear undo history, initial load should not be undoable
-      // })
+      //   .then((arrayBuffer) => {
+      //     const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
+      //     // buildupVSFileMap should return errorArr for enqueueSnackbar
+      //     const vsMap = buildupVSFileMap(
+      //       vsFileData.tiles,
+      //       vsFileData?.name ?? fileName,
+      //     )
+      //     loadMap(vsMap)
+      //     enqueueSnackbar(
+      //       `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
+      //     )
+      //   })
+      // AUTO JSON
+      const fileName = '/Everything_Bagel.json'
+      fetch(fileName).then(async (response) => {
+        // const data = response.json()
+        const data = await response.json()
+        const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+        if (!jsonMap.hexMap.name) {
+          jsonMap.hexMap.name = fileName
+        }
+        loadMap(jsonMap)
+        enqueueSnackbar({
+          // message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
+          message: `WELCOME!`,
+          variant: 'success',
+          autoHideDuration: 5000,
+        })
+        clearUndoHistory() // clear undo history, initial load should not be undoable
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

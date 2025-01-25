@@ -62,7 +62,6 @@ export const getBoardHexesRectangularMapDimensions = (
   const apex =
     Math.max(...Object.values(boardHexes).map((hex) => hex.altitude)) *
     HEXGRID_HEX_HEIGHT
-  console.log("🚀 ~ length, width, apex, hexLength, hexWidth:", length, width, apex, hexLength, hexWidth)
   return { length, width, apex, hexLength, hexWidth, }
 }
 export const getBoardHex3DCoords = (
