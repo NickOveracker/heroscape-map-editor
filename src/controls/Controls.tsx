@@ -77,7 +77,6 @@ const Controls = () => {
     const newHexMap = {
       ...hexMap,
       width: hexMap.width + 1
-
     }
     const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)

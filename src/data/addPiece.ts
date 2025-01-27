@@ -33,9 +33,11 @@ export type PieceAddArgs = {
 type PieceAddReturn = { newBoardHexes: BoardHexes; newBoardPieces: BoardPieces }
 
 export function addPiece({
-  piece,
+  // state to mutate and return
   boardHexes,
   boardPieces,
+  // input
+  piece,
   pieceCoords,
   placementAltitude,
   rotation,
