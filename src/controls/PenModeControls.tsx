@@ -14,13 +14,51 @@ import {
 import { PiecePrefixes, Pieces } from '../types'
 import useBoundStore from '../store/store'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { noop } from 'lodash'
 
-export default function PenTerrainSelect() {
+export default function PenModeControls() {
   const penMode = useBoundStore((state) => state.penMode)
   const togglePenMode = useBoundStore((state) => state.togglePenMode)
   const handleChange = (event: SelectChangeEvent) => {
     togglePenMode(event.target.value)
   }
+  const flatPieceSizes = useBoundStore((s) => s.flatPieceSizes)
+  const togglePieceSize = useBoundStore((s) => s.togglePieceSize)
+  // const handleChange = (
+  //   _event: React.MouseEvent<HTMLElement>,
+  //   value: string,
+  // ) => {
+  //   togglePieceSize(parseInt(value))
+  // }
+  const isSizes = flatPieceSizes?.length > 0
+  // when we switch terrains, we have different size options available and must update smartly
+  // const { newSize, newSizes } = getNewPieceSizeForPenMode(
+  // mode,
+  // state.penMode,
+  // state.pieceSize,
+  // )
+
+
+  // '1'
+  useHotkeys('1', () => isSizes ? togglePieceSize(flatPieceSizes[0]) : noop(), /*isEnabled*/)
+  // '2'
+  useHotkeys('2', () => isSizes ? togglePieceSize(flatPieceSizes?.[1] ?? flatPieceSizes[0]) : noop(), /*isEnabled*/)
+  // '3'
+  useHotkeys('3', () => isSizes ? togglePieceSize(flatPieceSizes?.[2] ?? (flatPieceSizes?.[1] ?? flatPieceSizes?.[0])) : noop(), /*isEnabled*/)
+  // '4'
+  useHotkeys('4', () => isSizes ? togglePieceSize(flatPieceSizes?.[3] ?? flatPieceSizes?.[2] ??
+    (flatPieceSizes?.[1] ?? flatPieceSizes[0])
+  ) : noop(), /*isEnabled*/)
+  // '5'
+  useHotkeys('5', () => isSizes ? togglePieceSize(flatPieceSizes?.[4] ?? flatPieceSizes?.[3] ??
+    ((flatPieceSizes?.[2] ?? (flatPieceSizes?.[1] ?? flatPieceSizes[0])))
+  ) : noop(), /*isEnabled*/)
+  // '6'
+  // '7'
+  // '8'
+  // '9'
+  // '0'
+
   // 'a'
   // 'b'
   // 'c'
@@ -35,6 +73,8 @@ export default function PenTerrainSelect() {
   // 'j'
   // 'k'
   // 'l'
+  useHotkeys('l', () => togglePenMode(PiecePrefixes.lavaField), /*isEnabled*/)
+  useHotkeys('shift+l', () => togglePenMode(PiecePrefixes.lava), /*isEnabled*/)
   // 'm'
   // 'n'
   // 'o'
@@ -49,13 +89,12 @@ export default function PenTerrainSelect() {
   // 'u'
   // 'v'
   // 'w'
-  useHotkeys('s', () => togglePenMode(PiecePrefixes.wellspringWater), /*isEnabled*/)
+  useHotkeys('w', () => togglePenMode(PiecePrefixes.water), /*isEnabled*/)
   // 'x'
   // 'y'
   // 'z'
   useHotkeys('z', () => togglePenMode('select'), /*isEnabled*/)
-  // useHotkeys('shift+up', () => { cameraControlsRef.current?.rotate(0, -Math.PI / 27, true) }, enabled)
-  // useHotkeys('mod+up', () => { cameraControlsRef?.current?.dolly(1, true) }, enabled)
+
   return (
     <FormControl variant="filled">
       <InputLabel id="pen-terrain-select-label">Terrain</InputLabel>
@@ -76,7 +115,7 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiArrowCursor />
           </ListItemIcon>
-          <span>Select</span>
+          <span>Select [Z]</span>
         </MenuItem>
 
         <Divider />
@@ -86,37 +125,37 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiGrass />
           </ListItemIcon>
-          <span>Grass</span>
+          <span>Grass [G]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.rock}>
           <ListItemIcon>
             <GiPeaks />
           </ListItemIcon>
-          <span>Rock</span>
+          <span>Rock [R]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.sand}>
           <ListItemIcon>
             <GiIsland />
           </ListItemIcon>
-          <span>Sand</span>
+          <span>Sand [S]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.road}>
           <ListItemIcon>
             <GiIsland />
           </ListItemIcon>
-          <span>Road</span>
+          <span>Road [O]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.lavaField}>
           <ListItemIcon>
             <GiIsland />
           </ListItemIcon>
-          <span>Lava Field</span>
+          <span>Lava Field [F]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.snow}>
           <ListItemIcon>
             <GiIsland />
           </ListItemIcon>
-          <span>Snow</span>
+          <span>Snow [N]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.concrete}>
           <ListItemIcon>
@@ -134,13 +173,13 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiIsland />
           </ListItemIcon>
-          <span>Swamp</span>
+          <span>Swamp [P]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.dungeon}>
           <ListItemIcon>
             <GiIsland />
           </ListItemIcon>
-          <span>Dungeon</span>
+          <span>Dungeon [D]</span>
         </MenuItem>
         <Divider />
         {/* FLUID LAND BEGIN */}
@@ -148,7 +187,7 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Water</span>
+          <span>Water [W]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.wellspringWater}>
           <ListItemIcon>
@@ -160,13 +199,13 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Ice</span>
+          <span>Ice[Shift + I]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.lava}>
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Lava</span>
+          <span>Lava [Shift + L]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.swampWater}>
           <ListItemIcon>

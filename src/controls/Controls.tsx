@@ -1,6 +1,6 @@
 import { Button, Container } from '@mui/material'
 import PieceSizeSelect from './PieceSizeSelect'
-import PenTerrainSelect from './PenTerrainSelect'
+import PenModeControls from './PenModeControls'
 import RotationSelect from './RotationSelect'
 import UndoRedoButtonGroup from './UndoRedoButtonGroup'
 import ViewingLevelInput from './ViewingLevelInput'
@@ -106,7 +106,7 @@ const Controls = () => {
       {/* <Button onClick={handleClickRemoveTop2Rows}>Remove top 2</Button> */}
       <Button onClick={handleClickLogState}>Log state</Button>
       <UndoRedoButtonGroup />
-      <PenTerrainSelect />
+      <PenModeControls />
       <PieceSizeSelect />
       <RotationSelect />
       {/* <MapLensToggles /> */}
