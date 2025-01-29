@@ -12,7 +12,7 @@ export default function MyCameraControls({
   mapGroupRef: React.RefObject<Group<Object3DEventMap>>
 }) {
   const isCameraDisabled = useBoundStore((s) => s.isCameraDisabled || s.isTakingPicture)
-  const enabled = {
+  const hotkeyOptions = {
     enabled: !isCameraDisabled,
   }
   const fitToMap = () => {
@@ -21,19 +21,19 @@ export default function MyCameraControls({
     }
   }
 
-  useHotkeys('home', () => fitToMap(), enabled)
-  useHotkeys('up', () => { cameraControlsRef?.current?.truck(0, -1, true) }, enabled)
-  useHotkeys('down', () => cameraControlsRef?.current?.truck(0, 1, true), enabled)
-  useHotkeys('left', () => cameraControlsRef?.current?.truck(-1, 0, true), enabled)
-  useHotkeys('right', () => cameraControlsRef?.current?.truck(1, 0, true), enabled)
-  useHotkeys('shift+up', () => { cameraControlsRef.current?.rotate(0, -Math.PI / 27, true) }, enabled)
-  useHotkeys('shift+down', () => { cameraControlsRef.current?.rotate(0, Math.PI / 27, true) }, enabled)
-  useHotkeys('shift+left', () => { cameraControlsRef.current?.rotate(-Math.PI / 27, 0, true) }, enabled)
-  useHotkeys('shift+right', () => { cameraControlsRef.current?.rotate(Math.PI / 27, 0, true) }, enabled)
-  useHotkeys('mod+up', () => { cameraControlsRef?.current?.dolly(1, true) }, enabled)
-  useHotkeys('mod+down', () => { cameraControlsRef?.current?.dolly(-1, true) }, enabled)
-  useHotkeys('mod+left', () => { cameraControlsRef?.current?.zoom(-cameraControlsRef.current.camera.zoom / 2, true) }, enabled)
-  useHotkeys('mod+right', () => { cameraControlsRef?.current?.zoom(cameraControlsRef.current.camera.zoom / 2, true) }, enabled)
+  useHotkeys('home', () => fitToMap(), hotkeyOptions)
+  useHotkeys('up', () => { cameraControlsRef?.current?.truck(0, -1, true) }, hotkeyOptions)
+  useHotkeys('down', () => cameraControlsRef?.current?.truck(0, 1, true), hotkeyOptions)
+  useHotkeys('left', () => cameraControlsRef?.current?.truck(-1, 0, true), hotkeyOptions)
+  useHotkeys('right', () => cameraControlsRef?.current?.truck(1, 0, true), hotkeyOptions)
+  useHotkeys('shift+up', () => { cameraControlsRef.current?.rotate(0, -Math.PI / 27, true) }, hotkeyOptions)
+  useHotkeys('shift+down', () => { cameraControlsRef.current?.rotate(0, Math.PI / 27, true) }, hotkeyOptions)
+  useHotkeys('shift+left', () => { cameraControlsRef.current?.rotate(-Math.PI / 27, 0, true) }, hotkeyOptions)
+  useHotkeys('shift+right', () => { cameraControlsRef.current?.rotate(Math.PI / 27, 0, true) }, hotkeyOptions)
+  useHotkeys('mod+up', () => { cameraControlsRef?.current?.dolly(1, true) }, hotkeyOptions)
+  useHotkeys('mod+down', () => { cameraControlsRef?.current?.dolly(-1, true) }, hotkeyOptions)
+  useHotkeys('mod+left', () => { cameraControlsRef?.current?.zoom(-cameraControlsRef.current.camera.zoom / 2, true) }, hotkeyOptions)
+  useHotkeys('mod+right', () => { cameraControlsRef?.current?.zoom(cameraControlsRef.current.camera.zoom / 2, true) }, hotkeyOptions)
 
 
   return (
