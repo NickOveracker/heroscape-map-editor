@@ -13,6 +13,7 @@ import {
 } from 'react-icons/gi'
 import { PiecePrefixes, Pieces } from '../types'
 import useBoundStore from '../store/store'
+import { useHotkeys } from 'react-hotkeys-hook'
 
 export default function PenTerrainSelect() {
   const penMode = useBoundStore((state) => state.penMode)
@@ -20,6 +21,41 @@ export default function PenTerrainSelect() {
   const handleChange = (event: SelectChangeEvent) => {
     togglePenMode(event.target.value)
   }
+  // 'a'
+  // 'b'
+  // 'c'
+  // 'd'
+  useHotkeys('d', () => togglePenMode(PiecePrefixes.dungeon), /*isEnabled*/)
+  // 'e'
+  // 'f'
+  // 'g'
+  useHotkeys('g', () => togglePenMode(PiecePrefixes.grass), /*isEnabled*/)
+  // 'h'
+  // 'i'
+  // 'j'
+  // 'k'
+  // 'l'
+  // 'm'
+  // 'n'
+  // 'o'
+  useHotkeys('o', () => togglePenMode(PiecePrefixes.road), /*isEnabled*/)
+  // 'p'
+  // 'q'
+  // 'r'
+  useHotkeys('r', () => togglePenMode(PiecePrefixes.rock), /*isEnabled*/)
+  // 's'
+  useHotkeys('s', () => togglePenMode(PiecePrefixes.sand), /*isEnabled*/)
+  // 't'
+  // 'u'
+  // 'v'
+  // 'w'
+  useHotkeys('s', () => togglePenMode(PiecePrefixes.wellspringWater), /*isEnabled*/)
+  // 'x'
+  // 'y'
+  // 'z'
+  useHotkeys('z', () => togglePenMode('select'), /*isEnabled*/)
+  // useHotkeys('shift+up', () => { cameraControlsRef.current?.rotate(0, -Math.PI / 27, true) }, enabled)
+  // useHotkeys('mod+up', () => { cameraControlsRef?.current?.dolly(1, true) }, enabled)
   return (
     <FormControl variant="filled">
       <InputLabel id="pen-terrain-select-label">Terrain</InputLabel>
