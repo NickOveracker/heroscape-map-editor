@@ -19,11 +19,10 @@ import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
 import { decodePieceID, genBoardHexID, getBoardHexesRectangularMapDimensions } from '../utils/map-utils.ts'
-import buildupVSFileMap, { buildupJsonFileMap } from '../data/buildupMap.ts'
+import { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
-import { processVirtualScapeArrayBuffer } from '../data/readVirtualscapeMapFile.ts'
 import { Battlement } from './models/Battlement.tsx'
 import { RoadWall } from './models/RoadWall.tsx'
 
@@ -36,10 +35,8 @@ export default function MapDisplay3D({
 }) {
   const boardHexes = useBoundStore((s) => s.boardHexes)
   const boardPieces = useBoundStore((s) => s.boardPieces)
-  const hexMap = useBoundStore((s) => s.hexMap)
   const viewingLevel = useBoundStore((s) => s.viewingLevel)
   const boardHexesArr = Object.values(boardHexes)
-  const [visibleBoardHexesArr, setVisibleBoardHexesArr] = React.useState(boardHexesArr)
   const filteredBoardPieces = useMemo(() => (
     Object.keys(boardPieces).reduce((prev: BoardPieces, pid: string) => {
       if (decodePieceID(pid).altitude < viewingLevel) {
@@ -51,12 +48,6 @@ export default function MapDisplay3D({
   ), [boardPieces, viewingLevel])
   const battlementPids = Object.keys(filteredBoardPieces).filter(pid => pid.endsWith(Pieces.battlement))
   const roadWallPids = Object.keys(filteredBoardPieces).filter(pid => pid.endsWith(Pieces.roadWall))
-
-  React.useEffect(() => {
-    const myLevelMap = buildupJsonFileMap(filteredBoardPieces as BoardPieces, hexMap)
-    setVisibleBoardHexesArr(Object.values(myLevelMap.boardHexes))
-  }, [filteredBoardPieces, hexMap, viewingLevel])
-
   const penMode = useBoundStore((s) => s.penMode)
   const paintTile = useBoundStore((s) => s.paintTile)
   const loadMap = useBoundStore((s) => s.loadMap)
@@ -155,7 +146,7 @@ export default function MapDisplay3D({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const instanceBoardHexes = getInstanceBoardHexes(visibleBoardHexesArr, isTakingPicture)
+  const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr, isTakingPicture)
 
   const onPointerUp = async (event: ThreeEvent<PointerEvent>, hex: BoardHex) => {
     event.stopPropagation() // prevent pass through
@@ -240,7 +231,7 @@ export default function MapDisplay3D({
         boardHexArr={instanceBoardHexes.fluidHexCaps}
         onPointerUp={onPointerUp}
       />
-      {visibleBoardHexesArr.map((bh) => {
+      {boardHexesArr.map((bh) => {
         return (
           <MapHex3D
             key={bh.id}
