@@ -34,7 +34,7 @@ export default function MapDisplay3D({
 }) {
   const boardHexes = useBoundStore((s) => s.boardHexes)
   const boardPieces = useBoundStore((s) => s.boardPieces)
-  const boardHexesArr = Object.values(boardHexes)
+  const boardHexesArr = Object.values(boardHexes).sort((a, b) => a.altitude - b.altitude)
   const penMode = useBoundStore((s) => s.penMode)
   const paintTile = useBoundStore((s) => s.paintTile)
   const loadMap = useBoundStore((s) => s.loadMap)

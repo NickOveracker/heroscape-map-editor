@@ -1,6 +1,6 @@
 import useBoundStore from '../store/store'
 import { Pieces } from '../types'
-import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_HEIGHT } from '../utils/constants'
+import { HEXGRID_HEXCAP_HEIGHT } from '../utils/constants'
 import { decodePieceID, getBoardHex3DCoords } from '../utils/map-utils'
 import { Battlement } from './models/Battlement'
 import { getLadderBattlementOptions, getRoadWallOptions } from './models/getLadderBattlementOptions'
@@ -8,10 +8,8 @@ import { RoadWall } from './models/RoadWall'
 
 export const MapBoardPiece3D = ({
   pid,
-  // onPointerUp,
 }: {
   pid: string
-  // onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }) => {
   const {
     pieceID,
@@ -21,10 +19,7 @@ export const MapBoardPiece3D = ({
     pieceCoords
   } = decodePieceID(pid)
   const { x, z, y } = getBoardHex3DCoords({ ...pieceCoords, altitude })
-  // const options = getLadderBattlementOptions(rotation)
   const viewingLevel = useBoundStore(s => s.viewingLevel)
-  // const yTicallaBrush = y + HEXGRID_HEXCAP_HEIGHT / 2
-  // const yBase = y + HEXGRID_HEXCAP_HEIGHT / 2
   const isVisible = altitude <= viewingLevel
   // yTree
   if (pieceID === Pieces.battlement) {
@@ -46,7 +41,6 @@ export const MapBoardPiece3D = ({
     return (
       <group
         position={[x + getRoadWallOptions(rotation).xAdd, y, z + getRoadWallOptions(rotation).zAdd]}
-        // position={[x, y, z]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
       >
 
