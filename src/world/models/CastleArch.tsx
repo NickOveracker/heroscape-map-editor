@@ -92,7 +92,7 @@ export function CastleArch({
     onPointerUp(e, farBaseHex)
   }
   return (
-    <group>
+    <>
       <group
         position={[x, yBase, z]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
@@ -137,7 +137,7 @@ export function CastleArch({
         z={z}
         color={hexTerrainColor[underHexTerrain]}
       />
-    </group>
+    </>
   )
 }
 

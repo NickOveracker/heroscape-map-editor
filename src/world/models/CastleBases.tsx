@@ -52,7 +52,7 @@ export default function CastleBases({
   }
 
   return (
-    <group>
+    <>
       <group position={position} rotation={[0, (rotation * -Math.PI) / 3, 0]}>
         <mesh geometry={geometryPair[0]}>
           <meshMatcapMaterial color={hexTerrainColor[boardHex.terrain]} />
@@ -82,6 +82,6 @@ export default function CastleBases({
         z={z}
         color={hexTerrainColor[underHexTerrain]}
       />
-    </group>
+    </>
   )
 }

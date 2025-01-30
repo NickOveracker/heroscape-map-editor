@@ -43,7 +43,7 @@ function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
     }
   }
   return (
-    <group>
+    <>
       <mesh
         geometry={nodes.Tree10_scanned.geometry}
         // material={materials.ForestTree}
@@ -62,7 +62,7 @@ function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
         <Image url='tree-img.jpg'></Image>
       </Billboard> */}
       <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor.treeBase} />
-    </group>
+    </>
   )
 }
 

@@ -43,7 +43,7 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
     }
   }
   return (
-    <group>
+    <>
       <group
         scale={[options.scaleX, options.scaleY, options.scaleX]}
         position={[x, yTree, z]}
@@ -65,7 +65,7 @@ export default function TicallaPalm({ boardHex }: { boardHex: BoardHex }) {
         z={z}
         color={hexTerrainColor[HexTerrain.swamp]}
       />
-    </group>
+    </>
   )
 }
 

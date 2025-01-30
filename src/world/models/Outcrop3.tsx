@@ -49,7 +49,7 @@ export default function Outcrop3({
     )
   }
   return (
-    <group>
+    <>
       <group position={[x, yWithBase, z]} rotation={[0, rotation.rotationY, 0]}>
         <mesh geometry={nodes.glacier_3_with_holes.geometry}>
           <meshMatcapMaterial
@@ -74,7 +74,7 @@ export default function Outcrop3({
         }
         isFluidBase={isGlacier}
       />
-    </group>
+    </>
   )
 }
 

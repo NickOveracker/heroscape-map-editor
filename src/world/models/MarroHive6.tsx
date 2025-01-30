@@ -39,7 +39,7 @@ export default function MarroHive6({ boardHex }: { boardHex: BoardHex }) {
     )
   }
   return (
-    <group>
+    <>
       <group position={[x, yWithBase, z]} rotation={[0, rotation.rotationY, 0]}>
         <mesh geometry={nodes.Marro_Hive.geometry}>
           <meshMatcapMaterial color={hexTerrainColor.hiveModel1} />
@@ -52,7 +52,7 @@ export default function MarroHive6({ boardHex }: { boardHex: BoardHex }) {
         color={hexTerrainColor[HexTerrain.swampWater]}
         isFluidBase={true}
       />
-    </group>
+    </>
   )
 }
 

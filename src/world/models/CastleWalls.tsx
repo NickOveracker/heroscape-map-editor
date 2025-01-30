@@ -54,7 +54,7 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
   }
 
   return (
-    <group>
+    <>
       <group position={position} rotation={[0, (rotation * -Math.PI) / 3, 0]}>
         <mesh scale={scale} geometry={geometryPair[0]}>
           <meshMatcapMaterial color={hexTerrainColor[boardHex.terrain]} />
@@ -87,7 +87,7 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
           color={hexTerrainColor[underHexTerrain]}
         />
       )}
-    </group>
+    </>
   )
 }
 useGLTF.preload('/adjustable-castle-walls.glb')
