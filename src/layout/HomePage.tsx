@@ -43,7 +43,7 @@ export default function HomePage() {
         style={{
           position: 'relative',
           width: '100%',
-          flex: 1,
+          maxHeight: '70vh',
         }}
       >
         <CameraSpeedDial cameraControlsRef={cameraControlsRef} />
@@ -51,10 +51,11 @@ export default function HomePage() {
       </div>
       <div
         style={{
+          flex: 1,
           display: 'flex',
           flexFlow: 'column nowrap',
           width: '100%',
-          height: '30vh',
+          minHeight: '30vh',
           background: 'var(--black)',
           overflow: 'auto',
         }}
