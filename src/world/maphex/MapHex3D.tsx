@@ -21,21 +21,21 @@ import { CastleArch } from '../models/CastleArch'
 import CastleBases from '../models/CastleBases'
 import LaurPillar from '../models/LaurPillar'
 import { Ladder } from '../models/Ladder'
+import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
+import { getLadderBattlementOptions } from '../models/getLadderBattlementOptions'
+import ObstacleBase from '../models/ObstacleBase'
+import { hexTerrainColor } from './hexColors'
 
 export const MapHex3D = ({
   boardHex,
   onPointerUp,
-  onPointerUpLaurWall,
 }: {
   boardHex: BoardHex
   onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
-  onPointerUpLaurWall: (
-    e: ThreeEvent<PointerEvent>,
-    hex: BoardHex,
-  ) => void
 }) => {
   const boardPieces = useBoundStore((s) => s.boardPieces)
   const boardHexes = useBoundStore((s) => s.boardHexes)
+  const viewingLevel = useBoundStore((s) => s.viewingLevel)
   const isTakingPicture = useBoundStore(s => s.isTakingPicture)
   const pieceID = boardPieces[boardHex.pieceID]
   const { x, y, z } = getBoardHex3DCoords(boardHex)
@@ -90,6 +90,10 @@ export const MapHex3D = ({
   })
   const underHexTerrain = boardHexes?.[underHexID]?.terrain ?? HexTerrain.grass
 
+  const yTicallaBrush = y + HEXGRID_HEXCAP_HEIGHT / 2
+  const yBase = y + HEXGRID_HEXCAP_HEIGHT / 2
+  const isVisible = boardHex.altitude <= viewingLevel
+  // yTree
   return (
     <>
       <MapHexIDDisplay
@@ -100,16 +104,44 @@ export const MapHex3D = ({
       {isLaurPillarHex && (
         <LaurPillar
           boardHex={boardHex}
-          onPointerUpLaurWall={onPointerUpLaurWall}
         />
       )}
       {isTreeHex && <ForestTree boardHex={boardHex} />}
       {isPalmHex && <TicallaPalm boardHex={boardHex} />}
-      {isLadderHex && <Ladder boardHex={boardHex} />}
+      {isLadderHex && (
+        <group
+          visible={isVisible}
+          position={[
+            x + getLadderBattlementOptions(boardHex.pieceRotation).xAdd,
+            y - HEXGRID_HEX_HEIGHT + (HEXGRID_HEXCAP_HEIGHT / 2),
+            z + getLadderBattlementOptions(boardHex.pieceRotation).zAdd
+          ]}
+          rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+        >
+          <Ladder />
+        </group>
+      )}
       {/* {isPalmHex && <Battlement boardHex={boardHex} />} */}
-      {isBrushHex && <TicallaBrush boardHex={boardHex} />}
+      {isBrushHex && (
+        <group
+          visible={isVisible}
+        >
+          <group
+            position={[x, yTicallaBrush, z]}
+            rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+          >
+            <TicallaBrush />
+          </group>
+          <ObstacleBase
+            x={x}
+            y={yBase}
+            z={z}
+            color={hexTerrainColor[HexTerrain.swamp]}
+          />
+        </group>
+      )}
       {isLaurPalmHex && <TicallaPalm boardHex={boardHex} />}
-      {isLaurBrushHex && <TicallaBrush boardHex={boardHex} />}
+      {isLaurBrushHex && <TicallaBrush />}
       {isRuin2OriginHex && <Ruins2 boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isRuin3OriginHex && <Ruins3 boardHex={boardHex} underHexTerrain={underHexTerrain} />}
       {isGlacier1Hex && <Outcrop1 boardHex={boardHex} isGlacier={true} />}

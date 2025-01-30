@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
 import JSONCrush from 'jsoncrush'
@@ -23,8 +23,7 @@ import { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
-import { Battlement } from './models/Battlement.tsx'
-import { RoadWall } from './models/RoadWall.tsx'
+import { MapBoardPiece3D } from './MapBoardPiece3D.tsx'
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -35,19 +34,7 @@ export default function MapDisplay3D({
 }) {
   const boardHexes = useBoundStore((s) => s.boardHexes)
   const boardPieces = useBoundStore((s) => s.boardPieces)
-  const viewingLevel = useBoundStore((s) => s.viewingLevel)
   const boardHexesArr = Object.values(boardHexes)
-  const filteredBoardPieces = useMemo(() => (
-    Object.keys(boardPieces).reduce((prev: BoardPieces, pid: string) => {
-      if (decodePieceID(pid).altitude < viewingLevel) {
-        return { ...prev, [pid]: decodePieceID(pid).pieceID as Pieces }
-      } else {
-        return prev
-      }
-    }, {} as BoardPieces)
-  ), [boardPieces, viewingLevel])
-  const battlementPids = Object.keys(filteredBoardPieces).filter(pid => pid.endsWith(Pieces.battlement))
-  const roadWallPids = Object.keys(filteredBoardPieces).filter(pid => pid.endsWith(Pieces.roadWall))
   const penMode = useBoundStore((s) => s.penMode)
   const paintTile = useBoundStore((s) => s.paintTile)
   const loadMap = useBoundStore((s) => s.loadMap)
@@ -186,18 +173,6 @@ export default function MapDisplay3D({
     }
   }
 
-  const onPointerUpLaurWall = (
-    event: ThreeEvent<PointerEvent>,
-    hex: BoardHex,
-  ) => {
-    if (event.button !== 0) return // ignore right clicks(2), middle mouse clicks(1)
-    event.stopPropagation() // prevent pass through
-    // Early out if camera is active
-    if (cameraControlsRef?.current?.active) return
-    toggleSelectedPieceID(hex.pieceID)
-    // const baseSideRotation = pillarSideRotations?.[side] ?? 0
-
-  }
   const { length, width } = getBoardHexesRectangularMapDimensions(boardHexes)
   // const topLeft = [-HEXGRID_HEX_APOTHEM, -1]
   return (
@@ -231,31 +206,20 @@ export default function MapDisplay3D({
         boardHexArr={instanceBoardHexes.fluidHexCaps}
         onPointerUp={onPointerUp}
       />
+      {Object.keys(boardPieces).map((pid) => {
+        return (
+          <MapBoardPiece3D
+            key={pid}
+            pid={pid}
+          />
+        )
+      })}
       {boardHexesArr.map((bh) => {
         return (
           <MapHex3D
             key={bh.id}
             boardHex={bh}
             onPointerUp={onPointerUp}
-            onPointerUpLaurWall={onPointerUpLaurWall}
-          />
-        )
-      })}
-      {battlementPids.map((pid) => {
-        return (
-          <Battlement
-            key={pid}
-            pid={pid}
-          // onPointerUp={onPointerUp}
-          />
-        )
-      })}
-      {roadWallPids.map((pid) => {
-        return (
-          <RoadWall
-            key={pid}
-            pid={pid}
-          // onPointerUp={onPointerUp}
           />
         )
       })}
