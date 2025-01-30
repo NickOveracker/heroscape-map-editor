@@ -41,9 +41,10 @@ export default function HomePage() {
       </Drawer>
       <div
         style={{
+          // flex: 1,
           position: 'relative',
           width: '100%',
-          maxHeight: '70vh',
+          height: '70vh',
         }}
       >
         <CameraSpeedDial cameraControlsRef={cameraControlsRef} />
@@ -55,7 +56,7 @@ export default function HomePage() {
           display: 'flex',
           flexFlow: 'column nowrap',
           width: '100%',
-          minHeight: '30vh',
+          height: '30vh',
           background: 'var(--black)',
           overflow: 'auto',
         }}
