@@ -30,7 +30,10 @@ export const MapBoardPiece3D = ({
   if (pieceID === Pieces.battlement) {
     return (
       <group
-        position={[x + getLadderBattlementOptions(rotation).xAdd, y - HEXGRID_HEX_HEIGHT + (HEXGRID_HEXCAP_HEIGHT / 2), z + getLadderBattlementOptions(rotation).zAdd]}
+        position={[
+          x + getLadderBattlementOptions(rotation).xAdd,
+          y + (HEXGRID_HEXCAP_HEIGHT / 2),
+          z + getLadderBattlementOptions(rotation).zAdd]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
         visible={isVisible}
       >
