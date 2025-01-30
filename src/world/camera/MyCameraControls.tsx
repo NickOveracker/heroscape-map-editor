@@ -11,15 +11,20 @@ export default function MyCameraControls({
   cameraControlsRef: React.RefObject<CameraControls>
   mapGroupRef: React.RefObject<Group<Object3DEventMap>>
 }) {
-  const isCameraDisabled = useBoundStore((s) => s.isCameraDisabled || s.isTakingPicture)
+  const isCameraDisabled = useBoundStore((s) => s.isCameraDisabled)
+  const toggleIsCameraDisabled = useBoundStore((s) => s.toggleIsCameraDisabled)
+  const isCameraActuallyDisabled = useBoundStore((s) => s.isCameraDisabled || s.isTakingPicture)
   const hotkeyOptions = {
-    enabled: !isCameraDisabled,
+    enabled: !isCameraActuallyDisabled,
   }
   const fitToMap = () => {
     if (mapGroupRef.current) {
       cameraControlsRef.current?.fitToBox?.(mapGroupRef.current, true)
     }
   }
+
+  // THIS HOTKEY ENABLED ALL THE TIME
+  useHotkeys('end', () => toggleIsCameraDisabled(!isCameraDisabled))
 
   useHotkeys('home', () => fitToMap(), hotkeyOptions)
   useHotkeys('up', () => { cameraControlsRef?.current?.truck(0, -1, true) }, hotkeyOptions)
@@ -40,7 +45,7 @@ export default function MyCameraControls({
     <CameraControls
       ref={cameraControlsRef}
       makeDefault
-      enabled={!isCameraDisabled}
+      enabled={!isCameraActuallyDisabled}
       maxPolarAngle={Math.PI / 2} // this keeps the camera on a half-sphere around the map, rather than allowing camera to go under the map
       minDistance={1} // this keeps the camera above ground and out of the board hexes nether region
       maxDistance={100} // this prevents camera from dollying out too far
