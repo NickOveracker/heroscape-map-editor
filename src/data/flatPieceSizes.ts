@@ -14,6 +14,7 @@ const landSizes: Dictionary<number[]> = {
   [PiecePrefixes.concrete]: [1, 2, 7],
   [PiecePrefixes.asphalt]: [1, 2, 7],
   [PiecePrefixes.road]: [1, 2, 5],
+  [PiecePrefixes.wallWalk]: [1, 7, 9],
   // fluid terrain below
   [PiecePrefixes.water]: [1, 3],
   [PiecePrefixes.wellspringWater]: [1],
