@@ -455,7 +455,7 @@ export function addPiece({
       newBoardPieces[pieceID] = piece.id
     }
   }
-  // Castle Wallwalk
+  // CASTLE WALLWALK
   if (isPlacingWallWalkOnWall) {
     newHexIds.forEach((newHexID, iForEach) => {
       const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
