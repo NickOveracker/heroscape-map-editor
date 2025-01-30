@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
 import JSONCrush from 'jsoncrush'
@@ -39,21 +39,23 @@ export default function MapDisplay3D({
   const hexMap = useBoundStore((s) => s.hexMap)
   const viewingLevel = useBoundStore((s) => s.viewingLevel)
   const boardHexesArr = Object.values(boardHexes)
-  const battlementPids = Object.keys(boardPieces).filter(pid => pid.endsWith(Pieces.battlement))
-  const roadWallPids = Object.keys(boardPieces).filter(pid => pid.endsWith(Pieces.roadWall))
   const [visibleBoardHexesArr, setVisibleBoardHexesArr] = React.useState(boardHexesArr)
-
-  React.useEffect(() => {
-    const filteredBoardPieces = Object.keys(boardPieces).reduce((prev: BoardPieces, pid: string) => {
+  const filteredBoardPieces = useMemo(() => (
+    Object.keys(boardPieces).reduce((prev: BoardPieces, pid: string) => {
       if (decodePieceID(pid).altitude < viewingLevel) {
         return { ...prev, [pid]: decodePieceID(pid).pieceID as Pieces }
       } else {
         return prev
       }
     }, {} as BoardPieces)
+  ), [boardPieces, viewingLevel])
+  const battlementPids = Object.keys(filteredBoardPieces).filter(pid => pid.endsWith(Pieces.battlement))
+  const roadWallPids = Object.keys(filteredBoardPieces).filter(pid => pid.endsWith(Pieces.roadWall))
+
+  React.useEffect(() => {
     const myLevelMap = buildupJsonFileMap(filteredBoardPieces as BoardPieces, hexMap)
     setVisibleBoardHexesArr(Object.values(myLevelMap.boardHexes))
-  }, [boardPieces, hexMap, viewingLevel])
+  }, [filteredBoardPieces, hexMap, viewingLevel])
 
   const penMode = useBoundStore((s) => s.penMode)
   const paintTile = useBoundStore((s) => s.paintTile)
