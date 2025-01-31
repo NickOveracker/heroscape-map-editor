@@ -2,19 +2,10 @@ import { useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain, Pieces } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
-import BigTree415 from './BigTree415'
 import ObstacleBase from './ObstacleBase'
 import { hexTerrainColor } from '../maphex/hexColors'
 
-export default function ForestTree({ boardHex }: { boardHex: BoardHex }) {
-  const isBigTree = boardHex.pieceID.includes(Pieces.tree415)
-  return isBigTree ? (
-    <BigTree415 boardHex={boardHex} />
-  ) : (
-    <SingleForestTree boardHex={boardHex} />
-  )
-}
-function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
+export default function SingleForestTree({ boardHex }: { boardHex: BoardHex }) {
   const {
     nodes,
     //  materials
