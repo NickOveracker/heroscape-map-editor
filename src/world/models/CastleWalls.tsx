@@ -21,29 +21,10 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const rotation = boardHex?.pieceRotation ?? 0
   const scaleYAdjust = 0.01 // just a little to get it out of the subterrain
-  const positionDown = scaleYAdjust / 2
   // castle walls are 10 levels tall, UNLESS stacked on another wall, then they are 9 (they have a 1-level bottom base when on land)
   const scaleY = (boardHex?.obstacleHeight ?? 9) + (1 - scaleYAdjust)
   const scale = new Vector3(1, scaleY, 1)
-  const position = new Vector3(x, yBase - positionDown, z)
   const pieceID = boardHex.pieceID
-  const endGeo = [
-    nodes.CastleWallEndBody.geometry,
-    nodes.CastleWallEndCap.geometry,
-  ]
-  const straightGeo = [
-    nodes.CastleWallStraightBody.geometry,
-    nodes.CastleWallStraightCap.geometry,
-  ]
-  const cornerGeo = [
-    nodes.CastleWallCornerBody.geometry,
-    nodes.CastleWallCornerCap.geometry,
-  ]
-  const geometryPair = pieceID.includes(Pieces.castleWallEnd)
-    ? endGeo
-    : pieceID.includes(Pieces.castleWallStraight)
-      ? straightGeo
-      : cornerGeo
   const onPointerEnter = (e: ThreeEvent<PointerEvent>) => {
     setColor('yellow')
     e.stopPropagation()
@@ -52,11 +33,24 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
     setColor(hexTerrainColor[HexTerrain.castle])
     e.stopPropagation()
   }
+  const bodyGeometry = pieceID.includes(Pieces.castleWallEnd) ?
+    nodes.CastleWallEndBody.geometry :
+    pieceID.includes(Pieces.castleWallStraight) ?
+      nodes.CastleWallStraightBody.geometry :
+      nodes.CastleWallCornerBody.geometry
+  const capGeometry = pieceID.includes(Pieces.castleWallEnd) ?
+    nodes.CastleWallEndCap.geometry :
+    pieceID.includes(Pieces.castleWallStraight) ?
+      nodes.CastleWallStraightCap.geometry :
+      nodes.CastleWallCornerCap.geometry
 
   return (
     <>
-      <group position={position} rotation={[0, (rotation * -Math.PI) / 3, 0]}>
-        <mesh scale={scale} geometry={geometryPair[0]}>
+      <group
+        position={[x, yBase - (0.005), z]}
+        rotation={[0, (rotation * -Math.PI) / 3, 0]}
+      >
+        <mesh scale={scale} geometry={bodyGeometry}>
           <meshMatcapMaterial color={hexTerrainColor[boardHex.terrain]} />
         </mesh>
 
@@ -71,7 +65,7 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
             <meshMatcapMaterial color={color} />
           </mesh>
           <mesh
-            geometry={geometryPair[1]}
+            geometry={capGeometry}
             position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
             onPointerUp={(e) => onPointerUp(e, boardHex)}
           >

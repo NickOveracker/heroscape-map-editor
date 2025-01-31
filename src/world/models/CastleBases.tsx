@@ -1,7 +1,6 @@
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
-import { Vector3 } from 'three'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { BoardHex, HexTerrain, Pieces } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
@@ -22,26 +21,17 @@ export default function CastleBases({
   const { nodes } = useGLTF('/adjustable-castle-walls.glb') as any
   const [color, setColor] = React.useState(hexTerrainColor[HexTerrain.castle])
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
-  const rotation = boardHex?.pieceRotation ?? 0
-  const position = new Vector3(x, yBase, z)
   const pieceID = boardHex.pieceID
-  const endGeo = [
-    nodes.CastleWallEndBody.geometry,
-    nodes.CastleWallEndCap.geometry,
-  ]
-  const straightGeo = [
-    nodes.CastleWallStraightBody.geometry,
-    nodes.CastleWallStraightCap.geometry,
-  ]
-  const cornerGeo = [
-    nodes.CastleWallCornerBody.geometry,
-    nodes.CastleWallCornerCap.geometry,
-  ]
-  const geometryPair = pieceID.includes(Pieces.castleBaseEnd)
-    ? endGeo
-    : pieceID.includes(Pieces.castleBaseStraight)
-      ? straightGeo
-      : cornerGeo
+  const bodyGeometry = pieceID.includes(Pieces.castleBaseEnd) ?
+    nodes.CastleWallEndBody.geometry :
+    pieceID.includes(Pieces.castleBaseStraight) ?
+      nodes.CastleWallStraightBody.geometry :
+      nodes.CastleWallCornerBody.geometry
+  const capGeometry = pieceID.includes(Pieces.castleBaseEnd) ?
+    nodes.CastleWallEndCap.geometry :
+    pieceID.includes(Pieces.castleBaseStraight) ?
+      nodes.CastleWallStraightCap.geometry :
+      nodes.CastleWallCornerCap.geometry
   const onPointerEnter = (e: ThreeEvent<PointerEvent>) => {
     setColor('yellow')
     e.stopPropagation()
@@ -53,8 +43,11 @@ export default function CastleBases({
 
   return (
     <>
-      <group position={position} rotation={[0, (rotation * -Math.PI) / 3, 0]}>
-        <mesh geometry={geometryPair[0]}>
+      <group
+        position={[x, yBase, z]}
+        rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+      >
+        <mesh geometry={bodyGeometry}>
           <meshMatcapMaterial color={hexTerrainColor[boardHex.terrain]} />
         </mesh>
 
@@ -69,7 +62,7 @@ export default function CastleBases({
             <meshMatcapMaterial color={color} />
           </mesh>
           <mesh
-            geometry={geometryPair[1]}
+            geometry={capGeometry}
             onPointerUp={(e) => onPointerUp(e, boardHex)}
           >
             <meshMatcapMaterial color={color} />
