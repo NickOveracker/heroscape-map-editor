@@ -37,6 +37,7 @@ export const MapHex3D = ({
   const boardPieces = useBoundStore((s) => s.boardPieces)
   const boardHexes = useBoundStore((s) => s.boardHexes)
   const viewingLevel = useBoundStore((s) => s.viewingLevel)
+  const isVisible = boardHex.altitude <= viewingLevel
   const isTakingPicture = useBoundStore(s => s.isTakingPicture)
   const pieceID = boardPieces[boardHex.pieceID]
   const { x, y, z, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
@@ -100,7 +101,7 @@ export const MapHex3D = ({
   const underHexTerrain = boardHexes?.[underHexID]?.terrain ?? HexTerrain.grass
 
   const yTree = y + HEXGRID_HEXCAP_HEIGHT / 2
-  const isVisible = boardHex.altitude <= viewingLevel
+
   return (
     <group
       visible={isVisible}
