@@ -3,7 +3,6 @@ import { genBoardHexID, getBoardHex3DCoords } from '../../utils/map-utils'
 import { BoardHex, CubeCoordinate, HexTerrain } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
 import ObstacleBase from './ObstacleBase'
-import { HEXGRID_SPACING } from '../../utils/constants'
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import {
@@ -96,7 +95,7 @@ export function CastleArch({
       <group
         position={[x, yBase, z]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
-        scale={[HEXGRID_SPACING, 1, 1]} // this stretches the arch to full span 3 hexes (warping should be almost imperceptible)
+        scale={[1, 1, 1]} // this stretches the arch to full span 3 hexes (warping should be almost imperceptible)
       >
         <mesh geometry={nodes.CastleArchBody.geometry}>
           <meshMatcapMaterial color={hexTerrainColor[HexTerrain.castle]} />
