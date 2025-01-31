@@ -40,7 +40,10 @@ export const MapBoardPiece3D = ({
   if (pieceID === Pieces.roadWall) {
     return (
       <group
-        position={[x + getRoadWallOptions(rotation).xAdd, y, z + getRoadWallOptions(rotation).zAdd]}
+        position={[
+          x + getRoadWallOptions(rotation).xAdd,
+          y,
+          z + getRoadWallOptions(rotation).zAdd]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
       >
 
