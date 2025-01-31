@@ -40,7 +40,13 @@ export const MapHex3D = ({
   const isVisible = boardHex.altitude <= viewingLevel
   const isTakingPicture = useBoundStore(s => s.isTakingPicture)
   const pieceID = boardPieces[boardHex.pieceID]
-  const { x, y, z, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
+  const { x, y, z, yWithBase, yBase, yJungle } = getBoardHex3DCoords(boardHex)
+  // const yJungle = y + HEXGRID_HEXCAP_HEIGHT / 2
+  const underHexID = genBoardHexID({
+    ...boardHex,
+    altitude: boardHex.altitude - 1,
+  })
+  const underHexTerrain = boardHexes?.[underHexID]?.terrain ?? HexTerrain.grass
   const isHeightRingedHex =
     isSolidTerrainHex(boardHex.terrain) || (!isTakingPicture && boardHex.terrain === HexTerrain.empty)
   const isObstacleHex =
@@ -93,14 +99,6 @@ export const MapHex3D = ({
     isCastleBaseEnd || isCastleBaseStraight || isCastleBaseCorner
   const isCastleArch =
     pieceID === Pieces.castleArch || pieceID === Pieces.castleArchNoDoor
-
-  const underHexID = genBoardHexID({
-    ...boardHex,
-    altitude: boardHex.altitude - 1,
-  })
-  const underHexTerrain = boardHexes?.[underHexID]?.terrain ?? HexTerrain.grass
-
-  const yTree = y + HEXGRID_HEXCAP_HEIGHT / 2
 
   return (
     <group
@@ -163,14 +161,14 @@ export const MapHex3D = ({
       {(isBrushHex || isLaurBrushHex) && (
         <>
           <group
-            position={[x, yTree, z]}
+            position={[x, yJungle, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
             <TicallaBrush />
           </group>
           <ObstacleBase
             x={x}
-            y={yTree}
+            y={yJungle}
             z={z}
             color={hexTerrainColor[HexTerrain.swamp]}
           />
@@ -184,14 +182,14 @@ export const MapHex3D = ({
               getOptionsForPalmHeight(boardHex.pieceID).scaleY,
               getOptionsForPalmHeight(boardHex.pieceID).scaleX
             ]}
-            position={[x, yTree, z]}
+            position={[x, yJungle, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
             <TicallaPalm />
           </group>
           <ObstacleBase
             x={x}
-            y={yTree}
+            y={yJungle}
             z={z}
             color={hexTerrainColor[HexTerrain.swamp]}
           />

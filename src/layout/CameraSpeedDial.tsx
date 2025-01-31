@@ -6,6 +6,7 @@ import useEvent from '../hooks/useEvent';
 import { EVENTS } from '../utils/constants';
 import { CameraControls } from '@react-three/drei';
 import { FcCamcorderPro, FcNoVideo, FcOldTimeCamera, FcSwitchCamera, FcSynchronize, FcVideoCall } from 'react-icons/fc';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 
 export default function CameraSpeedDial({
@@ -52,6 +53,7 @@ export default function CameraSpeedDial({
   const handleToggleOrthoCam = () => {
     toggleIsOrthoCam(!isOrthoCam)
   }
+  useHotkeys('insert', () => handleToggleOrthoCam())
   // const handleTakePicturePng = () => {
   //   toggleIsTakingPicture(true)
   //   takePictureTimeout.current = setTimeout(() => {
