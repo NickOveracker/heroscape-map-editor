@@ -3,7 +3,7 @@ import { Pieces } from '../types'
 import { HEXGRID_HEXCAP_HEIGHT } from '../utils/constants'
 import { decodePieceID, getBoardHex3DCoords } from '../utils/map-utils'
 import { Battlement } from './models/Battlement'
-import { getLadderBattlementOptions, getRoadWallOptions } from './models/getLadderBattlementOptions'
+import { getLadderBattlementOptions, getRoadWallOptions } from './models/piece-adjustments'
 import { RoadWall } from './models/RoadWall'
 
 export const MapBoardPiece3D = ({

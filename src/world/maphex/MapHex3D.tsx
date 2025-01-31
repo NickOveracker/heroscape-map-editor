@@ -22,7 +22,7 @@ import CastleBases from '../models/CastleBases'
 import LaurPillar from '../models/LaurPillar'
 import { Ladder } from '../models/Ladder'
 import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
-import { getLadderBattlementOptions } from '../models/getLadderBattlementOptions'
+import { getLadderBattlementOptions } from '../models/piece-adjustments'
 import ObstacleBase from '../models/ObstacleBase'
 import { hexTerrainColor } from './hexColors'
 
