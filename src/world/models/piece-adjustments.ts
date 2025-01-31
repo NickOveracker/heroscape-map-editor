@@ -1,6 +1,23 @@
 import { Pieces } from '../../types'
 import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_HEIGHT, HEXGRID_HEX_RADIUS } from '../../utils/constants'
-
+export function getObstaclRotation(rotation: number) {
+  switch (rotation) {
+    case 0:
+      return 0
+    case 1:
+      return -Math.PI / 3
+    case 2:
+      return (-2 * Math.PI) / 3
+    case 3:
+      return -Math.PI
+    case 4:
+      return (2 * Math.PI) / 3
+    case 5:
+      return Math.PI / 3
+    default:
+      return 0
+  }
+}
 export function getLadderBattlementOptions(rotation: number) {
   switch (rotation) {
     case 0:

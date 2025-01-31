@@ -21,7 +21,7 @@ import CastleBases from '../models/CastleBases'
 import LaurPillar from '../models/LaurPillar'
 import { Ladder } from '../models/Ladder'
 import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
-import { getLadderBattlementOptions, getOptionsForBigTree, getOptionsForPalmHeight, getOptionsForTreeHeight } from '../models/piece-adjustments'
+import { getLadderBattlementOptions, getObstaclRotation, getOptionsForBigTree, getOptionsForPalmHeight, getOptionsForTreeHeight } from '../models/piece-adjustments'
 import ObstacleBase from '../models/ObstacleBase'
 import { hexTerrainColor } from './hexColors'
 import ForestTree from '../models/ForestTree'
@@ -61,18 +61,18 @@ export const MapHex3D = ({
     boardHex.terrain === HexTerrain.laurBrush && boardHex.isObstacleOrigin
   const isGlacier1Hex = pieceID === Pieces.glacier1 && isObstacleHex
   const isOutcrop1Hex = pieceID === Pieces.outcrop1 && isObstacleHex
-  const isOutcrop3Hex = pieceID === Pieces.outcrop3 && isObstacleHex
-  // const isOutcrop3BaseHex = pieceID === Pieces.outcrop3 && boardHex.isObstacleAuxiliary
-  const isGlacier3Hex = pieceID === Pieces.glacier3 && isObstacleHex
-  // const isGlacier3BaseHex = pieceID === Pieces.glacier3 && boardHex.isObstacleAuxiliary
-  const isGlacier4Hex = pieceID === Pieces.glacier4 && isObstacleHex
-  // const isGlacier4BaseHex = pieceID === Pieces.glacier4 && boardHex.isObstacleAuxiliary
-  const isGlacier6Hex = pieceID === Pieces.glacier6 && isObstacleHex
-  // const isGlacier6BaseHex = pieceID === Pieces.glacier6 && boardHex.isObstacleAuxiliary
+  const isOutcrop3Hex = pieceID === Pieces.outcrop3 && boardHex.isObstacleOrigin
+  const isOutcrop3BaseHex = pieceID === Pieces.outcrop3 && boardHex.isObstacleAuxiliary
+  const isGlacier3Hex = pieceID === Pieces.glacier3 && boardHex.isObstacleOrigin
+  const isGlacier3BaseHex = pieceID === Pieces.glacier3 && boardHex.isObstacleAuxiliary
+  const isGlacier4Hex = pieceID === Pieces.glacier4 && boardHex.isObstacleOrigin
+  const isGlacier4BaseHex = pieceID === Pieces.glacier4 && boardHex.isObstacleAuxiliary
+  const isGlacier6Hex = pieceID === Pieces.glacier6 && boardHex.isObstacleOrigin
+  const isGlacier6BaseHex = pieceID === Pieces.glacier6 && boardHex.isObstacleAuxiliary
   const isHiveHex =
-    boardPieces[boardHex.pieceID] === Pieces.hive && isObstacleHex
-  // const isHiveBaseHex =
-  //   boardPieces[boardHex.pieceID] === Pieces.hive && boardHex.isObstacleAuxiliary
+    boardPieces[boardHex.pieceID] === Pieces.hive && boardHex.isObstacleOrigin
+  const isHiveBaseHex =
+    boardPieces[boardHex.pieceID] === Pieces.hive && boardHex.isObstacleAuxiliary
   const isRuin2OriginHex =
     pieceID === Pieces.ruins2 && boardHex.isObstacleOrigin
   const isRuin3OriginHex =
@@ -159,7 +159,6 @@ export const MapHex3D = ({
           <Ladder />
         </group>
       )}
-      {/* {isPalmHex && <Battlement boardHex={boardHex} />} */}
       {(isBrushHex || isLaurBrushHex) && (
         <>
           <group
@@ -197,13 +196,169 @@ export const MapHex3D = ({
           />
         </>
       )}
-      {isGlacier1Hex && <Outcrop1 boardHex={boardHex} isGlacier={true} />}
-      {isOutcrop1Hex && <Outcrop1 boardHex={boardHex} isGlacier={false} />}
-      {isGlacier3Hex && <Outcrop3 boardHex={boardHex} isGlacier={true} />}
-      {isOutcrop3Hex && <Outcrop3 boardHex={boardHex} isGlacier={false} />}
-      {isGlacier4Hex && <Outcrop4 boardHex={boardHex} isGlacier={true} />}
-      {isGlacier6Hex && <Outcrop6 boardHex={boardHex} isGlacier={true} />}
-      {isHiveHex && <MarroHive6 boardHex={boardHex} />}
+      {isGlacier1Hex && (
+        <>
+          <group
+            position={[x, yWithBase, z]}
+            rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+          >
+            <Outcrop1 isGlacier={true} />
+          </group>
+          <ObstacleBase
+            x={x}
+            y={yBase}
+            z={z}
+            color={
+              hexTerrainColor[HexTerrain.ice]
+            }
+            isFluidBase={true}
+          />
+        </>
+      )}
+      {isOutcrop1Hex && (
+        <>
+          <group
+            position={[x, yWithBase, z]}
+            rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+          >
+            <Outcrop1 isGlacier={false} />
+          </group>
+          <ObstacleBase
+            x={x}
+            y={yBase}
+            z={z}
+            color={
+              // hexTerrainColor[HexTerrain.ice]
+              hexTerrainColor[HexTerrain.shadow]
+            }
+            isFluidBase={true}
+          />
+        </>
+      )}
+      {isGlacier3Hex && (
+        <>
+          <group
+            position={[x, yWithBase, z]}
+            rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
+          >
+            <Outcrop3 isGlacier={true} />
+          </group>
+          <ObstacleBase
+            x={x}
+            y={yBase}
+            z={z}
+            color={
+              hexTerrainColor[HexTerrain.ice]
+            }
+            isFluidBase={true}
+          />
+        </>
+      )}
+      {(isGlacier3BaseHex || isGlacier4BaseHex || isGlacier6BaseHex) && (
+        <ObstacleBase
+          x={x}
+          y={yBase}
+          z={z}
+          color={
+            hexTerrainColor[HexTerrain.ice]
+          }
+          isFluidBase={true}
+        />
+      )}
+      {isOutcrop3Hex && (
+        <>
+          <group
+            position={[x, yWithBase, z]}
+            rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
+          >
+            <Outcrop3 isGlacier={false} />
+          </group>
+          <ObstacleBase
+            x={x}
+            y={yBase}
+            z={z}
+            color={
+              hexTerrainColor[HexTerrain.shadow]
+            }
+            isFluidBase={true}
+          />
+        </>
+      )}
+      {isOutcrop3BaseHex && (
+        <ObstacleBase
+          x={x}
+          y={yBase}
+          z={z}
+          color={
+            hexTerrainColor[HexTerrain.shadow]
+          }
+          isFluidBase={true}
+        />
+      )}
+      {isGlacier4Hex && (
+        <>
+          <group
+            position={[x, yWithBase, z]}
+            rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
+          >
+            <Outcrop4 isGlacier={true} />
+          </group>
+          <ObstacleBase
+            x={x}
+            y={yBase}
+            z={z}
+            color={
+              hexTerrainColor[HexTerrain.ice]
+            }
+            isFluidBase={true}
+          />
+        </>
+      )}
+      {isGlacier6Hex && (
+        <>
+          <group
+            position={[x, yWithBase, z]}
+            rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
+          >
+            <Outcrop6 isGlacier={true} />
+          </group>
+          <ObstacleBase
+            x={x}
+            y={yBase}
+            z={z}
+            color={
+              hexTerrainColor[HexTerrain.ice]
+            }
+            isFluidBase={true}
+          />
+        </>
+      )}
+      {isHiveHex && (
+        <>
+          <group
+            position={[x, yWithBase, z]}
+            rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
+          >
+            <MarroHive6 />
+          </group>
+          <ObstacleBase
+            x={x}
+            y={yBase}
+            z={z}
+            color={hexTerrainColor[HexTerrain.swampWater]}
+            isFluidBase={true}
+          />
+        </>
+      )}
+      {(isHiveBaseHex) && (
+        <ObstacleBase
+          x={x}
+          y={yBase}
+          z={z}
+          color={hexTerrainColor[HexTerrain.swampWater]}
+          isFluidBase={true}
+        />
+      )}
 
       {isCastleBase && (
         <CastleBases
