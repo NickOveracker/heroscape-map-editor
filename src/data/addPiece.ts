@@ -411,6 +411,7 @@ export function addPiece({
             pieceRotation: rotation,
             isObstacleOrigin: i === 0 ? true : false, // first hex marks the wall/arch model
             isObstacleAuxiliary: i !== 0 ? true : false, // arches have 2 aux hexes that render only an under-hex-cap
+            obstacleHeight,
           }
         } else {
           // remove the cap from land hex below
@@ -426,7 +427,7 @@ export function addPiece({
             pieceRotation: rotation,
             isObstacleOrigin: i === 0 ? true : false, // The first boardHex is marked to render the obstacle model
             isObstacleAuxiliary: i !== 0 ? true : false,
-            obstacleHeight: obstacleHeight,
+            obstacleHeight,
           }
         }
 
