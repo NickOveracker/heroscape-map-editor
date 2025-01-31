@@ -1,5 +1,5 @@
 import { Pieces } from '../../types'
-import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_RADIUS } from '../../utils/constants'
+import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_HEIGHT, HEXGRID_HEX_RADIUS } from '../../utils/constants'
 
 export function getLadderBattlementOptions(rotation: number) {
   switch (rotation) {
@@ -78,5 +78,26 @@ export function getOptionsForPalmHeight(pieceID: string) {
     case 16:
     default:
       return { scaleX: 0.038, scaleY: 0.046 }
+  }
+}
+export function getOptionsForTreeHeight(pieceID: string) {
+  const treeHeight = pieceID.includes(Pieces.tree10)
+    ? 10
+    : pieceID.includes(Pieces.tree11)
+      ? 11
+      : 12 // tree12
+  // We use the same model and just stretch it a little for the taller trees
+  switch (treeHeight) {
+    case 11:
+      return { scaleX: 0.039, scaleY: 0.04, y: 0 }
+    case 12:
+      return {
+        scaleX: 0.04,
+        scaleY: 0.044,
+        y: HEXGRID_HEX_HEIGHT / 10,
+      }
+    case 10:
+    default:
+      return { scaleX: 0.038, scaleY: 0.038, y: 0 }
   }
 }

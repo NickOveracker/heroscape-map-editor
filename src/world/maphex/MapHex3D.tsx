@@ -21,10 +21,10 @@ import CastleBases from '../models/CastleBases'
 import LaurPillar from '../models/LaurPillar'
 import { Ladder } from '../models/Ladder'
 import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
-import { getLadderBattlementOptions, getOptionsForBigTree, getOptionsForPalmHeight } from '../models/piece-adjustments'
+import { getLadderBattlementOptions, getOptionsForBigTree, getOptionsForPalmHeight, getOptionsForTreeHeight } from '../models/piece-adjustments'
 import ObstacleBase from '../models/ObstacleBase'
 import { hexTerrainColor } from './hexColors'
-import SingleForestTree from '../models/ForestTree'
+import ForestTree from '../models/ForestTree'
 import BigTree415 from '../models/BigTree415'
 
 export const MapHex3D = ({
@@ -120,7 +120,18 @@ export const MapHex3D = ({
           boardHex={boardHex}
         />
       )}
-      {isTreeHex && <SingleForestTree boardHex={boardHex} />}
+      {isTreeHex && (
+        <>
+          <group
+            scale={[getOptionsForTreeHeight(boardHex.pieceID).scaleX, getOptionsForTreeHeight(boardHex.pieceID).scaleY, getOptionsForTreeHeight(boardHex.pieceID).scaleX]}
+            position={[x, yWithBase + getOptionsForTreeHeight(boardHex.pieceID).y, z]}
+            rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+          >
+            <ForestTree />
+          </group>
+          <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor.treeBase} />
+        </>
+      )}
       {isBigTreeHex && (
         <>
           <group
