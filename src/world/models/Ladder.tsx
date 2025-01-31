@@ -10,13 +10,11 @@ import { hexTerrainColor } from '../maphex/hexColors'
 export function Ladder() {
   const { nodes } = useGLTF('/handmade-ladder.glb') as any
   return (
-    <>
-      <mesh
-        geometry={nodes.Ladder.geometry}
-      >
-        <meshMatcapMaterial color={hexTerrainColor[HexTerrain.ladder]} />
-      </mesh>
-    </>
+    <mesh
+      geometry={nodes.Ladder.geometry}
+    >
+      <meshMatcapMaterial color={hexTerrainColor[HexTerrain.ladder]} />
+    </mesh>
   )
 }
 
