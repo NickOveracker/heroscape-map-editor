@@ -92,6 +92,13 @@ const Controls = () => {
 
   return (
     <Container sx={{ padding: 1 }}>
+      <UndoRedoButtonGroup />
+      <PenModeControls />
+      <PieceSizeSelect />
+      <RotationSelect />
+      {/* <MapLensToggles /> */}
+      <ViewingLevelInput />
+      <LocalMapButtons />
       <Button onClick={handleClickAddMapLengthX}>Add length</Button>
       <Button onClick={handleClickRemoveMapLengthX}>Remove length</Button>
       <Button onClick={handleClickAddMapWidthY}>Add width</Button>
@@ -103,13 +110,6 @@ const Controls = () => {
       <Button onClick={() => movePieces(4)}>NorthWest</Button>
       <Button onClick={() => movePieces(5)}>NorthEast</Button>
       <Button onClick={handleClickLogState}>Log state</Button>
-      <UndoRedoButtonGroup />
-      <PenModeControls />
-      <PieceSizeSelect />
-      <RotationSelect />
-      {/* <MapLensToggles /> */}
-      <ViewingLevelInput />
-      <LocalMapButtons />
     </Container>
   )
 }

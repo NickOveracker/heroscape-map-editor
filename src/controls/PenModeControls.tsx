@@ -237,7 +237,7 @@ export default function PenModeControls() {
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Laur Pillar</span>
+          <span>Laur Wall Pillar</span>
         </MenuItem>
         {/* <MenuItem value={PenMode.laurWallRuin}>
           <ListItemIcon>
