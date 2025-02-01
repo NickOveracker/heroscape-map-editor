@@ -77,7 +77,7 @@ export default function HomePage() {
             style={{
               display: 'flex',
               flexFlow: 'column nowrap',
-              width: isLargeScreenLayout ? '400px' : '100%',
+              width: isLargeScreenLayout ? '450px' : '100%',
               height: isLargeScreenLayout ? '100%' : '30vh',
               background: 'var(--black)',
               overflow: 'auto',

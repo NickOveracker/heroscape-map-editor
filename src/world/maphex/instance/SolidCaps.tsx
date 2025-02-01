@@ -14,8 +14,8 @@ import useBoundStore from '../../../store/store'
 import usePieceHoverState from '../../../hooks/usePieceHoverState'
 
 const baseSolidCapCylinderArgs: CylinderGeometryArgs = [
-  0.9,
-  0.997,
+  0.888,
+  0.888,
   HEXGRID_HEXCAP_HEIGHT,
   6,
   undefined,
@@ -73,7 +73,7 @@ function SolidCap({
   React.useEffect(() => {
     const { x, y, z } = getBoardHex3DCoords(boardHex)
     ref.current.color.set(color)
-    ref.current.position.set(x, y, z)
+    ref.current.position.set(x, y + (HEXGRID_HEXCAP_HEIGHT / 2), z)
   }, [boardHex, color])
 
   // update color when piece is hovered

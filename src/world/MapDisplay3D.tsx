@@ -193,7 +193,7 @@ export default function MapDisplay3D({
       // rotation={new Euler(0, Math.PI, 0)}
       /> */}
 
-      <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} />
+      {/* <SubTerrains boardHexArr={instanceBoardHexes.subTerrainHexes} /> */}
       <EmptyHexes
         boardHexArr={instanceBoardHexes.emptyHexCaps}
         onPointerUp={onPointerUp}
