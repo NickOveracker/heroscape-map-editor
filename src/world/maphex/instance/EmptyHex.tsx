@@ -35,6 +35,7 @@ const EmptyHexes = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
     <Instances
       ref={ref}
       range={boardHexArr.length}
+      // range={1}
       limit={INSTANCE_LIMIT}
       frustumCulled={false}
     >

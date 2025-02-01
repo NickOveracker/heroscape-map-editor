@@ -1,4 +1,4 @@
-export const HEXGRID_SPACING = 1.001 // just enough to make the meshs stop wiggling at their intersection
+export const HEXGRID_SPACING = 1 // removed for the sake of blender/grid niceness
 export const HEXGRID_HEX_RADIUS = 1 // Side length also (regular hexagons are the only regular polygons where it is so!)
 export const HEXGRID_HEX_APOTHEM = (Math.sqrt(3) / 2) * HEXGRID_HEX_RADIUS // we are using regular hexagons where this equation is true
 export const ORIGIN_000 = { q: 0, r: 0, s: 0 }
@@ -23,13 +23,13 @@ export const CUBE_NE = { q: 1, r: -1, s: 0 }
 // solid hex side: 1 1/128" (2.55984375cm)
 // hex side male plug width: 7/32" (0.555625cm)
 // hex side female plug width: 6/32" (0.47625cm)
-export const HEXGRID_HEX_HEIGHT = 0.35 // Altitude thickness
+export const HEXGRID_HEX_HEIGHT = 0.35 // 0.375 was BEST fit to the 24-hex tile scan, but castle-walls and ladders have already been tailored to 0.35!
 export const HEXGRID_HEXCAP_HEIGHT = HEXGRID_HEX_HEIGHT / 7 // for solid tiles the cap is a seventh of the height
 export const HEXGRID_HEXCAP_FLUID_HEIGHT = (HEXGRID_HEX_HEIGHT * 3) / 7 // fluid tiles are 3/7 the height of solid tiles, the whole fluid tile is the cap
 export const HEXGRID_EMPTYHEX_HEIGHT = HEXGRID_HEX_HEIGHT / 20
-export const HEXGRID_MAX_ALTITUDE = 25 // Altitude thickness
-export const MAX_RECTANGLE_MAP_DIMENSION = 40 // 2500 global coords
-export const MAX_HEXAGON_MAP_DIMENSION = 20 // 2791 global coords
+export const HEXGRID_MAX_ALTITUDE = 100 // Arbitrary
+export const MAX_RECTANGLE_MAP_DIMENSION = 40 // Arbitrary : BUT a 3ft/6ft table with 27mm based minis would be 34x68 hex rectangle
+export const MAX_HEXAGON_MAP_DIMENSION = 20 // Arbitrary
 export const INSTANCE_LIMIT =
   MAX_RECTANGLE_MAP_DIMENSION *
   MAX_RECTANGLE_MAP_DIMENSION *

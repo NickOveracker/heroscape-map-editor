@@ -11,7 +11,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import Slider from '@mui/material/Slider';
-import { Box, useMediaQuery } from '@mui/material'
+import { Box, IconButton, useMediaQuery } from '@mui/material'
 import { genRandomMapName } from '../utils/genRandomMapName'
 import useBoundStore from '../store/store'
 import { useSnackbar } from 'notistack'
@@ -19,6 +19,7 @@ import { makeHexagonScenario, makeRectangleScenario } from '../utils/map-gen'
 import { useLocation } from 'wouter'
 import { ROUTES } from '../ROUTES'
 import { MAX_HEXAGON_MAP_DIMENSION, MAX_RECTANGLE_MAP_DIMENSION } from '../utils/constants'
+import { MdAutorenew } from 'react-icons/md'
 
 const hexagonMarks = [
   {
@@ -105,7 +106,14 @@ export default function CreateMapFormDialog() {
       >
         <DialogTitle>New Map</DialogTitle>
         <DialogContent>
-          <Box sx={{ marginY: '1em' }}>
+          <Box
+            sx={{
+              p: '1em 4px',
+              display: 'flex',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
             <TextField
               autoFocus
               required
@@ -119,6 +127,14 @@ export default function CreateMapFormDialog() {
               fullWidth
               variant="outlined"
             />
+            <IconButton
+              title="Generate new random map name"
+              type="button"
+              sx={{ p: '10px' }}
+              onClick={() => setMapName(genRandomMapName())}
+            >
+              <MdAutorenew />
+            </IconButton>
           </Box>
           <FormControl>
             <FormLabel id="map-shape-label">Map Shape</FormLabel>

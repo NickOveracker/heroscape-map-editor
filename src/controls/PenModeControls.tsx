@@ -13,13 +13,99 @@ import {
 } from 'react-icons/gi'
 import { PiecePrefixes, Pieces } from '../types'
 import useBoundStore from '../store/store'
+import { useHotkeys } from 'react-hotkeys-hook'
+import { noop } from 'lodash'
 
-export default function PenTerrainSelect() {
+export default function PenModeControls() {
   const penMode = useBoundStore((state) => state.penMode)
   const togglePenMode = useBoundStore((state) => state.togglePenMode)
   const handleChange = (event: SelectChangeEvent) => {
     togglePenMode(event.target.value)
   }
+  const flatPieceSizes = useBoundStore((s) => s.flatPieceSizes)
+  const togglePieceSize = useBoundStore((s) => s.togglePieceSize)
+  // const handleChange = (
+  //   _event: React.MouseEvent<HTMLElement>,
+  //   value: string,
+  // ) => {
+  //   togglePieceSize(parseInt(value))
+  // }
+  const isSizes = flatPieceSizes?.length > 0
+  // when we switch terrains, we have different size options available and must update smartly
+  // const { newSize, newSizes } = getNewPieceSizeForPenMode(
+  // mode,
+  // state.penMode,
+  // state.pieceSize,
+  // )
+
+
+  // '1'
+  useHotkeys('1', () => isSizes ? togglePieceSize(flatPieceSizes[0]) : noop(), /*isEnabled*/)
+  useHotkeys('shift+1', () => togglePenMode(Pieces.castleWallEnd), /*isEnabled*/)
+  // '2'
+  useHotkeys('2', () => isSizes ? togglePieceSize(flatPieceSizes?.[1] ?? flatPieceSizes[0]) : noop(), /*isEnabled*/)
+  useHotkeys('shift+2', () => togglePenMode(Pieces.castleWallStraight), /*isEnabled*/)
+  // '3'
+  useHotkeys('3', () => isSizes ? togglePieceSize(flatPieceSizes?.[2] ?? (flatPieceSizes?.[1] ?? flatPieceSizes?.[0])) : noop(), /*isEnabled*/)
+  useHotkeys('shift+3', () => togglePenMode(Pieces.castleWallCorner), /*isEnabled*/)
+  // '4'
+  useHotkeys('4', () => isSizes ? togglePieceSize(flatPieceSizes?.[3] ?? flatPieceSizes?.[2] ??
+    (flatPieceSizes?.[1] ?? flatPieceSizes[0])
+  ) : noop(), /*isEnabled*/)
+  useHotkeys('shift+4', () => togglePenMode(Pieces.castleArch), /*isEnabled*/)
+  // '5'
+  useHotkeys('5', () => isSizes ? togglePieceSize(flatPieceSizes?.[4] ?? flatPieceSizes?.[3] ??
+    ((flatPieceSizes?.[2] ?? (flatPieceSizes?.[1] ?? flatPieceSizes[0])))
+  ) : noop(), /*isEnabled*/)
+  useHotkeys('shift+5', () => togglePenMode(Pieces.castleArchNoDoor), /*isEnabled*/)
+  // '6'
+  // '7'
+  // '8'
+  // '9'
+  // '0'
+
+  // 'a'
+  // 'b'
+  // 'c'
+  // 'd'
+  useHotkeys('d', () => togglePenMode(PiecePrefixes.dungeon), /*isEnabled*/)
+  useHotkeys('shift+d', () => togglePenMode(PiecePrefixes.shadow), /*isEnabled*/)
+  // 'e'
+  // 'f'
+  // 'g'
+  useHotkeys('g', () => togglePenMode(PiecePrefixes.grass), /*isEnabled*/)
+  // 'h'
+  // 'i'
+  useHotkeys('i', () => togglePenMode(PiecePrefixes.snow), /*isEnabled*/)
+  useHotkeys('shift+i', () => togglePenMode(PiecePrefixes.ice), /*isEnabled*/)
+  // 'j'
+  // 'k'
+  // 'l'
+  useHotkeys('l', () => togglePenMode(PiecePrefixes.lavaField), /*isEnabled*/)
+  useHotkeys('shift+l', () => togglePenMode(PiecePrefixes.lava), /*isEnabled*/)
+  // 'm'
+  // 'n'
+  // 'o'
+  useHotkeys('o', () => togglePenMode(PiecePrefixes.road), /*isEnabled*/)
+  useHotkeys('shift+o', () => togglePenMode(PiecePrefixes.wallWalk), /*isEnabled*/)
+  // 'p'
+  useHotkeys('p', () => togglePenMode(PiecePrefixes.swamp), /*isEnabled*/)
+  useHotkeys('shift+p', () => togglePenMode(PiecePrefixes.swampWater), /*isEnabled*/)
+  // 'q'
+  // 'r'
+  useHotkeys('r', () => togglePenMode(PiecePrefixes.rock), /*isEnabled*/)
+  // 's'
+  useHotkeys('s', () => togglePenMode(PiecePrefixes.sand), /*isEnabled*/)
+  // 't'
+  // 'u'
+  // 'v'
+  // 'w'
+  useHotkeys('w', () => togglePenMode(PiecePrefixes.water), /*isEnabled*/)
+  // 'x'
+  // 'y'
+  // 'z'
+  useHotkeys('z', () => togglePenMode('select'), /*isEnabled*/)
+
   return (
     <FormControl variant="filled">
       <InputLabel id="pen-terrain-select-label">Terrain</InputLabel>
@@ -40,7 +126,7 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiArrowCursor />
           </ListItemIcon>
-          <span>Select</span>
+          <span>Select [Z]</span>
         </MenuItem>
 
         <Divider />
@@ -50,37 +136,37 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiGrass />
           </ListItemIcon>
-          <span>Grass</span>
+          <span>Grass [G]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.rock}>
           <ListItemIcon>
             <GiPeaks />
           </ListItemIcon>
-          <span>Rock</span>
+          <span>Rock [R]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.sand}>
           <ListItemIcon>
             <GiIsland />
           </ListItemIcon>
-          <span>Sand</span>
+          <span>Sand [S]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.road}>
           <ListItemIcon>
             <GiIsland />
           </ListItemIcon>
-          <span>Road</span>
+          <span>Road [O]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.lavaField}>
           <ListItemIcon>
             <GiIsland />
           </ListItemIcon>
-          <span>Lava Field</span>
+          <span>Lava Field [F]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.snow}>
           <ListItemIcon>
             <GiIsland />
           </ListItemIcon>
-          <span>Snow</span>
+          <span>Snow [I]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.concrete}>
           <ListItemIcon>
@@ -98,13 +184,13 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiIsland />
           </ListItemIcon>
-          <span>Swamp</span>
+          <span>Swamp [P]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.dungeon}>
           <ListItemIcon>
             <GiIsland />
           </ListItemIcon>
-          <span>Dungeon</span>
+          <span>Dungeon [D]</span>
         </MenuItem>
         <Divider />
         {/* FLUID LAND BEGIN */}
@@ -112,37 +198,37 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Water</span>
+          <span>Water [W]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.wellspringWater}>
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Wellspring Water</span>
+          <span>Wellspring Water [Shift + W]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.ice}>
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Ice</span>
+          <span>Ice[Shift + I]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.lava}>
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Lava</span>
+          <span>Lava [Shift + L]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.swampWater}>
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Swamp Water</span>
+          <span>Swamp Water [Shift + P]</span>
         </MenuItem>
         <MenuItem value={PiecePrefixes.shadow}>
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Shadow</span>
+          <span>Shadow [Shift + D]</span>
         </MenuItem>
 
         <Divider />
@@ -151,7 +237,7 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiWaterfall />
           </ListItemIcon>
-          <span>Laur Pillar</span>
+          <span>Laur Wall Pillar</span>
         </MenuItem>
         {/* <MenuItem value={PenMode.laurWallRuin}>
           <ListItemIcon>
@@ -325,50 +411,38 @@ export default function PenTerrainSelect() {
           <ListItemIcon>
             <GiCastle />
           </ListItemIcon>
-          <span>Castle Wall End</span>
+          <span>Castle Wall End [Shift + 1]</span>
         </MenuItem>
         <MenuItem value={Pieces.castleWallStraight}>
           <ListItemIcon>
             <GiCastle />
           </ListItemIcon>
-          <span>Castle Wall Straight</span>
+          <span>Castle Wall Straight [Shift + 2]</span>
         </MenuItem>
         <MenuItem value={Pieces.castleWallCorner}>
           <ListItemIcon>
             <GiCastle />
           </ListItemIcon>
-          <span>Castle Wall Corner</span>
+          <span>Castle Wall Corner [Shift + 3]</span>
         </MenuItem>
         <MenuItem value={Pieces.castleArch}>
           <ListItemIcon>
             <GiCastle />
           </ListItemIcon>
-          <span>Castle Arch</span>
+          <span>Castle Arch [Shift + 4]</span>
         </MenuItem>
         <MenuItem value={Pieces.castleArchNoDoor}>
           <ListItemIcon>
             <GiCastle />
           </ListItemIcon>
-          <span>Castle Arch (No Door)</span>
+          <span>Castle Arch (No Door) [Shift + 5]</span>
         </MenuItem>
         {/* WALL WALK BEGIN */}
-        <MenuItem value={Pieces.wallWalk1}>
+        <MenuItem value={PiecePrefixes.wallWalk}>
           <ListItemIcon>
             <GiCastle />
           </ListItemIcon>
-          <span>Wall Walk 1</span>
-        </MenuItem>
-        <MenuItem value={Pieces.wallWalk7}>
-          <ListItemIcon>
-            <GiCastle />
-          </ListItemIcon>
-          <span>Wall Walk 7</span>
-        </MenuItem>
-        <MenuItem value={Pieces.wallWalk9}>
-          <ListItemIcon>
-            <GiCastle />
-          </ListItemIcon>
-          <span>Wall Walk 9</span>
+          <span>Wall Walk [Shift + O]</span>
         </MenuItem>
 
         {/* <Divider /> */}

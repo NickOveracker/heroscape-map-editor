@@ -178,6 +178,8 @@ function getBlankHexoscapeMapForVSTiles(
   })
 }
 function getCodeQuick(tile: VirtualScapeTile) {
+  // this function is a monkeypatch
+  // this function was created to simply transform personal tiles, created in Virtualscape, to be used in this app, quickly, or just return the original pieceCode
   if (
     tile.type === 17000 &&
     ((tile?.personal?.letter ?? '') === 'LW' ||

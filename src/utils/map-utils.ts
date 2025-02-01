@@ -6,6 +6,7 @@ import {
   HEXGRID_HEX_RADIUS,
   HEXGRID_SPACING,
   HEXGRID_HEXCAP_FLUID_HEIGHT,
+  HEXGRID_HEXCAP_HEIGHT,
 } from './constants'
 import { cubeToPixel, hexUtilsAdd, hexUtilsGetNeighborForRotation, hexUtilsGetRadialFarNeighborForRotation } from './hex-utils'
 
@@ -74,6 +75,7 @@ export const getBoardHex3DCoords = (
   const yBaseCap = y - HEXGRID_HEX_HEIGHT
   const yWithBase = yBaseCap + HEXGRID_HEXCAP_FLUID_HEIGHT / 2
   const yBase = yBaseCap + HEXGRID_HEXCAP_FLUID_HEIGHT / 2
+  const yJungle = y + HEXGRID_HEXCAP_HEIGHT / 2
   return {
     x,
     y,
@@ -81,6 +83,7 @@ export const getBoardHex3DCoords = (
     yBaseCap,
     yWithBase,
     yBase,
+    yJungle
   }
 }
 export const getHexNeighborByRotAlt = (

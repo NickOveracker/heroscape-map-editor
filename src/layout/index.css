@@ -8,6 +8,7 @@ html {
   --gunmetal: #22333b;
   --gunmetal-transparent: hsla(199, 27%, 18%, 1);
   --gray: #5d576b;
+  overflow: hidden;
 }
 #root {
   box-sizing: border-box;

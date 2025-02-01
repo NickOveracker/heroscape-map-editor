@@ -1,10 +1,9 @@
-import { ThreeEvent } from '@react-three/fiber'
 import { DoubleSide } from 'three'
-import { DragControls, useGLTF } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from '../maphex/hexColors'
-import { HEXGRID_HEX_APOTHEM, HEXGRID_HEXCAP_FLUID_HEIGHT } from '../../utils/constants'
+import { HEXGRID_HEXCAP_FLUID_HEIGHT } from '../../utils/constants'
 import { CylinderGeometryArgs } from '../maphex/instance-hex'
 
 
@@ -90,13 +89,8 @@ const baseCylinderArgs: CylinderGeometryArgs = [
 
 export default function LaurWallPillar({
   boardHex,
-  // onPointerUpLaurWall,
 }: {
   boardHex: BoardHex
-  onPointerUpLaurWall: (
-    e: ThreeEvent<PointerEvent>,
-    hex: BoardHex,
-  ) => void
 }) {
   const { x, z, yBaseCap, yWithBase } = getBoardHex3DCoords(boardHex)
   // const selectedPieceID = useBoundStore(s => s.selectedPieceID)

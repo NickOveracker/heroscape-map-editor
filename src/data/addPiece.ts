@@ -33,9 +33,11 @@ export type PieceAddArgs = {
 type PieceAddReturn = { newBoardHexes: BoardHexes; newBoardPieces: BoardPieces }
 
 export function addPiece({
-  piece,
+  // state to mutate and return
   boardHexes,
   boardPieces,
+  // input
+  piece,
   pieceCoords,
   placementAltitude,
   rotation,
@@ -182,27 +184,6 @@ export function addPiece({
       })
 
       // write the new ladder piece
-      newBoardPieces[ladderBattlementPieceID] = piece.id
-    } catch (error) {
-      console.log("🚀 ~ placing ladder piece error:", error)
-    }
-  }
-
-  // ROADWALLS: Get CRAZY
-  if (isPlacingRoadWall) {
-    try {
-      // Battlements are just going to write piece ID, no matter what, and we will render from that
-      // write the new battlement piece
-      newBoardPieces[pieceID] = piece.id
-    } catch (error) {
-      console.log("🚀 ~ placing ladder piece error:", error)
-    }
-  }
-  // BATTLEMENTS: Get CRAZY
-  if (isPlacingBattlement) {
-    try {
-      // Battlements are just going to write piece ID, no matter what, and we will render from that
-      // write the new battlement piece
       newBoardPieces[ladderBattlementPieceID] = piece.id
     } catch (error) {
       console.log("🚀 ~ placing ladder piece error:", error)
@@ -454,7 +435,7 @@ export function addPiece({
       newBoardPieces[pieceID] = piece.id
     }
   }
-  // Castle Wallwalk
+  // CASTLE WALLWALK
   if (isPlacingWallWalkOnWall) {
     newHexIds.forEach((newHexID, iForEach) => {
       const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
@@ -469,49 +450,12 @@ export function addPiece({
         pieceID,
         pieceRotation: rotation,
         isCap: !isSolidAbove,
+        isObstacleOrigin: iForEach === 0, // mark subterrain origin hex
+        isObstacleAuxiliary: iForEach !== 0, // mark non-origin hex
       }
     })
     // write the new piece
     newBoardPieces[pieceID] = piece.id
-  }
-  // LAND
-  if (isPlacingLandTile) {
-    // castle-wallwalk placed here as normal land
-    const isLandPieceSupported =
-      isPlacingOnTable ||
-      (isSolidTile && isSolidUnderAtLeastOne) ||
-      (isFluidTile && isSolidUnderAll)
-    if (isSpaceFree && isLandPieceSupported) {
-      try {
-        newHexIds.forEach((newHexID, iForEach) => {
-          const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
-          const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
-          const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
-          const isSolidUnderneath = isSolidTerrainHex(hexUnderneath?.terrain)
-          if (isSolidUnderneath || isPlacingOnTable) {
-            // solids and fluids can replace the cap below
-            // remove cap beneath this land hex
-            newBoardHexes[hexUnderneath.id].isCap = false
-          }
-
-          newBoardHexes[newHexID] = {
-            id: newHexID,
-            q: piecePlaneCoords[iForEach].q,
-            r: piecePlaneCoords[iForEach].r,
-            s: piecePlaneCoords[iForEach].s,
-            altitude: newPieceAltitude,
-            terrain: piece.terrain,
-            pieceID,
-            pieceRotation: rotation,
-            isCap: !isSolidAbove, // not a cap if solid hex directly above
-          }
-        })
-      } catch (error) {
-        console.log("🚀 ~ newHexIds.forEach ~ error:", error)
-      }
-      // write the new piece
-      newBoardPieces[pieceID] = piece.id
-    }
   }
   // OBSTACLES: (+laurPillar)
   if (isPlacingObstacle) {
@@ -558,6 +502,67 @@ export function addPiece({
     //TODO: write the fluid base for glaciers/outcrops/hive
     // write the new piece
     newBoardPieces[pieceID] = piece.id
+  }
+  // LAND
+  if (isPlacingLandTile) {
+    // castle-wallwalk placed here as normal land
+    const isLandPieceSupported =
+      isPlacingOnTable ||
+      (isSolidTile && isSolidUnderAtLeastOne) ||
+      (isFluidTile && isSolidUnderAll)
+    if (isSpaceFree && isLandPieceSupported) {
+      try {
+        newHexIds.forEach((newHexID, iForEach) => {
+          const hexUnderneath = newBoardHexes?.[underHexIds[iForEach]]
+          const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
+          const isSolidAbove = isSolidTerrainHex(hexAbove?.terrain)
+          const isSolidUnderneath = isSolidTerrainHex(hexUnderneath?.terrain)
+          if (isSolidUnderneath || isPlacingOnTable) {
+            // solids and fluids can replace the cap below
+            // remove cap beneath this land hex
+            newBoardHexes[hexUnderneath.id].isCap = false
+          }
+
+          newBoardHexes[newHexID] = {
+            id: newHexID,
+            q: piecePlaneCoords[iForEach].q,
+            r: piecePlaneCoords[iForEach].r,
+            s: piecePlaneCoords[iForEach].s,
+            altitude: newPieceAltitude,
+            terrain: piece.terrain,
+            pieceID,
+            pieceRotation: rotation,
+            isCap: !isSolidAbove, // not a cap if solid hex directly above
+            isObstacleOrigin: iForEach === 0, // mark subterrain origin hex
+            isObstacleAuxiliary: iForEach !== 0, // mark non-origin hex
+          }
+        })
+      } catch (error) {
+        console.log("🚀 ~ newHexIds.forEach ~ error:", error)
+      }
+      // write the new piece
+      newBoardPieces[pieceID] = piece.id
+    }
+  }
+  // ROADWALLS: Get CRAZY
+  if (isPlacingRoadWall) {
+    try {
+      // Battlements are just going to write piece ID, no matter what, and we will render from that
+      // write the new battlement piece
+      newBoardPieces[pieceID] = piece.id
+    } catch (error) {
+      console.log("🚀 ~ placing ladder piece error:", error)
+    }
+  }
+  // BATTLEMENTS: Get CRAZY
+  if (isPlacingBattlement) {
+    try {
+      // Battlements are just going to write piece ID, no matter what, and we will render from that
+      // write the new battlement piece
+      newBoardPieces[ladderBattlementPieceID] = piece.id
+    } catch (error) {
+      console.log("🚀 ~ placing ladder piece error:", error)
+    }
   }
   return { newBoardHexes, newBoardPieces }
 }
