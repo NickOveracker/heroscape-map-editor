@@ -9,9 +9,11 @@ type Props = {
 }
 
 export default function HeaderNav({ isNavOpen, toggleIsNavOpen }: Props) {
+  // AppBar height is 64px when screen > 600px
+  // AppBar height is 56px when screen < 600px
   return (
     <AppBar
-      position="fixed"
+      position="static"
     // sx={{ backgroundColor: 'var(--black)' }}
     // sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} //drawer is 1200, appbar is 1100
     >
