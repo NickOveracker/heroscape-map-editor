@@ -21,7 +21,6 @@ export default function HomePage() {
   // xl, extra-large: 1536px
 
   const isLargeScreenLayout = useMediaQuery('(min-width:1200px)');
-  // const isScreenUnder900px = useMediaQuery('(max-width:900px)');
 
   const [isNavOpen, setIsNavOpen] = React.useState(false)
   const toggleIsNavOpen = (s: boolean) => {
@@ -55,8 +54,6 @@ export default function HomePage() {
           style={{
             display: 'flex',
             flex: 1,
-            // flexDirection: 'column',
-            // flexDirection: 'row-reverse',
             flexDirection: isLargeScreenLayout ? 'row-reverse' : 'column',
             width: '100%',
             padding: 0,
@@ -69,14 +66,8 @@ export default function HomePage() {
             style={{
               flex: 1,
               position: 'relative',
-              // width: '100%',
-              // width: '70vw',
               width: isLargeScreenLayout ? '70vw' : '100%',
-
-              // height: '70vh',
-              // height: '100%',
               height: isLargeScreenLayout ? '100%' : '70vh',
-              // height: 'calc(100vh - 64px)',
             }}
           >
             <CameraSpeedDial cameraControlsRef={cameraControlsRef} />
@@ -86,14 +77,8 @@ export default function HomePage() {
             style={{
               display: 'flex',
               flexFlow: 'column nowrap',
-
-              // width: '100%',
               width: isLargeScreenLayout ? '400px' : '100%',
-
-              // height: '30vh',
               height: isLargeScreenLayout ? '100%' : '30vh',
-              // height: 'calc(100vh - 64px)',
-
               background: 'var(--black)',
               overflow: 'auto',
             }}
