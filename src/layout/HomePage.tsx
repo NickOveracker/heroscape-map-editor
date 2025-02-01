@@ -1,5 +1,5 @@
 import React from 'react'
-import { Drawer } from '@mui/material'
+import { Drawer, useMediaQuery } from '@mui/material'
 import { DrawerList } from './DrawerList'
 import HeaderNav from './HeaderNav'
 import Controls from '../controls/Controls'
@@ -20,7 +20,7 @@ export default function HomePage() {
   // lg, large: 1200px
   // xl, extra-large: 1536px
 
-  // const isScreenOver1200 = useMediaQuery('(min-width:1200px)');
+  const isLargeScreenLayout = useMediaQuery('(min-width:1200px)');
   // const isScreenUnder900px = useMediaQuery('(max-width:900px)');
 
   const [isNavOpen, setIsNavOpen] = React.useState(false)
@@ -48,34 +48,59 @@ export default function HomePage() {
           padding: 0,
           margin: 0,
           backgroundColor: 'var(--outer-space)',
-          justifyContent: 'space-between',
         }}
       >
         <HeaderNav isNavOpen={isNavOpen} toggleIsNavOpen={toggleIsNavOpen} />
         <div
           style={{
-            // flex: 1,
-            position: 'relative',
-            width: '100%',
-            height: '70vh',
-          }}
-        >
-          <CameraSpeedDial cameraControlsRef={cameraControlsRef} />
-          <World cameraControlsRef={cameraControlsRef} />
-        </div>
-        <div
-          style={{
-            flex: 1,
             display: 'flex',
-            flexFlow: 'column nowrap',
+            flex: 1,
+            // flexDirection: 'column',
+            // flexDirection: 'row-reverse',
+            flexDirection: isLargeScreenLayout ? 'row-reverse' : 'column',
             width: '100%',
-            height: '30vh',
-            background: 'var(--black)',
+            padding: 0,
+            margin: 0,
             overflow: 'auto',
           }}
         >
-          <Controls />
-          <LoadMapInputs />
+
+          <div
+            style={{
+              flex: 1,
+              position: 'relative',
+              // width: '100%',
+              // width: '70vw',
+              width: isLargeScreenLayout ? '70vw' : '100%',
+
+              // height: '70vh',
+              // height: '100%',
+              height: isLargeScreenLayout ? '100%' : '70vh',
+              // height: 'calc(100vh - 64px)',
+            }}
+          >
+            <CameraSpeedDial cameraControlsRef={cameraControlsRef} />
+            <World cameraControlsRef={cameraControlsRef} />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexFlow: 'column nowrap',
+
+              // width: '100%',
+              width: isLargeScreenLayout ? '400px' : '100%',
+
+              // height: '30vh',
+              height: isLargeScreenLayout ? '100%' : '30vh',
+              // height: 'calc(100vh - 64px)',
+
+              background: 'var(--black)',
+              overflow: 'auto',
+            }}
+          >
+            <Controls />
+            <LoadMapInputs />
+          </div>
         </div>
       </div>
     </>
