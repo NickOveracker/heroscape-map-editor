@@ -5,9 +5,11 @@ import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import { Box, useMediaQuery } from '@mui/material'
+import { Box, IconButton, useMediaQuery } from '@mui/material'
 import useBoundStore from '../store/store'
 import { useSnackbar } from 'notistack'
+import { MdAutorenew } from 'react-icons/md'
+import { genRandomMapName } from '../utils/genRandomMapName'
 
 export default function EditMapFormDialog() {
   const fullScreen = useMediaQuery('(max-width:900px)');
@@ -17,6 +19,7 @@ export default function EditMapFormDialog() {
   const isEditMapDialogOpen = useBoundStore((state) => state.isEditMapDialogOpen)
   const handleClose = () => toggleIsEditMapDialogOpen(false)
   const { enqueueSnackbar } = useSnackbar()
+  const [newName, setNewName] = React.useState(mapName)
 
   return (
     <React.Fragment>
@@ -43,19 +46,35 @@ export default function EditMapFormDialog() {
       >
         <DialogTitle>Edit Map</DialogTitle>
         <DialogContent>
-          <Box sx={{ marginY: '1em' }}>
+          <Box
+            sx={{
+              p: '1em 4px',
+              display: 'flex',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
+
             <TextField
               id="newMapName"
               name="newMapName"
               autoFocus
               required
-              defaultValue={mapName}
+              value={newName}
               margin="dense"
               label="Map Title"
               type="text"
               fullWidth
               variant="outlined"
             />
+            <IconButton
+              title="Generate new random map name"
+              type="button"
+              sx={{ p: '10px' }}
+              onClick={() => setNewName(genRandomMapName())}
+            >
+              <MdAutorenew />
+            </IconButton>
           </Box>
         </DialogContent>
         <DialogActions>
