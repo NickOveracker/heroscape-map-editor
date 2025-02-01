@@ -23,7 +23,7 @@ export const CUBE_NE = { q: 1, r: -1, s: 0 }
 // solid hex side: 1 1/128" (2.55984375cm)
 // hex side male plug width: 7/32" (0.555625cm)
 // hex side female plug width: 6/32" (0.47625cm)
-export const HEXGRID_HEX_HEIGHT = 0.35 // Arbitrarily chosen for looks
+export const HEXGRID_HEX_HEIGHT = 0.35 // 0.375 was BEST fit to the 24-hex tile scan, but castle-walls and ladders have already been tailored to 0.35!
 export const HEXGRID_HEXCAP_HEIGHT = HEXGRID_HEX_HEIGHT / 7 // for solid tiles the cap is a seventh of the height
 export const HEXGRID_HEXCAP_FLUID_HEIGHT = (HEXGRID_HEX_HEIGHT * 3) / 7 // fluid tiles are 3/7 the height of solid tiles, the whole fluid tile is the cap
 export const HEXGRID_EMPTYHEX_HEIGHT = HEXGRID_HEX_HEIGHT / 20
