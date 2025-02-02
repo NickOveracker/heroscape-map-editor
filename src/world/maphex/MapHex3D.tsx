@@ -3,7 +3,7 @@ import { BoardHex, HexTerrain, Pieces } from '../../types'
 import HeightRing from './HeightRing'
 import { genBoardHexID, getBoardHex3DCoords } from '../../utils/map-utils'
 import { MapHexIDDisplay } from './MapHexIDDisplay'
-import { isSolidTerrainHex } from '../../utils/board-utils'
+import { isFluidTerrainHex, isSolidTerrainHex } from '../../utils/board-utils'
 import TicallaPalm from '../models/TicallaPalm'
 import TicallaBrush from '../models/TicallaBrush'
 import useBoundStore from '../../store/store'
@@ -20,7 +20,7 @@ import { CastleArch } from '../models/CastleArch'
 import CastleBases from '../models/CastleBases'
 import LaurPillar from '../models/LaurPillar'
 import { Ladder } from '../models/Ladder'
-import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
+import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_FLUID_SCALE, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
 import { getLadderBattlementOptions, getObstaclRotation, getOptionsForBigTree, getOptionsForPalmHeight, getOptionsForTreeHeight } from '../models/piece-adjustments'
 import ObstacleBase from '../models/ObstacleBase'
 import { hexTerrainColor } from './hexColors'
@@ -53,6 +53,7 @@ export const MapHex3D = ({
   const isObstacleHex =
     boardHex.isObstacleOrigin || boardHex.isObstacleAuxiliary
   const isSubterrainOrigin = isSolidTerrainHex(boardHex.terrain) && boardHex.isObstacleOrigin
+  const isFluidTerrainOrigin = isFluidTerrainHex(boardHex.terrain) && boardHex.isObstacleOrigin
   const isBigTreeHex = boardHex.pieceID.endsWith(Pieces.tree415) && boardHex.isObstacleOrigin
   const isBigTreeBaseHex = boardHex.pieceID.endsWith(Pieces.tree415) && boardHex.isObstacleAuxiliary
   const isTreeHex = !isBigTreeHex && !isBigTreeBaseHex && boardHex.terrain === HexTerrain.tree && isObstacleHex
@@ -117,6 +118,16 @@ export const MapHex3D = ({
         <group
           position={[x, y - HEXGRID_HEX_HEIGHT, z]}
           rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+        >
+          <LandSubterrain pid={boardHex.pieceID} />
+        </group>
+      )}
+      {isFluidTerrainOrigin && (
+        <group
+          // position={[x, y - HEXGRID_HEXCAP_FLUID_SCALE * (HEXGRID_HEX_HEIGHT), z]}
+          position={[x, y - HEXGRID_HEX_HEIGHT, z]}
+          rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+          scale={[1, HEXGRID_HEXCAP_FLUID_SCALE, 1]}
         >
           <LandSubterrain pid={boardHex.pieceID} />
         </group>
