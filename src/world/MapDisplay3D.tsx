@@ -15,7 +15,6 @@ import {
 } from '../utils/board-utils.ts'
 import { piecesSoFar } from '../data/pieces.ts'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
-import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
 import { decodePieceID, genBoardHexID, getBoardHexesRectangularMapDimensions } from '../utils/map-utils.ts'
 import { buildupJsonFileMap } from '../data/buildupMap.ts'

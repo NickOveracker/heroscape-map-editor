@@ -27,6 +27,7 @@ import { hexTerrainColor } from './hexColors'
 import ForestTree from '../models/ForestTree'
 import BigTree415 from '../models/BigTree415'
 import LandSubterrain from '../models/LandSubterrain'
+import { InterlockHex } from '../models/InterlockHex'
 
 export const MapHex3D = ({
   boardHex,
@@ -53,7 +54,7 @@ export const MapHex3D = ({
   const isObstacleHex =
     boardHex.isObstacleOrigin || boardHex.isObstacleAuxiliary
   const isSubterrainOrigin = isSolidTerrainHex(boardHex.terrain) && boardHex.isObstacleOrigin
-  const isFluidTerrainOrigin = isFluidTerrainHex(boardHex.terrain) && boardHex.isObstacleOrigin
+  const isFluidHex = isFluidTerrainHex(boardHex.terrain)
   const isBigTreeHex = boardHex.pieceID.endsWith(Pieces.tree415) && boardHex.isObstacleOrigin
   const isBigTreeBaseHex = boardHex.pieceID.endsWith(Pieces.tree415) && boardHex.isObstacleAuxiliary
   const isTreeHex = !isBigTreeHex && !isBigTreeBaseHex && boardHex.terrain === HexTerrain.tree && isObstacleHex
@@ -122,14 +123,16 @@ export const MapHex3D = ({
           <LandSubterrain pid={boardHex.pieceID} />
         </group>
       )}
-      {isFluidTerrainOrigin && (
+      {isFluidHex && (
         <group
           // position={[x, y - HEXGRID_HEXCAP_FLUID_SCALE * (HEXGRID_HEX_HEIGHT), z]}
           position={[x, y - HEXGRID_HEX_HEIGHT, z]}
-          rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           scale={[1, HEXGRID_HEXCAP_FLUID_SCALE, 1]}
+          rotation={[0,
+            (((boardHex.pieceRotation + (boardHex?.interlockRotation ?? 0)) % 6) * -Math.PI) / 3,
+            0]}
         >
-          <LandSubterrain pid={boardHex.pieceID} />
+          <InterlockHex type={boardHex?.interlockType ?? '0'} />
         </group>
       )}
       {isRuin2OriginHex && <Ruins2 boardHex={boardHex} underHexTerrain={underHexTerrain} />}

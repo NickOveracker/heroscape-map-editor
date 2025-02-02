@@ -20,6 +20,8 @@ import {
   verticalObstructionTemplates,
   verticalSupportTemplates,
 } from './ruins-templates'
+import interlockTemplates from './interlock-templates'
+import interlockRotationTemplates from './interlock-rotations'
 
 export type PieceAddArgs = {
   piece: Piece
@@ -535,6 +537,8 @@ export function addPiece({
             isCap: !isSolidAbove, // not a cap if solid hex directly above
             isObstacleOrigin: iForEach === 0, // mark subterrain origin hex
             isObstacleAuxiliary: iForEach !== 0, // mark non-origin hex
+            interlockType: interlockTemplates[piece.template][iForEach],
+            interlockRotation: interlockRotationTemplates[piece.template][iForEach]
           }
         })
       } catch (error) {
