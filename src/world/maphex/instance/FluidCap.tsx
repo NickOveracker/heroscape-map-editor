@@ -64,12 +64,15 @@ function FluidCap({
 
   // Effect: Initial color/position
   React.useEffect(() => {
-    const { x, z } = getBoardHex3DCoords(boardHex)
-    const y =
-      (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT +
-      HEXGRID_HEXCAP_FLUID_HEIGHT / 2
+    const { x, y, z } = getBoardHex3DCoords(boardHex)
+    // const y =
+    //   (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT +
+    //   HEXGRID_HEXCAP_FLUID_HEIGHT / 2
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
-    ref.current.position.set(x, y, z)
+    ref.current.position.set(
+      x,
+      y - HEXGRID_HEX_HEIGHT + 0.151,
+      z)
   }, [boardHex])
 
   // update color when piece is hovered
