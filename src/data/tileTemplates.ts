@@ -15,17 +15,17 @@ const basic3 = [...basic2, CUBE_SE]
 const basic7 = [
   ...basic3,
   CUBE_SW,
-  {
+  { // right
     q: 1,
     r: 1,
     s: -2,
   },
-  {
+  { // bottom-left
     q: -1,
     r: 2,
     s: -1,
   },
-  {
+  {// bottom-right
     q: 0,
     r: 2,
     s: -2,
@@ -120,6 +120,7 @@ const basic24 = [
   },
 ]
 const straight3 = [
+  // castleArch
   ...basic2,
   {
     q: 2,
@@ -137,6 +138,7 @@ const straight4 = [
   },
 ]
 const straight5 = [
+  // road5(bridge)
   ...straight4,
   {
     q: 4,
