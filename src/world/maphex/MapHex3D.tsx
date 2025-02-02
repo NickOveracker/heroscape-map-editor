@@ -132,7 +132,7 @@ export const MapHex3D = ({
             (((boardHex.pieceRotation + (boardHex?.interlockRotation ?? 0)) % 6) * -Math.PI) / 3,
             0]}
         >
-          <InterlockHex type={boardHex?.interlockType ?? '0'} />
+          <InterlockHex type={boardHex?.interlockType ?? '0'} color={hexTerrainColor[boardHex.terrain]} isFluid={true} />
         </group>
       )}
       {isRuin2OriginHex && <Ruins2 boardHex={boardHex} underHexTerrain={underHexTerrain} />}

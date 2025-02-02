@@ -10,7 +10,7 @@ import { Pieces } from "../types"
 const basic1 = ['6']
 const basic2 = ['5', '5']
 const basic3 = ['4', '4', '4']
-const basic7 = ['3', '0', '3', '3', '3', '3', '3']
+const basic7 = ['3', '3', '0', '3', '3', '3', '3']
 const basic24 = [
   '3', '3', '0', '3', '2', '1', '0', // basic 7
   '2', // far right of 3rd row
