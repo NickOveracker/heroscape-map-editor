@@ -1,6 +1,6 @@
 import React from 'react'
 import { Canvas } from '@react-three/fiber'
-import { CameraControls, OrthographicCamera, PerspectiveCamera, Stars } from '@react-three/drei'
+import { CameraControls, OrthographicCamera, PerspectiveCamera, Stars, Stats } from '@react-three/drei'
 import Lights from './Lights'
 import MyCameraControls from './camera/MyCameraControls'
 import MapDisplay3D from './MapDisplay3D'
@@ -59,7 +59,7 @@ const World = ({
             speed={1}
           />}
           {/* Stats displays the fps */}
-          {/* <Stats className="stats-panel" /> */}
+          <Stats className="stats-panel" />
           <MapDisplay3D mapGroupRef={mapGroupRef} cameraControlsRef={cameraControlsRef} />
           <Lights />
           {/* {!isTakingPicture && <GridHelper />} */}
