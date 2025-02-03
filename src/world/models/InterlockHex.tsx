@@ -26,114 +26,112 @@ export function InterlockHex({ type, color, isFluid }: { type: string, color: st
       return <></>
   }
 }
-export function InterlockHex0({ color, isFluid }: { color: string, isFluid: boolean }) {
+function InterlockHex0({ color, isFluid }: { color: string, isFluid: boolean }) {
   const { nodes } = useGLTF('/interlock-hex-0.glb') as any
-  const material = isFluid ? (<meshLambertMaterial transparent opacity={0.85} color={color} />) : (<meshMatcapMaterial color={color} />)
   return (
     < >
       <mesh
         geometry={nodes.Interlock0.geometry}
       >
-        {/* <meshMatcapMaterial color={color} /> */}
-        {material}
+        {isFluid ? (<meshLambertMaterial transparent opacity={0.85} color={color} />) : (<meshMatcapMaterial color={color} />)}
       </mesh>
     </>
   )
 }
 useGLTF.preload('/interlock-hex-0.glb')
 
-export function InterlockHex1({ color, isFluid }: { color: string, isFluid: boolean }) {
+function InterlockHex1({ color, isFluid }: { color: string, isFluid: boolean }) {
   const { nodes } = useGLTF('/interlock-hex-1.glb') as any
   return (
     < >
       <mesh
         geometry={nodes.Interlock1.geometry}
       >
-        <meshMatcapMaterial color={color} />
+        {isFluid ? (<meshLambertMaterial transparent opacity={0.85} color={color} />) : (<meshMatcapMaterial color={color} />)}
       </mesh>
     </>
   )
 }
 useGLTF.preload('/interlock-hex-1.glb')
 
-export function InterlockHex2({ color, isFluid }: { color: string, isFluid: boolean }) {
+function InterlockHex2({ color, isFluid }: { color: string, isFluid: boolean }) {
   const { nodes } = useGLTF('/interlock-hex-2.glb') as any
   return (
     < >
       <mesh
         geometry={nodes.Interlock2.geometry}
       >
-        <meshMatcapMaterial color={color} />
+        {isFluid ? (<meshLambertMaterial transparent opacity={0.85} color={color} />) : (<meshMatcapMaterial color={color} />)}
       </mesh>
     </>
   )
 }
 useGLTF.preload('/interlock-hex-2.glb')
 
-export function InterlockHex3({ color, isFluid }: { color: string, isFluid: boolean }) {
+function InterlockHex3({ color, isFluid }: { color: string, isFluid: boolean }) {
   const { nodes } = useGLTF('/interlock-hex-3.glb') as any
   return (
     < >
       <mesh
         geometry={nodes.Interlock3.geometry}
       >
-        <meshMatcapMaterial color={color} />
+        {isFluid ? (<meshLambertMaterial transparent opacity={0.85} color={color} />) : (<meshMatcapMaterial color={color} />)}
       </mesh>
     </>
   )
 }
 useGLTF.preload('/interlock-hex-3.glb')
 
-export function InterlockHex4({ color, isFluid }: { color: string, isFluid: boolean }) {
+function InterlockHex4({ color, isFluid }: { color: string, isFluid: boolean }) {
   const { nodes } = useGLTF('/interlock-hex-4.glb') as any
   return (
     < >
       <mesh
         geometry={nodes.Interlock4.geometry}
       >
-        <meshMatcapMaterial color={color} />
+        {isFluid ? (<meshLambertMaterial transparent opacity={0.85} color={color} />) : (<meshMatcapMaterial color={color} />)}
       </mesh>
     </>
   )
 }
 useGLTF.preload('/interlock-hex-4.glb')
 
-export function InterlockHex4B({ color, isFluid }: { color: string, isFluid: boolean }) {
+function InterlockHex4B({ color, isFluid }: { color: string, isFluid: boolean }) {
   const { nodes } = useGLTF('/interlock-hex-4B.glb') as any
   return (
     < >
       <mesh
         geometry={nodes.Interlock4B.geometry}
       >
-        <meshMatcapMaterial color={color} />
+        {isFluid ? (<meshLambertMaterial transparent opacity={0.85} color={color} />) : (<meshMatcapMaterial color={color} />)}
       </mesh>
     </>
   )
 }
 useGLTF.preload('/interlock-hex-4B.glb')
 
-export function InterlockHex5({ color, isFluid }: { color: string, isFluid: boolean }) {
+function InterlockHex5({ color, isFluid }: { color: string, isFluid: boolean }) {
   const { nodes } = useGLTF('/interlock-hex-5.glb') as any
   return (
     < >
       <mesh
         geometry={nodes.Interlock5.geometry}
       >
-        <meshMatcapMaterial color={color} />
+        {isFluid ? (<meshLambertMaterial transparent opacity={0.85} color={color} />) : (<meshMatcapMaterial color={color} />)}
       </mesh>
     </>
   )
 }
 useGLTF.preload('/interlock-hex-5.glb')
 
-export function InterlockHex6({ color, isFluid }: { color: string, isFluid: boolean }) {
+function InterlockHex6({ color, isFluid }: { color: string, isFluid: boolean }) {
   const { nodes } = useGLTF('/interlock-hex-6.glb') as any
   return (
     < >
       <mesh
         geometry={nodes.Interlock6.geometry}
       >
-        <meshMatcapMaterial color={color} />
+        {isFluid ? (<meshLambertMaterial transparent opacity={0.85} color={color} />) : (<meshMatcapMaterial color={color} />)}
       </mesh>
     </>
   )
