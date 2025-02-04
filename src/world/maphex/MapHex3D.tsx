@@ -108,9 +108,6 @@ export const MapHex3D = ({
   return (
     <group
       visible={isVisible}
-    // style={{
-    //   animation: 'fade-in 5s ease 1s forwards'
-    // }}
     >
       <MapHexIDDisplay
         boardHex={boardHex}
@@ -136,20 +133,8 @@ export const MapHex3D = ({
           <LandSubterrain pid={boardHex.pieceID} />
         </group>
       )}
-      {/* {isFluidHex && (
-        <group
-          // position={[x, y - HEXGRID_HEXCAP_FLUID_SCALE * (HEXGRID_HEX_HEIGHT), z]}
-          position={[x, y - HEXGRID_HEX_HEIGHT, z]}
-          scale={[1, HEXGRID_HEXCAP_FLUID_SCALE, 1]}
-          rotation={[0,
-            (((boardHex.pieceRotation + (boardHex?.interlockRotation ?? 0)) % 6) * -Math.PI) / 3,
-            0]}
-        >
-          <InterlockHex type={boardHex?.interlockType ?? '0'} color={hexTerrainColor[boardHex.terrain]} isFluid={true} />
-        </group>
-      )} */}
-      {isRuin2OriginHex && <Ruins2 boardHex={boardHex} underHexTerrain={underHexTerrain} />}
-      {isRuin3OriginHex && <Ruins3 boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isRuin2OriginHex && <Ruins2 boardHex={boardHex} />}
+      {isRuin3OriginHex && <Ruins3 boardHex={boardHex} />}
       {isHeightRingedHex && <HeightRing position={new Vector3(x, y, z)} />}
       {isLaurPillarHex && (
         <LaurPillar
