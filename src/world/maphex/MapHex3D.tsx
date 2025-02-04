@@ -49,8 +49,8 @@ export const MapHex3D = ({
     altitude: boardHex.altitude - 1,
   })
   const underHexTerrain = boardHexes?.[underHexID]?.terrain ?? HexTerrain.grass
-  const isHeightRingedHex =
-    isSolidTerrainHex(boardHex.terrain) || (!isTakingPicture && boardHex.terrain === HexTerrain.empty)
+  const isShowEmptyHexes = !isTakingPicture && boardHex.terrain === HexTerrain.empty
+  const isHeightRingedHex = (isSolidTerrainHex(boardHex.terrain) && !(boardHex.isCap)) || isShowEmptyHexes
   const isObstacleHex =
     boardHex.isObstacleOrigin || boardHex.isObstacleAuxiliary
   const isSubterrainOrigin = isSolidTerrainHex(boardHex.terrain) && boardHex.isObstacleOrigin
