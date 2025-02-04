@@ -27,6 +27,7 @@ import { hexTerrainColor } from './hexColors'
 import ForestTree from '../models/ForestTree'
 import BigTree415 from '../models/BigTree415'
 import LandSubterrain from '../models/LandSubterrain'
+import { InterlockHex } from '../models/InterlockHex'
 
 export const MapHex3D = ({
   boardHex,
@@ -201,13 +202,15 @@ export const MapHex3D = ({
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
             <TicallaBrush />
+            <group
+              position={[0, -HEXGRID_HEX_HEIGHT, 0]}
+            >
+              <InterlockHex
+                type={'6'}
+                color={hexTerrainColor[HexTerrain.swamp]}
+              />
+            </group>
           </group>
-          <ObstacleBase
-            x={x}
-            y={yJungle}
-            z={z}
-            color={hexTerrainColor[HexTerrain.swamp]}
-          />
         </>
       )}
       {(isPalmHex || isLaurPalmHex) && (
@@ -223,12 +226,14 @@ export const MapHex3D = ({
           >
             <TicallaPalm />
           </group>
-          <ObstacleBase
-            x={x}
-            y={yJungle}
-            z={z}
-            color={hexTerrainColor[HexTerrain.swamp]}
-          />
+          <group
+            position={[x, yJungle - HEXGRID_HEX_HEIGHT, z]}
+          >
+            <InterlockHex
+              type={'6'}
+              color={hexTerrainColor[HexTerrain.swamp]}
+            />
+          </group>
         </>
       )}
       {isGlacier1Hex && (

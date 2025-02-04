@@ -75,7 +75,7 @@ export const getBoardHex3DCoords = (
   const yBaseCap = y - HEXGRID_HEX_HEIGHT
   const yWithBase = yBaseCap + HEXGRID_HEXCAP_FLUID_HEIGHT / 2
   const yBase = yBaseCap + HEXGRID_HEXCAP_FLUID_HEIGHT / 2
-  const yJungle = y + HEXGRID_HEXCAP_HEIGHT / 2
+  const yJungle = y
   return {
     x,
     y,
