@@ -9,7 +9,7 @@ import {
 import { getBoardHex3DCoords } from '../../../utils/map-utils'
 import {
   HEXGRID_HEX_HEIGHT,
-  HEXGRID_HEXCAP_FLUID_HEIGHT,
+  HEXGRID_HEXCAP_FLUID_SCALE,
   INSTANCE_LIMIT,
 } from '../../../utils/constants'
 import { hexTerrainColor } from '../hexColors'
@@ -18,9 +18,9 @@ import usePieceHoverState from '../../../hooks/usePieceHoverState'
 import useBoundStore from '../../../store/store'
 
 const baseFluidCapCylinderArgs: CylinderGeometryArgs = [
-  1,
-  0.997,
-  HEXGRID_HEXCAP_FLUID_HEIGHT,
+  0.9,
+  0.8,
+  0.1,
   6,
   undefined,
   false,
@@ -59,45 +59,43 @@ function FluidCap({
 }: DreiInstanceCapProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
+  const {
+    onPointerEnter,
+    onPointerOut,
+  } = usePieceHoverState()
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
   const color = hexTerrainColor[boardHex.terrain]
+  // const selectedPieceID = useBoundStore(s => s.selectedPieceID)
 
   // Effect: Initial color/position
   React.useEffect(() => {
     const { x, y, z } = getBoardHex3DCoords(boardHex)
-    // const y =
-    //   (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT +
-    //   HEXGRID_HEXCAP_FLUID_HEIGHT / 2
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
     ref.current.position.set(
       x,
-      y - HEXGRID_HEX_HEIGHT + 0.151,
+      y - (HEXGRID_HEX_HEIGHT - (HEXGRID_HEX_HEIGHT * HEXGRID_HEXCAP_FLUID_SCALE + 0.01)),
       z)
   }, [boardHex])
 
   // update color when piece is hovered
   React.useEffect(() => {
     if (hoveredPieceID === boardHex.pieceID) {
-      ref.current.color.set('yellow')
+      // ref.current.color.set('yellow')
     } else {
       ref.current.color.set(color)
     }
   }, [boardHex.pieceID, hoveredPieceID, color])
 
-  const {
-    onPointerEnter,
-    onPointerOut,
-  } = usePieceHoverState()
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
     onPointerEnter(e, boardHex)
     ref.current.color.set('yellow')
   }
   const handleOut = (e: ThreeEvent<PointerEvent>) => {
-    if (hoveredPieceID !== boardHex.pieceID) {
-      ref.current.color.set(color)
-      onPointerOut(e)
-    }
+    // if (hoveredPieceID !== boardHex.pieceID) {
+    ref.current.color.set(color)
+    onPointerOut(e)
+    // }
   }
   const handleUp = (e: ThreeEvent<PointerEvent>) => {
     onPointerUp(e, boardHex)

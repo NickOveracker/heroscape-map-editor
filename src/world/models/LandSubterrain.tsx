@@ -7,6 +7,10 @@ import { HexTerrain, Pieces } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
 import { decodePieceID } from '../../utils/map-utils'
 import { piecesSoFar } from '../../data/pieces'
+import usePieceHoverState from '../../hooks/usePieceHoverState'
+import useBoundStore from '../../store/store'
+import React, { PropsWithChildren } from 'react'
+import { isFluidTerrainHex } from '../../utils/board-utils'
 
 export default function LandSubterrain({ pid }: { pid: string }) {
   const {
@@ -16,183 +20,268 @@ export default function LandSubterrain({ pid }: { pid: string }) {
     // boardHexID,
     // pieceCoords
   } = decodePieceID(pid)
+  const {
+    onPointerEnterPID,
+    onPointerOut,
+  } = usePieceHoverState()
+  const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
   const pieceTerrain = piecesSoFar[pieceID].terrain
   const isDirtSubterrain =
     pieceTerrain === HexTerrain.grass ||
     pieceTerrain === HexTerrain.sand ||
     pieceTerrain === HexTerrain.rock
-  const subTerrainColor = isDirtSubterrain
+  const baseColor = isDirtSubterrain
     ? hexTerrainColor[HexTerrain.dirt]
     : hexTerrainColor[pieceTerrain]
+  const [color, setColor] = React.useState('red')
   const regex = /\d+/g;
 
   let pieceSize = pieceID.match(regex)?.[0] ?? '';
   if (pieceSize === '7' && pieceID === Pieces.wallWalk7) {
     pieceSize = '7B'
   }
+  // update color when piece is hovered
+  React.useEffect(() => {
+    if (hoveredPieceID === pid) {
+      setColor('yellow')
+    } else {
+      setColor(baseColor)
+    }
+  }, [hoveredPieceID, color, pieceID, baseColor, pid])
 
   switch (pieceSize) {
     case '1':
       return (
-        <Subterrain1 subTerrainColor={subTerrainColor} />
+        <group
+          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
+          onPointerOut={onPointerOut}
+        >
+          <Subterrain1 >
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+          </Subterrain1>
+        </group>
       )
     case '2':
       return (
-        <Subterrain2 subTerrainColor={subTerrainColor} />
+        <group
+          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
+          onPointerOut={onPointerOut}
+        >
+          <Subterrain2 >
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+          </Subterrain2>
+        </group>
       )
     case '3':
       return (
-        <Subterrain3 subTerrainColor={subTerrainColor} />
+        <group
+          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
+          onPointerOut={onPointerOut}
+        >
+          <Subterrain3 >
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+          </Subterrain3>
+        </group>
       )
     case '4':
       return (
-        <Subterrain4 subTerrainColor={subTerrainColor} />
+        <group
+          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
+          onPointerOut={onPointerOut}
+        >
+          <Subterrain4 >
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+          </Subterrain4>
+        </group>
       )
     case '5':
       return (
-        <Subterrain5 subTerrainColor={subTerrainColor} />
+        <group
+          onPointerEnter={(e) => onPointerEnterPID(e, pid)
+          }
+          onPointerOut={onPointerOut}
+        >
+          <Subterrain5 >
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+          </Subterrain5>
+        </group >
       )
     case '6':
       return (
-        <Subterrain6 subTerrainColor={subTerrainColor} />
+        <group
+          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
+          onPointerOut={onPointerOut}
+        >
+          <Subterrain6 >
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+          </Subterrain6>
+        </group>
       )
     case '7B':
       return (
-        <Subterrain7B subTerrainColor={subTerrainColor} />
+        <group
+          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
+          onPointerOut={onPointerOut}
+        >
+          <Subterrain7B >
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+          </Subterrain7B>
+        </group>
       )
     case '7':
       return (
-        <Subterrain7 subTerrainColor={subTerrainColor} />
+        <group
+          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
+          onPointerOut={onPointerOut}
+        >
+          <Subterrain7 >
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+          </Subterrain7>
+        </group>
       )
     case '9':
       return (
-        <Subterrain9 subTerrainColor={subTerrainColor} />
+        <group
+          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
+          onPointerOut={onPointerOut}
+        >
+          <Subterrain9 >
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+          </Subterrain9>
+        </group>
       )
     case '24':
       return (
-        <Subterrain24 subTerrainColor={subTerrainColor} />
+        <group
+          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
+          onPointerOut={onPointerOut}
+        >
+          <Subterrain24 >
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+          </Subterrain24>
+        </group>
       )
     default:
       return null
   }
 }
 
-export function Subterrain24({ subTerrainColor }: { subTerrainColor: string }) {
+export function Subterrain24({ children }: PropsWithChildren) {
   const { nodes } = useGLTF('/subterrain_24.glb') as any
   return (
     <mesh
       geometry={nodes.Subterrain_24.geometry}
     >
-      <meshMatcapMaterial color={subTerrainColor} />
+      {children}
     </mesh>
   )
 }
 useGLTF.preload('/subterrain_24.glb')
 
-export function Subterrain9({ subTerrainColor }: { subTerrainColor: string }) {
+export function Subterrain9({ children }: PropsWithChildren) {
   const { nodes } = useGLTF('/subterrain_9.glb') as any
   return (
     <mesh
       geometry={nodes['Subterrain-9'].geometry}
     >
-      <meshMatcapMaterial color={subTerrainColor} />
+      {children}
     </mesh>
   )
 }
 useGLTF.preload('/subterrain_9.glb')
 
-export function Subterrain7B({ subTerrainColor }: { subTerrainColor: string }) {
+export function Subterrain7B({ children }: PropsWithChildren) {
   const { nodes } = useGLTF('/subterrain_7B.glb') as any
   return (
     <mesh
       geometry={nodes['Subterrain-7B'].geometry}
     >
-      <meshMatcapMaterial color={subTerrainColor} />
+      {children}
     </mesh>
   )
 }
 useGLTF.preload('/subterrain_7B.glb')
 
-export function Subterrain7({ subTerrainColor }: { subTerrainColor: string }) {
+export function Subterrain7({ children }: PropsWithChildren) {
   const { nodes } = useGLTF('/subterrain_7.glb') as any
   return (
     <mesh
       geometry={nodes.Subterrain_7.geometry}
     >
-      <meshMatcapMaterial color={subTerrainColor} />
+      {children}
     </mesh>
   )
 }
 useGLTF.preload('/subterrain_7.glb')
 
 
-export function Subterrain6({ subTerrainColor }: { subTerrainColor: string }) {
+export function Subterrain6({ children }: PropsWithChildren) {
   const { nodes } = useGLTF('/subterrain_6.glb') as any
   return (
     <mesh
       geometry={nodes.Subterrain_6.geometry}
     >
-      <meshMatcapMaterial color={subTerrainColor} />
+      {children}
     </mesh>
   )
 }
 useGLTF.preload('/subterrain_6.glb')
 
-export function Subterrain5({ subTerrainColor }: { subTerrainColor: string }) {
+export function Subterrain5({ children }: PropsWithChildren) {
   const { nodes } = useGLTF('/subterrain_5.glb') as any
   return (
     <mesh
       geometry={nodes.Subterrain_5.geometry}
     >
-      <meshMatcapMaterial color={subTerrainColor} />
+      {children}
     </mesh>
   )
 }
 useGLTF.preload('/subterrain_5.glb')
 
-export function Subterrain4({ subTerrainColor }: { subTerrainColor: string }) {
+export function Subterrain4({ children }: PropsWithChildren) {
   const { nodes } = useGLTF('/subterrain_4.glb') as any
   return (
     <mesh
       geometry={nodes.Subterrain_4.geometry}
     >
-      <meshMatcapMaterial color={subTerrainColor} />
+      {children}
     </mesh>
   )
 }
 useGLTF.preload('/subterrain_4.glb')
 
-export function Subterrain3({ subTerrainColor }: { subTerrainColor: string }) {
+export function Subterrain3({ children }: PropsWithChildren) {
   const { nodes } = useGLTF('/subterrain_3.glb') as any
   return (
     <mesh
       geometry={nodes.Subterrain_3.geometry}
     >
-      <meshMatcapMaterial color={subTerrainColor} />
+      {children}
     </mesh>
   )
 }
 useGLTF.preload('/subterrain_3.glb')
 
-export function Subterrain2({ subTerrainColor }: { subTerrainColor: string }) {
+export function Subterrain2({ children }: PropsWithChildren) {
   const { nodes } = useGLTF('/subterrain_2.glb') as any
   return (
     <mesh
       geometry={nodes.Subterrain_2.geometry}
     >
-      <meshMatcapMaterial color={subTerrainColor} />
+      {children}
     </mesh>
   )
 }
 useGLTF.preload('/subterrain_2.glb')
 
-export function Subterrain1({ subTerrainColor }: { subTerrainColor: string }) {
+export function Subterrain1({ children }: PropsWithChildren) {
   const { nodes } = useGLTF('/subterrain_1.glb') as any
   return (
     <mesh
       geometry={nodes.Subterrain_1.geometry}
     >
-      <meshMatcapMaterial color={subTerrainColor} />
+      {children}
     </mesh>
   )
 }
