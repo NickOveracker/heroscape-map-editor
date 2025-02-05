@@ -6,7 +6,6 @@ import {
   HEXGRID_HEX_RADIUS,
   HEXGRID_SPACING,
   HEXGRID_HEXCAP_FLUID_HEIGHT,
-  HEXGRID_HEXCAP_HEIGHT,
 } from './constants'
 import { cubeToPixel, hexUtilsAdd, hexUtilsGetNeighborForRotation, hexUtilsGetRadialFarNeighborForRotation } from './hex-utils'
 
