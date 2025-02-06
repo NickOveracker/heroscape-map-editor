@@ -1,5 +1,45 @@
 import { PieceInventory, Pieces } from "../types";
 
+export const maxSharedTerrainKit: PieceInventory = {
+  // https://www.heroscapers.com/threads/max-shared-terrain-kit-mstk.64183/
+  [Pieces.grass1]: 10,
+  [Pieces.grass2]: 5,
+  [Pieces.grass3]: 2,
+  [Pieces.grass7]: 4,
+  [Pieces.grass24]: 3, // 2 when using LandsOfValhalla
+  [Pieces.rock1]: 20,
+  [Pieces.rock2]: 12,
+  [Pieces.rock3]: 12,
+  [Pieces.rock7]: 20,
+  [Pieces.rock24]: 8,
+  [Pieces.sand1]: 4,
+  [Pieces.sand2]: 2,
+  [Pieces.sand3]: 1,
+  [Pieces.sand7]: 2,
+  [Pieces.sand24]: 0, // 1 when using LandsOfValhalla
+  [Pieces.water1]: 12,
+}
+export const tournamentOrganizerTerrainKitPieceSet: PieceInventory = {
+  // This is intended by Renegade to make 4 maps, the community may come up with a system as well
+  [Pieces.grass1]: 64,
+  [Pieces.grass2]: 24,
+  [Pieces.grass3]: 24,
+  [Pieces.grass7]: 28,
+  [Pieces.grass24]: 12,
+  [Pieces.rock1]: 20,
+  [Pieces.rock2]: 12,
+  [Pieces.rock3]: 12,
+  [Pieces.rock7]: 20,
+  [Pieces.rock24]: 8,
+  [Pieces.sand1]: 20,
+  [Pieces.sand2]: 12,
+  [Pieces.sand3]: 12,
+  [Pieces.sand7]: 20,
+  [Pieces.water1]: 48, // sparkly
+  [Pieces.laurWallPillar]: 8,
+  [Pieces.laurWallLong]: 4,
+  [Pieces.laurBrush10]: 12,
+}
 export const aoa1PieceSet: PieceInventory = {
   [Pieces.grass1]: 10,
   [Pieces.grass2]: 6,
