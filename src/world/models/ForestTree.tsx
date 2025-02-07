@@ -5,6 +5,7 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import useBoundStore from '../../store/store'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
+// import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
 
 export default function ForestTree({
   boardHex,
@@ -18,7 +19,6 @@ export default function ForestTree({
     onPointerEnter,
     onPointerOut,
   } = usePieceHoverState()
-  // const penMode = useBoundStore(s => s.penMode)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation() // prevent pass through

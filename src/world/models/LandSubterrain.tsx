@@ -11,6 +11,7 @@ import usePieceHoverState from '../../hooks/usePieceHoverState'
 import useBoundStore from '../../store/store'
 import React, { PropsWithChildren } from 'react'
 import { isFluidTerrainHex } from '../../utils/board-utils'
+import { ThreeEvent } from '@react-three/fiber'
 
 export default function LandSubterrain({ pid }: { pid: string }) {
   const {
@@ -53,6 +54,15 @@ export default function LandSubterrain({ pid }: { pid: string }) {
       setColor(baseColor)
     }
   }, [baseColor, isHighlighted])
+  const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
+  const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
+    event.stopPropagation() // prevent pass through
+    // Early out right clicks(event.button=2), middle mouse clicks(1)
+    if (event.button !== 0) {
+      return
+    }
+    toggleSelectedPieceID(isSelected ? '' : pid)
+  }
   const getMesh = () => {
     switch (pieceSize) {
       case '1':
@@ -130,6 +140,7 @@ export default function LandSubterrain({ pid }: { pid: string }) {
       <group
         onPointerEnter={(e) => onPointerEnterPID(e, pid)}
         onPointerOut={onPointerOut}
+        onPointerUp={onPointerUp}
       >
         {getMesh()}
       </group>

@@ -18,7 +18,6 @@ export default function BigTree415({
     onPointerEnter,
     onPointerOut,
   } = usePieceHoverState()
-  // const penMode = useBoundStore(s => s.penMode)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation() // prevent pass through

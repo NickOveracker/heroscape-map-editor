@@ -28,7 +28,7 @@ import ForestTree from '../models/ForestTree'
 import BigTree415 from '../models/BigTree415'
 import LandSubterrain from '../models/LandSubterrain'
 import { InterlockHex } from '../models/InterlockHex'
-import { DeleteSubterrainBillboard } from './DeletePieceBillboard'
+import DeletePieceBillboard from './DeletePieceBillboard'
 
 export const MapHex3D = ({
   boardHex,
@@ -121,7 +121,7 @@ export const MapHex3D = ({
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
             {(selectedPieceID === boardHex.pieceID) && (
-              <DeleteSubterrainBillboard pieceID={boardHex.pieceID} />
+              <DeletePieceBillboard pieceID={boardHex.pieceID} />
             )}
             <LandSubterrain pid={boardHex.pieceID} />
           </group>
@@ -137,7 +137,7 @@ export const MapHex3D = ({
           scale={[1, HEXGRID_HEXCAP_FLUID_SCALE, 1]}
         >
           {(selectedPieceID === boardHex.pieceID) && (
-            <DeleteSubterrainBillboard pieceID={boardHex.pieceID} />
+            <DeletePieceBillboard pieceID={boardHex.pieceID} />
           )}
           <LandSubterrain pid={boardHex.pieceID} />
         </group>
@@ -241,7 +241,13 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
-            <Outcrop1 isGlacier={true} />
+            {(selectedPieceID === boardHex.pieceID) && (
+              <DeletePieceBillboard pieceID={boardHex.pieceID} />
+            )}
+            <Outcrop1
+              isGlacier={true}
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase
             x={x}
@@ -260,7 +266,10 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
-            <Outcrop1 isGlacier={false} />
+            <Outcrop1
+              isGlacier={false}
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase
             x={x}
