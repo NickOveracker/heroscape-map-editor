@@ -21,10 +21,14 @@ export default function LandSubterrain({ pid }: { pid: string }) {
     // pieceCoords
   } = decodePieceID(pid)
   const {
+    // isHovered, // cannot use this, this is for obstacles
     onPointerEnterPID,
     onPointerOut,
   } = usePieceHoverState()
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
+  const selectedPieceID = useBoundStore(s => s.selectedPieceID)
+  const isSelected = selectedPieceID === pid
+  const isHovered = hoveredPieceID === pid
   const pieceTerrain = piecesSoFar[pieceID].terrain
   const isDirtSubterrain =
     pieceTerrain === HexTerrain.grass ||
@@ -37,133 +41,100 @@ export default function LandSubterrain({ pid }: { pid: string }) {
   const regex = /\d+/g;
 
   let pieceSize = pieceID.match(regex)?.[0] ?? '';
+  const isHighlighted = isHovered || isSelected
   if (pieceSize === '7' && pieceID === Pieces.wallWalk7) {
     pieceSize = '7B'
   }
-  // update color when piece is hovered
+  // update color when piece is hovered/selected
   React.useEffect(() => {
-    if (hoveredPieceID === pid) {
+    if (isHighlighted) {
       setColor('yellow')
     } else {
       setColor(baseColor)
     }
-  }, [hoveredPieceID, color, pieceID, baseColor, pid])
-
-  switch (pieceSize) {
-    case '1':
-      return (
-        <group
-          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
-          onPointerOut={onPointerOut}
-        >
+  }, [baseColor, isHighlighted])
+  const getMesh = () => {
+    switch (pieceSize) {
+      case '1':
+        return (
           <Subterrain1 >
             {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
           </Subterrain1>
-        </group>
-      )
-    case '2':
-      return (
-        <group
-          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
-          onPointerOut={onPointerOut}
-        >
+        )
+      case '2':
+        return (
           <Subterrain2 >
             {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
           </Subterrain2>
-        </group>
-      )
-    case '3':
-      return (
-        <group
-          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
-          onPointerOut={onPointerOut}
-        >
+        )
+      case '3':
+        return (
           <Subterrain3 >
             {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
           </Subterrain3>
-        </group>
-      )
-    case '4':
-      return (
-        <group
-          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
-          onPointerOut={onPointerOut}
-        >
+        )
+      case '4':
+        return (
           <Subterrain4 >
             {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
           </Subterrain4>
-        </group>
-      )
-    case '5':
-      return (
-        <group
-          onPointerEnter={(e) => onPointerEnterPID(e, pid)
-          }
-          onPointerOut={onPointerOut}
-        >
-          <Subterrain5 >
-            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
-          </Subterrain5>
-        </group >
-      )
-    case '6':
-      return (
-        <group
-          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
-          onPointerOut={onPointerOut}
-        >
+        )
+      case '5':
+        return (
+          <group
+            onPointerEnter={(e) => onPointerEnterPID(e, pid)
+            }
+            onPointerOut={onPointerOut}
+          >
+            <Subterrain5 >
+              {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+            </Subterrain5>
+          </group >
+        )
+      case '6':
+        return (
           <Subterrain6 >
             {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
           </Subterrain6>
-        </group>
-      )
-    case '7B':
-      return (
-        <group
-          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
-          onPointerOut={onPointerOut}
-        >
+        )
+      case '7B':
+        return (
           <Subterrain7B >
             {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
           </Subterrain7B>
-        </group>
-      )
-    case '7':
-      return (
-        <group
-          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
-          onPointerOut={onPointerOut}
-        >
+        )
+      case '7':
+        return (
           <Subterrain7 >
             {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
           </Subterrain7>
-        </group>
-      )
-    case '9':
-      return (
-        <group
-          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
-          onPointerOut={onPointerOut}
-        >
+        )
+      case '9':
+        return (
           <Subterrain9 >
             {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
           </Subterrain9>
-        </group>
-      )
-    case '24':
-      return (
-        <group
-          onPointerEnter={(e) => onPointerEnterPID(e, pid)}
-          onPointerOut={onPointerOut}
-        >
+        )
+      case '24':
+        return (
           <Subterrain24 >
             {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
           </Subterrain24>
-        </group>
-      )
-    default:
-      return null
+        )
+      default:
+        return null
+    }
   }
+  return (
+    <>
+      <group
+        onPointerEnter={(e) => onPointerEnterPID(e, pid)}
+        onPointerOut={onPointerOut}
+      >
+        {getMesh()}
+      </group>
+    </>
+  )
 }
 
 export function Subterrain24({ children }: PropsWithChildren) {

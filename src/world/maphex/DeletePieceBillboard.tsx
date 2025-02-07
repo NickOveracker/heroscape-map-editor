@@ -29,5 +29,30 @@ const DeletePieceBillboard = (pieceID: Props) => {
 
   )
 }
+export const DeleteSubterrainBillboard = (pieceID: Props) => {
+  return (
+    <Billboard position={[0, 1, 0]}>
+      <Html>
+        <Tooltip
+          title={'Delete piece'}
+        >
+          <Button
+            sx={{ backgroundColor: ('var(--black)') }}
+            variant='contained'
+            //  size="small"
+            onPointerDown={e => e?.stopPropagation()}
+            onPointerUp={e => {
+              e?.stopPropagation()
+              console.log(`DELETE ${pieceID}`)
+            }}
+          >
+            <FcCancel />
+          </Button>
+        </Tooltip>
+      </Html>
+    </Billboard>
+
+  )
+}
 
 export default DeletePieceBillboard

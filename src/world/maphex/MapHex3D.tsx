@@ -28,6 +28,7 @@ import ForestTree from '../models/ForestTree'
 import BigTree415 from '../models/BigTree415'
 import LandSubterrain from '../models/LandSubterrain'
 import { InterlockHex } from '../models/InterlockHex'
+import { DeleteSubterrainBillboard } from './DeletePieceBillboard'
 
 export const MapHex3D = ({
   boardHex,
@@ -41,9 +42,9 @@ export const MapHex3D = ({
   const viewingLevel = useBoundStore((s) => s.viewingLevel)
   const isVisible = boardHex.altitude <= viewingLevel
   const isTakingPicture = useBoundStore(s => s.isTakingPicture)
+  const selectedPieceID = useBoundStore(s => s.selectedPieceID)
   const pieceID = boardPieces[boardHex.pieceID]
   const { x, y, z, yWithBase, yBase, yJungle } = getBoardHex3DCoords(boardHex)
-  // const yJungle = y + HEXGRID_HEXCAP_HEIGHT / 2
   const underHexID = genBoardHexID({
     ...boardHex,
     altitude: boardHex.altitude - 1,
@@ -114,14 +115,22 @@ export const MapHex3D = ({
         position={new Vector3(x, y + 0.2, z)}
       />
       {isSubterrainOrigin && (
-        <group
-          position={[x, y - HEXGRID_HEX_HEIGHT, z]}
-          rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
-        >
-          <LandSubterrain pid={boardHex.pieceID} />
-        </group>
+        <>
+          <group
+            position={[x, y - HEXGRID_HEX_HEIGHT, z]}
+            rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+          >
+            {(selectedPieceID === boardHex.pieceID) && (
+              <DeleteSubterrainBillboard pieceID={boardHex.pieceID} />
+            )}
+            <LandSubterrain pid={boardHex.pieceID} />
+          </group>
+        </>
       )}
       {isFluidOrigin && (
+        // {(selectedPieceID === boardHex.pieceID) && (
+        //   <DeleteSubterrainBillboard pieceID={boardHex.pieceID} />
+        // )}
         <group
           position={[
             x,
@@ -256,7 +265,6 @@ export const MapHex3D = ({
             y={yBase}
             z={z}
             color={
-              // hexTerrainColor[HexTerrain.ice]
               hexTerrainColor[HexTerrain.shadow]
             }
             isFluidBase={true}

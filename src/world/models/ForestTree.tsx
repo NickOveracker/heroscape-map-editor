@@ -27,8 +27,6 @@ export default function ForestTree({
       return
     }
     toggleSelectedPieceID(isSelected ? '' : boardHex.pieceID)
-    // if (penMode === 'select') {
-    // }
   }
   const selectedPieceID = useBoundStore(s => s.selectedPieceID)
   const yellowColor = 'yellow'
