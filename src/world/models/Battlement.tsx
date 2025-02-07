@@ -25,7 +25,6 @@ export function Battlement({ pid }: { pid: string }) {
   const selectedPieceID = useBoundStore(s => s.selectedPieceID)
   const yellowColor = 'yellow'
   const isSelected = selectedPieceID === pid
-  console.log("🚀 ~ Battlement ~ selectedPieceID:", selectedPieceID)
   const isHighlighted = isHovered || isSelected
   const color = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.roadWall]
   return (
