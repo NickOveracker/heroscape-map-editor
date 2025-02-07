@@ -133,7 +133,8 @@ export default function LaurWallPillar({
         position={[x, yWithBase, z]}
       >
         {(isSelected) && (
-          <Billboard position={[0.5, 1, 0]}>
+          // <Billboard position={[0.5, 1, 0]}>
+          <Billboard position={[1, 2, 0]}>
             <Html>
               {/* <Button variant='contained' size="small">1,0</Button> */}
               <Tooltip
@@ -161,7 +162,8 @@ export default function LaurWallPillar({
             </Html>
           </Billboard>)}
         {(isSelected) && (
-          <Billboard position={[-0.5, 1, 1]}>
+          // <Billboard position={[-0.5, 1, 1]}>
+          <Billboard position={[-1, 2, 1]}>
             <Html>
               {/* <Button variant='contained' size="small">0,1</Button> */}
               <Tooltip
@@ -191,7 +193,7 @@ export default function LaurWallPillar({
             </Html>
           </Billboard>)}
         {(isSelected) && (
-          <Billboard position={[-1.5, 1, 0]}>
+          <Billboard position={[-3, 2, 0]}>
             <Html>
               {/* <Button variant='contained' size="small">-1,0</Button> */}
               <Tooltip
@@ -221,7 +223,7 @@ export default function LaurWallPillar({
             </Html>
           </Billboard>)}
         {(isSelected) && (
-          <Billboard position={[-0.5, 1, -1]}>
+          <Billboard position={[-1, 2, -1]}>
             <Html>
               {/* <Button variant='contained' size="small">0,-1</Button> */}
               <Tooltip

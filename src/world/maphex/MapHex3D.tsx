@@ -200,15 +200,7 @@ export const MapHex3D = ({
             position={[x, yJungle, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
-            <TicallaBrush />
-            <group
-              position={[0, -HEXGRID_HEX_HEIGHT, 0]}
-            >
-              <InterlockHex
-                type={'6'}
-                color={hexTerrainColor[HexTerrain.swamp]}
-              />
-            </group>
+            <TicallaBrush boardHex={boardHex} />
           </group>
         </>
       )}
@@ -223,7 +215,7 @@ export const MapHex3D = ({
             position={[x, yJungle, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
-            <TicallaPalm />
+            <TicallaPalm boardHex={boardHex} />
           </group>
           <group
             position={[x, yJungle - HEXGRID_HEX_HEIGHT, z]}
