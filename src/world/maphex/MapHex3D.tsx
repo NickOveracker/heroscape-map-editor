@@ -149,7 +149,9 @@ export const MapHex3D = ({
             position={[x, yWithBase + getOptionsForTreeHeight(boardHex.pieceID).y, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
-            <ForestTree />
+            <ForestTree
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor.treeBase} />
         </>
