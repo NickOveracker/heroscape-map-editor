@@ -125,14 +125,14 @@ export function getOptionsForPalmHeight(pieceID: string) {
   // We use the same model and just stretch it a little for the taller trees
   switch (treeHeight) {
     case 13:
-      return { scaleX: 0.038, scaleY: 0.035 }
+      return { scaleY: 0.97 }
     case 14:
-      return { scaleX: 0.038, scaleY: 0.038 }
+      return { scaleY: 1 }
     case 15:
-      return { scaleX: 0.038, scaleY: 0.042 }
+      return { scaleY: 1.04 }
     case 16:
     default:
-      return { scaleX: 0.038, scaleY: 0.046 }
+      return { scaleY: 1.08 }
   }
 }
 export function getOptionsForTreeHeight(pieceID: string) {

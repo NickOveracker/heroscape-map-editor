@@ -5,13 +5,11 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import useBoundStore from '../../store/store'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
-import { InterlockHex } from './InterlockHex'
-import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 
 export default function TicallaBrush({
   boardHex,
 }: { boardHex: BoardHex }) {
-  const { nodes } = useGLTF('/ticalla-brush-colored-lowpoly.glb') as any
+  const { nodes } = useGLTF('/ticalla-brush.glb') as any
   const {
     isHovered,
     onPointerEnter,
@@ -33,36 +31,32 @@ export default function TicallaBrush({
   const color1 = isHighlighted ? yellowColor : hexTerrainColor.ticallaBrush1
   const color2 = isHighlighted ? yellowColor : hexTerrainColor.ticallaBrush2
   const color3 = isHighlighted ? yellowColor : hexTerrainColor.ticallaBrush3
+  const colorBase = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.swamp]
   return (
     <>
       {(isSelected) && (
-        <DeletePieceBillboard pieceID={boardHex.pieceID} y={2} />
+        <DeletePieceBillboard pieceID={boardHex.pieceID} y={3} />
       )}
       <group
         onPointerUp={e => onPointerUp(e)}
         onPointerEnter={e => onPointerEnter(e, boardHex)}
         onPointerOut={e => onPointerOut(e)}
       >
-        <mesh geometry={nodes.PlankFern1_1.geometry}>
+        <mesh geometry={nodes.FatFern.geometry}>
           <meshMatcapMaterial color={color1} />
         </mesh>
-        <mesh geometry={nodes.PlankFern1_2.geometry}>
+        <mesh geometry={nodes.PineappleFern.geometry}>
           <meshMatcapMaterial color={color2} />
         </mesh>
-        <mesh geometry={nodes.PlankFern1_3.geometry}>
+        <mesh geometry={nodes.Needler.geometry}>
           <meshMatcapMaterial color={color3} />
         </mesh>
-      </group>
-      <group
-        position={[0, -HEXGRID_HEX_HEIGHT, 0]}
-      >
-        <InterlockHex
-          type={'6'}
-          color={hexTerrainColor[HexTerrain.swamp]}
-        />
+        <mesh geometry={nodes.Interlock6.geometry}>
+          <meshMatcapMaterial color={colorBase} />
+        </mesh>
       </group>
     </>
   )
 }
 
-useGLTF.preload('/ticalla-brush-colored-lowpoly.glb')
+useGLTF.preload('/ticalla-brush.glb')

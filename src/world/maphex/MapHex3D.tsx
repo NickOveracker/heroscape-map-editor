@@ -27,7 +27,6 @@ import { hexTerrainColor } from './hexColors'
 import ForestTree from '../models/ForestTree'
 import BigTree415 from '../models/BigTree415'
 import LandSubterrain from '../models/LandSubterrain'
-import { InterlockHex } from '../models/InterlockHex'
 import DeletePieceBillboard from './DeletePieceBillboard'
 
 export const MapHex3D = ({
@@ -44,7 +43,7 @@ export const MapHex3D = ({
   const isTakingPicture = useBoundStore(s => s.isTakingPicture)
   const selectedPieceID = useBoundStore(s => s.selectedPieceID)
   const pieceID = boardPieces[boardHex.pieceID]
-  const { x, y, z, yWithBase, yBase, yJungle } = getBoardHex3DCoords(boardHex)
+  const { x, y, z, yWithBase, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const underHexID = genBoardHexID({
     ...boardHex,
     altitude: boardHex.altitude - 1,
@@ -197,7 +196,7 @@ export const MapHex3D = ({
       {(isBrushHex || isLaurBrushHex) && (
         <>
           <group
-            position={[x, yJungle, z]}
+            position={[x, yBaseCap, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
             <TicallaBrush boardHex={boardHex} />
@@ -208,22 +207,14 @@ export const MapHex3D = ({
         <>
           <group
             scale={[
-              getOptionsForPalmHeight(boardHex.pieceID).scaleX,
+              1,
               getOptionsForPalmHeight(boardHex.pieceID).scaleY,
-              getOptionsForPalmHeight(boardHex.pieceID).scaleX
+              1
             ]}
-            position={[x, yJungle, z]}
+            position={[x, yBaseCap, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
             <TicallaPalm boardHex={boardHex} />
-          </group>
-          <group
-            position={[x, yJungle - HEXGRID_HEX_HEIGHT, z]}
-          >
-            <InterlockHex
-              type={'6'}
-              color={hexTerrainColor[HexTerrain.swamp]}
-            />
           </group>
         </>
       )}

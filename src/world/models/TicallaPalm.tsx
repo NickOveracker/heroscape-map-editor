@@ -5,19 +5,11 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import useBoundStore from '../../store/store'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
-import { InterlockHex } from './InterlockHex'
-import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
 
 export default function TicallaPalm({
   boardHex,
 }: { boardHex: BoardHex }) {
-  const { nodes } = useGLTF('/ticalla-palm-colored-lowpoly.glb') as any
-  const {
-    // I botched these exports in Blender
-    AlienGrassUFO_v01_Tuft_a_1: accompanyingBrush,
-    AlienGrassUFO_v01_Tuft_a_3: palmLeaf,
-    AlienGrassUFO_v01_Tuft_a_2: palmTrunk,
-  } = nodes
+  const { nodes } = useGLTF('/ticalla-palm.glb') as any
   const {
     isHovered,
     onPointerEnter,
@@ -39,37 +31,33 @@ export default function TicallaPalm({
   const colorTrunk = isHighlighted ? yellowColor : hexTerrainColor.ticallaPalmModel1
   const colorBrush = isHighlighted ? yellowColor : hexTerrainColor.ticallaBrush2
   const colorPalmLeaf = isHighlighted ? yellowColor : hexTerrainColor.ticallaPalmModel3
+  const colorBase = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.swamp]
   return (
     <>
       {(isSelected) && (
-        <DeletePieceBillboard pieceID={boardHex.pieceID} y={100} />
+        <DeletePieceBillboard pieceID={boardHex.pieceID} y={3} />
       )}
       <group
         onPointerUp={e => onPointerUp(e)}
         onPointerEnter={e => onPointerEnter(e, boardHex)}
         onPointerOut={e => onPointerOut(e)}
       >
-        <mesh geometry={palmTrunk.geometry}>
-          <meshMatcapMaterial color={colorTrunk} />
-        </mesh>
-        <mesh geometry={accompanyingBrush.geometry}>
-          <meshMatcapMaterial color={colorBrush} />
-        </mesh>
-        <mesh geometry={palmLeaf.geometry}>
+        <mesh geometry={nodes.PalmLeaf.geometry}>
           <meshMatcapMaterial color={colorPalmLeaf} />
         </mesh>
-      </group>
-      <group
-        position={[0, -HEXGRID_HEX_HEIGHT, 0]}
-      >
-        <InterlockHex
-          type={'6'}
-          color={hexTerrainColor[HexTerrain.swamp]}
-        />
+        <mesh geometry={nodes.PalmTrunk.geometry}>
+          <meshMatcapMaterial color={colorTrunk} />
+        </mesh>
+        <mesh geometry={nodes.PalmBrush.geometry}>
+          <meshMatcapMaterial color={colorBrush} />
+        </mesh>
+        <mesh geometry={nodes.Interlock6.geometry}>
+          <meshMatcapMaterial color={colorBase} />
+        </mesh>
       </group>
     </>
   )
 }
 
-useGLTF.preload('/ticalla-palm-colored-lowpoly.glb')
+useGLTF.preload('/ticalla-palm.glb')
 

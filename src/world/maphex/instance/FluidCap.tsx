@@ -19,8 +19,8 @@ import useBoundStore from '../../../store/store'
 
 const baseFluidCapCylinderArgs: CylinderGeometryArgs = [
   0.9,
-  0.8,
-  0.1,
+  0.9,
+  0.001,
   6,
   undefined,
   false,
@@ -76,7 +76,7 @@ function FluidCap({
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
     ref.current.position.set(
       x,
-      y - (HEXGRID_HEX_HEIGHT - (HEXGRID_HEX_HEIGHT * HEXGRID_HEXCAP_FLUID_SCALE + 0.01)),
+      y - (HEXGRID_HEX_HEIGHT - (HEXGRID_HEX_HEIGHT * HEXGRID_HEXCAP_FLUID_SCALE)),
       z)
   }, [boardHex])
 
