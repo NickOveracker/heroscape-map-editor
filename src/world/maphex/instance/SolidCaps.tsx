@@ -87,18 +87,25 @@ function SolidCap({
     }
   }, [boardHex.pieceID, hoveredPieceID, color])
 
-  const handleEnter = (e: ThreeEvent<PointerEvent>) => {
+  const handlePointerEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
     onPointerEnter(e, boardHex)
     ref.current.color.set('yellow')
   }
-  const handleOut = (e: ThreeEvent<PointerEvent>) => {
+  const handlePointerOut = (e: ThreeEvent<PointerEvent>) => {
     // if (hoveredPieceID !== boardHex.pieceID) {
     ref.current.color.set(color)
     onPointerOut(e)
     // }
   }
-  const handleUp = (e: ThreeEvent<PointerEvent>) => {
+  const handlePointerUp = (e: ThreeEvent<PointerEvent>) => {
+    // Early out right clicks(event.button=2), middle mouse clicks(1)
+    if (e.button !== 0) {
+      // THIS IS A RIGHT CLICK
+      // TODO: Can paste in copied templates! BUT, user must agree to reading text/images from the clipboard
+      // const myClipboard = await navigator.clipboard.readText()
+      return
+    }
     if (penMode === 'select') {
       toggleSelectedPieceID(isSelected ? '' : boardHex.pieceID)
     } else {
@@ -110,9 +117,9 @@ function SolidCap({
     <group>
       <Instance
         ref={ref}
-        onPointerUp={handleUp}
-        onPointerEnter={handleEnter}
-        onPointerLeave={handleOut}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerOut}
+        onPointerUp={handlePointerUp}
         frustumCulled={false}
       />
     </group>
