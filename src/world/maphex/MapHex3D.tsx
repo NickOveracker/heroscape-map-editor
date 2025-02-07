@@ -241,9 +241,6 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
-            {(selectedPieceID === boardHex.pieceID) && (
-              <DeletePieceBillboard pieceID={boardHex.pieceID} />
-            )}
             <Outcrop1
               isGlacier={true}
               boardHex={boardHex}
@@ -398,7 +395,7 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
           >
-            <MarroHive6 />
+            <MarroHive6 boardHex={boardHex} />
           </group>
           <ObstacleBase
             x={x}

@@ -5,7 +5,6 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import useBoundStore from '../../store/store'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
-// import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
 
 export default function ForestTree({
   boardHex,
@@ -36,7 +35,7 @@ export default function ForestTree({
   return (
     <>
       {(isSelected) && (
-        <DeletePieceBillboard pieceID={boardHex.pieceID} />
+        <DeletePieceBillboard pieceID={boardHex.pieceID} y={100} />
       )}
       <mesh
         geometry={nodes.Tree10_scanned.geometry}

@@ -36,7 +36,7 @@ export default function BigTree415({
   return (
     <>
       {(isSelected) && (
-        <DeletePieceBillboard pieceID={boardHex.pieceID} />
+        <DeletePieceBillboard pieceID={boardHex.pieceID} y={150} />
       )}
       <group
         onPointerUp={e => onPointerUp(e)}

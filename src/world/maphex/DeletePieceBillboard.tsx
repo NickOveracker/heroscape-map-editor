@@ -3,11 +3,11 @@ import { Billboard, Html } from '@react-three/drei'
 import React from 'react'
 import { FcCancel } from 'react-icons/fc'
 
-type Props = { pieceID: string }
+type Props = { pieceID: string, y?: number }
 
-const DeletePieceBillboard = (pieceID: Props) => {
+const DeletePieceBillboard = ({ pieceID, y = 0 }: Props) => {
   return (
-    <Billboard position={[0.5, 1, 0]}>
+    <Billboard position={[0.5, 1 + y, 0]}>
       <Html>
         <Tooltip
           title={'Delete piece'}
