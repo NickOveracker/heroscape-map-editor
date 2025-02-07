@@ -63,9 +63,12 @@ function FluidCap({
     onPointerEnter,
     onPointerOut,
   } = usePieceHoverState()
+  const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
+  const penMode = useBoundStore(s => s.penMode)
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
   const color = hexTerrainColor[boardHex.terrain]
-  // const selectedPieceID = useBoundStore(s => s.selectedPieceID)
+  const selectedPieceID = useBoundStore(s => s.selectedPieceID)
+  const isSelected = selectedPieceID === boardHex.pieceID
 
   // Effect: Initial color/position
   React.useEffect(() => {
@@ -98,7 +101,11 @@ function FluidCap({
     // }
   }
   const handleUp = (e: ThreeEvent<PointerEvent>) => {
-    onPointerUp(e, boardHex)
+    if (penMode === 'select') {
+      toggleSelectedPieceID(isSelected ? '' : boardHex.pieceID)
+    } else {
+      onPointerUp(e, boardHex)
+    }
   }
 
   return (

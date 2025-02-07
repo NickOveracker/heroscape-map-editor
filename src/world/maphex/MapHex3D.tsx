@@ -128,9 +128,6 @@ export const MapHex3D = ({
         </>
       )}
       {isFluidOrigin && (
-        // {(selectedPieceID === boardHex.pieceID) && (
-        //   <DeleteSubterrainBillboard pieceID={boardHex.pieceID} />
-        // )}
         <group
           position={[
             x,
@@ -139,6 +136,9 @@ export const MapHex3D = ({
           rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           scale={[1, HEXGRID_HEXCAP_FLUID_SCALE, 1]}
         >
+          {(selectedPieceID === boardHex.pieceID) && (
+            <DeleteSubterrainBillboard pieceID={boardHex.pieceID} />
+          )}
           <LandSubterrain pid={boardHex.pieceID} />
         </group>
       )}
