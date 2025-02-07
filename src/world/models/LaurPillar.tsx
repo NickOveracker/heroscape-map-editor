@@ -95,10 +95,10 @@ export default function LaurWallPillar({
   boardHex,
   onPointerUp
 }: BoardHexPieceProps) {
+  const pillarColor = hexTerrainColor[HexTerrain.laurWall]
+  const interiorPillarColor = hexTerrainColor.laurModelColor2
   const { x, z, yBaseCap, yWithBase } = getBoardHex3DCoords(boardHex)
   const selectedPieceID = useBoundStore(s => s.selectedPieceID)
-  // const boardHexes = useBoundStore(s => s.boardHexes)
-  // const boardPieces = useBoundStore(s => s.boardPieces)
   const { nodes } = useGLTF('/laurwall-pillar.glb') as any
   const rotation = boardHex?.pieceRotation ?? 0
 
@@ -108,8 +108,6 @@ export default function LaurWallPillar({
     onPointerOut,
   } = usePieceHoverState()
 
-  const pillarColor = hexTerrainColor[HexTerrain.laurWall]
-  const interiorPillarColor = hexTerrainColor.laurModelColor2
   const yellowColor = 'yellow'
   const isSelected = selectedPieceID === boardHex.pieceID
   const isHighlighted = isHovered || isSelected
