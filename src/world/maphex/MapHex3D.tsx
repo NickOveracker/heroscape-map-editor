@@ -139,6 +139,7 @@ export const MapHex3D = ({
       {isLaurPillarHex && (
         <LaurPillar
           boardHex={boardHex}
+          onPointerUp={onPointerUp}
         />
       )}
       {isTreeHex && (

@@ -1,10 +1,14 @@
 import { DoubleSide } from 'three'
-import { useGLTF } from '@react-three/drei'
-import { BoardHex, HexTerrain } from '../../types'
+import { Billboard, Html, useGLTF } from '@react-three/drei'
+import { HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from '../maphex/hexColors'
 import { HEXGRID_HEXCAP_FLUID_HEIGHT } from '../../utils/constants'
-import { CylinderGeometryArgs } from '../maphex/instance-hex'
+import { BoardHexPieceProps, CylinderGeometryArgs } from '../maphex/instance-hex'
+import { IconButton, Paper } from '@mui/material'
+import useBoundStore from '../../store/store'
+import usePieceHoverState from '../../hooks/usePieceHoverState'
+import { FcBrokenLink, FcParallelTasks, FcTreeStructure } from 'react-icons/fc'
 
 
 
@@ -89,26 +93,26 @@ const baseCylinderArgs: CylinderGeometryArgs = [
 
 export default function LaurWallPillar({
   boardHex,
-}: {
-  boardHex: BoardHex
-}) {
+  onPointerUp
+}: BoardHexPieceProps) {
   const { x, z, yBaseCap, yWithBase } = getBoardHex3DCoords(boardHex)
-  // const selectedPieceID = useBoundStore(s => s.selectedPieceID)
+  const selectedPieceID = useBoundStore(s => s.selectedPieceID)
   // const boardHexes = useBoundStore(s => s.boardHexes)
   // const boardPieces = useBoundStore(s => s.boardPieces)
   const { nodes } = useGLTF('/laurwall-pillar.glb') as any
   const rotation = boardHex?.pieceRotation ?? 0
 
-  // const {
-  //   isHovered,
-  //   onPointerEnter,
-  //   onPointerOut,
-  // } = usePieceHoverState()
+  const {
+    isHovered,
+    onPointerEnter,
+    onPointerOut,
+  } = usePieceHoverState()
+
   const pillarColor = hexTerrainColor[HexTerrain.laurWall]
   const interiorPillarColor = hexTerrainColor.laurModelColor2
-  // const yellowColor = 'yellow'
-  // const isSelected = selectedPieceID === boardHex.pieceID
-  // const isHighlighted = isHovered || isSelected
+  const yellowColor = 'yellow'
+  const isSelected = selectedPieceID === boardHex.pieceID
+  const isHighlighted = isHovered || isSelected
 
   // if (isSelected) {
   //   const pillarReport = getPillarReport({
@@ -126,81 +130,140 @@ export default function LaurWallPillar({
   // ].map(xyz => [xyz[0] - 0.1, xyz[1], xyz[2] - 0.2])
 
   return (
-    // <DragControls
-    //   axisLock='y'
-    //   dragLimits={[[-HEXGRID_HEX_APOTHEM * 2, HEXGRID_HEX_APOTHEM * 2], [0, 0], [0, 0]]}
-    //   onDragStart={(origin) => {
-    //     console.log("🚀 ~ origin:", origin)
-    //   }}
-    //   onDrag={(
-    //     localMatrix,
-    //     deltaLocalMatrix,
-    //     worldMatrix,
-    //     deltaWorldMatrix
-    //   ) => {
-    //     console.dir({
-    //       localMatrix,
-    //       deltaLocalMatrix,
-    //       worldMatrix,
-    //       deltaWorldMatrix
-    //     })
-    //   }}
-    //   onDragEnd={() => {
-    //     console.log("🚀 ~ drag ended")
-    //   }}
-    // >
-    <group
-      position={[x, yWithBase, z]}
-      rotation={[0, (rotation * -Math.PI) / 3, 0]}
-      onPointerEnter={e => e.stopPropagation()}
-      onPointerOut={e => e.stopPropagation()}
-    // onPointerEnter={e => onPointerEnter(e, boardHex)}
-    // onPointerOut={e => e.stopPropagation()}
-    // onPointerOut={e => onPointerOut(e, boardHex)}
-    // onPointerUp={e => onPointerUpLaurWall(e, boardHex)}
-    >
-      <mesh
-        geometry={nodes.PillarTop.geometry}
-      // onPointerUp={e => onPointerUp(e, boardHex)}
+    <>
+      <group
+        position={[x, yWithBase, z]}
       >
-        <meshMatcapMaterial
-          color={pillarColor}
-        />
-      </mesh>
-      <mesh
-        geometry={nodes.SubDecorCore.geometry}
-      // onPointerUp={e => onPointerUp(e, boardHex)}
+        {(selectedPieceID === boardHex.pieceID) && (
+          <Billboard position={[0.5, 1, 0]}>
+            <Html>
+              {/* <Button variant='contained' size="small">1,0</Button> */}
+              <Paper sx={{ backgroundColor: ('var(--gunmetal-transparent)') }} elevation={3}>
+                <IconButton
+                  title={'Add Ruin'}
+                // onClick={addLaurAddon}
+                >
+                  <FcBrokenLink />
+                </IconButton>
+                <IconButton
+                  title={'Add Short Wall (and a Pillar maybe?)'}
+                // onClick={addLaurAddon}
+                >
+                  <FcTreeStructure />
+                </IconButton>
+              </Paper>
+            </Html>
+          </Billboard>)}
+        {(selectedPieceID === boardHex.pieceID) && (
+          <Billboard position={[-0.5, 1, 1]}>
+            <Html>
+              {/* <Button variant='contained' size="small">0,1</Button> */}
+              <Paper sx={{ backgroundColor: ('var(--gunmetal-transparent)') }} elevation={3}>
+                <IconButton
+                  title={'Add Ruin'}
+                // onClick={addLaurAddon}
+                >
+                  <FcBrokenLink />
+                </IconButton>
+                <IconButton
+                  title={'Add Long Wall (and a Pillar maybe?)'}
+                // onClick={addLaurAddon}
+                >
+                  <FcParallelTasks />
+                </IconButton>
+              </Paper>
+            </Html>
+          </Billboard>)}
+        {(selectedPieceID === boardHex.pieceID) && (
+          <Billboard position={[-1.5, 1, 0]}>
+            <Html>
+              {/* <Button variant='contained' size="small">-1,0</Button> */}
+              <Paper sx={{ backgroundColor: ('var(--gunmetal-transparent)') }} elevation={3}>
+                <IconButton
+                  title={'Add Ruin'}
+                // onClick={addLaurAddon}
+                >
+                  <FcBrokenLink />
+                </IconButton>
+                <IconButton
+                  title={'Add Short Wall (and a Pillar maybe?)'}
+                // onClick={addLaurAddon}
+                >
+                  <FcTreeStructure />
+                </IconButton>
+              </Paper>
+            </Html>
+          </Billboard>)}
+        {(selectedPieceID === boardHex.pieceID) && (
+          <Billboard position={[-0.5, 1, -1]}>
+            <Html>
+              {/* <Button variant='contained' size="small">0,-1</Button> */}
+              <Paper sx={{ backgroundColor: ('var(--gunmetal-transparent)') }} elevation={3}>
+                <IconButton
+                  title={'Add Ruin'}
+                // onClick={addLaurAddon}
+                >
+                  <FcBrokenLink />
+                </IconButton>
+                <IconButton
+                  title={'Add Long Wall (and a Pillar maybe?)'}
+                // onClick={addLaurAddon}
+                >
+                  <FcParallelTasks />
+                </IconButton>
+              </Paper>
+            </Html>
+          </Billboard>)}
+      </group>
+      <group
+        position={[x, yWithBase, z]}
+        rotation={[0, (rotation * -Math.PI) / 3, 0]}
+        onPointerUp={e => onPointerUp(e, boardHex)}
+        onPointerEnter={e => onPointerEnter(e, boardHex)}
+        onPointerOut={e => onPointerOut(e)}
       >
-        <meshMatcapMaterial
-          color={interiorPillarColor}
-        />
-      </mesh>
-      <mesh
-        geometry={nodes.Facade.geometry}
-      // onPointerUp={e => onPointerUp(e, boardHex)}
-      >
-        <meshMatcapMaterial
-          side={DoubleSide}
-          color={pillarColor}
-        />
-      </mesh>
-      <mesh
-        geometry={nodes.FacadeInner.geometry}
-      // onPointerUp={e => onPointerUp(e, boardHex)}
-      >
-        <meshMatcapMaterial
-          side={DoubleSide}
-          color={interiorPillarColor}
-        />
-      </mesh>
-      <mesh position={[0, -(yWithBase - yBaseCap), 0]}>
-        <cylinderGeometry args={baseCylinderArgs} />
-        <meshMatcapMaterial
-          color={pillarColor}
-        />
-      </mesh>
-    </group>
-    // </DragControls>
+        <mesh
+          geometry={nodes.PillarTop.geometry}
+        // onPointerUp={e => onPointerUp(e, boardHex)}
+        >
+          <meshMatcapMaterial
+            color={isHighlighted ? yellowColor : pillarColor}
+          />
+        </mesh>
+        <mesh
+          geometry={nodes.SubDecorCore.geometry}
+        // onPointerUp={e => onPointerUp(e, boardHex)}
+        >
+          <meshMatcapMaterial
+            color={isHighlighted ? yellowColor : interiorPillarColor}
+          />
+        </mesh>
+        <mesh
+          geometry={nodes.Facade.geometry}
+        // onPointerUp={e => onPointerUp(e, boardHex)}
+        >
+          <meshMatcapMaterial
+            side={DoubleSide}
+            color={isHighlighted ? yellowColor : pillarColor}
+          />
+        </mesh>
+        <mesh
+          geometry={nodes.FacadeInner.geometry}
+        // onPointerUp={e => onPointerUp(e, boardHex)}
+        >
+          <meshMatcapMaterial
+            side={DoubleSide}
+            color={isHighlighted ? yellowColor : interiorPillarColor}
+          />
+        </mesh>
+        <mesh position={[0, -(yWithBase - yBaseCap), 0]}>
+          <cylinderGeometry args={baseCylinderArgs} />
+          <meshMatcapMaterial
+            color={isHighlighted ? yellowColor : pillarColor}
+          />
+        </mesh>
+      </group>
+    </>
   )
 }
 
