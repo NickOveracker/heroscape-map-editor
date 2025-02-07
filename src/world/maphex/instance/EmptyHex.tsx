@@ -4,7 +4,7 @@ import { HexTerrain } from '../../../types'
 import {
   CylinderGeometryArgs,
   DreiCapProps,
-  DreiInstanceCapProps,
+  BoardHexPieceProps,
   InstanceRefType,
 } from '../instance-hex'
 import { getBoardHex3DCoords } from '../../../utils/map-utils'
@@ -57,7 +57,7 @@ export default EmptyHexes
 function EmptyHex({
   boardHex,
   onPointerUp,
-}: DreiInstanceCapProps) {
+}: BoardHexPieceProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
   const {
