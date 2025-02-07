@@ -288,7 +288,10 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
           >
-            <Outcrop3 isGlacier={true} />
+            <Outcrop3
+              isGlacier={true}
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase
             x={x}
@@ -318,7 +321,10 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
           >
-            <Outcrop3 isGlacier={false} />
+            <Outcrop3
+              isGlacier={false}
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase
             x={x}
@@ -348,7 +354,10 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
           >
-            <Outcrop4 isGlacier={true} />
+            <Outcrop4
+              isGlacier={true}
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase
             x={x}
@@ -367,7 +376,10 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
           >
-            <Outcrop6 isGlacier={true} />
+            <Outcrop6
+              isGlacier={true}
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase
             x={x}
