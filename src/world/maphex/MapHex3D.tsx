@@ -172,7 +172,9 @@ export const MapHex3D = ({
             scale={0.038}
             rotation={[0, getOptionsForBigTree(boardHex.pieceRotation).rotationY, 0]}
           >
-            <BigTree415 />
+            <BigTree415
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor.treeBase} />
         </>

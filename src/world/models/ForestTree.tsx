@@ -32,6 +32,7 @@ export default function ForestTree({
   const yellowColor = 'yellow'
   const isSelected = selectedPieceID === boardHex.pieceID
   const isHighlighted = isHovered || isSelected
+  const color = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.tree]
   return (
     <>
       {(isSelected) && (
@@ -45,7 +46,7 @@ export default function ForestTree({
       // material={materials.ForestTree}
       >
         <meshMatcapMaterial
-          color={isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.tree]}
+          color={color}
         />
       </mesh>
       {/* <Billboard
