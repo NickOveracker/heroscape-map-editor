@@ -231,8 +231,9 @@ export function addPiece({
       const isBlocked =
         isSolidTerrainHex(terrain) ||
         isFluidTerrainHex(terrain) ||
-        (isForNewInterior && hex.isObstacleOrigin) ||
-        (isForNewInterior && hex.isObstacleAuxiliary)
+        (isForNewInterior && hex.isObstacleOrigin)
+      // ||
+      // (isForNewInterior && hex.isObstacleAuxiliary)
       return !isBlocked
     })
 
