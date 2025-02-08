@@ -132,13 +132,16 @@ export const MapHex3D = ({
             x,
             y - HEXGRID_HEX_HEIGHT,
             z]}
-          rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
-          scale={[1, HEXGRID_HEXCAP_FLUID_SCALE, 1]}
         >
           {(selectedPieceID === boardHex.pieceID) && (
             <DeletePieceBillboard pieceID={boardHex.pieceID} />
           )}
-          <LandSubterrain pid={boardHex.pieceID} />
+          <group
+            rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+            scale={[1, HEXGRID_HEXCAP_FLUID_SCALE, 1]}
+          >
+            <LandSubterrain pid={boardHex.pieceID} />
+          </group>
         </group>
       )}
       {isRuin2OriginHex && <Ruins2 boardHex={boardHex} />}

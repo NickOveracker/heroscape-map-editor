@@ -138,9 +138,11 @@ export function CastleArch({
       <group
         onPointerEnter={e => onPointerEnter(e, boardHex)}
         onPointerOut={e => onPointerOut(e)}
-      // scale={[1, 1, 1]} // this stretches the arch to full span 3 hexes (warping should be almost imperceptible)
       >
-        <mesh onPointerUp={e => onPointerUp(e, boardHex)} geometry={nodes.CastleArchBody.geometry}>
+        <mesh
+          geometry={nodes.CastleArchBody.geometry}
+          onPointerUp={e => onPointerUp(e, boardHex)}
+        >
           <meshMatcapMaterial color={isHighlighted ? yellowColor : castleColor} />
         </mesh>
         <mesh

@@ -5,6 +5,9 @@ import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { BoardHex, HexTerrain, Pieces } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
 import ObstacleBase from './ObstacleBase'
+import usePieceHoverState from '../../hooks/usePieceHoverState'
+import useBoundStore from '../../store/store'
+import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
 
 type Props = {
   boardHex: BoardHex
@@ -19,9 +22,19 @@ export default function CastleBases({
   onPointerUp,
 }: Props) {
   const { nodes } = useGLTF('/adjustable-castle-walls.glb') as any
-  const [color, setColor] = React.useState(hexTerrainColor[HexTerrain.castle])
+  const [capColor, setCapColor] = React.useState(hexTerrainColor[HexTerrain.castle])
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const pieceID = boardHex.pieceID
+  const selectedPieceID = useBoundStore((s) => s.selectedPieceID)
+  const toggleSelectedPieceID = useBoundStore((s) => s.toggleSelectedPieceID)
+  const isSelected = selectedPieceID === boardHex.pieceID
+  const {
+    isHovered,
+    onPointerEnter,
+    onPointerOut,
+  } = usePieceHoverState()
+  const isHighlighted = isHovered || isSelected
+  const yellowColor = 'yellow'
   const bodyGeometry = pieceID.includes(Pieces.castleBaseEnd) ?
     nodes.CastleWallEndBody.geometry :
     pieceID.includes(Pieces.castleBaseStraight) ?
@@ -32,48 +45,68 @@ export default function CastleBases({
     pieceID.includes(Pieces.castleBaseStraight) ?
       nodes.CastleWallStraightCap.geometry :
       nodes.CastleWallCornerCap.geometry
-  const onPointerEnter = (e: ThreeEvent<PointerEvent>) => {
-    setColor('yellow')
+  const onPointerEnterCap = (e: ThreeEvent<PointerEvent>) => {
+    setCapColor('yellow')
     e.stopPropagation()
+    onPointerEnter(e, boardHex)
   }
-  const onPointerOut = (e: ThreeEvent<PointerEvent>) => {
-    setColor(hexTerrainColor[HexTerrain.castle])
+  const onPointerOutCap = (e: ThreeEvent<PointerEvent>) => {
+    setCapColor(hexTerrainColor[HexTerrain.castle])
     e.stopPropagation()
+    onPointerOut(e)
   }
-
+  const onPointerUpBody = (event: ThreeEvent<PointerEvent>) => {
+    event.stopPropagation() // prevent pass through
+    // Early out right clicks(event.button=2), middle mouse clicks(1)
+    if (event.button !== 0) {
+      return
+    }
+    toggleSelectedPieceID(isSelected ? '' : boardHex.pieceID)
+  }
   return (
     <>
       <group
         position={[x, yBase, z]}
         rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
       >
-        <mesh geometry={bodyGeometry}>
+        {(selectedPieceID === boardHex.pieceID) && (
+          <DeletePieceBillboard pieceID={boardHex.pieceID} y={1} />
+        )}
+        <mesh
+          geometry={bodyGeometry}
+          onPointerUp={onPointerUpBody}
+          onPointerEnter={e => onPointerEnter(e, boardHex)}
+          onPointerOut={onPointerOut}
+        >
           <meshMatcapMaterial color={hexTerrainColor[boardHex.terrain]} />
         </mesh>
 
         {/* Each wall has a WallCap mesh, then each wall-type adds on its little directional indicator mesh */}
-        <>
+        <group
+          onPointerUp={(e) => onPointerUp(e, boardHex)}
+          onPointerEnter={onPointerEnterCap}
+          onPointerOut={onPointerOutCap}
+        >
           <mesh
             geometry={nodes.WallCap.geometry}
             onPointerUp={(e) => onPointerUp(e, boardHex)}
-            onPointerEnter={onPointerEnter}
-            onPointerOut={onPointerOut}
+            onPointerEnter={onPointerEnterCap}
+            onPointerOut={onPointerOutCap}
           >
-            <meshMatcapMaterial color={color} />
+            <meshMatcapMaterial color={isHighlighted ? yellowColor : capColor} />
           </mesh>
           <mesh
             geometry={capGeometry}
-            onPointerUp={(e) => onPointerUp(e, boardHex)}
           >
-            <meshMatcapMaterial color={color} />
+            <meshMatcapMaterial color={isHighlighted ? yellowColor : capColor} />
           </mesh>
-        </>
+        </group>
       </group>
       <ObstacleBase
         x={x}
         y={yBaseCap}
         z={z}
-        color={hexTerrainColor[underHexTerrain]}
+        color={isHighlighted ? yellowColor : hexTerrainColor[underHexTerrain]}
       />
     </>
   )
