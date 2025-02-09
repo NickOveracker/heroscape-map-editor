@@ -30,15 +30,18 @@ export default function buildupVSFileMap(
   const newBoardHexes = tiles.reduce(
     (boardHexes: BoardHexes, tile) => {
       const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
-      if (tile.type === 16301) {
-        console.log("Battlement found in virtualscape map!", tileCoords, tile.posZ)
+      if (tile.type === 16101 || tile.type === 16102 || tile.type === 16103) {
+        console.log("Bastle base found in virtualscape map!", tileCoords, tile.posZ)
       }
-      if (tile.type === 16402) {
-        console.log("Ladder found in virtualscape map! Coords, tile.posZ", tileCoords, tile.posZ)
-      }
-      if (tile.type === 15001) {
-        console.log("Startzone found in virtualscape map!", tileCoords, tile.colorf)
-      }
+      // if (tile.type === 16301) {
+      //   console.log("Battlement found in virtualscape map!", tileCoords, tile.posZ)
+      // }
+      // if (tile.type === 16402) {
+      //   console.log("Ladder found in virtualscape map! Coords, tile.posZ", tileCoords, tile.posZ)
+      // }
+      // if (tile.type === 15001) {
+      //   console.log("Startzone found in virtualscape map!", tileCoords, tile.colorf)
+      // }
       const id = pieceCodes?.[getCodeQuick(tile)] ?? ''
       const piece = piecesSoFar[id]
       if (!piece) {

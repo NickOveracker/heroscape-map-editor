@@ -14,9 +14,7 @@ import {
   isSolidTerrainHex,
 } from '../utils/board-utils.ts'
 import { piecesSoFar } from '../data/pieces.ts'
-import SubTerrains from './maphex/instance/SubTerrain.tsx'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
-import FluidCaps from './maphex/instance/FluidCap.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
 import { decodePieceID, genBoardHexID, getBoardHexesRectangularMapDimensions } from '../utils/map-utils.ts'
 import { buildupJsonFileMap } from '../data/buildupMap.ts'
@@ -24,6 +22,7 @@ import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { useSearch } from 'wouter'
 import { Group, Object3DEventMap } from 'three'
 import { MapBoardPiece3D } from './MapBoardPiece3D.tsx'
+import FluidCaps from './maphex/instance/FluidCap.tsx'
 
 export default function MapDisplay3D({
   cameraControlsRef,

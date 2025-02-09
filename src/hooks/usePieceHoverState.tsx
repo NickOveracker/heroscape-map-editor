@@ -15,6 +15,13 @@ export default function usePieceHoverState() {
       toggleHoveredPieceID(boardHex.pieceID)
     }, 100); // Adjust the delay (in milliseconds) as needed
   }
+  const onPointerEnterPID = (e: ThreeEvent<PointerEvent>, pid: string) => {
+    e.stopPropagation()
+    setIsHovered(true)
+    hoverTimeout.current = setTimeout(() => {
+      toggleHoveredPieceID(pid)
+    }, 100); // Adjust the delay (in milliseconds) as needed
+  }
   const onPointerOut = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation()
     // toggleHoveredPieceID(''); // We clear the hoveredPieceID in many ways (other hexes, empty hexes, onLeave canvas), no need here 
@@ -24,6 +31,7 @@ export default function usePieceHoverState() {
   return {
     isHovered,
     onPointerEnter,
+    onPointerEnterPID,
     onPointerOut,
   }
 }

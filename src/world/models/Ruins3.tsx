@@ -1,91 +1,65 @@
 import { useGLTF } from '@react-three/drei'
-import { getBoardHex3DCoords } from '../../utils/map-utils'
+import { ThreeEvent } from '@react-three/fiber'
 import { BoardHex, HexTerrain } from '../../types'
+import usePieceHoverState from '../../hooks/usePieceHoverState'
+import useBoundStore from '../../store/store'
+import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
+import { getBoardHex3DCoords } from '../../utils/map-utils'
 import {
-  HEXGRID_HEX_APOTHEM,
   HEXGRID_HEX_HEIGHT,
-  HEXGRID_HEX_RADIUS,
 } from '../../utils/constants'
 import { hexTerrainColor } from '../maphex/hexColors'
-import ObstacleBase from './ObstacleBase'
+import { getRuinsOptions } from './piece-adjustments'
 
 export default function Ruins3({
   boardHex,
-  underHexTerrain
 }: {
-  boardHex: BoardHex
-  underHexTerrain: string
+  boardHex: BoardHex,
 }) {
   const {
     nodes,
-    //  materials,
-  } = useGLTF('/ruin3-colored-lowpoly.glb') as any
-  const { x, z, yBaseCap } = getBoardHex3DCoords(boardHex)
-  const y = (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT
-  const options = getOptions(boardHex.pieceRotation)
-  function getOptions(rotation: number) {
-    switch (rotation) {
-      case 0:
-        return { rotationY: 0, xAdd: -HEXGRID_HEX_APOTHEM + 0.04, zAdd: 0.7 }
-      case 1:
-        return {
-          rotationY: -Math.PI / 3,
-          xAdd: -HEXGRID_HEX_APOTHEM - 0.1,
-          zAdd: -0.4,
-        }
-      case 2:
-        return {
-          rotationY: (-Math.PI * 2) / 3,
-          xAdd: -0.1,
-          zAdd: -HEXGRID_HEX_RADIUS - 0.03,
-        }
-      case 3:
-        return {
-          rotationY: Math.PI,
-          xAdd: HEXGRID_HEX_APOTHEM - 0.04,
-          zAdd: -0.7,
-        }
-      case 4:
-        return {
-          rotationY: (Math.PI * 2) / 3,
-          xAdd: HEXGRID_HEX_APOTHEM + 0.1,
-          zAdd: 0.4,
-        }
-      case 5:
-        return {
-          rotationY: Math.PI / 3,
-          xAdd: 0.1,
-          zAdd: HEXGRID_HEX_RADIUS + 0.03,
-        }
-      default:
-        return { rotationY: 0, xAdd: 0, zAdd: 0 }
+    // materials
+  } = useGLTF('/ruins3.glb') as any
+  const { x, z, y: yo } = getBoardHex3DCoords(boardHex)
+  const y = yo - HEXGRID_HEX_HEIGHT
+  const options = getRuinsOptions(boardHex.pieceRotation)
+  const {
+    isHovered,
+    onPointerEnter,
+    onPointerOut,
+  } = usePieceHoverState()
+  const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
+  const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
+    event.stopPropagation() // prevent pass through
+    // Early out right clicks(event.button=2), middle mouse clicks(1)
+    if (event.button !== 0) {
+      return
     }
+    toggleSelectedPieceID(isSelected ? '' : boardHex.pieceID)
   }
+  const selectedPieceID = useBoundStore(s => s.selectedPieceID)
+  const yellowColor = 'yellow'
+  const isSelected = selectedPieceID === boardHex.pieceID
+  const isHighlighted = isHovered || isSelected
+  const color = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.ruin]
   return (
-    <>
-      <group
-        position={[x + options.xAdd, y, z + options.zAdd]}
-        rotation={[0, options.rotationY, 0]}
-        scale={0.039}
-        onPointerEnter={(e) => {
-          e.stopPropagation() // prevent hover hex from passing thru
-        }}
+    <group
+      position={[x + options.xAdd, y, z + options.zAdd]}
+      rotation={[0, options.rotationY, 0]}
+    >
+      {(isSelected) && (
+        <DeletePieceBillboard pieceID={boardHex.pieceID} y={3} />
+      )}
+      <mesh
+        onPointerUp={e => onPointerUp(e)}
+        onPointerEnter={e => onPointerEnter(e, boardHex)}
+        onPointerOut={e => onPointerOut(e)}
+        geometry={nodes.Ruin_Large_Scanned.geometry}
       >
-        <mesh
-          geometry={nodes.Ruin_Large_Scanned.geometry}
-        // material={materials.RuinGray}
-        >
-          <meshMatcapMaterial color={hexTerrainColor[HexTerrain.ruin]} />
-        </mesh>
-      </group>
-      <ObstacleBase
-        x={x}
-        y={yBaseCap}
-        z={z}
-        color={hexTerrainColor[underHexTerrain]}
-      />
-    </>
+        <meshMatcapMaterial color={color} />
+      </mesh>
+    </group>
   )
 }
 
-useGLTF.preload('/ruin3-colored-lowpoly.glb')
+useGLTF.preload('/ruins3.glb')

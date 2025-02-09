@@ -33,7 +33,7 @@ export const MapBoardPiece3D = ({
         visible={isVisible}
       >
 
-        <Battlement />
+        <Battlement pid={pid} />
       </group>
     )
   }
@@ -47,7 +47,7 @@ export const MapBoardPiece3D = ({
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
       >
 
-        <RoadWall />
+        <RoadWall pid={pid} />
       </group>
     )
   }

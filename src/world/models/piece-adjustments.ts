@@ -1,5 +1,43 @@
 import { Pieces } from '../../types'
 import { HEXGRID_HEX_APOTHEM, HEXGRID_HEX_HEIGHT, HEXGRID_HEX_RADIUS } from '../../utils/constants'
+export function getRuinsOptions(rotation: number) {
+  switch (rotation) {
+    case 0:
+      return { rotationY: 0, xAdd: -HEXGRID_HEX_APOTHEM + 0.04, zAdd: 0.7 }
+    case 1:
+      return {
+        rotationY: -Math.PI / 3,
+        xAdd: -HEXGRID_HEX_APOTHEM - 0.1,
+        zAdd: -0.4,
+      }
+    case 2:
+      return {
+        rotationY: (-Math.PI * 2) / 3,
+        xAdd: -0.1,
+        zAdd: -HEXGRID_HEX_RADIUS - 0.03,
+      }
+    case 3:
+      return {
+        rotationY: Math.PI,
+        xAdd: HEXGRID_HEX_APOTHEM - 0.04,
+        zAdd: -0.7,
+      }
+    case 4:
+      return {
+        rotationY: (Math.PI * 2) / 3,
+        xAdd: HEXGRID_HEX_APOTHEM + 0.1,
+        zAdd: 0.4,
+      }
+    case 5:
+      return {
+        rotationY: Math.PI / 3,
+        xAdd: 0.1,
+        zAdd: HEXGRID_HEX_RADIUS + 0.03,
+      }
+    default:
+      return { rotationY: 0, xAdd: 0, zAdd: 0 }
+  }
+}
 export function getObstaclRotation(rotation: number) {
   switch (rotation) {
     case 0:
@@ -87,14 +125,14 @@ export function getOptionsForPalmHeight(pieceID: string) {
   // We use the same model and just stretch it a little for the taller trees
   switch (treeHeight) {
     case 13:
-      return { scaleX: 0.038, scaleY: 0.035 }
+      return { scaleY: 0.97 }
     case 14:
-      return { scaleX: 0.038, scaleY: 0.038 }
+      return { scaleY: 1 }
     case 15:
-      return { scaleX: 0.038, scaleY: 0.042 }
+      return { scaleY: 1.04 }
     case 16:
     default:
-      return { scaleX: 0.038, scaleY: 0.046 }
+      return { scaleY: 1.08 }
   }
 }
 export function getOptionsForTreeHeight(pieceID: string) {

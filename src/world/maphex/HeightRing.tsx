@@ -38,7 +38,7 @@ export default function HeightRing({ position }: { position: Vector3 }) {
         attach="material"
         // warning, opacity can be a bit fps expensive
         transparent
-        opacity={0.3}
+        opacity={0.2}
         color={new Color('#a4a4a4')}
         linewidth={position.y === 0 ? 1 : 3} // hacky
       />

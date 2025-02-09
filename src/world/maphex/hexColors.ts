@@ -71,7 +71,8 @@ export const hexTerrainColor: Dictionary<string> = {
   [HexTerrain.swamp]: '#0f4f00',
   [HexTerrain.laurWall]: '#7F7CAF',
   laurModelColor2: '#7774AA',
-  [HexTerrain.swampWater]: '#8C6A40',
+  // [HexTerrain.swampWater]: '#8C6A40',
+  [HexTerrain.swampWater]: '#588E15',
   [HexTerrain.palm]: '#0f4f00', // only gets used as subterrain color, not in model
   ticallaPalmModel1: '#B07156', // palm trunk
   ticallaPalmModel2: '#45f529', // accompanying brush

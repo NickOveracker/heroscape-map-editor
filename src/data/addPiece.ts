@@ -20,6 +20,8 @@ import {
   verticalObstructionTemplates,
   verticalSupportTemplates,
 } from './ruins-templates'
+import interlockTemplates from './interlock-templates'
+import interlockRotationTemplates from './interlock-rotations'
 
 export type PieceAddArgs = {
   piece: Piece
@@ -135,7 +137,27 @@ export function addPiece({
   const isPlacingBattlement = isBattlementPieceID && isBattlementPieceSupported_TODO
   const isPlacingRoadWall = isRoadWallPieceID && isRoadWallPieceSupported_TODO
 
-  // LADDERS, BATTLEMENTS
+  // ROADWALLS: Autoadd piece id, render from boardPieces
+  if (isPlacingRoadWall) {
+    try {
+      // Battlements are just going to write piece ID, no matter what, and we will render from that
+      // write the new battlement piece
+      newBoardPieces[pieceID] = piece.id
+    } catch (error) {
+      console.log("🚀 ~ placing ladder piece error:", error)
+    }
+  }
+  // BATTLEMENTS: Autoadd piece id, render from boardPieces
+  if (isPlacingBattlement) {
+    try {
+      // Battlements are just going to write piece ID, no matter what, and we will render from that
+      // write the new battlement piece
+      newBoardPieces[ladderBattlementPieceID] = piece.id
+    } catch (error) {
+      console.log("🚀 ~ placing ladder piece error:", error)
+    }
+  }
+  // LADDERS
   if (isPlacingLadder) {
     // const vertices = [ladderPieceRotation + 2, ladderPieceRotation + 3]
     // const buddyHex = genBoardHexID({ ...hexUtilsAdd(pieceCoords, hexUtilsGetNeighborForRotation(ladderPieceRotation)), altitude: newPieceAltitude })
@@ -189,7 +211,6 @@ export function addPiece({
       console.log("🚀 ~ placing ladder piece error:", error)
     }
   }
-
   // RUINS
   if (piece.terrain === HexTerrain.ruin) {
     const isSolidUnderAllSupportHexes = underHexIds.every((_, i) => {
@@ -210,8 +231,9 @@ export function addPiece({
       const isBlocked =
         isSolidTerrainHex(terrain) ||
         isFluidTerrainHex(terrain) ||
-        (isForNewInterior && hex.isObstacleOrigin) ||
-        (isForNewInterior && hex.isObstacleAuxiliary)
+        (isForNewInterior && hex.isObstacleOrigin)
+      // ||
+      // (isForNewInterior && hex.isObstacleAuxiliary)
       return !isBlocked
     })
 
@@ -282,7 +304,7 @@ export function addPiece({
     }
   }
 
-  // LAUR WALL
+  // LAUR WALL ADDONS
   if (piece.terrain === HexTerrain.laurWall && piece.id !== Pieces.laurWallPillar) {
     // const isLaurWallRuin = piece.id !== Pieces.laurWallRuin
     // const isLaurWallShort = piece.id !== Pieces.laurWallShort
@@ -435,7 +457,7 @@ export function addPiece({
       newBoardPieces[pieceID] = piece.id
     }
   }
-  // CASTLE WALLWALK
+  // WALLWALK ONTO WALL
   if (isPlacingWallWalkOnWall) {
     newHexIds.forEach((newHexID, iForEach) => {
       const hexAbove = newBoardHexes?.[overHexIds[iForEach]]
@@ -457,7 +479,7 @@ export function addPiece({
     // write the new piece
     newBoardPieces[pieceID] = piece.id
   }
-  // OBSTACLES: (+laurPillar)
+  // OBSTACLES: trees, bushes, palms, glaciers, outcrops, laurPillar
   if (isPlacingObstacle) {
     newHexIds.forEach((newHexID, i) => {
       const hexUnderneath = newBoardHexes?.[underHexIds[i]]
@@ -535,6 +557,8 @@ export function addPiece({
             isCap: !isSolidAbove, // not a cap if solid hex directly above
             isObstacleOrigin: iForEach === 0, // mark subterrain origin hex
             isObstacleAuxiliary: iForEach !== 0, // mark non-origin hex
+            interlockType: interlockTemplates[piece.template][iForEach],
+            interlockRotation: interlockRotationTemplates[piece.template][iForEach]
           }
         })
       } catch (error) {
@@ -542,26 +566,6 @@ export function addPiece({
       }
       // write the new piece
       newBoardPieces[pieceID] = piece.id
-    }
-  }
-  // ROADWALLS: Get CRAZY
-  if (isPlacingRoadWall) {
-    try {
-      // Battlements are just going to write piece ID, no matter what, and we will render from that
-      // write the new battlement piece
-      newBoardPieces[pieceID] = piece.id
-    } catch (error) {
-      console.log("🚀 ~ placing ladder piece error:", error)
-    }
-  }
-  // BATTLEMENTS: Get CRAZY
-  if (isPlacingBattlement) {
-    try {
-      // Battlements are just going to write piece ID, no matter what, and we will render from that
-      // write the new battlement piece
-      newBoardPieces[ladderBattlementPieceID] = piece.id
-    } catch (error) {
-      console.log("🚀 ~ placing ladder piece error:", error)
     }
   }
   return { newBoardHexes, newBoardPieces }

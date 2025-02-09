@@ -3,7 +3,7 @@ import { BoardHex, HexTerrain, Pieces } from '../../types'
 import HeightRing from './HeightRing'
 import { genBoardHexID, getBoardHex3DCoords } from '../../utils/map-utils'
 import { MapHexIDDisplay } from './MapHexIDDisplay'
-import { isSolidTerrainHex } from '../../utils/board-utils'
+import { isFluidTerrainHex, isSolidTerrainHex } from '../../utils/board-utils'
 import TicallaPalm from '../models/TicallaPalm'
 import TicallaBrush from '../models/TicallaBrush'
 import useBoundStore from '../../store/store'
@@ -20,13 +20,14 @@ import { CastleArch } from '../models/CastleArch'
 import CastleBases from '../models/CastleBases'
 import LaurPillar from '../models/LaurPillar'
 import { Ladder } from '../models/Ladder'
-import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
+import { HEXGRID_HEX_HEIGHT, HEXGRID_HEXCAP_FLUID_SCALE, HEXGRID_HEXCAP_HEIGHT } from '../../utils/constants'
 import { getLadderBattlementOptions, getObstaclRotation, getOptionsForBigTree, getOptionsForPalmHeight, getOptionsForTreeHeight } from '../models/piece-adjustments'
 import ObstacleBase from '../models/ObstacleBase'
 import { hexTerrainColor } from './hexColors'
 import ForestTree from '../models/ForestTree'
 import BigTree415 from '../models/BigTree415'
 import LandSubterrain from '../models/LandSubterrain'
+import DeletePieceBillboard from './DeletePieceBillboard'
 
 export const MapHex3D = ({
   boardHex,
@@ -40,19 +41,21 @@ export const MapHex3D = ({
   const viewingLevel = useBoundStore((s) => s.viewingLevel)
   const isVisible = boardHex.altitude <= viewingLevel
   const isTakingPicture = useBoundStore(s => s.isTakingPicture)
+  const selectedPieceID = useBoundStore(s => s.selectedPieceID)
   const pieceID = boardPieces[boardHex.pieceID]
-  const { x, y, z, yWithBase, yBase, yJungle } = getBoardHex3DCoords(boardHex)
-  // const yJungle = y + HEXGRID_HEXCAP_HEIGHT / 2
+  const { x, y, z, yWithBase, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const underHexID = genBoardHexID({
     ...boardHex,
     altitude: boardHex.altitude - 1,
   })
   const underHexTerrain = boardHexes?.[underHexID]?.terrain ?? HexTerrain.grass
-  const isHeightRingedHex =
-    isSolidTerrainHex(boardHex.terrain) || (!isTakingPicture && boardHex.terrain === HexTerrain.empty)
+  const isShowEmptyHexes = !isTakingPicture && boardHex.terrain === HexTerrain.empty
+  const isHeightRingedHex = (isSolidTerrainHex(boardHex.terrain) && !(boardHex.isCap)) || isShowEmptyHexes
   const isObstacleHex =
     boardHex.isObstacleOrigin || boardHex.isObstacleAuxiliary
   const isSubterrainOrigin = isSolidTerrainHex(boardHex.terrain) && boardHex.isObstacleOrigin
+  const isFluidOrigin = isFluidTerrainHex(boardHex.terrain) && boardHex.isObstacleOrigin
+  // const isFluidHex = isFluidTerrainHex(boardHex.terrain)
   const isBigTreeHex = boardHex.pieceID.endsWith(Pieces.tree415) && boardHex.isObstacleOrigin
   const isBigTreeBaseHex = boardHex.pieceID.endsWith(Pieces.tree415) && boardHex.isObstacleAuxiliary
   const isTreeHex = !isBigTreeHex && !isBigTreeBaseHex && boardHex.terrain === HexTerrain.tree && isObstacleHex
@@ -105,24 +108,44 @@ export const MapHex3D = ({
   return (
     <group
       visible={isVisible}
-    // style={{
-    //   animation: 'fade-in 5s ease 1s forwards'
-    // }}
     >
       <MapHexIDDisplay
         boardHex={boardHex}
         position={new Vector3(x, y + 0.2, z)}
       />
       {isSubterrainOrigin && (
+        <>
+          <group
+            position={[x, y - HEXGRID_HEX_HEIGHT, z]}
+            rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+          >
+            {(selectedPieceID === boardHex.pieceID) && (
+              <DeletePieceBillboard pieceID={boardHex.pieceID} />
+            )}
+            <LandSubterrain pid={boardHex.pieceID} />
+          </group>
+        </>
+      )}
+      {isFluidOrigin && (
         <group
-          position={[x, y - HEXGRID_HEX_HEIGHT, z]}
-          rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+          position={[
+            x,
+            y - HEXGRID_HEX_HEIGHT,
+            z]}
         >
-          <LandSubterrain pid={boardHex.pieceID} />
+          {(selectedPieceID === boardHex.pieceID) && (
+            <DeletePieceBillboard pieceID={boardHex.pieceID} />
+          )}
+          <group
+            rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+            scale={[1, HEXGRID_HEXCAP_FLUID_SCALE, 1]}
+          >
+            <LandSubterrain pid={boardHex.pieceID} />
+          </group>
         </group>
       )}
-      {isRuin2OriginHex && <Ruins2 boardHex={boardHex} underHexTerrain={underHexTerrain} />}
-      {isRuin3OriginHex && <Ruins3 boardHex={boardHex} underHexTerrain={underHexTerrain} />}
+      {isRuin2OriginHex && <Ruins2 boardHex={boardHex} />}
+      {isRuin3OriginHex && <Ruins3 boardHex={boardHex} />}
       {isHeightRingedHex && <HeightRing position={new Vector3(x, y, z)} />}
       {isLaurPillarHex && (
         <LaurPillar
@@ -136,7 +159,9 @@ export const MapHex3D = ({
             position={[x, yWithBase + getOptionsForTreeHeight(boardHex.pieceID).y, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
-            <ForestTree />
+            <ForestTree
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor.treeBase} />
         </>
@@ -148,7 +173,9 @@ export const MapHex3D = ({
             scale={0.038}
             rotation={[0, getOptionsForBigTree(boardHex.pieceRotation).rotationY, 0]}
           >
-            <BigTree415 />
+            <BigTree415
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase x={x} y={yBase} z={z} color={hexTerrainColor.treeBase} />
         </>
@@ -171,38 +198,26 @@ export const MapHex3D = ({
       {(isBrushHex || isLaurBrushHex) && (
         <>
           <group
-            position={[x, yJungle, z]}
+            position={[x, yBaseCap, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
-            <TicallaBrush />
+            <TicallaBrush boardHex={boardHex} />
           </group>
-          <ObstacleBase
-            x={x}
-            y={yJungle}
-            z={z}
-            color={hexTerrainColor[HexTerrain.swamp]}
-          />
         </>
       )}
       {(isPalmHex || isLaurPalmHex) && (
         <>
           <group
             scale={[
-              getOptionsForPalmHeight(boardHex.pieceID).scaleX,
+              1,
               getOptionsForPalmHeight(boardHex.pieceID).scaleY,
-              getOptionsForPalmHeight(boardHex.pieceID).scaleX
+              1
             ]}
-            position={[x, yJungle, z]}
+            position={[x, yBaseCap, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
-            <TicallaPalm />
+            <TicallaPalm boardHex={boardHex} />
           </group>
-          <ObstacleBase
-            x={x}
-            y={yJungle}
-            z={z}
-            color={hexTerrainColor[HexTerrain.swamp]}
-          />
         </>
       )}
       {isGlacier1Hex && (
@@ -211,7 +226,10 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
-            <Outcrop1 isGlacier={true} />
+            <Outcrop1
+              isGlacier={true}
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase
             x={x}
@@ -230,14 +248,16 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
           >
-            <Outcrop1 isGlacier={false} />
+            <Outcrop1
+              isGlacier={false}
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase
             x={x}
             y={yBase}
             z={z}
             color={
-              // hexTerrainColor[HexTerrain.ice]
               hexTerrainColor[HexTerrain.shadow]
             }
             isFluidBase={true}
@@ -250,7 +270,10 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
           >
-            <Outcrop3 isGlacier={true} />
+            <Outcrop3
+              isGlacier={true}
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase
             x={x}
@@ -280,7 +303,10 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
           >
-            <Outcrop3 isGlacier={false} />
+            <Outcrop3
+              isGlacier={false}
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase
             x={x}
@@ -310,7 +336,10 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
           >
-            <Outcrop4 isGlacier={true} />
+            <Outcrop4
+              isGlacier={true}
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase
             x={x}
@@ -329,7 +358,10 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
           >
-            <Outcrop6 isGlacier={true} />
+            <Outcrop6
+              isGlacier={true}
+              boardHex={boardHex}
+            />
           </group>
           <ObstacleBase
             x={x}
@@ -348,7 +380,7 @@ export const MapHex3D = ({
             position={[x, yWithBase, z]}
             rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
           >
-            <MarroHive6 />
+            <MarroHive6 boardHex={boardHex} />
           </group>
           <ObstacleBase
             x={x}

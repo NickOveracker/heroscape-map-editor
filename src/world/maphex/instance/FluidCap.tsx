@@ -3,13 +3,13 @@ import React from 'react'
 import {
   CylinderGeometryArgs,
   DreiCapProps,
-  DreiInstanceCapProps,
+  BoardHexPieceProps,
   InstanceRefType,
 } from '../instance-hex'
 import { getBoardHex3DCoords } from '../../../utils/map-utils'
 import {
   HEXGRID_HEX_HEIGHT,
-  HEXGRID_HEXCAP_FLUID_HEIGHT,
+  HEXGRID_HEXCAP_FLUID_SCALE,
   INSTANCE_LIMIT,
 } from '../../../utils/constants'
 import { hexTerrainColor } from '../hexColors'
@@ -18,9 +18,9 @@ import usePieceHoverState from '../../../hooks/usePieceHoverState'
 import useBoundStore from '../../../store/store'
 
 const baseFluidCapCylinderArgs: CylinderGeometryArgs = [
-  1,
-  0.997,
-  HEXGRID_HEXCAP_FLUID_HEIGHT,
+  0.9,
+  0.9,
+  0.001,
   6,
   undefined,
   false,
@@ -56,56 +56,71 @@ export default FluidCaps
 function FluidCap({
   boardHex,
   onPointerUp,
-}: DreiInstanceCapProps) {
+}: BoardHexPieceProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
+  const {
+    onPointerEnter,
+    onPointerOut,
+  } = usePieceHoverState()
+  const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
+  const penMode = useBoundStore(s => s.penMode)
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
   const color = hexTerrainColor[boardHex.terrain]
+  const selectedPieceID = useBoundStore(s => s.selectedPieceID)
+  const isSelected = selectedPieceID === boardHex.pieceID
 
   // Effect: Initial color/position
   React.useEffect(() => {
-    const { x, z } = getBoardHex3DCoords(boardHex)
-    const y =
-      (boardHex.altitude - 1) * HEXGRID_HEX_HEIGHT +
-      HEXGRID_HEXCAP_FLUID_HEIGHT / 2
+    const { x, y, z } = getBoardHex3DCoords(boardHex)
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
-    ref.current.position.set(x, y, z)
+    ref.current.position.set(
+      x,
+      y - (HEXGRID_HEX_HEIGHT - (HEXGRID_HEX_HEIGHT * HEXGRID_HEXCAP_FLUID_SCALE)),
+      z)
   }, [boardHex])
 
   // update color when piece is hovered
   React.useEffect(() => {
     if (hoveredPieceID === boardHex.pieceID) {
-      ref.current.color.set('yellow')
+      // ref.current.color.set('yellow')
     } else {
       ref.current.color.set(color)
     }
   }, [boardHex.pieceID, hoveredPieceID, color])
 
-  const {
-    onPointerEnter,
-    onPointerOut,
-  } = usePieceHoverState()
-  const handleEnter = (e: ThreeEvent<PointerEvent>) => {
+  const handlePointerEnter = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation() // prevent this hover from passing through and affecting behind
     onPointerEnter(e, boardHex)
     ref.current.color.set('yellow')
   }
-  const handleOut = (e: ThreeEvent<PointerEvent>) => {
-    if (hoveredPieceID !== boardHex.pieceID) {
-      ref.current.color.set(color)
-      onPointerOut(e)
-    }
+  const handlePointerOut = (e: ThreeEvent<PointerEvent>) => {
+    // if (hoveredPieceID !== boardHex.pieceID) {
+    ref.current.color.set(color)
+    onPointerOut(e)
+    // }
   }
-  const handleUp = (e: ThreeEvent<PointerEvent>) => {
-    onPointerUp(e, boardHex)
+  const handlePointerUp = (e: ThreeEvent<PointerEvent>) => {
+    // Early out right clicks(event.button=2), middle mouse clicks(1)
+    if (e.button !== 0) {
+      // THIS IS A RIGHT CLICK
+      // TODO: Can paste in copied templates! BUT, user must agree to reading text/images from the clipboard
+      // const myClipboard = await navigator.clipboard.readText()
+      return
+    }
+    if (penMode === 'select') {
+      toggleSelectedPieceID(isSelected ? '' : boardHex.pieceID)
+    } else {
+      onPointerUp(e, boardHex)
+    }
   }
 
   return (
     <Instance
       ref={ref}
-      onPointerUp={handleUp}
-      onPointerEnter={handleEnter}
-      onPointerOut={handleOut}
+      onPointerUp={handlePointerUp}
+      onPointerEnter={handlePointerEnter}
+      onPointerOut={handlePointerOut}
       frustumCulled={false}
     />
   )

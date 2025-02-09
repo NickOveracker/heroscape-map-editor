@@ -8,6 +8,9 @@ import { BoardHex, HexTerrain, Pieces } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
 import ObstacleBase from './ObstacleBase'
 import { HEXGRID_HEX_HEIGHT } from '../../utils/constants'
+import useBoundStore from '../../store/store'
+import usePieceHoverState from '../../hooks/usePieceHoverState'
+import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
 
 type Props = {
   boardHex: BoardHex
@@ -17,20 +20,31 @@ type Props = {
 
 export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
   const { nodes } = useGLTF('/adjustable-castle-walls.glb') as any
-  const [color, setColor] = React.useState(hexTerrainColor[HexTerrain.castle])
+  const [capColor, setCapColor] = React.useState(hexTerrainColor[HexTerrain.castle])
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
+  const selectedPieceID = useBoundStore((s) => s.selectedPieceID)
+  const toggleSelectedPieceID = useBoundStore((s) => s.toggleSelectedPieceID)
+  const isSelected = selectedPieceID === boardHex.pieceID
+  const {
+    isHovered,
+    onPointerEnter,
+    onPointerOut,
+  } = usePieceHoverState()
+  const isHighlighted = isHovered || isSelected
+  const yellowColor = 'yellow'
+  const castleColor = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.castle]
   const rotation = boardHex?.pieceRotation ?? 0
   const scaleYAdjust = 0.01 // just a little to get it out of the subterrain
   // castle walls are 10 levels tall, UNLESS stacked on another wall, then they are 9 (they have a 1-level bottom base when on land)
   const scaleY = (boardHex?.obstacleHeight ?? 9) + (1 - scaleYAdjust)
   const scale = new Vector3(1, scaleY, 1)
   const pieceID = boardHex.pieceID
-  const onPointerEnter = (e: ThreeEvent<PointerEvent>) => {
-    setColor('yellow')
+  const onPointerEnterCap = (e: ThreeEvent<PointerEvent>) => {
+    setCapColor('yellow')
     e.stopPropagation()
   }
-  const onPointerOut = (e: ThreeEvent<PointerEvent>) => {
-    setColor(hexTerrainColor[HexTerrain.castle])
+  const onPointerOutCap = (e: ThreeEvent<PointerEvent>) => {
+    setCapColor(hexTerrainColor[HexTerrain.castle])
     e.stopPropagation()
   }
   const bodyGeometry = pieceID.includes(Pieces.castleWallEnd) ?
@@ -43,33 +57,48 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
     pieceID.includes(Pieces.castleWallStraight) ?
       nodes.CastleWallStraightCap.geometry :
       nodes.CastleWallCornerCap.geometry
-
+  const onPointerUpBody = (event: ThreeEvent<PointerEvent>) => {
+    event.stopPropagation() // prevent pass through
+    // Early out right clicks(event.button=2), middle mouse clicks(1)
+    if (event.button !== 0) {
+      return
+    }
+    toggleSelectedPieceID(isSelected ? '' : boardHex.pieceID)
+  }
   return (
     <>
       <group
         position={[x, yBase - (0.005), z]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
       >
-        <mesh scale={scale} geometry={bodyGeometry}>
-          <meshMatcapMaterial color={hexTerrainColor[boardHex.terrain]} />
+        {(selectedPieceID === boardHex.pieceID) && (
+          <DeletePieceBillboard pieceID={boardHex.pieceID} y={1} />
+        )}
+        <mesh
+          scale={scale}
+          geometry={bodyGeometry}
+          onPointerUp={onPointerUpBody}
+          onPointerEnter={e => onPointerEnter(e, boardHex)}
+          onPointerOut={e => onPointerOut(e)}
+        >
+          <meshMatcapMaterial color={castleColor} />
         </mesh>
-
         <>
           <mesh
             geometry={nodes.WallCap.geometry}
             position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
             onPointerUp={(e) => onPointerUp(e, boardHex)}
-            onPointerEnter={onPointerEnter}
-            onPointerOut={onPointerOut}
+            onPointerEnter={onPointerEnterCap}
+            onPointerOut={onPointerOutCap}
           >
-            <meshMatcapMaterial color={color} />
+            <meshMatcapMaterial color={isHighlighted ? yellowColor : capColor} />
           </mesh>
           <mesh
             geometry={capGeometry}
             position={[0, (scaleY - 1) * HEXGRID_HEX_HEIGHT, 0]}
             onPointerUp={(e) => onPointerUp(e, boardHex)}
           >
-            <meshMatcapMaterial color={color} />
+            <meshMatcapMaterial color={isHighlighted ? yellowColor : capColor} />
           </mesh>
         </>
       </group>
@@ -78,7 +107,7 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
           x={x}
           y={yBaseCap}
           z={z}
-          color={hexTerrainColor[underHexTerrain]}
+          color={isHighlighted ? yellowColor : hexTerrainColor[underHexTerrain]}
         />
       )}
     </>

@@ -21,7 +21,7 @@ export type DreiCapProps = {
   boardHexArr: BoardHex[]
   onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }
-export type DreiInstanceCapProps = {
+export type BoardHexPieceProps = {
   boardHex: BoardHex
   onPointerUp: (e: ThreeEvent<PointerEvent>, hex: BoardHex) => void
 }
