@@ -78,7 +78,7 @@ export default function CastleBases({
           onPointerEnter={e => onPointerEnter(e, boardHex)}
           onPointerOut={onPointerOut}
         >
-          <meshMatcapMaterial color={hexTerrainColor[boardHex.terrain]} />
+          <meshMatcapMaterial color={isHighlighted ? yellowColor : hexTerrainColor[boardHex.terrain]} />
         </mesh>
 
         {/* Each wall has a WallCap mesh, then each wall-type adds on its little directional indicator mesh */}
@@ -89,7 +89,6 @@ export default function CastleBases({
         >
           <mesh
             geometry={nodes.WallCap.geometry}
-            onPointerUp={(e) => onPointerUp(e, boardHex)}
             onPointerEnter={onPointerEnterCap}
             onPointerOut={onPointerOutCap}
           >

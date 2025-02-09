@@ -1,14 +1,15 @@
 import { DoubleSide } from 'three'
 import { Billboard, Html, useGLTF } from '@react-three/drei'
-import { HexTerrain } from '../../types'
+import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from '../maphex/hexColors'
 import { HEXGRID_HEXCAP_FLUID_HEIGHT } from '../../utils/constants'
-import { BoardHexPieceProps, CylinderGeometryArgs } from '../maphex/instance-hex'
+import { CylinderGeometryArgs } from '../maphex/instance-hex'
 import { Button, Tooltip } from '@mui/material'
 import useBoundStore from '../../store/store'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import { FcBrokenLink, FcParallelTasks, FcTreeStructure } from 'react-icons/fc'
+import { ThreeEvent } from '@react-three/fiber'
 
 
 
@@ -93,12 +94,14 @@ const baseCylinderArgs: CylinderGeometryArgs = [
 
 export default function LaurWallPillar({
   boardHex,
-  onPointerUp
-}: BoardHexPieceProps) {
+}: {
+  boardHex: BoardHex
+}) {
   const pillarColor = hexTerrainColor[HexTerrain.laurWall]
   const interiorPillarColor = hexTerrainColor.laurModelColor2
   const { x, z, yBaseCap, yWithBase } = getBoardHex3DCoords(boardHex)
   const selectedPieceID = useBoundStore(s => s.selectedPieceID)
+  const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const { nodes } = useGLTF('/laurwall-pillar.glb') as any
   const rotation = boardHex?.pieceRotation ?? 0
 
@@ -111,6 +114,15 @@ export default function LaurWallPillar({
   const yellowColor = 'yellow'
   const isSelected = selectedPieceID === boardHex.pieceID
   const isHighlighted = isHovered || isSelected
+
+  const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
+    event.stopPropagation() // prevent pass through
+    // Early out right clicks(event.button=2), middle mouse clicks(1)
+    if (event.button !== 0) {
+      return
+    }
+    toggleSelectedPieceID(isSelected ? '' : boardHex.pieceID)
+  }
 
   // if (isSelected) {
   //   const pillarReport = getPillarReport({
@@ -256,13 +268,12 @@ export default function LaurWallPillar({
       <group
         position={[x, yWithBase, z]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
-        onPointerUp={e => onPointerUp(e, boardHex)}
+        onPointerUp={onPointerUp}
         onPointerEnter={e => onPointerEnter(e, boardHex)}
         onPointerOut={e => onPointerOut(e)}
       >
         <mesh
           geometry={nodes.PillarTop.geometry}
-        // onPointerUp={e => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial
             color={isHighlighted ? yellowColor : pillarColor}
@@ -270,7 +281,6 @@ export default function LaurWallPillar({
         </mesh>
         <mesh
           geometry={nodes.SubDecorCore.geometry}
-        // onPointerUp={e => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial
             color={isHighlighted ? yellowColor : interiorPillarColor}
@@ -278,7 +288,6 @@ export default function LaurWallPillar({
         </mesh>
         <mesh
           geometry={nodes.Facade.geometry}
-        // onPointerUp={e => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial
             side={DoubleSide}
@@ -287,7 +296,6 @@ export default function LaurWallPillar({
         </mesh>
         <mesh
           geometry={nodes.FacadeInner.geometry}
-        // onPointerUp={e => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial
             side={DoubleSide}
