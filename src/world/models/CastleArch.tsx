@@ -29,6 +29,7 @@ export function CastleArch({
   const { nodes } = useGLTF('/castle-arch-handmade.glb') as any
   const boardHexes = useBoundStore((s) => s.boardHexes)
   const selectedPieceID = useBoundStore((s) => s.selectedPieceID)
+  const toggleSelectedPieceID = useBoundStore((s) => s.toggleSelectedPieceID)
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const isSelected = selectedPieceID === boardHex.pieceID
   const {
@@ -127,6 +128,15 @@ export function CastleArch({
       boardHexes[genBoardHexID({ ...farCube, altitude: boardHex.altitude })]
     onPointerUp(e, farBaseHex)
   }
+  const onPointerUpBody = (event: ThreeEvent<PointerEvent>) => {
+    event.stopPropagation() // prevent pass through
+    // Early out right clicks(event.button=2), middle mouse clicks(1)
+    if (event.button !== 0) {
+      return
+    }
+    toggleSelectedPieceID(isSelected ? '' : boardHex.pieceID)
+  }
+
   return (
     <group
       position={[x, yBase, z]}
@@ -141,7 +151,8 @@ export function CastleArch({
       >
         <mesh
           geometry={nodes.CastleArchBody.geometry}
-          onPointerUp={e => onPointerUp(e, boardHex)}
+          onPointerUp={onPointerUpBody}
+        // onPointerUp={e => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial color={isHighlighted ? yellowColor : castleColor} />
         </mesh>
