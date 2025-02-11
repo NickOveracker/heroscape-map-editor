@@ -32,7 +32,10 @@ export type PieceAddArgs = {
   rotation: number
   isVsTile: boolean
 }
-type PieceAddReturn = { newBoardHexes: BoardHexes; newBoardPieces: BoardPieces }
+type PieceAddReturn = {
+  newBoardHexes: BoardHexes;
+  newBoardPieces: BoardPieces;
+}
 
 export function addPiece({
   // state to mutate and return
