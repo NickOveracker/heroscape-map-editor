@@ -218,6 +218,7 @@ export function addPiece({
   if (piece.terrain === HexTerrain.ruin) {
     const isSolidUnderAllSupportHexes = underHexIds.every((_, i) => {
       // Ruins only need to be supported under their center of mass, and we could be more liberal than this (allowing combinations of certain hexes)
+      // See https://github.com/Dissolutio/heroscape-map-editor/issues/7
       const isRequiredToSupportThisOne =
         verticalSupportTemplates?.[piece.id]?.[i]
       return isRequiredToSupportThisOne
