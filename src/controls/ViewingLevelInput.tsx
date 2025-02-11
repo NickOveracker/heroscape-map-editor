@@ -1,6 +1,6 @@
 import { Box, Grid2, Input, Typography } from '@mui/material'
 import useBoundStore from '../store/store'
-import { getBoardHexesMaxLevel } from '../utils/map-utils'
+import { getBoardPiecesMaxLevel } from '../utils/map-utils'
 import React from 'react'
 
 
@@ -8,9 +8,7 @@ export default function ViewingLevelInput() {
   const viewingLevel = useBoundStore(s => s.viewingLevel)
   const toggleViewingLevel = useBoundStore(s => s.toggleViewingLevel)
   const boardPieces = useBoundStore(s => s.boardPieces)
-  const boardHexes = useBoundStore(s => s.boardHexes)
-  // const maxLevel = getBoardPiecesMaxLevel(boardPieces)
-  const maxLevel = getBoardHexesMaxLevel(boardHexes)
+  const maxLevel = getBoardPiecesMaxLevel(boardPieces)
   React.useEffect(() => {
     toggleViewingLevel(maxLevel)
   }, [boardPieces, toggleViewingLevel, maxLevel])

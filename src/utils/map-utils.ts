@@ -163,9 +163,3 @@ export const getBoardPiecesMaxLevel = (boardPieces: BoardPieces) => {
     .sort((a, b) => b - a)[0] // sort them high to low and grab the first
   return Number.isNaN(maxLevel) ? 0 : maxLevel
 }
-export const getBoardHexesMaxLevel = (boardHexes: BoardHexes) => {
-  const maxLevel = 1 + Object.values(boardHexes)
-    .map(bh => bh.altitude) // get their altitudes
-    .sort((a, b) => b - a)[0] // sort them high to low and grab the first
-  return Number.isNaN(maxLevel) ? 0 : maxLevel
-}
