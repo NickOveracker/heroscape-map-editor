@@ -1,15 +1,14 @@
 import { DoubleSide } from 'three'
-import { Billboard, Html, useGLTF } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
 import { BoardHex, HexTerrain } from '../../types'
 import { getBoardHex3DCoords } from '../../utils/map-utils'
 import { hexTerrainColor } from '../maphex/hexColors'
 import { HEXGRID_HEXCAP_FLUID_HEIGHT } from '../../utils/constants'
 import { CylinderGeometryArgs } from '../maphex/instance-hex'
-import { Button, Tooltip } from '@mui/material'
 import useBoundStore from '../../store/store'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
-import { FcBrokenLink, FcParallelTasks, FcTreeStructure } from 'react-icons/fc'
 import { ThreeEvent } from '@react-three/fiber'
+import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
 
 
 
@@ -145,125 +144,8 @@ export default function LaurWallPillar({
         position={[x, yWithBase, z]}
       >
         {(isSelected) && (
-          // <Billboard position={[0.5, 1, 0]}>
-          <Billboard position={[1, 2, 0]}>
-            <Html>
-              {/* <Button variant='contained' size="small">1,0</Button> */}
-              <Tooltip
-                title={'Add Ruin'}
-              >
-                <Button
-
-                  sx={{ backgroundColor: ('var(--gunmetal-transparent)') }}
-                // onClick={addLaurAddon}
-                >
-                  <FcBrokenLink />
-                </Button>
-              </Tooltip>
-              <Tooltip
-                title={'Add Short Wall (and a Pillar maybe?)'}
-              >
-                <Button
-
-                  sx={{ backgroundColor: ('var(--gunmetal-transparent)') }}
-                // onClick={addLaurAddon}
-                >
-                  <FcTreeStructure />
-                </Button>
-              </Tooltip>
-            </Html>
-          </Billboard>)}
-        {(isSelected) && (
-          // <Billboard position={[-0.5, 1, 1]}>
-          <Billboard position={[-1, 2, 1]}>
-            <Html>
-              {/* <Button variant='contained' size="small">0,1</Button> */}
-              <Tooltip
-                title={'Add Ruin'}
-              >
-
-                <Button
-
-                  sx={{ backgroundColor: ('var(--gunmetal-transparent)') }}
-                // onClick={addLaurAddon}
-                >
-                  <FcBrokenLink />
-                </Button>
-              </Tooltip>
-              <Tooltip
-                title={'Add Long Wall (and a Pillar maybe?)'}
-              >
-
-                <Button
-
-                  sx={{ backgroundColor: ('var(--gunmetal-transparent)') }}
-                // onClick={addLaurAddon}
-                >
-                  <FcParallelTasks />
-                </Button>
-              </Tooltip>
-            </Html>
-          </Billboard>)}
-        {(isSelected) && (
-          <Billboard position={[-3, 2, 0]}>
-            <Html>
-              {/* <Button variant='contained' size="small">-1,0</Button> */}
-              <Tooltip
-                title={'Add Ruin'}
-              >
-
-                <Button
-
-                  sx={{ backgroundColor: ('var(--gunmetal-transparent)') }}
-                // onClick={addLaurAddon}
-                >
-                  <FcBrokenLink />
-                </Button>
-              </Tooltip>
-              <Tooltip
-                title={'Add Short Wall (and a Pillar maybe?)'}
-              >
-
-                <Button
-
-                  sx={{ backgroundColor: ('var(--gunmetal-transparent)') }}
-                // onClick={addLaurAddon}
-                >
-                  <FcTreeStructure />
-                </Button>
-              </Tooltip>
-            </Html>
-          </Billboard>)}
-        {(isSelected) && (
-          <Billboard position={[-1, 2, -1]}>
-            <Html>
-              {/* <Button variant='contained' size="small">0,-1</Button> */}
-              <Tooltip
-                title={'Add Ruin'}
-              >
-
-                <Button
-
-                  sx={{ backgroundColor: ('var(--gunmetal-transparent)') }}
-                // onClick={addLaurAddon}
-                >
-                  <FcBrokenLink />
-                </Button>
-              </Tooltip>
-              <Tooltip
-                title={'Add Long Wall (and a Pillar maybe?)'}
-              >
-
-                <Button
-
-                  sx={{ backgroundColor: ('var(--gunmetal-transparent)') }}
-                // onClick={addLaurAddon}
-                >
-                  <FcParallelTasks />
-                </Button>
-              </Tooltip>
-            </Html>
-          </Billboard>)}
+          <DeletePieceBillboard pieceID={boardHex.pieceID} y={1} />
+        )}
       </group>
       <group
         position={[x, yWithBase, z]}
