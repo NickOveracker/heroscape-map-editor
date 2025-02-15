@@ -38,7 +38,7 @@ export default function Outcrop6({
   return (
     <>
       {(isSelected) && (
-        <DeletePieceBillboard pieceID={boardHex.pieceID} y={5} />
+        <DeletePieceBillboard pieceID={boardHex.pieceID} y={3} />
       )}
       <mesh
         geometry={nodes.glacier_6_with_holes.geometry}
