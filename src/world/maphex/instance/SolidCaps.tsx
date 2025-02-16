@@ -26,12 +26,15 @@ const baseSolidCapCylinderArgs: CylinderGeometryArgs = [
 
 const SolidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
-  // const isCameraDisabled = useBoundStore(s => s.isCameraDisabled)
+  const viewingLevel = useBoundStore(s => s.viewingLevel)
   if (boardHexArr.length === 0) return null
+  const range = boardHexArr.filter(bh => bh.altitude <= viewingLevel).length
   return (
     <Instances
       limit={INSTANCE_LIMIT}
-      range={boardHexArr.length}
+      // limit={2}
+      // range={boardHexArr.length}
+      range={range}
       ref={ref}
       frustumCulled={false}
     >
@@ -46,6 +49,7 @@ const SolidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
           key={hex.id + i}
           boardHex={hex}
           onPointerUp={onPointerUp}
+          isVisible={range > i}
         />
       ))}
     </Instances>
@@ -57,7 +61,8 @@ export default SolidCaps
 function SolidCap({
   boardHex,
   onPointerUp,
-}: BoardHexPieceProps) {
+  isVisible
+}: BoardHexPieceProps & { isVisible: boolean }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = React.useRef<any>(undefined!)
   const {
@@ -88,17 +93,26 @@ function SolidCap({
   }, [boardHex.pieceID, hoveredPieceID, color])
 
   const handlePointerEnter = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     e.stopPropagation() // prevent this hover from passing through and affecting behind
     onPointerEnter(e, boardHex)
     ref.current.color.set('yellow')
   }
   const handlePointerOut = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     // if (hoveredPieceID !== boardHex.pieceID) {
     ref.current.color.set(color)
     onPointerOut(e)
     // }
   }
   const handlePointerUp = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (e.button !== 0) {
       // THIS IS A RIGHT CLICK

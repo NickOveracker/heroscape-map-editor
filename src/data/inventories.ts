@@ -1,5 +1,45 @@
 import { PieceInventory, Pieces } from "../types";
 
+export const maxSharedTerrainKit: PieceInventory = {
+  // https://www.heroscapers.com/threads/max-shared-terrain-kit-mstk.64183/
+  [Pieces.grass1]: 10,
+  [Pieces.grass2]: 5, // totk 6
+  [Pieces.grass3]: 2, // totk 6
+  [Pieces.grass7]: 4,  // totk 7
+  [Pieces.grass24]: 3, // 2 when using LandsOfValhalla, totk 3
+  [Pieces.rock1]: 20, // 
+  [Pieces.rock2]: 3, // totk 3
+  [Pieces.rock3]: 1, // totk 3
+  [Pieces.rock7]: 2, // totk 5
+  [Pieces.rock24]: 2, // totk 2
+  [Pieces.sand1]: 4, // totk 5
+  [Pieces.sand2]: 2, // totk 3
+  [Pieces.sand3]: 1, // totk 3
+  [Pieces.sand7]: 2, // totk 5
+  [Pieces.sand24]: 0, // 1 when using LandsOfValhalla, totk 0
+  [Pieces.water1]: 12, // totk 12
+}
+export const tournamentOrganizerTerrainKitPieceSet: PieceInventory = {
+  // This is intended by Renegade to make 4 maps, the community may come up with a system as well
+  [Pieces.grass1]: 64, // 16
+  [Pieces.grass2]: 24, // 8
+  [Pieces.grass3]: 24, // 6
+  [Pieces.grass7]: 28, // 7
+  [Pieces.grass24]: 12, // 3
+  [Pieces.rock1]: 20, // 5
+  [Pieces.rock2]: 12, // 3
+  [Pieces.rock3]: 12, // 3
+  [Pieces.rock7]: 20, // 5
+  [Pieces.rock24]: 8, // 2
+  [Pieces.sand1]: 20, // 5
+  [Pieces.sand2]: 12, // 3
+  [Pieces.sand3]: 12, // 3
+  [Pieces.sand7]: 20, // 5
+  [Pieces.water1]: 48, // 12
+  [Pieces.laurWallPillar]: 8,
+  [Pieces.laurWallLong]: 4,
+  [Pieces.laurBrush10]: 12,
+}
 export const aoa1PieceSet: PieceInventory = {
   [Pieces.grass1]: 10,
   [Pieces.grass2]: 6,

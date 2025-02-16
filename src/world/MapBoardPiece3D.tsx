@@ -20,7 +20,7 @@ export const MapBoardPiece3D = ({
   } = decodePieceID(pid)
   const { x, z, y } = getBoardHex3DCoords({ ...pieceCoords, altitude })
   const viewingLevel = useBoundStore(s => s.viewingLevel)
-  const isVisible = altitude <= viewingLevel
+  const isVisible = (altitude + 1) <= viewingLevel
   // yTree
   if (pieceID === Pieces.battlement) {
     return (
@@ -33,7 +33,7 @@ export const MapBoardPiece3D = ({
         visible={isVisible}
       >
 
-        <Battlement pid={pid} />
+        <Battlement pid={pid} isVisible={isVisible} />
       </group>
     )
   }
@@ -45,9 +45,10 @@ export const MapBoardPiece3D = ({
           y,
           z + getRoadWallOptions(rotation).zAdd]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
+        visible={isVisible}
       >
 
-        <RoadWall pid={pid} />
+        <RoadWall pid={pid} isVisible={isVisible} />
       </group>
     )
   }

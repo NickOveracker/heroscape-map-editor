@@ -6,15 +6,23 @@ import usePieceHoverState from '../../hooks/usePieceHoverState'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
 import { HexTerrain } from '../../types'
 
-export function Battlement({ pid }: { pid: string }) {
+export function Battlement({ pid, isVisible }: { pid: string, isVisible: boolean }) {
   const { nodes } = useGLTF('/handmade-battlement.glb') as any
   const {
     isHovered,
     onPointerEnterPID,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(isVisible)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
+  const selectedPieceID = useBoundStore(s => s.selectedPieceID)
+  const yellowColor = 'yellow'
+  const isSelected = selectedPieceID === pid
+  const isHighlighted = isHovered || isSelected
+  const color = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.roadWall]
   const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     event.stopPropagation() // prevent pass through
     // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (event.button !== 0) {
@@ -22,11 +30,6 @@ export function Battlement({ pid }: { pid: string }) {
     }
     toggleSelectedPieceID(isSelected ? '' : pid)
   }
-  const selectedPieceID = useBoundStore(s => s.selectedPieceID)
-  const yellowColor = 'yellow'
-  const isSelected = selectedPieceID === pid
-  const isHighlighted = isHovered || isSelected
-  const color = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.roadWall]
   return (
     <>
       {(isSelected) && (

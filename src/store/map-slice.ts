@@ -6,6 +6,7 @@ import { addPiece } from '../data/addPiece'
 
 export interface MapSlice extends MapState {
   paintTile: (args: PaintTileArgs) => void
+  removePieceByPieceID: (pieceID: string) => void
   loadMap: (map: MapState) => void
   changeMapName: (mapName: string) => void
 }
@@ -35,6 +36,12 @@ const createMapSlice: StateCreator<AppState, [], [], MapSlice> = (set) => ({
         })
         draft.boardHexes = newBoardHexes
         draft.boardPieces = newBoardPieces
+      })
+    }),
+  removePieceByPieceID: (pieceID: string) =>
+    set((state) => {
+      return produce(state, (draft) => {
+        delete draft.boardPieces[pieceID]
       })
     }),
   // deleteLandPiece: ({ piece, clickedHex }: {

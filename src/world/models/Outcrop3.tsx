@@ -15,13 +15,18 @@ export default function Outcrop3({
 }) {
   const model = useGLTF('/uncolored-decimated-glacier-outcrop-3.glb') as any
   const { nodes } = model
+  const viewingLevel = useBoundStore((s) => s.viewingLevel)
+  const isVisible = boardHex.altitude <= viewingLevel
   const {
     isHovered,
     onPointerEnter,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(isVisible)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     event.stopPropagation() // prevent pass through
     // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (event.button !== 0) {
@@ -38,13 +43,13 @@ export default function Outcrop3({
   return (
     <>
       {(isSelected) && (
-        <DeletePieceBillboard pieceID={boardHex.pieceID} y={5} />
+        <DeletePieceBillboard pieceID={boardHex.pieceID} y={2} />
       )}
       <mesh
         geometry={nodes.glacier_3_with_holes.geometry}
         onPointerUp={e => onPointerUp(e)}
         onPointerEnter={e => onPointerEnter(e, boardHex)}
-        onPointerOut={e => onPointerOut(e)}
+        onPointerOut={onPointerOut}
       >
         <meshMatcapMaterial
           color={

@@ -32,11 +32,13 @@ export function CastleArch({
   const toggleSelectedPieceID = useBoundStore((s) => s.toggleSelectedPieceID)
   const { x, z, yBase, yBaseCap } = getBoardHex3DCoords(boardHex)
   const isSelected = selectedPieceID === boardHex.pieceID
+  const viewingLevel = useBoundStore((s) => s.viewingLevel)
+  const isVisible = boardHex.altitude <= viewingLevel
   const {
     isHovered,
     onPointerEnter,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(isVisible)
   const isHighlighted = isHovered || isSelected
   const yellowColor = 'yellow'
   // const castleColor = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.castle]
@@ -54,26 +56,44 @@ export function CastleArch({
     hexTerrainColor[HexTerrain.castle],
   )
   const onPointerEnterNear = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     setColorNear(yellowColor)
     e.stopPropagation()
   }
   const onPointerOutNear = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     setColorNear(hexTerrainColor[HexTerrain.castle])
     e.stopPropagation()
   }
   const onPointerEnterMiddle = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     setColorMiddle(yellowColor)
     e.stopPropagation()
   }
   const onPointerOutMiddle = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     setColorMiddle(hexTerrainColor[HexTerrain.castle])
     e.stopPropagation()
   }
   const onPointerEnterFar = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     setColorFar(yellowColor)
     e.stopPropagation()
   }
   const onPointerOutFar = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     setColorFar(hexTerrainColor[HexTerrain.castle])
     e.stopPropagation()
   }
@@ -96,6 +116,9 @@ export function CastleArch({
     )
   }
   const onPointerUpMiddle = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     e.stopPropagation()
     const myCube: CubeCoordinate = {
       q: boardHex.q,
@@ -111,6 +134,9 @@ export function CastleArch({
     onPointerUp(e, middleBaseHex)
   }
   const onPointerUpFar = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     e.stopPropagation()
     const myCube: CubeCoordinate = {
       q: boardHex.q,
@@ -129,6 +155,9 @@ export function CastleArch({
     onPointerUp(e, farBaseHex)
   }
   const onPointerUpBody = (event: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     event.stopPropagation() // prevent pass through
     // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (event.button !== 0) {
@@ -152,15 +181,14 @@ export function CastleArch({
         <mesh
           geometry={nodes.CastleArchBody.geometry}
           onPointerUp={onPointerUpBody}
-        // onPointerUp={e => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial color={isHighlighted ? yellowColor : castleColor} />
         </mesh>
         <mesh
           geometry={nodes.CastleArchCapNear.geometry}
+          onPointerUp={e => onPointerUp(e, boardHex)}
           onPointerEnter={onPointerEnterNear}
           onPointerOut={onPointerOutNear}
-          onPointerUp={(e) => onPointerUp(e, boardHex)}
         >
           <meshMatcapMaterial color={isHighlighted ? yellowColor : colorNear} />
         </mesh>

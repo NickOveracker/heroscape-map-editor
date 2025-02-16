@@ -192,7 +192,10 @@ export const MapHex3D = ({
           ]}
           rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
         >
-          <Ladder />
+          {(selectedPieceID === boardHex.pieceID) && (
+            <DeletePieceBillboard pieceID={boardHex.pieceID} />
+          )}
+          <Ladder boardHex={boardHex} />
         </group>
       )}
       {(isBrushHex || isLaurBrushHex) && (
