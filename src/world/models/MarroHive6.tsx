@@ -5,19 +5,26 @@ import useBoundStore from '../../store/store'
 import { ThreeEvent } from '@react-three/fiber'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
+import { noop } from 'lodash'
 
 export default function MarroHive6({
   boardHex,
 }: { boardHex: BoardHex }) {
   const model = useGLTF('/uncolored-decimated-marro-hive-6.glb') as any
   const { nodes } = model
+
+  const viewingLevel = useBoundStore((s) => s.viewingLevel)
+  const isVisible = boardHex.altitude <= viewingLevel
   const {
     isHovered,
     onPointerEnter,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(isVisible)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     event.stopPropagation() // prevent pass through
     // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (event.button !== 0) {
@@ -38,8 +45,8 @@ export default function MarroHive6({
       <mesh
         geometry={nodes.Marro_Hive.geometry}
         onPointerUp={e => onPointerUp(e)}
-        onPointerEnter={e => onPointerEnter(e, boardHex)}
-        onPointerOut={e => onPointerOut(e)}
+        onPointerEnter={e => isVisible ? onPointerEnter(e, boardHex) : noop()}
+        onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
       >
         <meshMatcapMaterial color={color} />
       </mesh>

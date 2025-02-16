@@ -8,6 +8,7 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import useBoundStore from '../../store/store'
 import { ThreeEvent } from '@react-three/fiber'
+import { noop } from 'lodash'
 
 
 export function Ladder({
@@ -16,13 +17,18 @@ export function Ladder({
   boardHex: BoardHex
 }) {
   const { nodes } = useGLTF('/handmade-ladder.glb') as any
+  const viewingLevel = useBoundStore((s) => s.viewingLevel)
+  const isVisible = boardHex.altitude <= viewingLevel
   const {
     isHovered,
     onPointerEnterPID,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(isVisible)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     event.stopPropagation() // prevent pass through
     // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (event.button !== 0) {
@@ -39,8 +45,8 @@ export function Ladder({
     <mesh
       geometry={nodes.Ladder.geometry}
       onPointerUp={onPointerUp}
-      onPointerOut={e => onPointerOut(e)}
-      onPointerEnter={e => onPointerEnterPID(e, boardHex.pieceID)}
+      onPointerEnter={e => isVisible ? onPointerEnterPID(e, boardHex.pieceID) : noop()}
+      onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
     >
       <meshMatcapMaterial color={color} />
     </mesh>
