@@ -5,7 +5,6 @@ import usePieceHoverState from '../../hooks/usePieceHoverState'
 import { ThreeEvent } from '@react-three/fiber'
 import useBoundStore from '../../store/store'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
-import { noop } from 'lodash'
 
 export default function BigTree415({
   boardHex,
@@ -47,8 +46,8 @@ export default function BigTree415({
       )}
       <group
         onPointerUp={e => onPointerUp(e)}
-        onPointerEnter={e => isVisible ? onPointerEnter(e, boardHex) : noop()}
-        onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
+        onPointerEnter={e => onPointerEnter(e, boardHex)}
+        onPointerOut={e => onPointerOut(e)}
       >
         <mesh
           geometry={nodes.Tree_large_rocks_scanned001_1.geometry}

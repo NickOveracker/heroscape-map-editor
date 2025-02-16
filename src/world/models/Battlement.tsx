@@ -5,7 +5,6 @@ import { ThreeEvent } from '@react-three/fiber'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
 import { HexTerrain } from '../../types'
-import { noop } from 'lodash'
 
 export function Battlement({ pid, isVisible }: { pid: string, isVisible: boolean }) {
   const { nodes } = useGLTF('/handmade-battlement.glb') as any
@@ -15,6 +14,11 @@ export function Battlement({ pid, isVisible }: { pid: string, isVisible: boolean
     onPointerOut,
   } = usePieceHoverState(isVisible)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
+  const selectedPieceID = useBoundStore(s => s.selectedPieceID)
+  const yellowColor = 'yellow'
+  const isSelected = selectedPieceID === pid
+  const isHighlighted = isHovered || isSelected
+  const color = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.roadWall]
   const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
     if (!isVisible) {
       return
@@ -26,11 +30,6 @@ export function Battlement({ pid, isVisible }: { pid: string, isVisible: boolean
     }
     toggleSelectedPieceID(isSelected ? '' : pid)
   }
-  const selectedPieceID = useBoundStore(s => s.selectedPieceID)
-  const yellowColor = 'yellow'
-  const isSelected = selectedPieceID === pid
-  const isHighlighted = isHovered || isSelected
-  const color = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.roadWall]
   return (
     <>
       {(isSelected) && (
@@ -39,8 +38,8 @@ export function Battlement({ pid, isVisible }: { pid: string, isVisible: boolean
       <mesh
         geometry={nodes.Battlement.geometry}
         onPointerUp={e => onPointerUp(e)}
-        onPointerEnter={e => isVisible ? onPointerEnterPID(e, pid) : noop()}
-        onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
+        onPointerEnter={e => onPointerEnterPID(e, pid)}
+        onPointerOut={e => onPointerOut(e)}
       >
         <meshMatcapMaterial color={color} />
       </mesh>

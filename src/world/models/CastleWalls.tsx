@@ -25,11 +25,13 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
   const selectedPieceID = useBoundStore((s) => s.selectedPieceID)
   const toggleSelectedPieceID = useBoundStore((s) => s.toggleSelectedPieceID)
   const isSelected = selectedPieceID === boardHex.pieceID
+  const viewingLevel = useBoundStore((s) => s.viewingLevel)
+  const isVisible = boardHex.altitude <= viewingLevel
   const {
     isHovered,
     onPointerEnter,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(isVisible)
   const isHighlighted = isHovered || isSelected
   const yellowColor = 'yellow'
   const castleColor = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.castle]
@@ -40,10 +42,16 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
   const scale = new Vector3(1, scaleY, 1)
   const pieceID = boardHex.pieceID
   const onPointerEnterCap = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     setCapColor('yellow')
     e.stopPropagation()
   }
   const onPointerOutCap = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     setCapColor(hexTerrainColor[HexTerrain.castle])
     e.stopPropagation()
   }
@@ -58,6 +66,9 @@ export function CastleWall({ boardHex, underHexTerrain, onPointerUp }: Props) {
       nodes.CastleWallStraightCap.geometry :
       nodes.CastleWallCornerCap.geometry
   const onPointerUpBody = (event: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     event.stopPropagation() // prevent pass through
     // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (event.button !== 0) {

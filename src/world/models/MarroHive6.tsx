@@ -5,7 +5,6 @@ import useBoundStore from '../../store/store'
 import { ThreeEvent } from '@react-three/fiber'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
-import { noop } from 'lodash'
 
 export default function MarroHive6({
   boardHex,
@@ -45,8 +44,8 @@ export default function MarroHive6({
       <mesh
         geometry={nodes.Marro_Hive.geometry}
         onPointerUp={e => onPointerUp(e)}
-        onPointerEnter={e => isVisible ? onPointerEnter(e, boardHex) : noop()}
-        onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
+        onPointerEnter={e => onPointerEnter(e, boardHex)}
+        onPointerOut={onPointerOut}
       >
         <meshMatcapMaterial color={color} />
       </mesh>

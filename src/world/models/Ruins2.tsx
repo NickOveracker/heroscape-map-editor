@@ -10,7 +10,6 @@ import {
 } from '../../utils/constants'
 import { hexTerrainColor } from '../maphex/hexColors'
 import { getRuinsOptions } from './piece-adjustments'
-import { noop } from 'lodash'
 
 export default function Ruins2({
   boardHex,
@@ -58,8 +57,8 @@ export default function Ruins2({
       )}
       <mesh
         onPointerUp={e => onPointerUp(e)}
-        onPointerEnter={e => isVisible ? onPointerEnter(e, boardHex) : noop()}
-        onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
+        onPointerEnter={e => onPointerEnter(e, boardHex)}
+        onPointerOut={e => onPointerOut(e)}
         geometry={nodes.Ruin_Small_Scanned.geometry}
       >
         <meshMatcapMaterial color={color} />

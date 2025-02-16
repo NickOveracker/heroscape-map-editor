@@ -28,11 +28,15 @@ export default function CastleBases({
   const selectedPieceID = useBoundStore((s) => s.selectedPieceID)
   const toggleSelectedPieceID = useBoundStore((s) => s.toggleSelectedPieceID)
   const isSelected = selectedPieceID === boardHex.pieceID
+  const viewingLevel = useBoundStore((s) => s.viewingLevel)
+  const isVisible = boardHex.altitude <= viewingLevel
   const {
     isHovered,
     onPointerEnter,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(isVisible)
+  // onPointerEnter={e => isVisible ? onPointerEnter(e, boardHex) : noop()}
+  // onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
   const isHighlighted = isHovered || isSelected
   const yellowColor = 'yellow'
   const bodyGeometry = pieceID.includes(Pieces.castleBaseEnd) ?
@@ -46,16 +50,25 @@ export default function CastleBases({
       nodes.CastleWallStraightCap.geometry :
       nodes.CastleWallCornerCap.geometry
   const onPointerEnterCap = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     setCapColor('yellow')
     e.stopPropagation()
     onPointerEnter(e, boardHex)
   }
   const onPointerOutCap = (e: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     setCapColor(hexTerrainColor[HexTerrain.castle])
     e.stopPropagation()
     onPointerOut(e)
   }
   const onPointerUpBody = (event: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     event.stopPropagation() // prevent pass through
     // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (event.button !== 0) {
@@ -83,7 +96,7 @@ export default function CastleBases({
 
         {/* Each wall has a WallCap mesh, then each wall-type adds on its little directional indicator mesh */}
         <group
-          onPointerUp={(e) => onPointerUp(e, boardHex)}
+          onPointerUp={e => onPointerUp(e, boardHex)}
           onPointerEnter={onPointerEnterCap}
           onPointerOut={onPointerOutCap}
         >

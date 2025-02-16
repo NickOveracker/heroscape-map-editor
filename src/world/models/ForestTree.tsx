@@ -5,7 +5,6 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import useBoundStore from '../../store/store'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
-import { noop } from 'lodash'
 
 export default function ForestTree({
   boardHex,
@@ -46,8 +45,8 @@ export default function ForestTree({
       <mesh
         geometry={nodes.Tree10_scanned.geometry}
         onPointerUp={e => onPointerUp(e)}
-        onPointerEnter={e => isVisible ? onPointerEnter(e, boardHex) : noop()}
-        onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
+        onPointerEnter={e => onPointerEnter(e, boardHex)}
+        onPointerOut={e => onPointerOut(e)}
       // material={materials.ForestTree}
       >
         <meshMatcapMaterial

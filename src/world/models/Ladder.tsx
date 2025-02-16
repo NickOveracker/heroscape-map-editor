@@ -8,7 +8,6 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import useBoundStore from '../../store/store'
 import { ThreeEvent } from '@react-three/fiber'
-import { noop } from 'lodash'
 
 
 export function Ladder({
@@ -45,8 +44,8 @@ export function Ladder({
     <mesh
       geometry={nodes.Ladder.geometry}
       onPointerUp={onPointerUp}
-      onPointerEnter={e => isVisible ? onPointerEnterPID(e, boardHex.pieceID) : noop()}
-      onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
+      onPointerEnter={e => onPointerEnterPID(e, boardHex.pieceID)}
+      onPointerOut={e => onPointerOut(e)}
     >
       <meshMatcapMaterial color={color} />
     </mesh>

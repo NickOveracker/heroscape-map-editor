@@ -12,7 +12,6 @@ import useBoundStore from '../../store/store'
 import React, { PropsWithChildren } from 'react'
 import { isFluidTerrainHex } from '../../utils/board-utils'
 import { ThreeEvent } from '@react-three/fiber'
-import { noop } from 'lodash'
 
 export default function LandSubterrain({ pid }: { pid: string }) {
   const {
@@ -140,8 +139,8 @@ export default function LandSubterrain({ pid }: { pid: string }) {
     <>
       <group
         onPointerUp={onPointerUp}
-        onPointerEnter={e => isVisible ? onPointerEnterPID(e, pid) : noop()}
-        onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
+        onPointerEnter={e => onPointerEnterPID(e, pid)}
+        onPointerOut={e => onPointerOut(e)}
       >
         {getMesh()}
       </group>
