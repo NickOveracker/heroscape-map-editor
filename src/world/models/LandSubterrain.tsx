@@ -16,7 +16,7 @@ import { ThreeEvent } from '@react-three/fiber'
 export default function LandSubterrain({ pid }: { pid: string }) {
   const {
     pieceID,
-    // altitude,
+    altitude,
     // rotation,
     // boardHexID,
     // pieceCoords
@@ -28,6 +28,8 @@ export default function LandSubterrain({ pid }: { pid: string }) {
   } = usePieceHoverState()
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
   const selectedPieceID = useBoundStore(s => s.selectedPieceID)
+  const viewingLevel = useBoundStore(s => s.viewingLevel)
+  const isVisible = altitude < viewingLevel
   const isSelected = selectedPieceID === pid
   const isHovered = hoveredPieceID === pid
   const pieceTerrain = piecesSoFar[pieceID].terrain
@@ -56,6 +58,9 @@ export default function LandSubterrain({ pid }: { pid: string }) {
   }, [baseColor, isHighlighted])
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     event.stopPropagation() // prevent pass through
     // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (event.button !== 0) {
@@ -91,15 +96,9 @@ export default function LandSubterrain({ pid }: { pid: string }) {
         )
       case '5':
         return (
-          <group
-            onPointerEnter={(e) => onPointerEnterPID(e, pid)
-            }
-            onPointerOut={onPointerOut}
-          >
-            <Subterrain5 >
-              {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
-            </Subterrain5>
-          </group >
+          <Subterrain5 >
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+          </Subterrain5>
         )
       case '6':
         return (
@@ -138,8 +137,20 @@ export default function LandSubterrain({ pid }: { pid: string }) {
   return (
     <>
       <group
-        onPointerEnter={(e) => onPointerEnterPID(e, pid)}
-        onPointerOut={onPointerOut}
+        onPointerEnter={(e) => {
+          if (!isVisible) {
+            return
+          } else {
+            onPointerEnterPID(e, pid)
+          }
+        }}
+        onPointerOut={(e) => {
+          if (!isVisible) {
+            return
+          } else {
+            onPointerOut(e)
+          }
+        }}
         onPointerUp={onPointerUp}
       >
         {getMesh()}
