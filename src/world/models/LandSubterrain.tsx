@@ -12,6 +12,7 @@ import useBoundStore from '../../store/store'
 import React, { PropsWithChildren } from 'react'
 import { isFluidTerrainHex } from '../../utils/board-utils'
 import { ThreeEvent } from '@react-three/fiber'
+import { noop } from 'lodash'
 
 export default function LandSubterrain({ pid }: { pid: string }) {
   const {
@@ -21,15 +22,16 @@ export default function LandSubterrain({ pid }: { pid: string }) {
     // boardHexID,
     // pieceCoords
   } = decodePieceID(pid)
+
+  const viewingLevel = useBoundStore((s) => s.viewingLevel)
+  const isVisible = (altitude + 1) <= viewingLevel
   const {
-    // isHovered, // cannot use this, this is for obstacles
     onPointerEnterPID,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(isVisible)
+
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
   const selectedPieceID = useBoundStore(s => s.selectedPieceID)
-  const viewingLevel = useBoundStore(s => s.viewingLevel)
-  const isVisible = altitude < viewingLevel
   const isSelected = selectedPieceID === pid
   const isHovered = hoveredPieceID === pid
   const pieceTerrain = piecesSoFar[pieceID].terrain
@@ -137,21 +139,9 @@ export default function LandSubterrain({ pid }: { pid: string }) {
   return (
     <>
       <group
-        onPointerEnter={(e) => {
-          if (!isVisible) {
-            return
-          } else {
-            onPointerEnterPID(e, pid)
-          }
-        }}
-        onPointerOut={(e) => {
-          if (!isVisible) {
-            return
-          } else {
-            onPointerOut(e)
-          }
-        }}
         onPointerUp={onPointerUp}
+        onPointerEnter={e => isVisible ? onPointerEnterPID(e, pid) : noop()}
+        onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
       >
         {getMesh()}
       </group>
