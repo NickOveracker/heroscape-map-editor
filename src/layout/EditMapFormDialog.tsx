@@ -61,6 +61,7 @@ export default function EditMapFormDialog() {
               autoFocus
               required
               value={newName}
+              onChange={(e) => setNewName(e.target.value)}
               margin="dense"
               label="Map Title"
               type="text"
