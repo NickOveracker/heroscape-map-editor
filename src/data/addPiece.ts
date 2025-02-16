@@ -147,7 +147,7 @@ export function addPiece({
       // write the new battlement piece
       newBoardPieces[pieceID] = piece.id
     } catch (error) {
-      console.log("🚀 ~ placing ladder piece error:", error)
+      console.log("Error placing roadwall piece error:", error)
     }
   }
   // BATTLEMENTS: Autoadd piece id, render from boardPieces
@@ -157,7 +157,7 @@ export function addPiece({
       // write the new battlement piece
       newBoardPieces[ladderBattlementPieceID] = piece.id
     } catch (error) {
-      console.log("🚀 ~ placing ladder piece error:", error)
+      console.log("Error placing battlement piece:", error)
     }
   }
   // LADDERS
@@ -307,7 +307,6 @@ export function addPiece({
       newBoardPieces[pieceID] = piece.id
     }
   }
-
   // LAUR WALL ADDONS
   if (piece.terrain === HexTerrain.laurWall && piece.id !== Pieces.laurWallPillar) {
     // const isLaurWallRuin = piece.id !== Pieces.laurWallRuin
