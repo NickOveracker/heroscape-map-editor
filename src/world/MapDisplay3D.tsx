@@ -237,7 +237,7 @@ function getInstanceBoardHexes(boardHexesArr: BoardHex[], isTakingPicture: boole
     (result: InstanceBoardHexes, current) => {
       const isCap = current.isCap // land hexes that are covered, obstacle origin/auxiliary hexes, vertical clearance hexes
       const isEmptyCap = isCap && !isTakingPicture && current.terrain === HexTerrain.empty
-      const isSolidCap = isCap && isSolidTerrainHex(current.terrain)
+      const isSolidCap = isSolidTerrainHex(current.terrain)
       const isFluidCap = isCap && isFluidTerrainHex(current.terrain)
       const isSubTerrain =
         isSolidTerrainHex(current.terrain) ||
