@@ -5,16 +5,20 @@ import { ThreeEvent } from '@react-three/fiber'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
 import { HexTerrain } from '../../types'
+import { noop } from 'lodash'
 
-export function RoadWall({ pid }: { pid: string }) {
+export function RoadWall({ pid, isVisible }: { pid: string, isVisible: boolean }) {
   const { nodes } = useGLTF('/handmade-roadwall.glb') as any
   const {
     isHovered,
     onPointerEnterPID,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(isVisible)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     event.stopPropagation() // prevent pass through
     // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (event.button !== 0) {
@@ -35,8 +39,8 @@ export function RoadWall({ pid }: { pid: string }) {
       <mesh
         geometry={nodes.RoadWall.geometry}
         onPointerUp={e => onPointerUp(e)}
-        onPointerEnter={e => onPointerEnterPID(e, pid)}
-        onPointerOut={e => onPointerOut(e)}
+        onPointerEnter={e => isVisible ? onPointerEnterPID(e, pid) : noop()}
+        onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
       >
         <meshMatcapMaterial color={color} />
       </mesh>

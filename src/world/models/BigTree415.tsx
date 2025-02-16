@@ -5,6 +5,7 @@ import usePieceHoverState from '../../hooks/usePieceHoverState'
 import { ThreeEvent } from '@react-three/fiber'
 import useBoundStore from '../../store/store'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
+import { noop } from 'lodash'
 
 export default function BigTree415({
   boardHex,
@@ -13,13 +14,19 @@ export default function BigTree415({
     nodes,
     //  materials
   } = useGLTF('/forest-tree15-colored-lowpoly.glb') as any
+  const viewingLevel = useBoundStore((s) => s.viewingLevel)
+  const isVisible = boardHex.altitude <= viewingLevel
   const {
     isHovered,
     onPointerEnter,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(isVisible)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
+
   const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     event.stopPropagation() // prevent pass through
     // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (event.button !== 0) {
@@ -40,8 +47,8 @@ export default function BigTree415({
       )}
       <group
         onPointerUp={e => onPointerUp(e)}
-        onPointerEnter={e => onPointerEnter(e, boardHex)}
-        onPointerOut={e => onPointerOut(e)}
+        onPointerEnter={e => isVisible ? onPointerEnter(e, boardHex) : noop()}
+        onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
       >
         <mesh
           geometry={nodes.Tree_large_rocks_scanned001_1.geometry}

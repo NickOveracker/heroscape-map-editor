@@ -5,6 +5,7 @@ import { hexTerrainColor } from '../maphex/hexColors'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import useBoundStore from '../../store/store'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
+import { noop } from 'lodash'
 
 export default function ForestTree({
   boardHex,
@@ -13,13 +14,18 @@ export default function ForestTree({
     nodes,
     //  materials
   } = useGLTF('/forgotten-forest-tree-low-poly-colored.glb') as any
+  const viewingLevel = useBoundStore((s) => s.viewingLevel)
+  const isVisible = boardHex.altitude <= viewingLevel
   const {
     isHovered,
     onPointerEnter,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(isVisible)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
+    if (!isVisible) {
+      return
+    }
     event.stopPropagation() // prevent pass through
     // Early out right clicks(event.button=2), middle mouse clicks(1)
     if (event.button !== 0) {
@@ -40,8 +46,8 @@ export default function ForestTree({
       <mesh
         geometry={nodes.Tree10_scanned.geometry}
         onPointerUp={e => onPointerUp(e)}
-        onPointerEnter={e => onPointerEnter(e, boardHex)}
-        onPointerOut={e => onPointerOut(e)}
+        onPointerEnter={e => isVisible ? onPointerEnter(e, boardHex) : noop()}
+        onPointerOut={e => isVisible ? onPointerOut(e) : noop()}
       // material={materials.ForestTree}
       >
         <meshMatcapMaterial
