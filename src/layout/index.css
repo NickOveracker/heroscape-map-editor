@@ -6,7 +6,7 @@ html {
   --white: #f7edf0;
   --sub-white: #b4b4b4;
   --gunmetal: #22333b;
-  --gunmetal-transparent: hsla(199, 27%, 18%, 1);
+  --gunmetal-transparent: rgba(34, 50, 58, 0.6);
   --gray: #5d576b;
   overflow: hidden;
 }

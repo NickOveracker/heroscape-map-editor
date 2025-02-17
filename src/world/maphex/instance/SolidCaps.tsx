@@ -68,7 +68,7 @@ function SolidCap({
   const {
     onPointerEnter,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(isVisible)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const penMode = useBoundStore(s => s.penMode)
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)

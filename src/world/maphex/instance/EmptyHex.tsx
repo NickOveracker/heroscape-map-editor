@@ -63,7 +63,7 @@ function EmptyHex({
   const {
     onPointerEnter,
     onPointerOut,
-  } = usePieceHoverState()
+  } = usePieceHoverState(true)
 
   // Effect: Initial color/position
   React.useLayoutEffect(() => {
