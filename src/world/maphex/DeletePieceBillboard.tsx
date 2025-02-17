@@ -15,6 +15,7 @@ const DeletePieceBillboard = ({ pieceID, y = 0 }: Props) => {
       removePieceByPieceID(pieceID)
     }
   }
+  return null
   return (
     <Billboard position={[0.5, 1 + y, 0]}>
       <Html>
