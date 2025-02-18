@@ -12,7 +12,7 @@ export function getLaurWallAddonPositionByRotation(rotation: number) {
       0,
       HEXGRID_HEX_APOTHEM - 0.114,
     ),
-    '1.5': new Vector3(-0.005, 0, HEXGRID_HEX_APOTHEM - 0.005),
+    '1.5': new Vector3(0.005, 0, HEXGRID_HEX_APOTHEM - 0.005),
     '2': new Vector3(
       -HEXGRID_HEX_APOTHEM / 2 - 0.001,
       0,
