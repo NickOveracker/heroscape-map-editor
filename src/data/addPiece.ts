@@ -85,7 +85,8 @@ export function addPiece({
   )
   const isSpaceFree = newHexIds.every((id) => !newBoardHexes[id])
   const isSolidUnderAtLeastOne = underHexIds.some((id) =>
-    isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''),
+    isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? '') ||
+    (newBoardHexes?.[id]?.pieceID.includes(PiecePrefixes.castleBase))
   )
   const isSolidUnderAll = underHexIds.every((id) =>
     isSolidTerrainHex(newBoardHexes?.[id]?.terrain ?? ''),
