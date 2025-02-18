@@ -9,7 +9,7 @@ import useBoundStore from '../store/store'
 import TakeAPictureBox from './camera/TakeAPictureBox'
 import { ClickAwayListener } from '@mui/material'
 import { CAMERA_FOV } from '../utils/constants'
-import SelectedPieceReadout, { HoveredPieceReadout } from '../controls/SelectedPieceReadout'
+import SelectedPieceReadout from '../controls/SelectedPieceReadout'
 
 const World = ({
   cameraControlsRef
