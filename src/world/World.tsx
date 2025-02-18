@@ -77,7 +77,7 @@ const World = ({
           <TakeAPictureBox />
         </Canvas>
         <SelectedPieceReadout />
-        <HoveredPieceReadout />
+        {/* <HoveredPieceReadout /> */}
       </div>
     </ClickAwayListener>
   )
