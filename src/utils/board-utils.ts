@@ -32,6 +32,19 @@ export function isSolidTerrainHex(terrain: string) {
     return false
   }
 }
+export function isPieceIDPiece(pieceID: string) {
+  if (
+    pieceID === Pieces.battlement ||
+    pieceID === Pieces.roadWall ||
+    pieceID === Pieces.laurWallRuin ||
+    pieceID === Pieces.laurWallShort ||
+    pieceID === Pieces.laurWallLong
+  ) {
+    return true
+  } else {
+    return false
+  }
+}
 export function isJungleTerrainHex(terrain: string) {
   if (terrain === HexTerrain.brush || terrain === HexTerrain.palm ||
     terrain === HexTerrain.laurBrush || terrain === HexTerrain.laurPalm
