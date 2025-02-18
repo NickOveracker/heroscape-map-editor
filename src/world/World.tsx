@@ -35,7 +35,6 @@ const World = ({
         }}
       >
         <Canvas
-          shadows
           onPointerMissed={(event) => {
             if (event.button !== 0) {
               // THIS IS A RIGHT CLICK
