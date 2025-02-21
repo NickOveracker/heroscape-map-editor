@@ -72,6 +72,8 @@ export function isObstaclePieceID(id: string) {
     id === Pieces.laurPalm15 ||
     id === Pieces.outcrop1 ||
     id === Pieces.outcrop3 ||
+    id === Pieces.lavaRockOutcrop1 ||
+    id === Pieces.lavaRockOutcrop3 ||
     id === Pieces.glacier1 ||
     id === Pieces.glacier3 ||
     id === Pieces.glacier4 ||

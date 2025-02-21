@@ -336,6 +336,15 @@ export const piecesSoFar: Dictionary<Piece> = {
     template: '2',
     height: 1,
   },
+  [Pieces.lavaField3]: {
+    id: Pieces.lavaField3,
+    landPrefix: PiecePrefixes.lavaField,
+    title: `Lava Field-3`,
+    terrain: HexTerrain.lavaField,
+    size: 3,
+    template: '3',
+    height: 1,
+  },
   [Pieces.lavaField7]: {
     id: Pieces.lavaField7,
     landPrefix: PiecePrefixes.lavaField,
@@ -343,6 +352,15 @@ export const piecesSoFar: Dictionary<Piece> = {
     terrain: HexTerrain.lavaField,
     size: 7,
     template: '7',
+    height: 1,
+  },
+  [Pieces.lavaField24]: {
+    id: Pieces.lavaField24,
+    landPrefix: PiecePrefixes.lavaField,
+    title: `Lava Field-24`,
+    terrain: HexTerrain.lavaField,
+    size: 24,
+    template: '24',
     height: 1,
   },
   [Pieces.asphalt1]: {
@@ -490,6 +508,15 @@ export const piecesSoFar: Dictionary<Piece> = {
     template: '1',
     height: 0,
   },
+  [Pieces.lava3]: {
+    id: Pieces.lava3,
+    landPrefix: PiecePrefixes.lava,
+    title: `Lava-3`,
+    terrain: HexTerrain.lava,
+    size: 3,
+    template: '3',
+    height: 0,
+  },
   [Pieces.swampWater1]: {
     id: Pieces.swampWater1,
     landPrefix: PiecePrefixes.swampWater,
@@ -577,7 +604,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Laur Pillar`,
     terrain: HexTerrain.laurWall,
     size: 1,
-    template: Pieces.laurWallPillar,
+    template: '1',
     height: 9,
   },
   [Pieces.laurWallShort]: {
@@ -635,7 +662,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Snow Covered Evergreen Tree (10)`,
     terrain: HexTerrain.snowTree,
     size: 1,
-    template: Pieces.snowTree10,
+    template: '1',
     height: 9,
   },
   [Pieces.snowTree12]: {
@@ -643,7 +670,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Snow Covered Evergreen Tree (12)`,
     terrain: HexTerrain.snowTree,
     size: 1,
-    template: Pieces.snowTree12,
+    template: '1',
     height: 11,
   },
   [Pieces.tree10]: {
@@ -651,7 +678,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Evergreen Tree (10)`,
     terrain: HexTerrain.tree,
     size: 1,
-    template: Pieces.tree10,
+    template: '1',
     height: 9,
   },
   [Pieces.tree11]: {
@@ -659,7 +686,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Evergreen Tree (10)`,
     terrain: HexTerrain.tree,
     size: 1,
-    template: Pieces.tree11,
+    template: '1',
     height: 10,
   },
   [Pieces.tree12]: {
@@ -667,7 +694,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Evergreen Tree (10)`,
     terrain: HexTerrain.tree,
     size: 1,
-    template: Pieces.tree12,
+    template: '1',
     height: 11,
   },
   [Pieces.tree415]: {
@@ -675,7 +702,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Large Evergreen Tree (15)`,
     terrain: HexTerrain.tree,
     size: 4,
-    template: Pieces.tree415,
+    template: '4',
     height: 14,
   },
   [Pieces.swampBrush10]: {
@@ -683,7 +710,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Swamp Underbrush`,
     terrain: HexTerrain.swampBrush,
     size: 1,
-    template: Pieces.swampBrush10,
+    template: '1',
     height: 9,
   },
   [Pieces.laurBrush10]: {
@@ -691,7 +718,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Laur Underbrush `,
     terrain: HexTerrain.laurBrush,
     size: 1,
-    template: Pieces.laurBrush10,
+    template: '1',
     height: 9,
   },
   [Pieces.laurPalm13]: {
@@ -699,7 +726,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Laur Jungle Tree (13)`,
     terrain: HexTerrain.laurPalm,
     size: 1,
-    template: Pieces.laurPalm13,
+    template: '1',
     height: 12,
   },
   [Pieces.laurPalm14]: {
@@ -707,7 +734,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Laur Jungle Tree (14)`,
     terrain: HexTerrain.laurPalm,
     size: 1,
-    template: Pieces.laurPalm14,
+    template: '1',
     height: 13,
   },
   [Pieces.laurPalm15]: {
@@ -715,7 +742,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Laur Jungle Tree (15)`,
     terrain: HexTerrain.laurPalm,
     size: 1,
-    template: Pieces.laurPalm15,
+    template: '1',
     height: 14,
   },
   [Pieces.brush9]: {
@@ -723,7 +750,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Ticalla Underbrush`,
     terrain: HexTerrain.brush,
     size: 1,
-    template: Pieces.brush9,
+    template: '1',
     height: 8,
   },
   [Pieces.palm14]: {
@@ -731,7 +758,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Ticalla Jungle Palm (14)`,
     terrain: HexTerrain.palm,
     size: 1,
-    template: Pieces.palm14,
+    template: '1',
     height: 14,
   },
   [Pieces.palm15]: {
@@ -739,7 +766,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Ticalla Jungle Palm (15)`,
     terrain: HexTerrain.palm,
     size: 1,
-    template: Pieces.palm15,
+    template: '1',
     height: 15,
   },
   [Pieces.palm16]: {
@@ -747,7 +774,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Ticalla Jungle Palm (16)`,
     terrain: HexTerrain.palm,
     size: 1,
-    template: Pieces.palm16,
+    template: '1',
     height: 16,
   },
   // HEX-OBSTACLES with BASE fluid tiles
@@ -756,7 +783,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Glacier (1)`,
     terrain: HexTerrain.glacier,
     size: 1,
-    template: Pieces.glacier1,
+    template: '1',
     height: 7, // eventhough it definitely spans 8 hex-heights in reality!
   },
   [Pieces.glacier3]: {
@@ -764,7 +791,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Glacier (3)`,
     terrain: HexTerrain.glacier,
     size: 3,
-    template: Pieces.glacier3,
+    template: '3',
     height: 9, // untested in reality
   },
   [Pieces.glacier4]: {
@@ -772,7 +799,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Glacier (4)`,
     terrain: HexTerrain.glacier,
     size: 4,
-    template: Pieces.glacier4,
+    template: '4',
     height: 8, // untested in reality
   },
   [Pieces.glacier6]: {
@@ -780,7 +807,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Glacier (6)`,
     terrain: HexTerrain.glacier,
     size: 6,
-    template: Pieces.glacier6,
+    template: '6',
     height: 16, // untested in reality
   },
   [Pieces.outcrop1]: {
@@ -788,7 +815,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Rock Outcrop (1)`,
     terrain: HexTerrain.outcrop,
     size: 1,
-    template: Pieces.outcrop1,
+    template: '1',
     height: 6, // eventhough it definitely spans 8 hex-heights in reality!
   },
   [Pieces.outcrop3]: {
@@ -796,7 +823,23 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Rock Outcrop (3)`,
     terrain: HexTerrain.outcrop,
     size: 3,
-    template: Pieces.outcrop3,
+    template: '3',
+    height: 8, // untested in reality
+  },
+  [Pieces.lavaRockOutcrop1]: {
+    id: Pieces.lavaRockOutcrop1,
+    title: `Lava Rock Outcrop (1)`,
+    terrain: HexTerrain.lavaRockOutcrop,
+    size: 1,
+    template: '1',
+    height: 6, // eventhough it definitely spans 8 hex-heights in reality!
+  },
+  [Pieces.lavaRockOutcrop3]: {
+    id: Pieces.lavaRockOutcrop3,
+    title: `Lava Rock Outcrop (3)`,
+    terrain: HexTerrain.lavaRockOutcrop,
+    size: 3,
+    template: '3',
     height: 8, // untested in reality
   },
   [Pieces.hive]: {
@@ -804,7 +847,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Marro Hive`,
     terrain: HexTerrain.hive,
     size: 6,
-    template: Pieces.hive,
+    template: '6',
     height: 16, // untested in reality
   },
   // CASTLE
@@ -813,7 +856,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Fortress Wall Base (End)`,
     terrain: HexTerrain.castle,
     size: 1,
-    template: Pieces.castleBaseEnd,
+    template: '1',
     height: 0,
   },
   [Pieces.castleBaseStraight]: {
@@ -821,7 +864,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Fortress Wall Base (Straight)`,
     terrain: HexTerrain.castle,
     size: 1,
-    template: Pieces.castleBaseStraight,
+    template: '1',
     height: 0,
   },
   [Pieces.castleBaseCorner]: {
@@ -829,7 +872,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Fortress Wall Base (Corner)`,
     terrain: HexTerrain.castle,
     size: 1,
-    template: Pieces.castleBaseCorner,
+    template: '1',
     height: 0,
   },
   [Pieces.castleArch]: {
@@ -854,7 +897,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Fortress Wall (End)`,
     terrain: HexTerrain.castle,
     size: 1,
-    template: Pieces.castleWallEnd,
+    template: '1',
     height: 9,
   },
   [Pieces.castleWallStraight]: {
@@ -862,7 +905,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Fortress Wall (Straight)`,
     terrain: HexTerrain.castle,
     size: 1,
-    template: Pieces.castleWallStraight,
+    template: '1',
     height: 9,
   },
   [Pieces.castleWallCorner]: {
@@ -870,7 +913,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     title: `Fortress Wall (Corner)`,
     terrain: HexTerrain.castle,
     size: 1,
-    template: Pieces.castleWallCorner,
+    template: '1',
     height: 9,
   },
   [Pieces.ladder]: {

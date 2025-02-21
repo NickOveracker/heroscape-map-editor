@@ -358,6 +358,18 @@ export default function PenModeControls() {
           </ListItemIcon>
           <span>Outcrop 3</span>
         </MenuItem>
+        <MenuItem value={Pieces.lavaRockOutcrop1}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Lava Rock Outcrop 1</span>
+        </MenuItem>
+        <MenuItem value={Pieces.lavaRockOutcrop3}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Lava Rock Outcrop 3</span>
+        </MenuItem>
         <MenuItem value={Pieces.glacier1}>
           <ListItemIcon>
             <GiWaterfall />

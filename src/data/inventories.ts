@@ -101,6 +101,17 @@ export const snowsPieceSet: PieceInventory = {
   [Pieces.ice1]: 20,
   [Pieces.ice3]: 3,
 }
+export const lavaFieldsPieceSet: PieceInventory = {
+  [Pieces.lavaField1]: 2,
+  [Pieces.lavaField2]: 2,
+  [Pieces.lavaField3]: 2,
+  [Pieces.lavaField7]: 5,
+  [Pieces.lavaField24]: 2,
+  [Pieces.lavaRockOutcrop1]: 3,
+  [Pieces.lavaRockOutcrop3]: 1,
+  [Pieces.lava1]: 20,
+  [Pieces.lava3]: 20,
+}
 export const swampsPieceSet: PieceInventory = {
   [Pieces.swamp1]: 2,
   [Pieces.swamp2]: 2,

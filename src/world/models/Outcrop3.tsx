@@ -7,11 +7,13 @@ import usePieceHoverState from '../../hooks/usePieceHoverState'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
 
 export default function Outcrop3({
+  boardHex,
   isGlacier,
-  boardHex
+  isLavaRock,
 }: {
-  isGlacier: boolean
   boardHex: BoardHex
+  isGlacier?: boolean
+  isLavaRock?: boolean
 }) {
   const model = useGLTF('/uncolored-decimated-glacier-outcrop-3.glb') as any
   const { nodes } = model
@@ -39,6 +41,7 @@ export default function Outcrop3({
   const isSelected = selectedPieceID === boardHex.pieceID
   const isHighlighted = isHovered || isSelected
   const iceColor = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.ice]
+  const lavaColor = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.lavaField]
   const outcropColor = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.outcrop]
   return (
     <>
@@ -54,8 +57,10 @@ export default function Outcrop3({
         <meshMatcapMaterial
           color={
             isGlacier
-              ? iceColor
-              : outcropColor
+              ? iceColor :
+              isLavaRock
+                ? lavaColor :
+                outcropColor
           }
           transparent={isGlacier}
           opacity={0.99}
