@@ -20,19 +20,19 @@ export default function buildupVSFileMap(
   const blankMap = getBlankHexoscapeMapForVSTiles(tiles, mapName)
   let { boardPieces } = blankMap
   const { boardHexes, hexMap } = blankMap
-  console.log("🚀 ~ tiles:", tiles
-    // .filter(t => t.type.toString().startsWith('14'))
-    // .map(t => t.glyphLetter), tiles
-    //   .filter(t => t.type.toString().startsWith('14'))
-    //   .map(t => t.type)
-  )
+  // console.log("🚀 ~ tiles:", tiles
+  // .filter(t => t.type.toString().startsWith('14'))
+  // .map(t => t.glyphLetter), tiles
+  //   .filter(t => t.type.toString().startsWith('14'))
+  //   .map(t => t.type)
+  // )
   // const startZoneTiles = tiles.filter(t => t.type === 15001)
   const newBoardHexes = tiles.reduce(
     (boardHexes: BoardHexes, tile) => {
       const tileCoords = hexUtilsOddRToCube(tile.posX, tile.posY)
-      if (tile.type === 16101 || tile.type === 16102 || tile.type === 16103) {
-        console.log("Bastle base found in virtualscape map!", tileCoords, tile.posZ)
-      }
+      // if (tile.type === 16101 || tile.type === 16102 || tile.type === 16103) {
+      //   console.log("Castle base found in virtualscape map!", tileCoords, tile.posZ)
+      // }
       // if (tile.type === 16301) {
       //   console.log("Battlement found in virtualscape map!", tileCoords, tile.posZ)
       // }

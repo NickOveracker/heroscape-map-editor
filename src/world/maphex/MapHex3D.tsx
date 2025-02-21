@@ -75,6 +75,9 @@ export const MapHex3D = ({
   const isOutcrop1Hex = pieceID === Pieces.outcrop1 && isObstacleHex
   const isOutcrop3Hex = pieceID === Pieces.outcrop3 && boardHex.isObstacleOrigin
   const isOutcrop3BaseHex = pieceID === Pieces.outcrop3 && boardHex.isObstacleAuxiliary
+  const isLavaRockOutcrop1Hex = pieceID === Pieces.lavaRockOutcrop1 && isObstacleHex
+  const isLavaRockOutcrop3Hex = pieceID === Pieces.lavaRockOutcrop3 && boardHex.isObstacleOrigin
+  const isLavaRockOutcrop3BaseHex = pieceID === Pieces.lavaRockOutcrop3 && boardHex.isObstacleAuxiliary
   const isGlacier3Hex = pieceID === Pieces.glacier3 && boardHex.isObstacleOrigin
   const isGlacier3BaseHex = pieceID === Pieces.glacier3 && boardHex.isObstacleAuxiliary
   const isGlacier4Hex = pieceID === Pieces.glacier4 && boardHex.isObstacleOrigin
@@ -267,6 +270,28 @@ export const MapHex3D = ({
           />
         </>
       )}
+      {isLavaRockOutcrop1Hex && (
+        <>
+          <group
+            position={[x, yWithBase, z]}
+            rotation={[0, (boardHex.pieceRotation * -Math.PI) / 3, 0]}
+          >
+            <Outcrop1
+              isLavaRock={true}
+              boardHex={boardHex}
+            />
+          </group>
+          <ObstacleBase
+            x={x}
+            y={yBase}
+            z={z}
+            color={
+              hexTerrainColor[HexTerrain.lava]
+            }
+            isFluidBase={true}
+          />
+        </>
+      )}
       {isGlacier3Hex && (
         <>
           <group
@@ -289,6 +314,28 @@ export const MapHex3D = ({
           />
         </>
       )}
+      {isLavaRockOutcrop3Hex && (
+        <>
+          <group
+            position={[x, yWithBase, z]}
+            rotation={[0, getObstaclRotation(boardHex.pieceRotation), 0]}
+          >
+            <Outcrop3
+              isLavaRock={true}
+              boardHex={boardHex}
+            />
+          </group>
+          <ObstacleBase
+            x={x}
+            y={yBase}
+            z={z}
+            color={
+              hexTerrainColor[HexTerrain.lava]
+            }
+            isFluidBase={true}
+          />
+        </>
+      )}
       {(isGlacier3BaseHex || isGlacier4BaseHex || isGlacier6BaseHex) && (
         <ObstacleBase
           x={x}
@@ -296,6 +343,17 @@ export const MapHex3D = ({
           z={z}
           color={
             hexTerrainColor[HexTerrain.ice]
+          }
+          isFluidBase={true}
+        />
+      )}
+      {(isLavaRockOutcrop3BaseHex) && (
+        <ObstacleBase
+          x={x}
+          y={yBase}
+          z={z}
+          color={
+            hexTerrainColor[HexTerrain.lava]
           }
           isFluidBase={true}
         />

@@ -101,6 +101,7 @@ export default function PenModeControls() {
   // 'v'
   // 'w'
   useHotkeys('w', () => togglePenMode(PiecePrefixes.water), /*isEnabled*/)
+  useHotkeys('shift-w', () => togglePenMode(PiecePrefixes.wellspringWater), /*isEnabled*/)
   // 'x'
   // 'y'
   // 'z'
@@ -356,6 +357,18 @@ export default function PenModeControls() {
             <GiWaterfall />
           </ListItemIcon>
           <span>Outcrop 3</span>
+        </MenuItem>
+        <MenuItem value={Pieces.lavaRockOutcrop1}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Lava Rock Outcrop 1</span>
+        </MenuItem>
+        <MenuItem value={Pieces.lavaRockOutcrop3}>
+          <ListItemIcon>
+            <GiWaterfall />
+          </ListItemIcon>
+          <span>Lava Rock Outcrop 3</span>
         </MenuItem>
         <MenuItem value={Pieces.glacier1}>
           <ListItemIcon>

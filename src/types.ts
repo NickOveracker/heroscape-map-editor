@@ -67,6 +67,7 @@ export enum HexTerrain {
   laurBrush = 'laurBrush',
   swampBrush = 'swampBrush',
   outcrop = 'outcrop',
+  lavaRockOutcrop = 'lavaRockOutcrop',
   glacier = 'glacier',
   hive = 'hive',
   // edge obstacle
@@ -92,6 +93,7 @@ export type Piece = {
   size: number
   template: string
   height: number
+  landPrefix?: PiecePrefixes // Including this so land pieces can have their sizes computed for piece-size selection in the Controls
   isUninventoried?: boolean, // so far just marvel-ruins-broken and castle-arch-no-door versions (these are just variations on their inventoried counterparts)
 }
 export enum PiecePrefixes {
@@ -116,6 +118,7 @@ export enum PiecePrefixes {
   palm = 'tp',
   laurPalm = 'lp',
   outcrop = 'o',
+  lavaRockOutcrop = 'ol',
   glacier = 'og',
   ruins = 'rs',
   wallWalk = 'cg',
@@ -158,7 +161,9 @@ export enum Pieces {
   snow24 = `${PiecePrefixes.snow}24`,
   lavaField1 = `${PiecePrefixes.lavaField}1`,
   lavaField2 = `${PiecePrefixes.lavaField}2`,
+  lavaField3 = `${PiecePrefixes.lavaField}3`,
   lavaField7 = `${PiecePrefixes.lavaField}7`,
+  lavaField24 = `${PiecePrefixes.lavaField}24`,
   asphalt1 = `${PiecePrefixes.asphalt}1`,
   asphalt2 = `${PiecePrefixes.asphalt}2`,
   asphalt7 = `${PiecePrefixes.asphalt}7`,
@@ -172,6 +177,7 @@ export enum Pieces {
   water1 = `${PiecePrefixes.water}1`,
   water3 = `${PiecePrefixes.water}3`,
   lava1 = `${PiecePrefixes.lava}1`,
+  lava3 = `${PiecePrefixes.lava}3`,
   swampWater1 = `${PiecePrefixes.swampWater}1`,
   swampWater3 = `${PiecePrefixes.swampWater}3`,
   swampWater6 = `${PiecePrefixes.swampWater}6`,
@@ -208,6 +214,8 @@ export enum Pieces {
   laurBrush10 = 'lb10',
   outcrop1 = `${PiecePrefixes.outcrop}1`,
   outcrop3 = `${PiecePrefixes.outcrop}3`,
+  lavaRockOutcrop1 = `${PiecePrefixes.lavaRockOutcrop}1`,
+  lavaRockOutcrop3 = `${PiecePrefixes.lavaRockOutcrop}3`,
   glacier1 = `${PiecePrefixes.glacier}1`,
   glacier3 = `${PiecePrefixes.glacier}3`,
   glacier4 = `${PiecePrefixes.glacier}4`,

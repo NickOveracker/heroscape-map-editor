@@ -88,7 +88,7 @@ export const DrawerList = ({
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: 0,
-          overflow: 'hidden'
+          // overflow: 'hidden'
         }}
       >
 

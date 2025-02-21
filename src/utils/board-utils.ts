@@ -32,6 +32,19 @@ export function isSolidTerrainHex(terrain: string) {
     return false
   }
 }
+export function isPieceIDPiece(pieceID: string) {
+  if (
+    pieceID === Pieces.battlement ||
+    pieceID === Pieces.roadWall ||
+    pieceID === Pieces.laurWallRuin ||
+    pieceID === Pieces.laurWallShort ||
+    pieceID === Pieces.laurWallLong
+  ) {
+    return true
+  } else {
+    return false
+  }
+}
 export function isJungleTerrainHex(terrain: string) {
   if (terrain === HexTerrain.brush || terrain === HexTerrain.palm ||
     terrain === HexTerrain.laurBrush || terrain === HexTerrain.laurPalm
@@ -59,6 +72,8 @@ export function isObstaclePieceID(id: string) {
     id === Pieces.laurPalm15 ||
     id === Pieces.outcrop1 ||
     id === Pieces.outcrop3 ||
+    id === Pieces.lavaRockOutcrop1 ||
+    id === Pieces.lavaRockOutcrop3 ||
     id === Pieces.glacier1 ||
     id === Pieces.glacier3 ||
     id === Pieces.glacier4 ||

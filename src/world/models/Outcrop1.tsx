@@ -7,11 +7,13 @@ import usePieceHoverState from '../../hooks/usePieceHoverState'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
 
 export function Outcrop1({
+  boardHex,
   isGlacier,
-  boardHex
+  isLavaRock,
 }: {
-  isGlacier: boolean
   boardHex: BoardHex
+  isGlacier?: boolean
+  isLavaRock?: boolean
 }) {
   const {
     nodes,
@@ -42,6 +44,7 @@ export function Outcrop1({
   const isSelected = selectedPieceID === boardHex.pieceID
   const isHighlighted = isHovered || isSelected
   const iceColor = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.ice]
+  const lavaColor = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.lavaField]
   const outcropColor = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.outcrop]
   return (
     <>
@@ -57,8 +60,10 @@ export function Outcrop1({
         <meshMatcapMaterial
           color={
             isGlacier
-              ? iceColor
-              : outcropColor
+              ? iceColor :
+              isLavaRock
+                ? lavaColor :
+                outcropColor
           }
           transparent={isGlacier}
           opacity={0.99}

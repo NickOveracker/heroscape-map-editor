@@ -7,6 +7,7 @@ import { Battlement } from './models/Battlement'
 import { getLadderBattlementOptions, getLaurWallAddonPositionByRotation, getRoadWallOptions } from './models/piece-adjustments'
 import { RoadWall } from './models/RoadWall'
 import { LaurWallAddon } from './models/LaurAddon'
+import { isPieceIDPiece } from '../utils/board-utils'
 
 export const MapBoardPiece3D = ({
   pid,
@@ -24,7 +25,9 @@ export const MapBoardPiece3D = ({
   const { x: xLaurWall, z: zLaurWall, yWithBase: yLaurWall } = getBoardHex3DCoords({ ...pieceCoords, altitude: altitude + 1 })
   const viewingLevel = useBoundStore(s => s.viewingLevel)
   const isVisible = (altitude + 1) <= viewingLevel
-
+  if (!isPieceIDPiece(pieceID)) {
+    return null
+  }
   // LAURWALL ADDON
   if (pieceID === Pieces.laurWallRuin || pieceID === Pieces.laurWallShort || pieceID === Pieces.laurWallLong) {
     return (
