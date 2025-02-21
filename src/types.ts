@@ -92,6 +92,7 @@ export type Piece = {
   size: number
   template: string
   height: number
+  landPrefix?: PiecePrefixes // Including this so land pieces can have their sizes computed for piece-size selection in the Controls
   isUninventoried?: boolean, // so far just marvel-ruins-broken and castle-arch-no-door versions (these are just variations on their inventoried counterparts)
 }
 export enum PiecePrefixes {

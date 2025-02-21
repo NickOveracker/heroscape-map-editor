@@ -1,28 +1,17 @@
 import { Dictionary } from "lodash";
-import { PiecePrefixes } from "../types";
+import { piecesSoFar } from "./pieces";
 
-const landSizes: Dictionary<number[]> = {
-  // This should be derived, it is duplicate data
-  // solid terrain below
-  [PiecePrefixes.grass]: [1, 2, 3, 7, 24],
-  [PiecePrefixes.rock]: [1, 2, 3, 7, 24],
-  [PiecePrefixes.sand]: [1, 2, 3, 7, 24],
-  [PiecePrefixes.swamp]: [1, 2, 3, 7, 24],
-  [PiecePrefixes.dungeon]: [1, 2, 3, 7, 24],
-  [PiecePrefixes.snow]: [1, 2, 3, 7, 24],
-  [PiecePrefixes.lavaField]: [1, 2, 7],
-  [PiecePrefixes.concrete]: [1, 2, 7],
-  [PiecePrefixes.asphalt]: [1, 2, 7],
-  [PiecePrefixes.road]: [1, 2, 5],
-  [PiecePrefixes.wallWalk]: [1, 7, 9],
-  // fluid terrain below
-  [PiecePrefixes.water]: [1, 3],
-  [PiecePrefixes.wellspringWater]: [1],
-  [PiecePrefixes.swampWater]: [1, 3, 6],
-  [PiecePrefixes.lava]: [1],
-  [PiecePrefixes.ice]: [1, 3, 4, 6],
-  [PiecePrefixes.shadow]: [1, 3],
-}
+const landSizes = Object.values(piecesSoFar)
+  .reduce((prev, curr) => {
+    const landPrefix = curr.landPrefix
+    if (landPrefix) {
+      return {
+        ...prev,
+        [landPrefix]: [...prev?.[landPrefix as string] ?? [], curr.size]
+      }
+    }
+    return prev
+  }, {} as Dictionary<number[]>)
 export const getNewPieceSizeForPenMode = (
   newMode: string,
   oldMode: string,

@@ -101,6 +101,7 @@ export default function PenModeControls() {
   // 'v'
   // 'w'
   useHotkeys('w', () => togglePenMode(PiecePrefixes.water), /*isEnabled*/)
+  useHotkeys('shift-w', () => togglePenMode(PiecePrefixes.wellspringWater), /*isEnabled*/)
   // 'x'
   // 'y'
   // 'z'
