@@ -50,7 +50,7 @@ const SolidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
           key={hex.id + i}
           boardHex={hex}
           onPointerUp={onPointerUp}
-          isVisible={range > i}
+          isVisible={range >= i}
         />
       ))}
     </Instances>

@@ -47,7 +47,7 @@ const FluidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
           key={hex.id + i + 'fluid'}
           boardHex={hex}
           onPointerUp={onPointerUp}
-          isVisible={range > i}
+          isVisible={range >= i}
         />
       ))}
     </Instances>
