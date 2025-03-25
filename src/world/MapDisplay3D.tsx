@@ -111,7 +111,7 @@ export default function MapDisplay3D({
       //     )
       //   })
       // AUTO JSON
-      const fileName = '/testpillar.json'
+      const fileName = '/The_Sunken_Crypt.json'
       fetch(fileName).then(async (response) => {
         // const data = response.json()
         const data = await response.json()
