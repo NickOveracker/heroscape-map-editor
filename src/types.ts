@@ -87,7 +87,7 @@ export enum HexTerrain {
 }
 export type PieceInventory = { [key: string]: number }
 export type Piece = {
-  id: Pieces // aqr+pieceID (This is important, as this id structure lets us make real small map strings for the URL -- shareable maps!!)
+  id: Pieces
   title: string, // the human friendly name
   terrain: string
   size: number

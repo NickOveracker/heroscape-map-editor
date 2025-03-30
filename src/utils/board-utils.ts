@@ -85,3 +85,15 @@ export function isObstaclePieceID(id: string) {
     return false
   }
 }
+export function isBridgingObstaclePieceID(id: string) {
+  // isObstaclePieceSupported: EXCEPTION MADE FOR OBSTACLES WITH FLUID BASES, THEY CAN BRIDGE
+  if (
+    id === Pieces.glacier4 ||
+    id === Pieces.glacier6 ||
+    id === Pieces.hive
+  ) {
+    return true
+  } else {
+    return false
+  }
+}

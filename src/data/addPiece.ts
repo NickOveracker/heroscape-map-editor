@@ -9,6 +9,7 @@ import {
   PiecePrefixes,
 } from '../types'
 import {
+  isBridgingObstaclePieceID,
   isFluidTerrainHex,
   isObstaclePieceID,
   isSolidTerrainHex,
@@ -123,7 +124,8 @@ export function addPiece({
   const isPlacingLandTile =
     (isFluidTerrainHex(piece.terrain) || isSolidTerrainHex(piece.terrain)) &&
     !isPlacingWallWalkOnWall
-  const isObstaclePieceSupported = isSolidUnderAll || isPlacingOnTable
+  // isObstaclePieceSupported: EXCEPTION MADE FOR OBSTACLES WITH FLUID BASES, THEY CAN BRIDGE
+  const isObstaclePieceSupported = (isSolidUnderAll || (isBridgingObstaclePieceID(piece.id) && isSolidUnderAtLeastOne)) || isPlacingOnTable
   const isLadderPieceSupported = isSolidUnderAll || isLadderAuxiliaryUnderAll
   const isBattlementPieceSupported_TODO = true // TODO: compute
   const isPlacingObstacle =
@@ -492,7 +494,9 @@ export function addPiece({
     newHexIds.forEach((newHexID, i) => {
       const hexUnderneath = newBoardHexes?.[underHexIds[i]]
       // remove caps covered by this obstacle
-      newBoardHexes[hexUnderneath.id].isCap = false
+      if (hexUnderneath) {
+        newBoardHexes[hexUnderneath.id].isCap = false
+      }
       // write in the new hex
       newBoardHexes[newHexID] = {
         id: newHexID,
