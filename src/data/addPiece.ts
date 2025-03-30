@@ -74,8 +74,6 @@ export function addPiece({
   const overHexIds = piecePlaneCoords.map((cubeCoord) =>
     genBoardHexID({ ...cubeCoord, altitude: newPieceAltitude + 1 }),
   )
-  const isSolidTile = isSolidTerrainHex(piece.terrain)
-  const isFluidTile = isFluidTerrainHex(piece.terrain)
   const isCastleWallPiece = piece.id.includes(PiecePrefixes.castleWall)
   const isCastleArchPiece =
     piece.id === Pieces.castleArch || piece.id === Pieces.castleArchNoDoor
@@ -540,8 +538,10 @@ export function addPiece({
     // castle-wallwalk placed here as normal land
     const isLandPieceSupported =
       isPlacingOnTable ||
-      (isSolidTile && isSolidUnderAtLeastOne) ||
-      (isFluidTile && isSolidUnderAll)
+      isSolidUnderAtLeastOne
+    // used to be as below, before considering multi-hex fluid tiles could be used as bridges
+    // (isSolidTile && isSolidUnderAtLeastOne) ||
+    // (isFluidTile && isSolidUnderAll)
     if (isSpaceFree && isLandPieceSupported) {
       try {
         newHexIds.forEach((newHexID, iForEach) => {
