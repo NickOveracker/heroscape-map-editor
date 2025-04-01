@@ -20,6 +20,18 @@ export default function EditMapFormDialog() {
   const handleClose = () => toggleIsEditMapDialogOpen(false)
   const { enqueueSnackbar } = useSnackbar()
   const [newName, setNewName] = React.useState(mapName)
+  React.useEffect(() => {
+    if (isEditMapDialogOpen) {
+      setNewName(mapName) // reset the newName to the current map name when dialog opens
+    } else {
+      /**
+       * When the dialog closes, reset the newName to the current map name.
+       * This ensures that if the dialog is reopened, it shows the correct current name.
+       */
+      setNewName(mapName)
+    }
+
+  }, [isEditMapDialogOpen]) // Only reset when dialog opens or closes
 
   return (
     <React.Fragment>
