@@ -71,6 +71,8 @@ export const MapHex3D = ({
     boardHex.terrain === HexTerrain.laurPalm && boardHex.isObstacleOrigin
   const isLaurBrushHex =
     boardHex.terrain === HexTerrain.laurBrush && boardHex.isObstacleOrigin
+  const isSwampBrushHex =
+    boardHex.terrain === HexTerrain.swampBrush && boardHex.isObstacleOrigin
   const isGlacier1Hex = pieceID === Pieces.glacier1 && isObstacleHex
   const isOutcrop1Hex = pieceID === Pieces.outcrop1 && isObstacleHex
   const isOutcrop3Hex = pieceID === Pieces.outcrop3 && boardHex.isObstacleOrigin
@@ -201,7 +203,7 @@ export const MapHex3D = ({
           <Ladder boardHex={boardHex} />
         </group>
       )}
-      {(isBrushHex || isLaurBrushHex) && (
+      {(isBrushHex || isLaurBrushHex || isSwampBrushHex) && (
         <>
           <group
             position={[x, yBaseCap, z]}

@@ -1,6 +1,6 @@
 import { useGLTF } from '@react-three/drei'
 import { ThreeEvent } from '@react-three/fiber'
-import { BoardHex, HexTerrain } from '../../types'
+import { BoardHex, HexTerrain, Pieces } from '../../types'
 import { hexTerrainColor } from '../maphex/hexColors'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
 import useBoundStore from '../../store/store'
@@ -33,9 +33,10 @@ export default function TicallaBrush({
   const yellowColor = 'yellow'
   const isSelected = selectedPieceID === boardHex.pieceID
   const isHighlighted = isHovered || isSelected
-  const color1 = isHighlighted ? yellowColor : hexTerrainColor.ticallaBrush1
-  const color2 = isHighlighted ? yellowColor : hexTerrainColor.ticallaBrush2
-  const color3 = isHighlighted ? yellowColor : hexTerrainColor.ticallaBrush3
+  const isSwampBrush = boardHex.pieceID.includes(Pieces.swampBrush10)
+  const color1 = isHighlighted ? yellowColor : isSwampBrush ? hexTerrainColor.swampUnderbrush1 : hexTerrainColor.ticallaBrush1
+  const color2 = isHighlighted ? yellowColor : isSwampBrush ? hexTerrainColor.swampUnderbrush2 : hexTerrainColor.ticallaBrush2
+  const color3 = isHighlighted ? yellowColor : isSwampBrush ? hexTerrainColor.swampUnderbrush3 : hexTerrainColor.ticallaBrush3
   const colorBase = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.swamp]
   return (
     <>

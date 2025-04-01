@@ -62,6 +62,7 @@ export function isObstaclePieceID(id: string) {
     id === Pieces.tree11 ||
     id === Pieces.tree12 ||
     id === Pieces.tree415 ||
+    id === Pieces.swampBrush10 ||
     id === Pieces.brush9 ||
     id === Pieces.palm14 ||
     id === Pieces.palm15 ||
