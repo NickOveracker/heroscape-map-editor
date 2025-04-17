@@ -7,7 +7,7 @@ export const maxSharedTerrainKit: PieceInventory = {
   [Pieces.grass3]: 2, // totk 6
   [Pieces.grass7]: 4,  // totk 7
   [Pieces.grass24]: 3, // 2 when using LandsOfValhalla, totk 3
-  [Pieces.rock1]: 20, // 
+  [Pieces.rock1]: 4, // 
   [Pieces.rock2]: 3, // totk 3
   [Pieces.rock3]: 1, // totk 3
   [Pieces.rock7]: 2, // totk 5
