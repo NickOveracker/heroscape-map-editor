@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import { BoardHexes, MapState } from '../types'
 import {
   MAX_HEXAGON_MAP_DIMENSION,
@@ -29,7 +30,7 @@ export function makeRectangleScenario(
     MAX_RECTANGLE_MAP_DIMENSION,
   )
   const hexMap = {
-    id: generateTimestampID(),
+    id: generateMapID(),
     name: options?.mapName ?? genRandomMapName(),
     shape: 'rectangle',
     width: mapWidth,
@@ -56,7 +57,7 @@ export function makeHexagonScenario(
     console.error(`Maximum map dimension for rectangular map: ${MAX_HEXAGON_MAP_DIMENSION}. You passed an option larger than ${MAX_HEXAGON_MAP_DIMENSION} to makeHexagonScenario`)
   }
   const hexMap = {
-    id: generateTimestampID(),
+    id: generateMapID(),
     name: options?.mapName ?? genRandomMapName(),
     shape: 'hexagon',
     width: size,
@@ -71,6 +72,6 @@ export function makeHexagonScenario(
   }
 }
 
-function generateTimestampID(): string {
-  return new Date().getTime().toString()
+function generateMapID(): string {
+  return nanoid(13)
 }
