@@ -48,6 +48,7 @@ const World = ({
           onPointerLeave={() => {
             toggleHoveredPieceID('')
           }}
+          frameloop='demand'
         >
           {/* <color attach="background" args={["white"]} /> */}
           <PerspectiveCamera
