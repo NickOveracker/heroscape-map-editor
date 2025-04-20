@@ -8,7 +8,7 @@ import useBoundStore from '../store/store'
 import { HEX_DIRECTIONS, hexUtilsAdd } from '../utils/hex-utils'
 import { decodePieceID, genBoardHexID, genPieceID } from '../utils/map-utils'
 import { buildupJsonFileMap } from '../data/buildupMap'
-import LocalMapButtons from './LocalMapButtons'
+import LocalStorageList from './LocalStorageList'
 
 const Controls = () => {
   const boardHexes = useBoundStore((s) => s.boardHexes)
@@ -98,7 +98,7 @@ const Controls = () => {
       <RotationSelect />
       {/* <MapLensToggles /> */}
       <ViewingLevelInput />
-      <LocalMapButtons />
+      <LocalStorageList />
       <Button onClick={handleClickAddMapLengthX}>Add length</Button>
       <Button onClick={handleClickRemoveMapLengthX}>Remove length</Button>
       <Button onClick={handleClickAddMapWidthY}>Add width</Button>
