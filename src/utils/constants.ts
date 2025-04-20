@@ -41,3 +41,6 @@ export const EVENTS = {
   saveJpg: 'saveJpg',
   toggleOrthoCam: 'toggleOrthoCam',
 }
+export const LS_KEYS = {
+  pieceInventory: 'pieceInventory',
+}
