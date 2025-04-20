@@ -55,8 +55,8 @@ const InventoryForm = () => {
         <Button onClick={() => addSet(pieceSets.marvelPieceSet)}>Add marvelPieceSet</Button>
         <Button onClick={() => removeSet(pieceSets.marvelPieceSet)}>Remove marvelPieceSet</Button>
 
-        <Button onClick={() => addSet(pieceSets.thalenkPieceSet)}>Add thalenkPieceSet</Button>
-        <Button onClick={() => removeSet(pieceSets.thalenkPieceSet)}>Remove thalenkPieceSet</Button>
+        <Button onClick={() => addSet(pieceSets.thaelenkPieceSet)}>Add thaelenkPieceSet</Button>
+        <Button onClick={() => removeSet(pieceSets.thaelenkPieceSet)}>Remove thaelenkPieceSet</Button>
 
         <Button onClick={() => addSet(pieceSets.volcarrenPieceSet)}>Add volcarrenPieceSet</Button>
         <Button onClick={() => removeSet(pieceSets.volcarrenPieceSet)}>Remove volcarrenPieceSet</Button>

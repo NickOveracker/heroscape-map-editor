@@ -96,6 +96,12 @@ export type Piece = {
   landPrefix?: PiecePrefixes // Including this so land pieces can have their sizes computed for piece-size selection in the Controls
   isUninventoried?: boolean, // so far just marvel-ruins-broken and castle-arch-no-door versions (these are just variations on their inventoried counterparts)
 }
+export type PieceSet = {
+  id: PieceSetIds
+  title: string, // the human friendly name
+  inventory: PieceInventory
+  abbreviation: string
+}
 export enum PiecePrefixes {
   grass = 'g',
   rock = 'r',
@@ -128,8 +134,30 @@ export enum PiecePrefixes {
   castleArch = 'ca',
   glyph = 'y',
 }
+export enum PieceSetIds {
+  // these inventory IDs are purposely short, to make their character length small for maximum-sized URL-shareable maps
+  aoaMaster1 = 'aoa1',
+  mstk = 'mstk',
+  totk = 'totk',
+  battleForWellspring = 'bftw',
+  laurJungle = 'lj',
+  landsOfValhalla = 'lov',
+  watersOfValhalla = 'wov',
+  swampsOfValhalla = 'sov',
+  snowfieldsOfValhalla = 'sfov',
+  lavafieldsOfValhalla = 'lfov',
+  volcarren = 'volc',
+  ticallaJungle = 'tj',
+  forgottenForest = 'ff',
+  underdarkMaster = 'bftu',
+  fortress = 'fort',
+  marvel = 'marv',
+  thaelenkTundra = 'tt',
+  riseOfValkyrieMaster = 'rotv',
+  swarmOfMarroMaster = 'sotm',
+}
 export enum Pieces {
-  // these inventory IDs are purposely short, to make their character length small for maximum-sized URL-sharealbe maps
+  // these inventory IDs are purposely short, to make their character length small for maximum-sized URL-shareable maps
   grass1 = `${PiecePrefixes.grass}1`,
   grass2 = `${PiecePrefixes.grass}2`,
   grass3 = `${PiecePrefixes.grass}3`,

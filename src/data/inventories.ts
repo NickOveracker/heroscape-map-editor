@@ -133,29 +133,6 @@ export const laurJunglePieceSet: PieceInventory = {
   [Pieces.laurPalm15]: 1,
   [Pieces.laurBrush10]: 6,
 }
-export const underdarkPieceSet: PieceInventory = {
-  [Pieces.grass1]: 1,
-  [Pieces.grass2]: 1,
-  [Pieces.grass3]: 1,
-  [Pieces.dungeon1]: 16,
-  [Pieces.dungeon2]: 5,
-  [Pieces.dungeon3]: 5,
-  [Pieces.dungeon7]: 5,
-  [Pieces.dungeon24]: 6,
-  [Pieces.rock1]: 1,
-  [Pieces.rock2]: 1,
-  [Pieces.rock3]: 2,
-  [Pieces.rock7]: 3,
-  [Pieces.sand1]: 1,
-  [Pieces.sand2]: 1,
-  [Pieces.sand3]: 0,
-  [Pieces.sand7]: 3,
-  [Pieces.water1]: 12,
-  [Pieces.shadow1]: 11,
-  [Pieces.shadow3]: 1,
-  [Pieces.outcrop1]: 3,
-  [Pieces.outcrop3]: 1,
-}
 export const ticallaJunglePieceSet: PieceInventory = {
   [Pieces.palm14]: 1,
   [Pieces.palm15]: 1,
@@ -186,7 +163,7 @@ export const marvelPieceSet: PieceInventory = {
   [Pieces.asphalt7]: 3,
   [Pieces.marvel]: 1,
 }
-export const thalenkPieceSet: PieceInventory = {
+export const thaelenkPieceSet: PieceInventory = {
   [Pieces.glacier1]: 1,
   [Pieces.glacier3]: 1,
   [Pieces.glacier4]: 1,
@@ -250,4 +227,27 @@ export const ms2PieceSet: PieceInventory = {
   [Pieces.sand2]: 1,
   [Pieces.sand3]: 2,
   [Pieces.sand7]: 5,
+}
+export const underdarkPieceSet: PieceInventory = {
+  [Pieces.grass1]: 1,
+  [Pieces.grass2]: 1,
+  [Pieces.grass3]: 1,
+  [Pieces.dungeon1]: 16,
+  [Pieces.dungeon2]: 5,
+  [Pieces.dungeon3]: 5,
+  [Pieces.dungeon7]: 5,
+  [Pieces.dungeon24]: 6,
+  [Pieces.rock1]: 1,
+  [Pieces.rock2]: 1,
+  [Pieces.rock3]: 2,
+  [Pieces.rock7]: 3,
+  [Pieces.sand1]: 1,
+  [Pieces.sand2]: 1,
+  [Pieces.sand3]: 0,
+  [Pieces.sand7]: 3,
+  [Pieces.water1]: 12,
+  [Pieces.shadow1]: 11,
+  [Pieces.shadow3]: 1,
+  [Pieces.outcrop1]: 3,
+  [Pieces.outcrop3]: 1,
 }
