@@ -3,7 +3,7 @@ import { List, ListItem, ListItemText, IconButton, Typography, Container } from 
 import { MdDelete } from 'react-icons/md';
 import { MapFileState } from '../types';
 
-// const totalSpace = 5120;
+const maxLocalStorageSize = 5120;
 
 const LocalStorageList = () => {
   const [storageData, setStorageData] = React.useState(analyzeLocalStorage());
@@ -36,8 +36,16 @@ const LocalStorageList = () => {
         ))}
       </List>
       <Typography variant="body2" color="textSecondary">
-        Total Size: {storageData.totalSize} KB | Total Items: {storageData.itemCount}
+        Available: {maxLocalStorageSize - storageData.totalSize} KB
       </Typography>
+      <Typography variant="body2" color="textSecondary">
+        Total Items: {storageData.itemCount}
+      </Typography>
+      <Typography variant="body2" color="textSecondary">
+        Used: {storageData.totalSize} KB
+      </Typography>
+      {/* | Total Items: {storageData.itemCount}
+          | Size unused: {storageData.totalSize} KB */}
     </Container>
   );
 };
