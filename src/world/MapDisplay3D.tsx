@@ -16,7 +16,7 @@ import {
 import { piecesSoFar } from '../data/pieces.ts'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
-import { decodePieceID, genBoardHexID, getBoardHexesRectangularMapDimensions } from '../utils/map-utils.ts'
+import { decodePieceID, genBoardHexID, getBoardHexesRectangularMapDimensions, getBoardPiecesMaxLevel } from '../utils/map-utils.ts'
 import { buildupJsonFileMap } from '../data/buildupMap.ts'
 import { genRandomMapName } from '../utils/genRandomMapName.ts'
 import { useSearch } from 'wouter'
@@ -33,6 +33,8 @@ export default function MapDisplay3D({
 }) {
   const boardHexes = useBoundStore((s) => s.boardHexes)
   const boardPieces = useBoundStore((s) => s.boardPieces)
+  const maxLevel = getBoardPiecesMaxLevel(boardPieces)
+  const toggleViewingLevel = useBoundStore((s) => s.toggleViewingLevel)
   const boardHexesArr = Object.values(boardHexes).sort((a, b) => a.altitude - b.altitude)
   const penMode = useBoundStore((s) => s.penMode)
   const paintTile = useBoundStore((s) => s.paintTile)
@@ -131,6 +133,11 @@ export default function MapDisplay3D({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // USE EFFECT: Update viewing level when new map is loaded
+  React.useEffect(() => {
+    toggleViewingLevel(maxLevel)
+  }, [boardPieces, toggleViewingLevel, maxLevel])
 
   const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr, isTakingPicture)
 
