@@ -1,5 +1,5 @@
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
-import { Redirect, Route, Switch } from "wouter";
+import { Route, Switch } from "wouter";
 import { SnackbarProvider } from 'notistack'
 import * as Sentry from "@sentry/react";
 
@@ -8,6 +8,7 @@ import ErrorPage from './layout/ErrorPage';
 import './layout/index.css'
 import { ROUTES } from './ROUTES';
 import HomePage from './layout/HomePage';
+import PrintingApp from './PrintingApp';
 
 const darkTheme = createTheme({
   palette: {
@@ -21,9 +22,14 @@ const darkTheme = createTheme({
     // },
   },
 })
+// const RootPage = () => {
+//   return (
+//     <Redirect to={ROUTES.heroscapeHome} />
+//   )
+// }
 const RootPage = () => {
   return (
-    <Redirect to={ROUTES.heroscapeHome} />
+    <PrintingApp />
   )
 }
 const App = () => {
