@@ -12,6 +12,7 @@ import {
 import useBoundStore from '../../store/store'
 import DeletePieceBillboard from '../maphex/DeletePieceBillboard'
 import usePieceHoverState from '../../hooks/usePieceHoverState'
+import { terrainCapColors } from '../maphex/terrainCapColors'
 
 type Props = {
   boardHex: BoardHex
@@ -109,7 +110,7 @@ export function CastleArch({
         x={x}
         y={yBaseCap}
         z={z}
-        color={hexTerrainColor[underHexTerrain]}
+        color={terrainCapColors[underHexTerrain]}
       />
     ) : (
       <></>

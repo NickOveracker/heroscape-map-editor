@@ -185,8 +185,7 @@ function getCodeQuick(tile: VirtualScapeTile) {
   // this function was created to simply transform personal tiles, created in Virtualscape, to be used in this app, quickly, or just return the original pieceCode
   if (
     tile.type === 17000 &&
-    ((tile?.personal?.letter ?? '') === 'LW' ||
-      (tile?.personal?.letter ?? '') === 'LW')
+    (tile?.personal?.name ?? '').toLowerCase().includes('pillar')
   ) {
     return 17101 // is now the laurPillar code, never existed in virtualscape
   }
