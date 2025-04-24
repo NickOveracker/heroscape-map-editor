@@ -136,15 +136,13 @@ export default function LandSubterrain({ pid }: { pid: string }) {
     }
   }
   return (
-    <>
-      <group
-        onPointerUp={onPointerUp}
-        onPointerEnter={e => onPointerEnterPID(e, pid)}
-        onPointerOut={e => onPointerOut(e)}
-      >
-        {getMesh()}
-      </group>
-    </>
+    <group
+      onPointerUp={onPointerUp}
+      onPointerEnter={e => onPointerEnterPID(e, pid)}
+      onPointerOut={e => onPointerOut(e)}
+    >
+      {getMesh()}
+    </group>
   )
 }
 
