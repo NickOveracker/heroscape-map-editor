@@ -98,6 +98,59 @@ export const hexTerrainColor: Dictionary<string> = {
   laurPalm2: '#25CC00',
   laurPalm3: '#22B800',
 }
+
+export const svgColors = {
+  // RENEGADE COLORS, unless noted
+  // STARTZONES
+  blueSZ: 'rgb(57, 61, 157)',
+  darkBlueSZ: 'rgb(21, 28, 51)',
+  brownSZ: 'rgb(121, 61, 26)',
+  orangeSZ: 'rgb(230, 28, 36)',
+  redSZ: 'rgb(192, 26, 44)',
+  greenSZ: 'rgb(54, 127, 52)',
+  // OUTLINES
+  outline1: 'rgb(230, 28, 36)',
+  outline2: 'rgb(229, 99, 26)',
+  outline3: 'rgb(17, 15, 14)',
+  outline7: 'rgb(175, 27, 148)',
+  outline24: 'rgb(188, 188, 186)',
+  waterOutline: 'rgb(43, 56, 139)', // ice, swampwater too
+  treeOutline: 'rgb(28, 57, 29)',
+  jungleOutline: 'rgb(121, 61, 26)',
+  laurOutline: 'rgb(215, 38, 156)',
+  wellspringWaterOutline: 'rgb(41, 56, 136)',
+  // OBSTACLES
+  // glyphFill: 'rgb(64, 0, 0)', // virtualscape
+  glyphFill: 'rgb(244, 106, 22)',
+  jungleFill: 'rgb(249, 233, 8)',
+  treeFill: 'rgb(51, 160, 62)',
+  laurPillar: 'rgb(98, 28, 96)',
+  // TERRAIN
+  // grass: 'rgb(0, 160, 0)', // virtualscape
+  grass: 'rgb(0, 161, 0)',
+  // rock: 'rgb(170, 170, 170)', // virtualscape
+  rock: 'rgb(98, 97, 98)',
+  // sand: rgb(204, 171, 41) // virtualscape
+  sand: 'rgb(211, 231, 90)',
+  // dungeon: '',
+  // swamp: 'rgb(103, 98, 20)', // virtualscape
+  swamp: 'rgb(27, 46, 22)',
+  snow: 'rgb(255,255,255)',
+  snowFlake: 'rgb(164, 172, 218)', // there is variation in the snowflake color
+  // lavaField: 'rgb(160, 32, 32)', // virtualscape
+  // lavaField: '',
+  // water: 'rgb(32, 32, 255)', // virtualscape
+  water: 'rgb(67, 172, 176)',
+  wellspringWater: 'rgb(255,255,255)',
+  // swampwater: 'rgb(222, 210, 42)', // virtualscape
+  swampwater: 'rgb(162, 166, 32)',
+  // lava: 'rgb(255, 64, 64)', // virtualscape
+  // lava: '',
+  // shadow: '',
+  // ice: 'rgb(180, 180, 255)', // virtualscape
+  ice: 'rgb(148, 158, 215)',
+  iceFlake: 'rgb(242, 243, 250)', // there is variation in the snowflake color
+}
 // const hsColors = {
 //     // selected by color picker on webp image of renegade paint set, so probably horrible
 //     utgarRed: '#b13e3f',
