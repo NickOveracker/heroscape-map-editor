@@ -141,12 +141,11 @@ export function addPiece({
   const isPlacingBattlement = isBattlementPieceID && isBattlementPieceSupported_TODO
   const isPlacingRoadWall = isRoadWallPieceID && isRoadWallPieceSupported_TODO
 
-  // LAUR WALL ADDONS: Quick and Dirty: Autoadd piece id, render from boardPieces
+  // LAUR WALL ADDONS: Autoadd piece id, render from boardPieces
   if (piece.terrain === HexTerrain.laurWall && piece.id !== Pieces.laurWallPillar) {
     // write the new laur addon piece
     newBoardPieces[pieceID] = piece.id
   }
-
   // ROADWALLS: Autoadd piece id, render from boardPieces
   if (isPlacingRoadWall) {
     try {
@@ -167,6 +166,9 @@ export function addPiece({
       console.log("Error placing battlement piece:", error)
     }
   }
+
+  // ALL PIECES BELOW ARE RENDERED FROM BOARD HEXES
+
   // LADDERS
   if (isPlacingLadder) {
     // const vertices = [ladderPieceRotation + 2, ladderPieceRotation + 3]
@@ -314,35 +316,6 @@ export function addPiece({
       newBoardPieces[pieceID] = piece.id
     }
   }
-  // LAUR WALL ADDONS
-  // if (piece.terrain === HexTerrain.laurWall && piece.id !== Pieces.laurWallPillar) {
-  //   // const isLaurWallRuin = piece.id !== Pieces.laurWallRuin
-  //   // const isLaurWallShort = piece.id !== Pieces.laurWallShort
-  //   // const isLaurWallLong = piece.id !== Pieces.laurWallLong
-  //   // // const pieceID = genPieceID(clickedHex.id, piece.id, addonRotation)
-  //   // // const isPlacingLaurAddon = isVerticalClearanceForPiece
-  //   // // const underHex = underHexIds.map(
-  //   // //   (id) => newBoardHexes?.[id]?. === HexTerrain.castle,
-  //   // // )
-  //   // // const pillarRotation =
-  //   // const pillarSideRotations: { [side: string]: number } = {
-  //   //   plusX: 0,
-  //   //   minusY: 1.5,
-  //   //   minusX: 3,
-  //   //   plusY: 4.5,
-  //   // }
-  //   // if (isLaurWallRuin) {
-
-  //   // }
-  //   // const isWallNeedPillarToo = underHexIds.every((id) => {
-  //   //   const buddyHex = '' // pillar?
-  //   //   return !(newBoardHexes?.[id]?.laurAddons?.[(laurSide ?? '')])
-  //   // })
-
-  //   // TODO: WRITE NEW PILLAR IF THERE IS ONE
-  //   // write the new laur addon piece
-  //   // newBoardPieces[pieceID] = piece.id
-  // }
 
   // CASTLE BASE
   if (piece.id.includes(PiecePrefixes.castleBase)) {
@@ -533,7 +506,6 @@ export function addPiece({
         })
     })
 
-    //TODO: write the fluid base for glaciers/outcrops/hive
     // write the new piece
     newBoardPieces[pieceID] = piece.id
   }
@@ -543,9 +515,6 @@ export function addPiece({
     const isLandPieceSupported =
       isPlacingOnTable ||
       isSolidUnderAtLeastOne
-    // used to be as below, before considering multi-hex fluid tiles could be used as bridges
-    // (isSolidTile && isSolidUnderAtLeastOne) ||
-    // (isFluidTile && isSolidUnderAll)
     if (isSpaceFree && isLandPieceSupported) {
       try {
         newHexIds.forEach((newHexID, iForEach) => {

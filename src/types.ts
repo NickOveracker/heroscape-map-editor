@@ -217,14 +217,14 @@ export enum Pieces {
   shadow1 = `${PiecePrefixes.shadow}1`,
   shadow3 = `${PiecePrefixes.shadow}3`,
   // EdgeAddons
-  roadWall = 'rw',
-  battlement = 'bt',
+  roadWall = 'rw', // rendered from BoardPieces not BoardHexes
+  battlement = 'bt', // rendered from BoardPieces not BoardHexes
   ladder = 'ld',
   // LaurWall
   laurWallPillar = `${PiecePrefixes.laurWall}p`,
-  laurWallShort = `${PiecePrefixes.laurWall}s`,
-  laurWallLong = `${PiecePrefixes.laurWall}l`,
-  laurWallRuin = `${PiecePrefixes.laurWall}r`,
+  laurWallShort = `${PiecePrefixes.laurWall}s`, // rendered from BoardPieces not BoardHexes
+  laurWallLong = `${PiecePrefixes.laurWall}l`, // rendered from BoardPieces not BoardHexes
+  laurWallRuin = `${PiecePrefixes.laurWall}r`, // rendered from BoardPieces not BoardHexes
   // HexObstacles
   snowTree10 = `${PiecePrefixes.snowTree}10`,
   snowTree12 = `${PiecePrefixes.snowTree}12`,
