@@ -4,6 +4,7 @@ import { groupBy } from 'lodash';
 import { BoardHexes } from './types';
 import useAutoLoadMapFile from './hooks/useAutoLoadMapFile';
 import { PropsWithChildren } from 'react';
+import { isFluidTerrainHex, isObstaclePieceID, isSolidTerrainHex } from './utils/board-utils';
 
 export default function PrintingApp() {
   const boardHexes = useBoundStore((s) => s.boardHexes);
@@ -41,8 +42,16 @@ const MyDocument = ({ boardHexes }: { boardHexes: BoardHexes }) => {
   )
 }
 const getChunks = (boardHexes: BoardHexes) => {
+  const filteredBoardHexes = Object.values(boardHexes).filter((hex) => {
+    return (
+      // Include all solid and fluid terrain types.
+      // Also include origin hexes for obstacles, not auxiliary hexes.
+      // isSolidTerrainHex(hex.terrain) || isFluidTerrainHex(hex.terrain) || isObstaclePieceID()
+      true
+    )
+  })
   // Group boardHexes by altitude
-  const groupedByAltitude = groupBy(Object.values(boardHexes), 'altitude');
+  const groupedByAltitude = groupBy(filteredBoardHexes, 'altitude');
   // Convert the grouped object into an array of altitude groups
   const altitudeGroups = Object.entries(groupedByAltitude).map(([altitude, hexes]) => ({
     altitude: Number(altitude),
