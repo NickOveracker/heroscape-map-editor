@@ -1,4 +1,4 @@
-import { Document, Page, Text, View, PDFViewer } from '@react-pdf/renderer';
+import { Document, Page, Text, View, PDFViewer, Svg, Polygon } from '@react-pdf/renderer';
 export default function PrintingApp() {
   return (
     <div
@@ -21,6 +21,26 @@ export default function PrintingApp() {
     </div>
   )
 }
+
+const HexGrid = () => {
+  return (
+    <View style={{
+      flexBasis: '33%',
+      border: '1px solid green'
+    }}>
+      <Svg
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
+        viewBox="0 0 100 100"
+      >
+        <Polygon points="50,0 100,25 100,75 50,100 0,75 0,25" fill="red" stroke="red" />
+      </Svg>
+    </View>
+  )
+}
+
 // Create Document Component
 const MyDocument = () => (
   <Document>
@@ -35,7 +55,7 @@ const HexGrids6PerPage = () => {
         size="LETTER"
         style={{
           flexDirection: 'column',
-          // backgroundColor: '#E4E4E4',
+          maxHeight: '100vh',
         }}>
         <View
           style={{
@@ -46,51 +66,18 @@ const HexGrids6PerPage = () => {
             flexGrow: 1,
             flexBasis: '50%',
             flexDirection: 'column',
-            // backgroundColor: 'red'
           }}>
-            <View style={{
-              flexBasis: '10%',
-              border: '1px solid green'
-            }}>
-              <Text>Column #1</Text>
-            </View>
-            <View style={{
-              flexBasis: '30%',
-              border: '1px solid green'
-            }} />
-            <View style={{
-              flexBasis: '30%',
-              border: '1px solid yellow'
-            }} />
-            <View style={{
-              flexBasis: '30%',
-              border: '1px solid red'
-            }} />
+            <HexGrid />
+            <HexGrid />
+            <HexGrid />
           </View>
           <View style={{
             flexBasis: '50%',
             flexGrow: 1,
-            backgroundColor: 'blue',
-            overflow: 'hidden'
           }}>
-            <View style={{
-              flexBasis: '10%',
-              border: '1px solid green'
-            }}>
-              <Text>Column #2</Text>
-            </View>
-            <View style={{
-              flexBasis: '30%',
-              border: '1px solid green'
-            }} />
-            <View style={{
-              flexBasis: '30%',
-              border: '1px solid yellow'
-            }} />
-            <View style={{
-              flexBasis: '30%',
-              border: '1px solid red'
-            }} />
+            <HexGrid />
+            <HexGrid />
+            <HexGrid />
           </View>
         </View>
       </Page>
