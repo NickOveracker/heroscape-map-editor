@@ -93,6 +93,7 @@ export default function MapDisplay3D({
   }
 
   const { length, width } = getBoardHexesRectangularMapDimensions(boardHexes)
+  console.log("🚀 ~ length, width:", length, width)
   // const topLeft = [-HEXGRID_HEX_APOTHEM, -1]
   return (
     <group ref={mapGroupRef}>
