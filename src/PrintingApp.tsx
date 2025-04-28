@@ -1,8 +1,9 @@
-import { Document, Page, Text, View, PDFViewer, Svg, Polygon } from '@react-pdf/renderer';
+import { Document, Page, View, PDFViewer, Svg, Polygon } from '@react-pdf/renderer';
 import useBoundStore from './store/store';
 import { groupBy } from 'lodash';
 import { BoardHexes } from './types';
 import useAutoLoadMapFile from './hooks/useAutoLoadMapFile';
+import { PropsWithChildren } from 'react';
 
 export default function PrintingApp() {
   const boardHexes = useBoundStore((s) => s.boardHexes);
@@ -39,17 +40,14 @@ const MyDocument = ({ boardHexes }: { boardHexes: BoardHexes }) => {
     </Document>
   )
 }
-
-const HexMapLevels6PerPage = ({ boardHexes }: { boardHexes: BoardHexes }) => {
+const getChunks = (boardHexes: BoardHexes) => {
   // Group boardHexes by altitude
   const groupedByAltitude = groupBy(Object.values(boardHexes), 'altitude');
-
   // Convert the grouped object into an array of altitude groups
   const altitudeGroups = Object.entries(groupedByAltitude).map(([altitude, hexes]) => ({
     altitude: Number(altitude),
     hexes,
   }));
-
   // Sort altitude groups by altitude
   altitudeGroups.sort((a, b) => a.altitude - b.altitude);
 
@@ -58,7 +56,10 @@ const HexMapLevels6PerPage = ({ boardHexes }: { boardHexes: BoardHexes }) => {
   for (let i = 0; i < altitudeGroups.length; i += 6) {
     chunks.push(altitudeGroups.slice(i, i + 6));
   }
-
+  return chunks
+}
+const HexMapLevels6PerPage = ({ boardHexes }: { boardHexes: BoardHexes }) => {
+  const chunks = getChunks(boardHexes)
   return (
     <>
       {chunks.map((chunk, pageIndex) => (
@@ -83,15 +84,30 @@ const HexMapPage = ({ chunk }: { chunk: { altitude: number; hexes: any[] }[] }) 
           flexGrow: 1,
         }}
       >
-        {chunk.map((group) => (
-          <AltitudeGroup key={group.altitude} group={group} />
-        ))}
+        <HalfPageColumn>
+          {chunk.map((altitudeGroup, i) => (
+            <>
+              {i === 0 && <AltitudeGroup key={altitudeGroup.altitude} />}
+              {i === 1 && <AltitudeGroup key={altitudeGroup.altitude} />}
+              {i === 2 && <AltitudeGroup key={altitudeGroup.altitude} />}
+            </>
+          ))}
+        </HalfPageColumn>
+        <HalfPageColumn>
+          {chunk.map((altitudeGroup, i) => (
+            <>
+              {i === 3 && <AltitudeGroup key={altitudeGroup.altitude} />}
+              {i === 4 && <AltitudeGroup key={altitudeGroup.altitude} />}
+              {i === 5 && <AltitudeGroup key={altitudeGroup.altitude} />}
+            </>
+          ))}
+        </HalfPageColumn>
       </View>
     </Page>
   );
 };
 
-const AltitudeGroup = ({ group }: { group: { altitude: number; hexes: any[] } }) => {
+const HalfPageColumn = (props: PropsWithChildren) => {
   return (
     <View
       style={{
@@ -102,8 +118,7 @@ const AltitudeGroup = ({ group }: { group: { altitude: number; hexes: any[] } })
         margin: 5,
       }}
     >
-      <Text>Altitude: {group.altitude}</Text>
-      <HexGrid />
+      {props.children}
     </View>
   );
 };
