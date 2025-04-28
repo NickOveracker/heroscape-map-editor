@@ -159,16 +159,22 @@ function readCStringLength(dataView: DataView): number {
   let length = 0
   const byte = getUint8(dataView)
   if (byte !== 0xff) {
+    // Case 1: If the first byte is not 0xFF, it directly represents the length.
     length = byte
   } else {
+    // Case 2: If the first byte is 0xFF, read the next 2 bytes as a 16-bit unsigned integer.
     const short = getUint16(dataView)
 
     if (short === 0xfffe) {
+      // Case 2a: If the 16-bit value is 0xFFFE, recursively call `readCStringLength`.
+      // This indicates that the length is encoded in a more complex way.
       return readCStringLength(dataView)
     } else if (short === 0xffff) {
-      // 65535
+      // Case 2b: If the 16-bit value is 0xFFFF, read the next 4 bytes as a 32-bit unsigned integer.
+      // This represents a very large string length.
       length = getUint32(dataView)
     } else {
+      // Case 2c: Otherwise, the 16-bit value itself represents the length.
       length = short
     }
   }
