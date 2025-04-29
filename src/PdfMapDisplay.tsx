@@ -1,15 +1,11 @@
 import { Document, Page, View, PDFViewer, Svg, Polygon } from '@react-pdf/renderer';
-import useBoundStore from './store/store';
 import { groupBy } from 'lodash';
 import { BoardHex, BoardHexes, MapState } from './types';
 import React, { PropsWithChildren } from 'react';
 import { piecesSoFar } from './data/pieces';
 import { decodePieceID } from './utils/map-utils';
 
-export default function PrintingApp() {
-  const hexMap = useBoundStore((s) => s.hexMap);
-  const boardPieces = useBoundStore((s) => s.boardPieces);
-  const boardHexes = useBoundStore((s) => s.boardHexes);
+export default function PdfMapDisplay({ boardHexes, boardPieces, hexMap }: MapState) {
   return (
     <div
       style={{
