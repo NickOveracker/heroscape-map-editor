@@ -18,7 +18,6 @@ import { genBoardHexID, getBoardHexesRectangularMapDimensions, getBoardPiecesMax
 import { Group, Object3DEventMap } from 'three'
 import { MapBoardPiece3D } from './MapBoardPiece3D.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
-import useAutoLoadMapFile from '../hooks/useAutoLoadMapFile.tsx'
 
 export default function MapDisplay3D({
   cameraControlsRef,
@@ -43,9 +42,6 @@ export default function MapDisplay3D({
     boardHexes,
     disabled: !boardHexesArr.length || false, // for when working on camera stuff
   })
-
-  // USE EFFECT: automatically load up map from URL, OR from file
-  useAutoLoadMapFile()
 
   // USE EFFECT: Update viewing level when new map is loaded
   React.useEffect(() => {

@@ -8,10 +8,19 @@ import CreateMapFormDialog from './CreateMapFormDialog'
 import EditMapFormDialog from './EditMapFormDialog'
 import { LoadMapInputs } from './LoadMapButtons'
 import CameraSpeedDial from './CameraSpeedDial'
+import PdfMapDisplay from '../PdfMapDisplay'
+import useBoundStore from '../store/store'
+import useAutoLoadMapFile from '../hooks/useAutoLoadMapFile'
 
 export default function HomePage() {
   const cameraControlsRef = React.useRef(undefined!)
+  const boardHexes = useBoundStore((state) => state.boardHexes)
+  const boardPieces = useBoundStore((state) => state.boardPieces)
+  const hexMap = useBoundStore((state) => state.hexMap)
   // https://robohash.org/you.png?size=200x200
+  // USE EFFECT: automatically load up map from URL, OR from file
+  useAutoLoadMapFile()
+
 
   // MUI BREAKPOINTS
   //   xs, extra-small: 0px
@@ -25,6 +34,10 @@ export default function HomePage() {
   const [isNavOpen, setIsNavOpen] = React.useState(false)
   const toggleIsNavOpen = (s: boolean) => {
     setIsNavOpen(s)
+  }
+  const [isPdfOpen, setIsPdfOpen] = React.useState(false)
+  const toggleIsPdfOpen = (s: boolean) => {
+    setIsPdfOpen(s)
   }
   return (
     <>
@@ -49,7 +62,12 @@ export default function HomePage() {
           backgroundColor: 'var(--outer-space)',
         }}
       >
-        <HeaderNav isNavOpen={isNavOpen} toggleIsNavOpen={toggleIsNavOpen} />
+        <HeaderNav
+          isNavOpen={isNavOpen}
+          toggleIsNavOpen={toggleIsNavOpen}
+          isPdfOpen={isPdfOpen}
+          toggleIsPdfOpen={toggleIsPdfOpen}
+        />
         <div
           style={{
             display: 'flex',
@@ -70,8 +88,20 @@ export default function HomePage() {
               height: isLargeScreenLayout ? '100%' : '70vh',
             }}
           >
-            <CameraSpeedDial cameraControlsRef={cameraControlsRef} />
-            <World cameraControlsRef={cameraControlsRef} />
+            {
+              isPdfOpen ? (
+                <PdfMapDisplay
+                  boardHexes={boardHexes}
+                  boardPieces={boardPieces}
+                  hexMap={hexMap}
+                />
+              ) : (
+                <>
+                  <CameraSpeedDial cameraControlsRef={cameraControlsRef} />
+                  <World cameraControlsRef={cameraControlsRef} />
+                </>
+              )
+            }
           </div>
           <div
             style={{
