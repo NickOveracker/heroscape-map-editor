@@ -1,14 +1,21 @@
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
-import { MdMenu } from 'react-icons/md'
+import { MdMenu, MdPictureAsPdf } from 'react-icons/md'
 
 type Props = {
   isNavOpen: boolean
   toggleIsNavOpen: (arg0: boolean) => void
+  isPdfOpen: boolean
+  toggleIsPdfOpen: (arg0: boolean) => void
 }
 
-export default function HeaderNav({ isNavOpen, toggleIsNavOpen }: Props) {
+export default function HeaderNav({
+  isNavOpen,
+  toggleIsNavOpen,
+  isPdfOpen,
+  toggleIsPdfOpen
+}: Props) {
   // AppBar height is 64px when screen > 600px
   // AppBar height is 56px when screen < 600px
   return (
@@ -26,6 +33,15 @@ export default function HeaderNav({ isNavOpen, toggleIsNavOpen }: Props) {
           onClick={() => toggleIsNavOpen(!isNavOpen)}
         >
           <MdMenu />
+        </IconButton>
+        <IconButton
+          size="large"
+          edge="end"
+          aria-label="pdf"
+          sx={{ mr: 2 }}
+          onClick={() => toggleIsPdfOpen(!isPdfOpen)}
+        >
+          <MdPictureAsPdf />
         </IconButton>
       </Toolbar>
     </AppBar>
