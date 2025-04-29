@@ -1,6 +1,6 @@
 import { Document, Page, View, PDFViewer, Svg, Polygon } from '@react-pdf/renderer';
 import { groupBy } from 'lodash';
-import { BoardHex, BoardHexes, MapState } from './types';
+import { BoardHex, BoardHexes, BoardPieces, MapState, Pieces } from './types';
 import React, { PropsWithChildren } from 'react';
 import { piecesSoFar } from './data/pieces';
 import { decodePieceID } from './utils/map-utils';
@@ -71,32 +71,36 @@ const getBoardHexChunks = (boardHexes: BoardHexes) => {
   }
   return chunks
 }
-// const getBoardPieceChunks = (boardPieces: BoardPieces) => {
-//   const filteredBoardPieces = Object.values(boardPieces).filter((pieceID) => {
-//     const pie = decodePieceID(pieceID)
-//     return (
-//       // Include all solid and fluid terrain types.
-//       // Also include origin hexes for obstacles, not auxiliary hexes.
-//       piecesSoFar[pieceID.pieceID].isHexTerrainPiece || piecesSoFar[pieceID.pieceID].isObstaclePiece && pieceID.isObstacleOrigin
-//     )
-//   })
-//   // Group boardPieces by altitude
-//   const groupedByAltitude = groupBy(filteredBoardPieces, 'altitude');
-//   // Convert the grouped object into an array of altitude groups
-//   const altitudeGroups = Object.entries(groupedByAltitude).map(([altitude, hexes]) => ({
-//     altitude: Number(altitude),
-//     hexes,
-//   }));
-//   // Sort altitude groups by altitude
-//   altitudeGroups.sort((a, b) => a.altitude - b.altitude);
+const getBoardPieceChunks = (boardPieces: BoardPieces) => {
+  const filteredBoardPieces = Object.values(boardPieces).filter((pieceID) => {
+    const id = decodePieceID(pieceID).pieceID
+    return (
+      // Pieces that are rendered from BoardPieces:
+      //  battlement, 
+      id === Pieces.battlement ||
+      // roadwall,
+      id === Pieces.roadWall ||
+      //  laur wall addons
+      id === Pieces.laurWallLong || id === Pieces.laurWallShort || id === Pieces.laurWallRuin
+    )
+  }).map((pieceID) => (decodePieceID(pieceID)))
+  // Group boardPieces by altitude
+  const groupedByAltitude = groupBy(filteredBoardPieces, 'altitude');
+  // Convert the grouped object into an array of altitude groups
+  const altitudeGroups = Object.entries(groupedByAltitude).map(([altitude, pieces]) => ({
+    altitude: Number(altitude),
+    pieces,
+  }));
+  // Sort altitude groups by altitude
+  altitudeGroups.sort((a, b) => a.altitude - b.altitude);
 
-//   // Chunk altitude groups into chunks of 6
-//   const chunks = [];
-//   for (let i = 0; i < altitudeGroups.length; i += 6) {
-//     chunks.push(altitudeGroups.slice(i, i + 6));
-//   }
-//   return chunks
-// }
+  // Chunk altitude groups into chunks of 6
+  const chunks = [];
+  for (let i = 0; i < altitudeGroups.length; i += 6) {
+    chunks.push(altitudeGroups.slice(i, i + 6));
+  }
+  return chunks
+}
 const HexMapLevels6PerPage = ({ boardHexes }: MapState) => {
   const boardHexChunks = getBoardHexChunks(boardHexes);
   // const boardPieceChunks = getBoardPieceChunks(boardPieces)
