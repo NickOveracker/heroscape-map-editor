@@ -45,76 +45,73 @@ const MyDocument = ({ boardHexes, boardPieces, hexMap }: MapState) => {
     </Document>
   )
 }
-const getBoardHexChunks = (boardHexes: BoardHexes) => {
+
+const getBoardHexAndPieceChunks = (boardHexes: BoardHexes, boardPieces: BoardPieces) => {
   const filteredBoardHexes = Object.values(boardHexes).filter((hex) => {
-    const inventoryPieceID = decodePieceID(hex.pieceID).pieceID
+    const inventoryPieceID = decodePieceID(hex.pieceID).pieceID;
     return (
-      // Include all solid and fluid terrain types.
-      // Also include origin hexes for obstacles, not auxiliary hexes.
-      piecesSoFar[inventoryPieceID]?.isHexTerrainPiece || piecesSoFar[inventoryPieceID]?.isObstaclePiece && hex.isObstacleOrigin
-    )
-  })
-  // Group boardHexes by altitude
-  const groupedByAltitude = groupBy(filteredBoardHexes, 'altitude');
-  // Convert the grouped object into an array of altitude groups
-  const altitudeGroups = Object.entries(groupedByAltitude).map(([altitude, hexes]) => ({
-    altitude: Number(altitude),
-    hexes,
-  }));
-  // Sort altitude groups by altitude
-  altitudeGroups.sort((a, b) => a.altitude - b.altitude);
+      piecesSoFar[inventoryPieceID]?.isHexTerrainPiece ||
+      (piecesSoFar[inventoryPieceID]?.isObstaclePiece && hex.isObstacleOrigin)
+    );
+  });
 
-  // Chunk altitude groups into chunks of 6
-  const chunks = [];
-  for (let i = 0; i < altitudeGroups.length; i += 6) {
-    chunks.push(altitudeGroups.slice(i, i + 6));
-  }
-  return chunks
-}
-const getBoardPieceChunks = (boardPieces: BoardPieces) => {
-  const filteredBoardPieces = Object.values(boardPieces).filter((pieceID) => {
-    const id = decodePieceID(pieceID).pieceID
+  const filteredBoardPieces = Object.keys(boardPieces).filter((pieceID) => {
+    const id = decodePieceID(pieceID).pieceID;
     return (
-      // Pieces that are rendered from BoardPieces:
-      //  battlement, 
       id === Pieces.battlement ||
-      // roadwall,
       id === Pieces.roadWall ||
-      //  laur wall addons
-      id === Pieces.laurWallLong || id === Pieces.laurWallShort || id === Pieces.laurWallRuin
-    )
-  }).map((pieceID) => (decodePieceID(pieceID)))
-  // Group boardPieces by altitude
-  const groupedByAltitude = groupBy(filteredBoardPieces, 'altitude');
-  // Convert the grouped object into an array of altitude groups
-  const altitudeGroups = Object.entries(groupedByAltitude).map(([altitude, pieces]) => ({
-    altitude: Number(altitude),
-    pieces,
-  }));
-  // Sort altitude groups by altitude
-  altitudeGroups.sort((a, b) => a.altitude - b.altitude);
+      id === Pieces.laurWallLong ||
+      id === Pieces.laurWallShort ||
+      id === Pieces.laurWallRuin
+    );
+  }).map((pieceID) => decodePieceID(pieceID));
 
-  // Chunk altitude groups into chunks of 6
+  // Group hexes and pieces by altitude
+  const groupedHexesByAltitude = groupBy(filteredBoardHexes, 'altitude');
+  const groupedPiecesByAltitude = groupBy(filteredBoardPieces, 'altitude');
+
+  // Combine hexes and pieces into a single array of altitude groups
+  const combinedGroups = Object.keys(groupedHexesByAltitude).map((altitude) => ({
+    altitude: Number(altitude),
+    hexes: groupedHexesByAltitude[altitude] || [],
+    pieces: groupedPiecesByAltitude[altitude] || [],
+  }));
+
+  // Sort combined groups by altitude
+  combinedGroups.sort((a, b) => a.altitude - b.altitude);
+
+  // Chunk combined groups into chunks of 6
   const chunks = [];
-  for (let i = 0; i < altitudeGroups.length; i += 6) {
-    chunks.push(altitudeGroups.slice(i, i + 6));
+  for (let i = 0; i < combinedGroups.length; i += 6) {
+    chunks.push(combinedGroups.slice(i, i + 6));
   }
-  return chunks
-}
-const HexMapLevels6PerPage = ({ boardHexes }: MapState) => {
-  const boardHexChunks = getBoardHexChunks(boardHexes);
-  // const boardPieceChunks = getBoardPieceChunks(boardPieces)
+
+  return chunks;
+};
+
+const HexMapLevels6PerPage = ({ boardHexes, boardPieces }: MapState) => {
+  const boardHexAndPieceChunks = getBoardHexAndPieceChunks(boardHexes, boardPieces);
+
   return (
     <>
-      {boardHexChunks.map((boardHexChunk, pageIndex) => (
-        <HexMapPage key={pageIndex} boardHexChunk={boardHexChunk} />
-      ))}BoardPieces,
+      {boardHexAndPieceChunks.map((chunk, pageIndex) => (
+        <HexMapPage key={pageIndex} chunk={chunk} />
+      ))}
     </>
   );
 };
-
-const HexMapPage = ({ boardHexChunk }: { boardHexChunk: { altitude: number; hexes: BoardHex[] }[] }) => {
-  console.log("🚀 ~ HexMapPage ~ boardHexChunk:", boardHexChunk)
+type DecodedPiece = {
+  pieceID: string;
+  altitude: number;
+  rotation: number;
+  boardHexID: string;
+  pieceCoords: {
+    q: number;
+    r: number;
+    s: number;
+  };
+}
+const HexMapPage = ({ chunk }: { chunk: { altitude: number; hexes: BoardHex[]; pieces: DecodedPiece[] }[] }) => {
   return (
     <Page
       size="LETTER"
@@ -130,38 +127,26 @@ const HexMapPage = ({ boardHexChunk }: { boardHexChunk: { altitude: number; hexe
         }}
       >
         <HalfPageColumn>
-          {boardHexChunk.map((altitudeGroup, i) => (
-            <React.Fragment key={altitudeGroup.altitude}>
-              {i === 0 && (
-                <PdfHexGrid
-                  boardHexArr={altitudeGroup.hexes}
-                />)}
-              {i === 1 && (
-                <PdfHexGrid
-                  boardHexArr={altitudeGroup.hexes}
-                />)}
-              {i === 2 && (
-                <PdfHexGrid
-                  boardHexArr={altitudeGroup.hexes}
-                />)}
+          {chunk.map((group, i) => (
+            <React.Fragment key={group.altitude}>
+              {i < 3 && (
+                <PdfHexAndPieceGrid
+                  boardHexArr={group.hexes}
+                  boardPieceArr={group.pieces}
+                />
+              )}
             </React.Fragment>
           ))}
         </HalfPageColumn>
         <HalfPageColumn>
-          {boardHexChunk.map((altitudeGroup, i) => (
-            <React.Fragment key={altitudeGroup.altitude}>
-              {i === 3 && (
-                <PdfHexGrid
-                  boardHexArr={altitudeGroup.hexes}
-                />)}
-              {i === 4 && (
-                <PdfHexGrid
-                  boardHexArr={altitudeGroup.hexes}
-                />)}
-              {i === 5 && (
-                <PdfHexGrid
-                  boardHexArr={altitudeGroup.hexes}
-                />)}
+          {chunk.map((group, i) => (
+            <React.Fragment key={group.altitude}>
+              {i >= 3 && (
+                <PdfHexAndPieceGrid
+                  boardHexArr={group.hexes}
+                  boardPieceArr={group.pieces}
+                />
+              )}
             </React.Fragment>
           ))}
         </HalfPageColumn>
@@ -170,20 +155,20 @@ const HexMapPage = ({ boardHexChunk }: { boardHexChunk: { altitude: number; hexe
   );
 };
 
-type PdfHexGridProps = {
-  boardHexArr: BoardHex[],
-  // boardPieceIDArr: string[]
-}
-const PdfHexGrid = ({
-  boardHexArr,
-  // boardPieceIDArr,
-}: PdfHexGridProps) => {
-  console.log("🚀 ~ boardHexArr:", boardHexArr)
+type PdfHexAndPieceGridProps = {
+  boardHexArr: BoardHex[];
+  boardPieceArr: DecodedPiece[];
+};
+
+const PdfHexAndPieceGrid = ({ boardHexArr, boardPieceArr }: PdfHexAndPieceGridProps) => {
+  console.log("🚀 ~ PdfHexAndPieceGrid ~ boardHexArr, boardPieceArr:", boardHexArr, boardPieceArr)
   return (
-    <View style={{
-      flexBasis: '33%',
-      border: '1px solid green'
-    }}>
+    <View
+      style={{
+        flexBasis: '33%',
+        border: '1px solid green',
+      }}
+    >
       <Svg
         style={{
           width: '100%',
@@ -192,10 +177,11 @@ const PdfHexGrid = ({
         viewBox="0 0 100 100"
       >
         <Polygon points="50,0 100,25 100,75 50,100 0,75 0,25" fill="red" stroke="red" />
+        {/* Render pieces here */}
       </Svg>
     </View>
-  )
-}
+  );
+};
 const HalfPageColumn = (props: PropsWithChildren) => {
   return (
     <View
