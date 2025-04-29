@@ -8,8 +8,7 @@ import useBoundStore from '../store/store'
 import { HEX_DIRECTIONS, hexUtilsAdd } from '../utils/hex-utils'
 import { decodePieceID, genBoardHexID, genPieceID } from '../utils/map-utils'
 import { buildupJsonFileMap } from '../data/buildupMap'
-// import LocalStorageList from './LocalStorageList'
-// import InventoryForm from './InventoryForm'
+import LocalStorageList from './LocalStorageList'
 
 const Controls = () => {
   const boardHexes = useBoundStore((s) => s.boardHexes)
@@ -98,10 +97,9 @@ const Controls = () => {
       <PieceSizeSelect />
       <RotationSelect />
       {/* <MapLensToggles /> */}
-      {/* <ViewingLevelInput /> */}
-      {/* <LocalStorageList /> */}
-      {/* <InventoryForm /> */}
-      {/* <Button onClick={handleClickAddMapLengthX}>Add length</Button>
+      <ViewingLevelInput />
+      <LocalStorageList />
+      <Button onClick={handleClickAddMapLengthX}>Add length</Button>
       <Button onClick={handleClickRemoveMapLengthX}>Remove length</Button>
       <Button onClick={handleClickAddMapWidthY}>Add width</Button>
       <Button onClick={handleClickRemoveMapWidthY}>Remove width</Button>
@@ -111,7 +109,7 @@ const Controls = () => {
       <Button onClick={() => movePieces(3)}>West</Button>
       <Button onClick={() => movePieces(4)}>NorthWest</Button>
       <Button onClick={() => movePieces(5)}>NorthEast</Button>
-      <Button onClick={handleClickLogState}>Log state</Button> */}
+      <Button onClick={handleClickLogState}>Log state</Button>
     </Container>
   )
 }
