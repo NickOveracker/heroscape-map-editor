@@ -8,15 +8,14 @@ import CreateMapFormDialog from './CreateMapFormDialog'
 import EditMapFormDialog from './EditMapFormDialog'
 import { LoadMapInputs } from './LoadMapButtons'
 import CameraSpeedDial from './CameraSpeedDial'
-import PdfMapDisplay from '../PdfMapDisplay'
+import ReactPdfRoot from '../pdf-map/ReactPdfRoot'
 import useBoundStore from '../store/store'
 import useAutoLoadMapFile from '../hooks/useAutoLoadMapFile'
+import { SvgMapDisplay } from '../svg-map/SvgMapDisplay'
 
 export default function HomePage() {
   const cameraControlsRef = React.useRef(undefined!)
   const boardHexes = useBoundStore((state) => state.boardHexes)
-  const boardPieces = useBoundStore((state) => state.boardPieces)
-  const hexMap = useBoundStore((state) => state.hexMap)
   // https://robohash.org/you.png?size=200x200
   // USE EFFECT: automatically load up map from URL, OR from file
   useAutoLoadMapFile()
@@ -39,6 +38,12 @@ export default function HomePage() {
   const toggleIsPdfOpen = (s: boolean) => {
     setIsPdfOpen(s)
   }
+  const [is2DOpen, setIs2DOpen] = React.useState(true)
+  const toggleIs2DOpen = (s: boolean) => {
+    setIsPdfOpen(false)
+    setIs2DOpen(s)
+  }
+
   return (
     <>
       <CreateMapFormDialog />
@@ -67,6 +72,8 @@ export default function HomePage() {
           toggleIsNavOpen={toggleIsNavOpen}
           isPdfOpen={isPdfOpen}
           toggleIsPdfOpen={toggleIsPdfOpen}
+          is2DOpen={is2DOpen}
+          toggleIs2DOpen={toggleIs2DOpen}
         />
         <div
           style={{
@@ -89,19 +96,18 @@ export default function HomePage() {
             }}
           >
             {
-              isPdfOpen ? (
-                <PdfMapDisplay
-                  boardHexes={boardHexes}
-                  boardPieces={boardPieces}
-                  hexMap={hexMap}
-                />
-              ) : (
-                <>
-                  <CameraSpeedDial cameraControlsRef={cameraControlsRef} />
-                  <World cameraControlsRef={cameraControlsRef} />
-                </>
-              )
-            }
+              isPdfOpen && (
+                <ReactPdfRoot />
+              )}
+            {(is2DOpen && !isPdfOpen) && (
+              <SvgMapDisplay boardHexes={boardHexes} />
+            )}
+            <>
+              <CameraSpeedDial isHidden={is2DOpen || isPdfOpen} cameraControlsRef={cameraControlsRef} />
+              <World isHidden={is2DOpen || isPdfOpen} cameraControlsRef={cameraControlsRef} />
+            </>
+
+
           </div>
           <div
             style={{

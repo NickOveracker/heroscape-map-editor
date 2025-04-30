@@ -12,9 +12,11 @@ import { CAMERA_FOV } from '../utils/constants'
 import SelectedPieceReadout from '../controls/SelectedPieceReadout'
 
 const World = ({
-  cameraControlsRef
+  cameraControlsRef,
+  isHidden
 }: {
   cameraControlsRef: React.RefObject<CameraControls>
+  isHidden: boolean
 }) => {
   const mapGroupRef = React.useRef<THREE.Group<THREE.Object3DEventMap>>(undefined!)
   const isOrthoCam = useBoundStore(s => s.isOrthoCam)
@@ -31,6 +33,7 @@ const World = ({
         style={{
           width: '100%',
           height: '100%',
+          display: isHidden ? 'none' : 'block',
           position: 'relative',
         }}
       >
@@ -49,6 +52,7 @@ const World = ({
             toggleHoveredPieceID('')
           }}
           frameloop='demand'
+          hidden={isHidden}
         >
           {/* <color attach="background" args={["white"]} /> */}
           <PerspectiveCamera
@@ -67,7 +71,7 @@ const World = ({
             speed={1}
           />}
           {/* Stats displays the fps */}
-          <Stats className="stats-panel" />
+          {!isHidden && <Stats className="stats-panel" />}
           <MapDisplay3D mapGroupRef={mapGroupRef} cameraControlsRef={cameraControlsRef} />
           <Lights />
           {/* {!isTakingPicture && <GridHelper />} */}
