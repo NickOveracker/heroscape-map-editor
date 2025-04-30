@@ -1,21 +1,14 @@
-import { Document, Page, View, PDFViewer, } from '@react-pdf/renderer';
+import { Document, Page, View, PDFViewer, Text, } from '@react-pdf/renderer';
 import { groupBy } from 'lodash';
 import { BoardHex, BoardHexes, BoardPieces, MapState, Pieces } from '../types';
 import React, { PropsWithChildren } from 'react';
-import { piecesSoFar } from '../data/pieces';
 import { decodePieceID, getBoardHexesSvgMapDimensions } from '../utils/map-utils';
 import useBoundStore from '../store/store';
 import { ReactPdfSvgMapDisplay } from './ReactPdfSvgMapDisplay';
+import { getBoardHexObstacleOriginsAndHexes } from '../utils/board-utils';
 
 const getBoardHexAndPieceChunks = (boardHexes: BoardHexes, boardPieces: BoardPieces) => {
-  const filteredBoardHexes = Object.values(boardHexes).filter((hex) => {
-    const inventoryPieceID = decodePieceID(hex.pieceID).pieceID;
-    return (
-      piecesSoFar[inventoryPieceID]?.isHexTerrainPiece ||
-      (piecesSoFar[inventoryPieceID]?.isObstaclePiece && hex.isObstacleOrigin)
-    );
-  });
-
+  const filteredBoardHexes = Object.values(getBoardHexObstacleOriginsAndHexes(boardHexes))
   const filteredBoardPieces = Object.keys(boardPieces).filter((pieceID) => {
     const id = decodePieceID(pieceID).pieceID;
     return (
@@ -113,7 +106,6 @@ const HalfPageColumn = (props: PropsWithChildren) => {
         flexGrow: 1,
         flexBasis: '50%',
         flexDirection: 'column',
-        border: '1px solid black',
         margin: 5,
       }}
     >
@@ -195,6 +187,7 @@ const HexMapPage = ({ chunk, width, length }: HexMapPageProps) => {
                     border: '1px solid green',
                   }}
                 >
+                  <Text>Level: {group.altitude}</Text>
                   <ReactPdfSvgMapDisplay
                     boardHexArr={group.hexes}
                     width={width}

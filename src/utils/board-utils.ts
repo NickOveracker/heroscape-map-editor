@@ -1,4 +1,6 @@
-import { HexTerrain, Pieces } from '../types'
+import { piecesSoFar } from '../data/pieces'
+import { BoardHexes, HexTerrain, Pieces } from '../types'
+import { decodePieceID } from './map-utils'
 export function isFluidTerrainHex(terrain: string) {
   if (
     terrain === HexTerrain.wellspringWater ||
@@ -129,4 +131,18 @@ export function isBridgingObstaclePieceID(id: string) {
   } else {
     return false
   }
+}
+export const getBoardHexObstacleOriginsAndHexes = (boardHexes: BoardHexes): BoardHexes => {
+  return Object.values(boardHexes).reduce((acc, hex) => {
+    const inventoryPieceID = decodePieceID(hex.pieceID).pieceID;
+    const isPieceOriginHex =
+      piecesSoFar[inventoryPieceID]?.isHexTerrainPiece ||
+      (piecesSoFar[inventoryPieceID]?.isObstaclePiece && hex.isObstacleOrigin)
+
+    if (isPieceOriginHex) {
+      acc[hex.id] = hex;
+    }
+    return acc;
+  }
+    , {} as BoardHexes);
 }
