@@ -29,8 +29,7 @@ export function MapHexGlyph({ glyphPieceID }: Props) {
   // }
 
   // const angle = layout.flat ? 0 : Math.PI / 6
-  const cornerCoords = getHexagonSvgPolygonPoints()
-  const points = cornerCoords.map((point) => `${point.x},${point.y}`).join(' ')
+  const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS)
   // const isGlyphRevealed = glyphOnHex.isRevealed
   // const canonicalGlyph = powerGlyphs[glyphOnHex.glyphID]
   // const glyphShortName = canonicalGlyph?.shortName || ''

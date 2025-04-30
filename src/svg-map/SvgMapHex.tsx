@@ -13,17 +13,16 @@ export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
     console.log("🚀 ~ onClick ~ sourceHex:", sourceHex)
   }
 
-  const cornerCoords = getHexagonSvgPolygonPoints()
-  const points = cornerCoords.map((point) => `${point.x},${point.y}`).join(' ')
+  const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS)
   const color = svgColors[hex.terrain]
   return (
     <HexGridCoordinate hex={hex} onClick={onClick}>
       <polygon
         points={points}
-        stroke={hex.terrain === "empty" ? "grey" : "blue"}
         fill={color}
-        strokeWidth={1}
-      // className={`base-maphex ${hexClassNames(hex)}`}
+        stroke={hex.terrain === "empty" ? "grey" : "blue"}
+        strokeWidth={2}
+        clip-path="url(#inner-stroke-clip)"
       />
       {/* Hex text */}
       <SvgHexIDText

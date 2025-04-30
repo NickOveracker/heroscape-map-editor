@@ -3,10 +3,10 @@ import { BoardHex } from '../types'
 import { G, Polygon } from '@react-pdf/renderer'
 import { getHexagonSvgPolygonPoints } from '../svg-map/getHexagonSvgPolygonPoints'
 import { svgColors } from '../world/maphex/hexColors'
+import { SVG_HEX_RADIUS } from '../utils/constants'
 
 export const PdfMapHex = ({ hex }: { hex: BoardHex }) => {
-  const cornerCoords = getHexagonSvgPolygonPoints()
-  const points = cornerCoords.map((point) => `${point.x},${point.y}`).join(' ')
+  const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS)
   const pixel = hexUtilsHexToPixel(hex)
   const color = svgColors[hex.terrain]
   return (
