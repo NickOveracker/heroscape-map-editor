@@ -59,7 +59,7 @@ export const hexTerrainColor: Dictionary<string> = {
   [HexTerrain.road]: '#97969C',
   [HexTerrain.roadWall]: '#787D79',
   [HexTerrain.snow]: '#EEEBFF',
-  'snowCap': '#FFF',
+  [`${HexTerrain.snow}Cap`]: '#FFF',
   [HexTerrain.ice]: '#55DBCB',
   [HexTerrain.lavaField]: '#A30029',
   'lavaFieldCap': '#4F4840',
@@ -99,8 +99,9 @@ export const hexTerrainColor: Dictionary<string> = {
   laurPalm3: '#22B800',
 }
 
-export const svgColors = {
+export const svgColors: { [key: string]: string } = {
   // RENEGADE COLORS, unless noted
+  empty: 'rgb(0, 0, 0)',
   // STARTZONES
   blueSZ: 'rgb(57, 61, 157)',
   darkBlueSZ: 'rgb(21, 28, 51)',
@@ -114,7 +115,7 @@ export const svgColors = {
   outline3: 'rgb(17, 15, 14)',
   outline7: 'rgb(175, 27, 148)',
   outline24: 'rgb(188, 188, 186)',
-  waterOutline: 'rgb(43, 56, 139)', // ice, swampwater too
+  [`outline${HexTerrain.water}`]: 'rgb(43, 56, 139)', // ice, swampwater too
   treeOutline: 'rgb(28, 57, 29)',
   jungleOutline: 'rgb(121, 61, 26)',
   laurOutline: 'rgb(215, 38, 156)',
@@ -124,7 +125,7 @@ export const svgColors = {
   glyphFill: 'rgb(244, 106, 22)',
   jungleFill: 'rgb(249, 233, 8)',
   treeFill: 'rgb(51, 160, 62)',
-  laurPillar: 'rgb(98, 28, 96)',
+  laurWall: 'rgb(98, 28, 96)',
   // TERRAIN
   // grass: 'rgb(0, 160, 0)', // virtualscape
   grass: 'rgb(0, 161, 0)',

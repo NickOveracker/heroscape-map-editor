@@ -17,6 +17,10 @@ export type CubeCoordinate = {
   r: number
   s: number
 }
+export type Point = {
+  x: number
+  y: number
+}
 export interface BoardHex extends CubeCoordinate {
   id: string
   altitude: number

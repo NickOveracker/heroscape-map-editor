@@ -1,6 +1,8 @@
 export const HEXGRID_SPACING = 1 // removed for the sake of blender/grid niceness
-export const HEXGRID_HEX_RADIUS = 1 // Side length also (regular hexagons are the only regular polygons where it is so!)
-export const HEXGRID_HEX_APOTHEM = (Math.sqrt(3) / 2) * HEXGRID_HEX_RADIUS // we are using regular hexagons where this equation is true
+export const HEXGRID_HEX_RADIUS = 1
+export const HEXGRID_HEX_APOTHEM = (Math.sqrt(3) / 2) * HEXGRID_HEX_RADIUS
+export const SVG_HEX_RADIUS = 10
+export const SVG_HEX_APOTHEM = (Math.sqrt(3) / 2) * SVG_HEX_RADIUS
 export const ORIGIN_000 = { q: 0, r: 0, s: 0 }
 export const CUBE_EAST = { q: 1, r: 0, s: -1 }
 export const CUBE_SE = { q: 0, r: 1, s: -1 }
@@ -44,3 +46,25 @@ export const EVENTS = {
 export const LS_KEYS = {
   pieceInventory: 'pieceInventory',
 }
+export const LAYOUT_POINTY = {
+  f0: Math.sqrt(3.0),
+  f1: Math.sqrt(3.0) / 2.0,
+  f2: 0.0,
+  f3: 3.0 / 2.0,
+  b0: Math.sqrt(3.0) / 3.0,
+  b1: -1.0 / 3.0,
+  b2: 0.0,
+  b3: 2.0 / 3.0,
+  startAngle: 0.5,
+}
+// const LAYOUT_FLAT = {
+//   f0: 3.0 / 2.0,
+//   f1: 0.0,
+//   f2: Math.sqrt(3.0) / 2.0,
+//   f3: Math.sqrt(3.0),
+//   b0: 2.0 / 3.0,
+//   b1: 0.0,
+//   b2: -1.0 / 3.0,
+//   b3: Math.sqrt(3.0) / 3.0,
+//   startAngle: 0.0,
+// }
