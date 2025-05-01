@@ -204,6 +204,7 @@ export enum Pieces {
   asphalt7 = `${PiecePrefixes.asphalt}7`,
   concrete1 = `${PiecePrefixes.concrete}1`,
   concrete2 = `${PiecePrefixes.concrete}2`,
+  concrete6 = `${PiecePrefixes.concrete}6`, // base of marvel ruin
   concrete7 = `${PiecePrefixes.concrete}7`,
   road1 = `${PiecePrefixes.road}1`,
   road2 = `${PiecePrefixes.road}2`,

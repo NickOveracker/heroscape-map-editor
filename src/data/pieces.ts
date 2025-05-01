@@ -488,6 +488,17 @@ export const piecesSoFar: Dictionary<Piece> = {
     template: '2',
     height: 1,
   },
+  [Pieces.concrete6]: {
+    id: Pieces.concrete6,
+    title: `Concrete-6`,
+    terrain: HexTerrain.concrete,
+    landPrefix: PiecePrefixes.concrete,
+    isHexTerrainPiece: true,
+    isObstaclePiece: false,
+    size: 6,
+    template: Pieces.marvel,
+    height: 1,
+  },
   [Pieces.concrete7]: {
     id: Pieces.concrete7,
     title: `Concrete-7`,

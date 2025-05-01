@@ -49,6 +49,10 @@ export default function LandSubterrain({ pid }: { pid: string }) {
   if (pieceSize === '7' && pieceID === Pieces.wallWalk7) {
     pieceSize = '7B'
   }
+  // TODO: just add a subterrain property to Pieces, this is a hack
+  if (pieceSize === '6' && pieceID === Pieces.concrete6) {
+    pieceSize = '6B'
+  }
   // update color when piece is hovered/selected
   React.useEffect(() => {
     if (isHighlighted) {
@@ -106,6 +110,12 @@ export default function LandSubterrain({ pid }: { pid: string }) {
           <Subterrain6 >
             {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
           </Subterrain6>
+        )
+      case '6B':
+        return (
+          <Subterrain6B>
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+          </Subterrain6B>
         )
       case '7B':
         return (
@@ -206,6 +216,18 @@ export function Subterrain6({ children }: PropsWithChildren) {
   )
 }
 useGLTF.preload('/subterrain_6.glb')
+
+export function Subterrain6B({ children }: PropsWithChildren) {
+  const { nodes } = useGLTF('/subterrain_6B.glb') as any
+  return (
+    <mesh
+      geometry={nodes['Subterrain-6B'].geometry}
+    >
+      {children}
+    </mesh>
+  )
+}
+useGLTF.preload('/subterrain_6B.glb')
 
 export function Subterrain5({ children }: PropsWithChildren) {
   const { nodes } = useGLTF('/subterrain_5.glb') as any
