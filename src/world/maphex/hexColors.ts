@@ -138,18 +138,18 @@ export const svgColors: { [key: string]: string } = {
   swamp: 'rgb(27, 46, 22)',
   snow: 'rgb(255,255,255)',
   snowFlake: 'rgb(164, 172, 218)', // there is variation in the snowflake color
-  // lavaField: 'rgb(160, 32, 32)', // virtualscape
-  // lavaField: '',
+  lavaField: 'rgb(160, 32, 32)', // virtualscape
+  // lavaField: '#97202C',
   // water: 'rgb(32, 32, 255)', // virtualscape
   water: 'rgb(67, 172, 176)',
   wellspringWater: 'rgb(255,255,255)',
   // swampwater: 'rgb(222, 210, 42)', // virtualscape
   swampwater: 'rgb(162, 166, 32)',
-  // lava: 'rgb(255, 64, 64)', // virtualscape
+  lava: 'rgb(255, 64, 64)', // virtualscape
   // lava: '',
   // shadow: '',
-  // ice: 'rgb(180, 180, 255)', // virtualscape
-  ice: 'rgb(148, 158, 215)',
+  ice: 'rgb(180, 180, 255)', // virtualscape
+  // ice: 'rgb(148, 158, 215)',
   iceFlake: 'rgb(242, 243, 250)', // there is variation in the snowflake color
 }
 // const hsColors = {
