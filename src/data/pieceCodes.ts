@@ -34,7 +34,9 @@ export const pieceCodes: Dictionary<string> = {
 
   '7001': Pieces.lavaField1,
   '7002': Pieces.lavaField2,
+  '7003': Pieces.lavaField3,
   '7007': Pieces.lavaField7,
+  '7024': Pieces.lavaField24,
 
   '21001': Pieces.concrete1,
   '21002': Pieces.concrete2,
@@ -50,17 +52,26 @@ export const pieceCodes: Dictionary<string> = {
 
   '9001': Pieces.snow1,
   '9002': Pieces.snow2,
+  '9003': Pieces.snow3,
+  '9007': Pieces.snow7,
+  '9024': Pieces.snow24,
 
   '4001': Pieces.water1,
+  '4003': Pieces.water3,
+
   '17001': Pieces.wellspringWater1,
 
   '5001': Pieces.ice1,
+  '5003': Pieces.ice3,
 
   '6001': Pieces.lava1,
+  '6003': Pieces.lava3,
 
   '19001': Pieces.swampWater1,
+  '19003': Pieces.swampWater3,
 
   '25001': Pieces.shadow1,
+  '25003': Pieces.shadow3,
 
   '24014': Pieces.palm14,
   '24015': Pieces.palm15,
@@ -106,12 +117,6 @@ export const pieceCodes: Dictionary<string> = {
   '15001': 'startArea',
   // laurWallPillar
   '17101': Pieces.laurWallPillar,
-}
-export const personalAndFigureTypeCodes = {
-  // Tiles that people could customize in Virtualscape
-  '170': 'TYPE_PERSONAL',
-  // The MasterSet 1 figures (colored/textured too!), and Wave 1 figures (unpainted & incomplete but many of the meshes)
-  '180': 'TYPE_FIGURE',
 }
 export const startAreaColorsToPlayerID = {
   // Keys are the colorf values of StartAreaTiles from virtualscape (the colorf values are these tiles only differentiating property)
