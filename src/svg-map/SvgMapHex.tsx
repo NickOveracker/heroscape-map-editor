@@ -14,6 +14,14 @@ export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
   }
 
   const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS)
+  /* 
+  17.32050807568877,15 
+  8.660254037844386,20 
+  0,15
+  0,5 
+  8.660254037844384,0 
+  17.320508075688775,5
+  */
   const color = svgColors[hex.terrain]
   return (
     <HexGridCoordinate hex={hex} onClick={onClick}>
@@ -21,8 +29,9 @@ export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
         points={points}
         fill={color}
         stroke={hex.terrain === "empty" ? "grey" : "blue"}
-        strokeWidth={2}
-        clip-path="url(#inner-stroke-clip)"
+        strokeWidth={1}
+        // clip-path="url(#inner-stroke-clip)"
+        clip-path="url(#interlock1-clip)"
       />
       {/* Hex text */}
       <SvgHexIDText

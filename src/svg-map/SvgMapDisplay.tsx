@@ -13,7 +13,29 @@ export const SvgMapDisplay = ({ boardHexes }: { boardHexes: BoardHexes }) => {
     (a, b) => a.altitude - b.altitude,
   )
   const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS)
+  console.log("🚀 ~ SvgMapDisplay ~ points:", points)
+  const interlock1Points =
+    `17.32,15
+    17.07,14.567
+  8.66,19.5
+  8.66,20 
+  0,15 
+  0,5 
+  8.66,0 
+  17.32,5`
+  // 17.32,15 
+  // 8.66,20 
+  // 0,15 
+  // 0,5 
+  // 8.66,0 
+  // 17.32,5
 
+  // 13.856,12
+  // 6.928,16
+  // 0,12 
+  // 0, 4 
+  // 6.928, 0
+  //  13.856, 4
   return (
     <svg
       viewBox={`${0 - PADDING} ${0 - PADDING} ${mapDimensions.width + 3 * PADDING} ${mapDimensions.length + 3 * PADDING}`}
@@ -21,6 +43,9 @@ export const SvgMapDisplay = ({ boardHexes }: { boardHexes: BoardHexes }) => {
       <defs>
         <clipPath id="inner-stroke-clip">
           <polygon points={points} />
+        </clipPath>
+        <clipPath id="interlock1-clip">
+          <polygon points={interlock1Points} />
         </clipPath>
       </defs>
       {/* <circle cx="50%" cy="50%" r="50%" fill="white" /> */}
