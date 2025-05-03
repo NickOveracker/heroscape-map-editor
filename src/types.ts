@@ -28,7 +28,7 @@ export interface BoardHex extends CubeCoordinate {
   terrain: string
   pieceRotation: number
   isCap?: boolean // caps are uncovered (no land hex above them) land hexes
-  interlockType?: string // 0,1,2,3,4,4B,5,6 interlocking hex types https://github.com/Dissolutio/heroscape-map-editor/issues/3
+  interlockType?: string // 0,1,2,3,3B,4,4B,5,6 interlocking hex types https://github.com/Dissolutio/heroscape-map-editor/issues/3
   interlockRotation?: number // 1-6, each interlock has a rotatin WITHIN its template
   isObstacleOrigin?: boolean // This marks the boardHex that will render the obstacle model
   isObstacleAuxiliary?: boolean // just shows an obstacle base for that hex

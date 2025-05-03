@@ -140,7 +140,9 @@ export const svgColors: { [key: string]: string } = {
   snowFlake: 'rgb(164, 172, 218)', // there is variation in the snowflake color
   lavaField: 'rgb(160, 32, 32)', // virtualscape
   // lavaField: '#97202C',
-  // water: 'rgb(32, 32, 255)', // virtualscape
+  asphalt: 'rgb(120, 120, 120)', // virtualscape
+  concrete: 'rgb(220, 220, 220)', // virtualscape
+  // lavaField: '',  // water: 'rgb(32, 32, 255)', // virtualscape
   water: 'rgb(67, 172, 176)',
   wellspringWater: 'rgb(255,255,255)',
   // swampwater: 'rgb(222, 210, 42)', // virtualscape

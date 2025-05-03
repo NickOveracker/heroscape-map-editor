@@ -13,29 +13,10 @@ export const SvgMapDisplay = ({ boardHexes }: { boardHexes: BoardHexes }) => {
     (a, b) => a.altitude - b.altitude,
   )
   const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS)
-  console.log("🚀 ~ SvgMapDisplay ~ points:", points)
-  const interlock1Points =
-    `17.32,15
-    17.07,14.567
-  8.66,19.5
-  8.66,20 
-  0,15 
-  0,5 
-  8.66,0 
-  17.32,5`
-  // 17.32,15 
-  // 8.66,20 
-  // 0,15 
-  // 0,5 
-  // 8.66,0 
-  // 17.32,5
-
-  // 13.856,12
-  // 6.928,16
-  // 0,12 
-  // 0, 4 
-  // 6.928, 0
-  //  13.856, 4
+  // const interlock1Points =
+  //   `17.32,15
+  //   8.66,20 
+  //   8.66, 10`
   return (
     <svg
       viewBox={`${0 - PADDING} ${0 - PADDING} ${mapDimensions.width + 3 * PADDING} ${mapDimensions.length + 3 * PADDING}`}
@@ -46,6 +27,27 @@ export const SvgMapDisplay = ({ boardHexes }: { boardHexes: BoardHexes }) => {
         </clipPath>
         <clipPath id="interlock1-clip">
           <polygon points={interlock1Points} />
+        </clipPath>
+        <clipPath id="interlock2-clip">
+          <polygon points={interlock2Points} />
+        </clipPath>
+        <clipPath id="interlock3-clip">
+          <polygon points={interlock3Points} />
+        </clipPath>
+        <clipPath id="interlock3B-clip">
+          <polygon points={interlock3BPoints} />
+        </clipPath>
+        <clipPath id="interlock4-clip">
+          <polygon points={interlock4Points} />
+        </clipPath>
+        <clipPath id="interlock4B-clip">
+          <polygon points={interlock4BPoints} />
+        </clipPath>
+        <clipPath id="interlock5-clip">
+          <polygon points={interlock5Points} />
+        </clipPath>
+        <clipPath id="interlock6-clip">
+          <polygon points={interlock6Points} />
         </clipPath>
       </defs>
       {/* <circle cx="50%" cy="50%" r="50%" fill="white" /> */}
@@ -61,3 +63,64 @@ export const SvgMapDisplay = ({ boardHexes }: { boardHexes: BoardHexes }) => {
     </svg>
   )
 }
+
+const interlock1Points =
+  `17.32,15
+8.66,20 
+0,15 
+8.66,10
+0,5 
+8.66,0 
+17.32,5
+8.66,10
+`
+const interlock2Points =
+  `17.32,15
+8.66,20 
+0,15 
+8.66, 10`
+const interlock3Points =
+  `17.32,15
+8.66,20 
+0,15 
+0,5 
+8.66,10`
+const interlock3BPoints =
+  `17.32,15
+8.66,20 
+0,15 
+8.66, 10
+8.66,0 
+17.32,5
+8.66, 10
+`
+const interlock4Points =
+  `17.32,15
+8.66,20 
+0,15 
+0,5 
+8.66,0 
+8.66,10`
+const interlock4BPoints =
+  `17.32,15
+8.66,20 
+0,15 
+0,5 
+8.66,0 
+17.32,5`
+const interlock5Points =
+  `17.32,15
+8.66,20 
+0,15 
+0,5 
+8.66,0 
+17.32,5
+8.66,10
+`
+const interlock6Points =
+  `17.32,15
+8.66,20 
+0,15 
+0,5 
+8.66,0 
+17.32,5`
