@@ -1,4 +1,4 @@
-import { SyntheticEvent, useMemo } from 'react';
+import { SyntheticEvent } from 'react';
 
 import { SvgHexIDText } from './SvgHexIDText';
 import { getHexagonSvgPolygonPoints } from './getHexagonSvgPolygonPoints';
@@ -12,12 +12,7 @@ export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
   const onClick = (event: SyntheticEvent, sourceHex: BoardHex) => {
     console.log('🚀 ~ onClick ~ sourceHex:', sourceHex);
   };
-  const { pixel } = useMemo(() => {
-    const pixel = hexUtilsHexToPixel(hex)
-    return {
-      pixel,
-    }
-  }, [hex])
+  const pixel = hexUtilsHexToPixel(hex)
 
   const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS);
   const color = getSvgHexFillColor(hex);
