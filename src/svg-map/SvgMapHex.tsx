@@ -42,20 +42,20 @@ export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
         fill={color}
         clipPath="url(#inner-stroke-clip)"
       />
-      <polygon
+      {hex.interlockType !== '0' && <polygon
         points={points}
         transform={`rotate(${borderRotation}, 8.660254037844386, 10)`}
         fill='transparent'
         stroke={borderColor}
-        strokeWidth={1}
+        strokeWidth={2}
         strokeLinejoin='round'
         strokeLinecap='butt'
         clipPath={`url(#interlock${hex.interlockType}-clip)`}
-      />
+      />}
       {/* Hex text */}
       <SvgHexIDText
         hexSize={SVG_HEX_RADIUS}
-        text={`${hex.id}`}
+        text={`${hex.interlockType}`}
         textLine2={`${hex.altitude}`}
       />
     </g>
