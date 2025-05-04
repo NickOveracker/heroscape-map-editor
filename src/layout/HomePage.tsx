@@ -64,7 +64,7 @@ export default function HomePage() {
           height: '100vh',
           padding: 0,
           margin: 0,
-          backgroundColor: 'var(--outer-space)',
+          // backgroundColor: 'var(--outer-space)',
         }}
       >
         <HeaderNav

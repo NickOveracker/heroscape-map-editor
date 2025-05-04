@@ -10,7 +10,7 @@ export const CUBE_SW = { q: -1, r: 1, s: 0 }
 export const CUBE_WEST = { q: -1, r: 0, s: 1 }
 export const CUBE_NW = { q: 0, r: -1, s: 1 }
 export const CUBE_NE = { q: 1, r: -1, s: 0 }
-
+export const INTERLOCK_ROTATION_DIFFERENCE_SVG_FROM_3D = 1 // The svg versions are built 1 rotation clockwise from the 3D versions, oops!
 // HEX DIMENSIONS: according to HS hex image
 // solid hex height: 7/16" (1.11125 cm)
 // fluid hex height: 3/16" (0.47625 cm)

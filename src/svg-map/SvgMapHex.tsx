@@ -1,61 +1,42 @@
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, useMemo } from 'react';
 
 import { SvgHexIDText } from './SvgHexIDText';
-import { HexGridCoordinate } from './HexGridCoordinate';
 import { getHexagonSvgPolygonPoints } from './getHexagonSvgPolygonPoints';
-import { SVG_HEX_RADIUS } from '../utils/constants';
+import { INTERLOCK_ROTATION_DIFFERENCE_SVG_FROM_3D, SVG_HEX_RADIUS } from '../utils/constants';
 import { BoardHex } from '../types';
-import { svgColors } from '../world/maphex/hexColors';
-import { decodePieceID, hexUtilsHexToPixel } from '../utils/map-utils';
-import { piecesSoFar } from '../data/pieces';
-import { isSolidTerrainHex } from '../utils/board-utils';
-
-const getBorderColor = (hex: BoardHex) => {
-  const isSolidTerrain = isSolidTerrainHex(hex.terrain);
-  const inventoryPiece = piecesSoFar[decodePieceID(hex.pieceID).pieceID];
-  const is1Hex = inventoryPiece.size === 1;
-  const is2Hex = inventoryPiece.size === 2;
-  const is3Hex = inventoryPiece.size === 3;
-  const is7Hex = inventoryPiece.size === 7;
-  const is24Hex = inventoryPiece.size === 24;
-  if (isSolidTerrain && is1Hex) {
-    return svgColors.outline1;
-  }
-  if (isSolidTerrain && is2Hex) {
-    return svgColors.outline2;
-  }
-  if (isSolidTerrain && is3Hex) {
-    return svgColors.outline3;
-  }
-  if (isSolidTerrain && is7Hex) {
-    return svgColors.outline7;
-  }
-  if (isSolidTerrain && is24Hex) {
-    return svgColors.outline24;
-  }
-  return 'black';
-};
+import { hexUtilsHexToPixel } from '../utils/map-utils';
+import { getSvgHexBorderColor, getSvgHexFillColor } from './getSvgHexColors';
 
 export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
   // handlers
   const onClick = (event: SyntheticEvent, sourceHex: BoardHex) => {
     console.log('🚀 ~ onClick ~ sourceHex:', sourceHex);
   };
+  const { pixel } = useMemo(() => {
+    const pixel = hexUtilsHexToPixel(hex)
+    return {
+      pixel,
+    }
+  }, [hex])
 
   const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS);
-  const color = svgColors[hex.terrain];
-  const borderColor = getBorderColor(hex);
+  const color = getSvgHexFillColor(hex);
+  const borderColor = getSvgHexBorderColor(hex);
 
-  // Calculate the center of the hex
-  const center = hexUtilsHexToPixel(hex); // This function should already return the center of the hex
-
-  // Rotation logic
   const borderRotation =
-    (hex?.interlockRotation ?? 0) +
-    (hex?.pieceRotation ?? 0) * (Math.PI / 3);
+    (+ (hex?.interlockRotation ?? 0) +
+      (hex?.pieceRotation ?? 0) - INTERLOCK_ROTATION_DIFFERENCE_SVG_FROM_3D) * (60);
 
   return (
-    <HexGridCoordinate hex={hex} onClick={onClick}>
+    <g
+      transform={`translate(${pixel.x}, ${pixel.y})`}
+      onClick={(e) => {
+        if (onClick) {
+          onClick(e, hex)
+        }
+      }}
+    >
+
       <polygon
         points={points}
         fill={color}
@@ -63,10 +44,12 @@ export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
       />
       <polygon
         points={points}
-        stroke={borderColor}
+        transform={`rotate(${borderRotation}, 8.660254037844386, 10)`}
         fill='transparent'
-        transform={`rotate(${(30)}, ${center.x}, ${center.y})`}
+        stroke={borderColor}
         strokeWidth={1}
+        strokeLinejoin='round'
+        strokeLinecap='butt'
         clipPath={`url(#interlock${hex.interlockType}-clip)`}
       />
       {/* Hex text */}
@@ -75,6 +58,6 @@ export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
         text={`${hex.id}`}
         textLine2={`${hex.altitude}`}
       />
-    </HexGridCoordinate>
+    </g>
   );
 };

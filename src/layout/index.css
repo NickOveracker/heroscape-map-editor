@@ -12,6 +12,7 @@ html {
 }
 
 #root {
+  background-color: var(--white);
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -48,7 +49,7 @@ canvas {
   touch-action: none;
   /* This style prevents this TRAP: pinch-and-zoom into the canvas (because camera controls did not pick up the pinch but user device did) and losing the rest of the UI because camera controls starts working again and user cannot pinch zoom back out */
   opacity: 0;
-  animation: fade-in 2s ease 1s forwards;
+  animation: fade-in 0.3s ease forwards;
 }
 
 .stats-panel {
