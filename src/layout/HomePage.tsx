@@ -9,13 +9,12 @@ import EditMapFormDialog from './EditMapFormDialog'
 import { LoadMapInputs } from './LoadMapButtons'
 import CameraSpeedDial from './CameraSpeedDial'
 import ReactPdfRoot from '../pdf-map/ReactPdfRoot'
-import useBoundStore from '../store/store'
 import useAutoLoadMapFile from '../hooks/useAutoLoadMapFile'
 import { SvgMapDisplay } from '../svg-map/SvgMapDisplay'
 
 export default function HomePage() {
   const cameraControlsRef = React.useRef(undefined!)
-  const boardHexes = useBoundStore((state) => state.boardHexes)
+
   // https://robohash.org/you.png?size=200x200
   // USE EFFECT: automatically load up map from URL, OR from file
   useAutoLoadMapFile()
@@ -100,7 +99,7 @@ export default function HomePage() {
                 <ReactPdfRoot />
               )}
             {(is2DOpen && !isPdfOpen) && (
-              <SvgMapDisplay boardHexes={boardHexes} />
+              <SvgMapDisplay />
             )}
             <>
               <CameraSpeedDial isHidden={is2DOpen || isPdfOpen} cameraControlsRef={cameraControlsRef} />
