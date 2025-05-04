@@ -17,6 +17,9 @@ export const SvgMapDisplay = ({ boardHexes }: { boardHexes: BoardHexes }) => {
   return (
     <svg
       viewBox={`${0 - PADDING} ${0 - PADDING} ${mapDimensions.width + 3 * PADDING} ${mapDimensions.length + 3 * PADDING}`}
+      style={{
+        height: '99%'
+      }}
     >
       <SvgInterlockClipPaths
         points={points}
