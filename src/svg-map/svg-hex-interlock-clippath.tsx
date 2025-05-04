@@ -72,13 +72,8 @@ export const PdfInterlockClipPaths = ({ points }: Props) => {
 
 const interlock1Points =
   `17.32,15
-8.66,20 
-0,15 
-8.66,10
-0,5 
-8.66,0 
-17.32,5
-8.66,10
+  8.66,20 
+  8.66,10
 `
 const interlock2Points =
   `17.32,15

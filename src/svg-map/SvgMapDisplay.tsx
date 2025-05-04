@@ -83,11 +83,9 @@ export const SvgMapDisplay = () => {
       onPointerLeave={onPointerUp}
     >
       <SvgInterlockClipPaths points={points} />
-      <g className="hexgrid-layout">
-        {boardHexesArr.map((hex) => (
-          <SvgMapHex key={hex.id} hex={hex} />
-        ))}
-      </g>
+      {boardHexesArr.map((hex) => (
+        <SvgMapHex key={hex.id} hex={hex} />
+      ))}
     </svg>
   );
 };
