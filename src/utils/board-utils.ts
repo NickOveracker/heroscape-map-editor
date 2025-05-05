@@ -132,14 +132,14 @@ export function isBridgingObstaclePieceID(id: string) {
     return false
   }
 }
-export const getBoardHexObstacleOriginsAndHexes = (boardHexes: BoardHexes): BoardHexes => {
+export const getBoardHexObstacleOriginsAndHexesAndEmpties = (boardHexes: BoardHexes): BoardHexes => {
   return Object.values(boardHexes).reduce((acc, hex) => {
     const inventoryPieceID = decodePieceID(hex.pieceID).pieceID;
     const isPieceOriginHex =
       piecesSoFar[inventoryPieceID]?.isHexTerrainPiece ||
       (piecesSoFar[inventoryPieceID]?.isObstaclePiece && hex.isObstacleOrigin)
 
-    if (isPieceOriginHex) {
+    if (isPieceOriginHex || hex.terrain === 'empty') {
       acc[hex.id] = hex;
     }
     return acc;

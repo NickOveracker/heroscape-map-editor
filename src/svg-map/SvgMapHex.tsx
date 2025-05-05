@@ -2,12 +2,13 @@ import { SyntheticEvent } from 'react';
 
 import { SvgHexIDText } from './SvgHexIDText';
 import { getHexagonSvgPolygonPoints } from './getHexagonSvgPolygonPoints';
-import { INTERLOCK_ROTATION_DIFFERENCE_SVG_FROM_3D, SVG_HEX_RADIUS } from '../utils/constants';
+import { SVG_HEX_RADIUS } from '../utils/constants';
 import { BoardHex } from '../types';
 import { hexUtilsHexToPixel } from '../utils/map-utils';
 import { getSvgHexBorderColor, getSvgHexFillColor } from './getSvgHexColors';
 
 export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
+  const isEmptyHex = hex.terrain === 'empty';
   // handlers
   const onClick = (event: SyntheticEvent, sourceHex: BoardHex) => {
     console.log('🚀 ~ onClick ~ sourceHex:', sourceHex);
@@ -20,7 +21,7 @@ export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
 
   const borderRotation =
     (+ (hex?.interlockRotation ?? 0) +
-      (hex?.pieceRotation ?? 0) - INTERLOCK_ROTATION_DIFFERENCE_SVG_FROM_3D) * (60);
+      (hex?.pieceRotation ?? 0)) * (60);
 
   return (
     <g
@@ -30,29 +31,30 @@ export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
           onClick(e, hex)
         }
       }}
+      clipPath="url(#inner-stroke-clip)"
     >
 
       <polygon
         points={points}
         fill={color}
-        clipPath="url(#inner-stroke-clip)"
+        stroke={color}
       />
       {hex.interlockType !== '0' && <polygon
         points={points}
         transform={`rotate(${borderRotation}, 8.660254037844386, 10)`}
         fill='transparent'
         stroke={borderColor}
-        strokeWidth={2}
+        strokeWidth={isEmptyHex ? 0.2 : 2}
         strokeLinejoin='round'
         strokeLinecap='butt'
         clipPath={`url(#interlock${hex.interlockType}-clip)`}
       />}
       {/* Hex text */}
-      <SvgHexIDText
+      {!isEmptyHex && <SvgHexIDText
         hexSize={SVG_HEX_RADIUS}
-        text={`${hex.interlockType}`}
-        textLine2={`${hex.altitude}`}
-      />
+        text={`${hex.altitude}`}
+        textLine2={``}
+      />}
     </g>
   );
 };

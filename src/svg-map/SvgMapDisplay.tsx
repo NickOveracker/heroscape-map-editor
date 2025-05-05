@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { SvgMapHex } from './SvgMapHex';
 import { getBoardHexesSvgMapDimensions } from '../utils/map-utils';
-import { getBoardHexObstacleOriginsAndHexes } from '../utils/board-utils';
+import { getBoardHexObstacleOriginsAndHexesAndEmpties } from '../utils/board-utils';
 import { getHexagonSvgPolygonPoints } from './getHexagonSvgPolygonPoints';
 import { SVG_HEX_RADIUS } from '../utils/constants';
 import { SvgInterlockClipPaths } from './svg-hex-interlock-clippath';
@@ -11,11 +11,11 @@ const PADDING = 10;
 
 export const SvgMapDisplay = () => {
   const boardHexes = useBoundStore((state) => state.boardHexes)
+  const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS);
   const mapDimensions = getBoardHexesSvgMapDimensions(boardHexes);
-  const boardHexesArr = Object.values(getBoardHexObstacleOriginsAndHexes(boardHexes)).sort(
+  const boardHexesArr = Object.values(getBoardHexObstacleOriginsAndHexesAndEmpties(boardHexes)).sort(
     (a, b) => a.altitude - b.altitude,
   );
-  const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS);
 
   const svgRef = useRef<SVGSVGElement>(null);
   const [viewBox, setViewBox] = useState({

@@ -1,14 +1,14 @@
 import { Document, Page, View, PDFViewer, Text, } from '@react-pdf/renderer';
-import { groupBy } from 'lodash';
+import { groupBy, keyBy } from 'lodash';
 import { BoardHex, BoardHexes, BoardPieces, MapState, Pieces } from '../types';
 import React, { PropsWithChildren } from 'react';
 import { decodePieceID, getBoardHexesSvgMapDimensions } from '../utils/map-utils';
 import useBoundStore from '../store/store';
 import { ReactPdfSvgMapDisplay } from './ReactPdfSvgMapDisplay';
-import { getBoardHexObstacleOriginsAndHexes } from '../utils/board-utils';
+import { getBoardHexObstacleOriginsAndHexesAndEmpties } from '../utils/board-utils';
 
 const getBoardHexAndPieceChunks = (boardHexes: BoardHexes, boardPieces: BoardPieces) => {
-  const filteredBoardHexes = Object.values(getBoardHexObstacleOriginsAndHexes(boardHexes))
+  const filteredBoardHexes = Object.values(getBoardHexObstacleOriginsAndHexesAndEmpties(boardHexes))
   const filteredBoardPieces = Object.keys(boardPieces).filter((pieceID) => {
     const id = decodePieceID(pieceID).pieceID;
     return (
@@ -56,7 +56,6 @@ export default function ReactPdfRoot() {
         height: '100%',
         padding: 0,
         margin: 0,
-        backgroundColor: 'var(--outer-space)',
       }}
     >
       <PDFViewer
@@ -117,7 +116,9 @@ const HalfPageColumn = (props: PropsWithChildren) => {
 const PADDING = 10
 
 const HexMapLevels6PerPage = ({ boardHexes, boardPieces }: MapState) => {
-  const boardHexAndPieceChunks = getBoardHexAndPieceChunks(boardHexes, boardPieces);
+  const boardHexesWithoutEmpties = keyBy(Object.values(boardHexes).filter((hex) => hex.terrain !== 'empty'), 'id')
+  const boardHexAndPieceChunks = getBoardHexAndPieceChunks((boardHexesWithoutEmpties), boardPieces);
+  const emptyHexesArr = Object.values(boardHexes).filter((hex) => hex.terrain === 'empty');
   const svgMapDimensions = getBoardHexesSvgMapDimensions(boardHexes)
   return (
     <>
@@ -125,6 +126,7 @@ const HexMapLevels6PerPage = ({ boardHexes, boardPieces }: MapState) => {
         <HexMapPage
           key={pageIndex}
           chunk={chunk}
+          emptyHexesArr={emptyHexesArr}
           width={svgMapDimensions.width + PADDING}
           length={svgMapDimensions.length + PADDING}
         />
@@ -136,13 +138,14 @@ const HexMapLevels6PerPage = ({ boardHexes, boardPieces }: MapState) => {
 type HexMapPageProps = {
   width: number
   length: number
+  emptyHexesArr: BoardHex[]
   chunk: {
     altitude: number;
     hexes: BoardHex[];
     pieces: DecodedPiece[];
   }[];
 };
-const HexMapPage = ({ chunk, width, length }: HexMapPageProps) => {
+const HexMapPage = ({ chunk, width, length, emptyHexesArr }: HexMapPageProps) => {
   return (
     <Page
       size="LETTER"
@@ -164,11 +167,12 @@ const HexMapPage = ({ chunk, width, length }: HexMapPageProps) => {
                 <View
                   style={{
                     flexBasis: '33%',
-                    border: '1px solid green',
                   }}
                 >
+                  <Text style={{ fontSize: '10px' }}>Level: {group.altitude}</Text>
                   <ReactPdfSvgMapDisplay
                     boardHexArr={group.hexes}
+                    emptyHexesArr={emptyHexesArr}
                     width={width}
                     length={length}
                   />
@@ -184,12 +188,12 @@ const HexMapPage = ({ chunk, width, length }: HexMapPageProps) => {
                 <View
                   style={{
                     flexBasis: '33%',
-                    border: '1px solid green',
                   }}
                 >
-                  <Text>Level: {group.altitude}</Text>
+                  <Text style={{ fontSize: '10px' }}>Level: {group.altitude}</Text>
                   <ReactPdfSvgMapDisplay
                     boardHexArr={group.hexes}
+                    emptyHexesArr={emptyHexesArr}
                     width={width}
                     length={length}
                   />

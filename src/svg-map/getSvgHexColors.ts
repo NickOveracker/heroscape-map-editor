@@ -6,7 +6,7 @@ import { isFluidTerrainHex, isJungleTerrainHex, isSolidTerrainHex } from '../uti
 
 export const getSvgHexBorderColor = (hex: BoardHex) => {
   const isSolidTerrain = isSolidTerrainHex(hex.terrain);
-  const inventoryPiece = piecesSoFar[decodePieceID(hex.pieceID).pieceID];
+  const inventoryPiece = piecesSoFar?.[decodePieceID?.(hex.pieceID)?.pieceID] ?? '';
   const is1Hex = inventoryPiece.size === 1;
   const is2Hex = inventoryPiece.size === 2;
   const is3Hex = inventoryPiece.size === 3;
@@ -57,5 +57,5 @@ export const getSvgHexFillColor = (hex: BoardHex) => {
   if (hex.terrain === HexTerrain.laurWall) {
     return svgColors.outlineLaurWall;
   }
-  return 'purple';
+  return 'transparent';
 }
