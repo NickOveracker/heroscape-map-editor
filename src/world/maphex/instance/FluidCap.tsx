@@ -27,7 +27,7 @@ const baseFluidCapCylinderArgs: CylinderGeometryArgs = [
   undefined,
   undefined,
 ]
-
+export const FLUID_CAP_OPACITY = 0.85
 const FluidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
   const ref = React.useRef<InstanceRefType>(undefined!)
   const viewingLevel = useBoundStore(s => s.viewingLevel)
@@ -41,7 +41,9 @@ const FluidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
       frustumCulled={false}
     >
       <cylinderGeometry args={baseFluidCapCylinderArgs} />
-      <meshLambertMaterial transparent opacity={0.85} />
+      {/* <meshLambertMaterial /> */}
+      <meshLambertMaterial transparent opacity={FLUID_CAP_OPACITY} />
+      {/* <meshMatcapMaterial transparent opacity={0.85} /> */}
       {boardHexArr.map((hex, i) => (
         <FluidCap
           key={hex.id + i + 'fluid'}
@@ -80,7 +82,7 @@ function FluidCap({
     ref.current.color.set(hexTerrainColor[boardHex.terrain])
     ref.current.position.set(
       x,
-      y - (HEXGRID_HEX_HEIGHT - (HEXGRID_HEX_HEIGHT * HEXGRID_HEXCAP_FLUID_SCALE)),
+      y - (HEXGRID_HEX_HEIGHT - (HEXGRID_HEX_HEIGHT * HEXGRID_HEXCAP_FLUID_SCALE)) + 0.01,
       z)
   }, [boardHex])
 

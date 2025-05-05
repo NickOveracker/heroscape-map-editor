@@ -21,7 +21,7 @@ export default function ViewingLevelInput() {
           size={{ xs: 6 }}
         >
           <Typography id="input-slider">
-            {viewingLevel === maxLevel ? 'Viewing all' : 'Viewing up to'}:
+            {viewingLevel === maxLevel ? 'Viewing all levels' : 'Viewing up to level'}:
           </Typography>
         </Grid2>
         <Grid2 size={{ xs: 6 }}>

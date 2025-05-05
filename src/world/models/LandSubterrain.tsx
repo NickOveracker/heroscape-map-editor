@@ -12,6 +12,7 @@ import useBoundStore from '../../store/store'
 import React, { PropsWithChildren } from 'react'
 import { isFluidTerrainHex } from '../../utils/board-utils'
 import { ThreeEvent } from '@react-three/fiber'
+import { FLUID_CAP_OPACITY } from '../maphex/instance/FluidCap'
 
 export default function LandSubterrain({ pid }: { pid: string }) {
   const {
@@ -78,67 +79,67 @@ export default function LandSubterrain({ pid }: { pid: string }) {
       case '1':
         return (
           <Subterrain1 >
-            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={FLUID_CAP_OPACITY} /> : <meshMatcapMaterial color={color} />}
           </Subterrain1>
         )
       case '2':
         return (
           <Subterrain2 >
-            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={FLUID_CAP_OPACITY} /> : <meshMatcapMaterial color={color} />}
           </Subterrain2>
         )
       case '3':
         return (
           <Subterrain3 >
-            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={FLUID_CAP_OPACITY} /> : <meshMatcapMaterial color={color} />}
           </Subterrain3>
         )
       case '4':
         return (
           <Subterrain4 >
-            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={FLUID_CAP_OPACITY} /> : <meshMatcapMaterial color={color} />}
           </Subterrain4>
         )
       case '5':
         return (
           <Subterrain5 >
-            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={FLUID_CAP_OPACITY} /> : <meshMatcapMaterial color={color} />}
           </Subterrain5>
         )
       case '6':
         return (
           <Subterrain6 >
-            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={FLUID_CAP_OPACITY} /> : <meshMatcapMaterial color={color} />}
           </Subterrain6>
         )
       case '6B':
         return (
           <Subterrain6B>
-            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={FLUID_CAP_OPACITY} /> : <meshMatcapMaterial color={color} />}
           </Subterrain6B>
         )
       case '7B':
         return (
           <Subterrain7B >
-            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={FLUID_CAP_OPACITY} /> : <meshMatcapMaterial color={color} />}
           </Subterrain7B>
         )
       case '7':
         return (
           <Subterrain7 >
-            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={FLUID_CAP_OPACITY} /> : <meshMatcapMaterial color={color} />}
           </Subterrain7>
         )
       case '9':
         return (
           <Subterrain9 >
-            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={FLUID_CAP_OPACITY} /> : <meshMatcapMaterial color={color} />}
           </Subterrain9>
         )
       case '24':
         return (
           <Subterrain24 >
-            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={0.85} /> : <meshMatcapMaterial color={color} />}
+            {isFluidTerrainHex(pieceTerrain) ? <meshLambertMaterial color={color} transparent opacity={FLUID_CAP_OPACITY} /> : <meshMatcapMaterial color={color} />}
           </Subterrain24>
         )
       default:

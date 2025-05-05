@@ -40,7 +40,7 @@ const EmptyHexes = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
       frustumCulled={false}
     >
       <cylinderGeometry args={baseEmptyCapCylinderArgs} />
-      <meshMatcapMaterial transparent opacity={0.5} />
+      <meshMatcapMaterial transparent opacity={0.1} />
       {boardHexArr.map((hex, i) => (
         <EmptyHex
           key={hex.id + i + 'empty'}
@@ -70,6 +70,7 @@ function EmptyHex({
     const { x, z, y } = getBoardHex3DCoords(boardHex)
     ref.current.color.set(emptyHexColor)
     ref.current.position.set(x, y, z)
+    ref.current.opacity = 0.5
   }, [boardHex])
 
   const handleEnter = (e: ThreeEvent<PointerEvent>) => {
