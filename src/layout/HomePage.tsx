@@ -37,7 +37,7 @@ export default function HomePage() {
   const toggleIsPdfOpen = (s: boolean) => {
     setIsPdfOpen(s)
   }
-  const [is2DOpen, setIs2DOpen] = React.useState(true)
+  const [is2DOpen, setIs2DOpen] = React.useState(false)
   const toggleIs2DOpen = (s: boolean) => {
     setIsPdfOpen(false)
     setIs2DOpen(s)
