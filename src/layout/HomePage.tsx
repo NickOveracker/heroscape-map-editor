@@ -8,10 +8,17 @@ import CreateMapFormDialog from './CreateMapFormDialog'
 import EditMapFormDialog from './EditMapFormDialog'
 import { LoadMapInputs } from './LoadMapButtons'
 import CameraSpeedDial from './CameraSpeedDial'
+import ReactPdfRoot from '../pdf-map/ReactPdfRoot'
+import useAutoLoadMapFile from '../hooks/useAutoLoadMapFile'
+import { SvgMapDisplay } from '../svg-map/SvgMapDisplay'
 
 export default function HomePage() {
   const cameraControlsRef = React.useRef(undefined!)
+
   // https://robohash.org/you.png?size=200x200
+  // USE EFFECT: automatically load up map from URL, OR from file
+  useAutoLoadMapFile()
+
 
   // MUI BREAKPOINTS
   //   xs, extra-small: 0px
@@ -26,6 +33,16 @@ export default function HomePage() {
   const toggleIsNavOpen = (s: boolean) => {
     setIsNavOpen(s)
   }
+  const [isPdfOpen, setIsPdfOpen] = React.useState(false)
+  const toggleIsPdfOpen = (s: boolean) => {
+    setIsPdfOpen(s)
+  }
+  const [is2DOpen, setIs2DOpen] = React.useState(false)
+  const toggleIs2DOpen = (s: boolean) => {
+    setIsPdfOpen(false)
+    setIs2DOpen(s)
+  }
+
   return (
     <>
       <CreateMapFormDialog />
@@ -46,10 +63,17 @@ export default function HomePage() {
           height: '100vh',
           padding: 0,
           margin: 0,
-          backgroundColor: 'var(--outer-space)',
+          // backgroundColor: 'var(--outer-space)',
         }}
       >
-        <HeaderNav isNavOpen={isNavOpen} toggleIsNavOpen={toggleIsNavOpen} />
+        <HeaderNav
+          isNavOpen={isNavOpen}
+          toggleIsNavOpen={toggleIsNavOpen}
+          isPdfOpen={isPdfOpen}
+          toggleIsPdfOpen={toggleIsPdfOpen}
+          is2DOpen={is2DOpen}
+          toggleIs2DOpen={toggleIs2DOpen}
+        />
         <div
           style={{
             display: 'flex',
@@ -70,8 +94,19 @@ export default function HomePage() {
               height: isLargeScreenLayout ? '100%' : '70vh',
             }}
           >
-            <CameraSpeedDial cameraControlsRef={cameraControlsRef} />
-            <World cameraControlsRef={cameraControlsRef} />
+            {
+              isPdfOpen && (
+                <ReactPdfRoot />
+              )}
+            {(is2DOpen && !isPdfOpen) && (
+              <SvgMapDisplay />
+            )}
+            <>
+              <CameraSpeedDial isHidden={is2DOpen || isPdfOpen} cameraControlsRef={cameraControlsRef} />
+              <World isHidden={is2DOpen || isPdfOpen} cameraControlsRef={cameraControlsRef} />
+            </>
+
+
           </div>
           <div
             style={{

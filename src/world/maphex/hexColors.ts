@@ -1,7 +1,7 @@
 import { Dictionary } from 'lodash'
 import { HexTerrain } from '../../types'
 
-const virtualscapeTileColors: Dictionary<string> = {
+export const virtualscapeTileColors: Dictionary<string> = {
   [HexTerrain.grass]: 'rgb(0,160,0)',
   [HexTerrain.rock]: 'rgb(170, 170, 170)',
   [HexTerrain.sand]: 'rgb(206,172,40)',
@@ -59,7 +59,7 @@ export const hexTerrainColor: Dictionary<string> = {
   [HexTerrain.road]: '#97969C',
   [HexTerrain.roadWall]: '#787D79',
   [HexTerrain.snow]: '#EEEBFF',
-  'snowCap': '#FFF',
+  [`${HexTerrain.snow}Cap`]: '#FFF',
   [HexTerrain.ice]: '#55DBCB',
   [HexTerrain.lavaField]: '#A30029',
   'lavaFieldCap': '#4F4840',
@@ -97,6 +97,48 @@ export const hexTerrainColor: Dictionary<string> = {
   laurPalm1: '#1EA300',
   laurPalm2: '#25CC00',
   laurPalm3: '#22B800',
+}
+
+export const svgColors = {
+  // RENEGADE COLORS, unless noted
+  empty: 'rgb(0, 0, 0)',
+  // STARTZONES
+  blueSZ: 'rgb(57, 61, 157)',
+  darkBlueSZ: 'rgb(21, 28, 51)',
+  brownSZ: 'rgb(121, 61, 26)',
+  orangeSZ: 'rgb(230, 28, 36)',
+  redSZ: 'rgb(192, 26, 44)',
+  greenSZ: 'rgb(54, 127, 52)',
+  // OUTLINES
+  outline1: 'rgb(230, 28, 36)',
+  outline2: 'rgb(229, 99, 26)',
+  outline3: 'rgb(17, 15, 14)',
+  outline7: 'rgb(175, 27, 148)',
+  outline24: 'rgb(188, 188, 186)',
+  outlineWater: 'rgb(43, 56, 139)', // ice, swampwater too
+  outlineWellspringWater: 'rgb(41, 56, 136)',
+  outlineTree: 'rgb(28, 57, 29)',
+  outlineJungle: 'rgb(121, 61, 26)',
+  outlineLaurWall: 'rgb(215, 38, 156)',
+  // OBSTACLES
+  // glyphFill: 'rgb(64, 0, 0)', // virtualscape
+  fillGlyph: 'rgb(244, 106, 22)',
+  fillJungle: 'rgb(249, 233, 8)',
+  [HexTerrain.tree]: 'rgb(51, 160, 62)',
+  [HexTerrain.laurWall]: 'rgb(98, 28, 96)',
+  // TERRAIN
+  [HexTerrain.grass]: 'rgb(0, 161, 0)',
+  [HexTerrain.rock]: 'rgb(98, 97, 98)',
+  [HexTerrain.sand]: 'rgb(211, 231, 90)',
+  [HexTerrain.swamp]: 'rgb(27, 46, 22)',
+  [HexTerrain.snow]: 'rgb(255,255,255)',
+  [HexTerrain.water]: 'rgb(67, 172, 176)',
+  [HexTerrain.wellspringWater]: 'rgb(255,255,255)',
+  // [HexTerrain.wellspringWater]: 'rgb(225,194,255)', // used this in virtualscape to differentiate from snow
+  [HexTerrain.swampWater]: 'rgb(162, 166, 32)',
+  // ice: 'rgb(148, 158, 215)',
+  iceFlake: 'rgb(242, 243, 250)', // there is variation in the snowflake color
+  snowFlake: 'rgb(164, 172, 218)', // there is variation in the snowflake color
 }
 // const hsColors = {
 //     // selected by color picker on webp image of renegade paint set, so probably horrible

@@ -34,6 +34,12 @@ const glacier6 = [
   4, // top-right corner
   0, // bottom-right corner
 ]
+const marvel6 = [
+  // concrete6: base of marvel ruin
+  2, 4, 1, 5, // glacier4
+  0,// bottom-right middle
+  4, // bottom-right corner
+]
 const wallWalk7 = [
   2, 4, 1,// basic3
   4, 4, // 2 rightmost on top row
@@ -59,6 +65,7 @@ const interlockRotationTemplates: Dictionary<number[]> = {
   [Pieces.wallWalk1]: basic1,
   [Pieces.wallWalk7]: wallWalk7,
   [Pieces.wallWalk9]: wallWalk9,
+  [Pieces.marvel]: marvel6,
 }
 
 export default interlockRotationTemplates

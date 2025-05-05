@@ -8,11 +8,10 @@ import {
 } from '../instance-hex'
 import { getBoardHex3DCoords } from '../../../utils/map-utils'
 import { HEXGRID_HEXCAP_HEIGHT, INSTANCE_LIMIT } from '../../../utils/constants'
-import { hexTerrainColor } from '../hexColors'
 import { ThreeEvent } from '@react-three/fiber'
 import useBoundStore from '../../../store/store'
 import usePieceHoverState from '../../../hooks/usePieceHoverState'
-import { HexTerrain } from '../../../types'
+import { terrainCapColors } from '../terrainCapColors'
 
 const baseSolidCapCylinderArgs: CylinderGeometryArgs = [
   0.888,
@@ -57,6 +56,7 @@ const SolidCaps = ({ boardHexArr, onPointerUp }: DreiCapProps) => {
   )
 }
 
+
 export default SolidCaps
 
 function SolidCap({
@@ -73,21 +73,7 @@ function SolidCap({
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const penMode = useBoundStore(s => s.penMode)
   const hoveredPieceID = useBoundStore(s => s.hoveredPieceID)
-  const color = boardHex.terrain === HexTerrain.lavaField ?
-    hexTerrainColor.lavaFieldCap
-    : boardHex.terrain === HexTerrain.road ?
-      hexTerrainColor.roadWall
-      : boardHex.terrain === HexTerrain.dungeon ?
-        hexTerrainColor.dungeonCap
-        : boardHex.terrain === HexTerrain.snow ?
-          hexTerrainColor.snowCap
-          : boardHex.terrain === HexTerrain.asphalt ?
-            hexTerrainColor.asphaltCap
-            : boardHex.terrain === HexTerrain.concrete ?
-              hexTerrainColor.concreteCap
-              : boardHex.terrain === HexTerrain.swamp ?
-                hexTerrainColor.swampCap
-                : hexTerrainColor[boardHex.terrain]
+  const color = terrainCapColors[boardHex.terrain]
   const selectedPieceID = useBoundStore(s => s.selectedPieceID)
   const isSelected = selectedPieceID === boardHex.pieceID
 

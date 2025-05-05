@@ -13,10 +13,6 @@ export default function ViewingLevelInput() {
   useHotkeys('pagedown', () => toggleViewingLevel(Math.max(viewingLevel - 1, 0)), /*isEnabled*/)
   useHotkeys('pageup', () => toggleViewingLevel(Math.min(viewingLevel + 1, maxLevel)), /*isEnabled*/)
 
-  React.useEffect(() => {
-    toggleViewingLevel(maxLevel)
-  }, [boardPieces, toggleViewingLevel, maxLevel])
-
   return (
     <Box sx={{ width: 250 }}>
 

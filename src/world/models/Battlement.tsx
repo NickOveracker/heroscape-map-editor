@@ -18,7 +18,7 @@ export function Battlement({ pid, isVisible }: { pid: string, isVisible: boolean
   const yellowColor = 'yellow'
   const isSelected = selectedPieceID === pid
   const isHighlighted = isHovered || isSelected
-  const color = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.roadWall]
+  const color = isHighlighted ? yellowColor : hexTerrainColor[HexTerrain.battlement]
   const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
     if (!isVisible) {
       return

@@ -170,6 +170,7 @@ const rotationTransforms: Dictionary<CubeCoordinate[]> = {
   [Pieces.ruins3]: straight3,
   // HEX/EDGE
   [Pieces.marvel]: marvel6,
+  [Pieces.concrete6]: marvel6,
   [Pieces.marvelBroken]: marvel6,
   // ADDONS
   [Pieces.roadWall]: straight4,

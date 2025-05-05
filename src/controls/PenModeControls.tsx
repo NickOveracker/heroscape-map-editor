@@ -10,6 +10,7 @@ import {
   GiIsland,
   GiWaterfall,
   GiCastle,
+  GiPineTree,
 } from 'react-icons/gi'
 import { PiecePrefixes, Pieces } from '../types'
 import useBoundStore from '../store/store'
@@ -101,7 +102,7 @@ export default function PenModeControls() {
   // 'v'
   // 'w'
   useHotkeys('w', () => togglePenMode(PiecePrefixes.water), /*isEnabled*/)
-  useHotkeys('shift-w', () => togglePenMode(PiecePrefixes.wellspringWater), /*isEnabled*/)
+  useHotkeys('shift+w', () => togglePenMode(PiecePrefixes.wellspringWater), /*isEnabled*/)
   // 'x'
   // 'y'
   // 'z'
@@ -276,127 +277,133 @@ export default function PenModeControls() {
         {/* OBSTACLES */}
         <MenuItem value={Pieces.tree10}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Tree10</span>
         </MenuItem>
         <MenuItem value={Pieces.tree11}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Tree11</span>
         </MenuItem>
         <MenuItem value={Pieces.tree12}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Tree12</span>
         </MenuItem>
         <MenuItem value={Pieces.tree415}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Tree415</span>
         </MenuItem>
         <MenuItem value={Pieces.brush9}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>TicallaBrush9</span>
         </MenuItem>
         <MenuItem value={Pieces.palm14}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>TicallaPalm14</span>
         </MenuItem>
         <MenuItem value={Pieces.palm15}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>TicallaPalm15</span>
         </MenuItem>
         <MenuItem value={Pieces.palm16}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>TicallaPalm16</span>
         </MenuItem>
+        <MenuItem value={Pieces.swampBrush10}>
+          <ListItemIcon>
+            <GiPineTree />
+          </ListItemIcon>
+          <span>Swamp Underbrush 10</span>
+        </MenuItem>
         <MenuItem value={Pieces.laurBrush10}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>LaurBrush10</span>
         </MenuItem>
         <MenuItem value={Pieces.laurPalm13}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>LaurPalm13</span>
         </MenuItem>
         <MenuItem value={Pieces.laurPalm14}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>LaurPalm14</span>
         </MenuItem>
         <MenuItem value={Pieces.laurPalm15}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>LaurPalm15</span>
         </MenuItem>
         <MenuItem value={Pieces.outcrop1}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Outcrop 1</span>
         </MenuItem>
         <MenuItem value={Pieces.outcrop3}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Outcrop 3</span>
         </MenuItem>
         <MenuItem value={Pieces.lavaRockOutcrop1}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Lava Rock Outcrop 1</span>
         </MenuItem>
         <MenuItem value={Pieces.lavaRockOutcrop3}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Lava Rock Outcrop 3</span>
         </MenuItem>
         <MenuItem value={Pieces.glacier1}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Glacier 1</span>
         </MenuItem>
         <MenuItem value={Pieces.glacier3}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Glacier 3</span>
         </MenuItem>
         <MenuItem value={Pieces.glacier4}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Glacier 4</span>
         </MenuItem>
         <MenuItem value={Pieces.glacier6}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Glacier 6</span>
         </MenuItem>
         <MenuItem value={Pieces.hive}>
           <ListItemIcon>
-            <GiWaterfall />
+            <GiPineTree />
           </ListItemIcon>
           <span>Marro Hive 6</span>
         </MenuItem>

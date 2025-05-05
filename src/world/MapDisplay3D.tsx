@@ -1,13 +1,11 @@
 import React from 'react'
 import { ThreeEvent } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
-import JSONCrush from 'jsoncrush'
-import { useSnackbar } from 'notistack'
 
 import { MapHex3D } from './maphex/MapHex3D.tsx'
 import useBoundStore from '../store/store.ts'
 import { useZoomCameraToMapCenter } from './camera/useZoomeCameraToMapCenter.tsx'
-import { BoardHex, BoardPieces, HexTerrain, PiecePrefixes, Pieces } from '../types.ts'
+import { BoardHex, HexTerrain, PiecePrefixes } from '../types.ts'
 import {
   isFluidTerrainHex,
   isJungleTerrainHex,
@@ -16,10 +14,7 @@ import {
 import { piecesSoFar } from '../data/pieces.ts'
 import EmptyHexes from './maphex/instance/EmptyHex.tsx'
 import SolidCaps from './maphex/instance/SolidCaps.tsx'
-import { decodePieceID, genBoardHexID, getBoardHexesRectangularMapDimensions } from '../utils/map-utils.ts'
-import { buildupJsonFileMap } from '../data/buildupMap.ts'
-import { genRandomMapName } from '../utils/genRandomMapName.ts'
-import { useSearch } from 'wouter'
+import { genBoardHexID, getBoardHexesRectangularMapDimensions, getBoardPiecesMaxLevel } from '../utils/map-utils.ts'
 import { Group, Object3DEventMap } from 'three'
 import { MapBoardPiece3D } from './MapBoardPiece3D.tsx'
 import FluidCaps from './maphex/instance/FluidCap.tsx'
@@ -33,104 +28,25 @@ export default function MapDisplay3D({
 }) {
   const boardHexes = useBoundStore((s) => s.boardHexes)
   const boardPieces = useBoundStore((s) => s.boardPieces)
+  const maxLevel = getBoardPiecesMaxLevel(boardPieces)
+  const toggleViewingLevel = useBoundStore((s) => s.toggleViewingLevel)
   const boardHexesArr = Object.values(boardHexes).sort((a, b) => a.altitude - b.altitude)
   const penMode = useBoundStore((s) => s.penMode)
   const paintTile = useBoundStore((s) => s.paintTile)
-  const loadMap = useBoundStore((s) => s.loadMap)
   const pieceSize = useBoundStore((s) => s.pieceSize)
   const pieceRotation = useBoundStore((s) => s.pieceRotation)
   const toggleSelectedPieceID = useBoundStore((s) => s.toggleSelectedPieceID)
-  const { clear: clearUndoHistory } = useBoundStore.temporal.getState()
   const isTakingPicture = useBoundStore(s => s.isTakingPicture)
   useZoomCameraToMapCenter({
     cameraControlsRef,
     boardHexes,
     disabled: !boardHexesArr.length || false, // for when working on camera stuff
   })
-  const { enqueueSnackbar } = useSnackbar()
-  const searchString = useSearch();
 
-  // USE EFFECT: automatically load up map from URL, OR from file
+  // USE EFFECT: Update viewing level when new map is loaded
   React.useEffect(() => {
-    const queryParams = new URLSearchParams(searchString)
-    const urlMapString = queryParams.get('m')
-    if (urlMapString) {
-      try {
-        const data = JSON.parse(JSONCrush.uncrush(urlMapString))
-        const [hexMap, ...pieceIds] = data
-        const boardPieces: BoardPieces = pieceIds.reduce(
-          (prev: BoardPieces, curr: string) => {
-            // get inventory id from pieceID (a~q~r~rot~id)
-            prev[curr] = decodePieceID(curr).pieceID as Pieces
-            return prev
-          },
-          {},
-        )
-        const jsonMap = buildupJsonFileMap(boardPieces, hexMap)
-        if (!jsonMap.hexMap.name) {
-          jsonMap.hexMap.name = genRandomMapName()
-        }
-        loadMap(jsonMap)
-        enqueueSnackbar({
-          message: `Loaded map from URL: ${jsonMap.hexMap.name}.`,
-          variant: 'success',
-          autoHideDuration: 5000,
-        })
-        // enqueueSnackbar({
-        //   message: `Map data has been removed from your URL bar, to return it please press the back button in your browser.`,
-        //   variant: 'info',
-        //   autoHideDuration: 6000,
-        // })
-        // navigate(ROUTES.heroscapeHome)
-        clearUndoHistory() // clear undo history, initial load should not be undoable
-      } catch (error: any) {
-        enqueueSnackbar({
-          message: `Error loading map from URL: ${error?.message ?? error}`,
-          variant: 'error',
-          autoHideDuration: 5000,
-        })
-        console.error('🚀 ~ React.useEffect ~ error:', error)
-      }
-    } else {
-      // AUTO VSCAPE
-      // const fileName = '/ladders.hsc'
-      // fetch(fileName)
-      //   .then((response) => {
-      //     return response.arrayBuffer()
-      //   })
-      //   .then((arrayBuffer) => {
-      //     const vsFileData = processVirtualScapeArrayBuffer(arrayBuffer)
-      //     // buildupVSFileMap should return errorArr for enqueueSnackbar
-      //     const vsMap = buildupVSFileMap(
-      //       vsFileData.tiles,
-      //       vsFileData?.name ?? fileName,
-      //     )
-      //     loadMap(vsMap)
-      //     enqueueSnackbar(
-      //       `Automatically loaded Virtualscape map named: "${vsMap.hexMap.name}" from file: "${fileName}"`,
-      //     )
-      //   })
-      // AUTO JSON
-      const fileName = '/The_Sunken_Crypt.json'
-      fetch(fileName).then(async (response) => {
-        // const data = response.json()
-        const data = await response.json()
-        const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
-        if (!jsonMap.hexMap.name) {
-          jsonMap.hexMap.name = fileName
-        }
-        loadMap(jsonMap)
-        enqueueSnackbar({
-          // message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
-          message: `WELCOME!`,
-          variant: 'success',
-          autoHideDuration: 5000,
-        })
-        clearUndoHistory() // clear undo history, initial load should not be undoable
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    toggleViewingLevel(maxLevel)
+  }, [boardPieces, toggleViewingLevel, maxLevel])
 
   const instanceBoardHexes = getInstanceBoardHexes(boardHexesArr, isTakingPicture)
 
@@ -173,6 +89,7 @@ export default function MapDisplay3D({
   }
 
   const { length, width } = getBoardHexesRectangularMapDimensions(boardHexes)
+  console.log("🚀 ~ length, width:", length, width)
   // const topLeft = [-HEXGRID_HEX_APOTHEM, -1]
   return (
     <group ref={mapGroupRef}>

@@ -26,6 +26,7 @@ const RootPage = () => {
     <Redirect to={ROUTES.heroscapeHome} />
   )
 }
+
 const App = () => {
   return (
     <Sentry.ErrorBoundary fallback={ErrorPage} showDialog>

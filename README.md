@@ -6,6 +6,7 @@ This project is a Heroscape map editor built with React, TypeScript, and Vite. I
 
 - [Getting Started](#getting-started)
 - [Libraries Used](#libraries-used)
+- [Blender Models](#blender-models)
 - [Quick Overview of How It Works](#quick-overview-of-how-it-works)
 - [Scripts](#scripts)
 - [App Requirements: What this editor intends to fulfill, eventually](./app-requirements.md)
@@ -70,6 +71,9 @@ This project utilizes several libraries to provide a rich development experience
 - **zundo**: A library for managing undo/redo functionality.
 - **zustand**: A small, fast, and scalable state-management library. (included by react-three/fiber so is "free"; it is also awesome)
 
+## Blender Models
+All models used in the app are maintained in a blender file that you are welcome to access here: https://drive.google.com/file/d/1LY0ZwMMO2QvL_fQ9Ua4d-PpvixZn4XFQ/view?usp=sharing
+
 ## Quick Overview of How It Works
 
 So you have your [hex-grid and various coordinate systems](https://www.redblobgames.com/grids/hexagons/#coordinates).
@@ -77,6 +81,7 @@ Virtualscape exports tiles with an X and Y value, and uses Odd-R offset coordina
 
 The app converts pieces/tiles to hexes. The hexes are used for validation.
 For instance, if a tree piece is placed at one coordinate, then it occupies a certain number of hexes above that as vertical clearance.
+
 
 ### Blender to .glb Export
 
@@ -115,3 +120,17 @@ To add new terrain pieces, follow these steps:
 5. **Update UI**: Update the user interface to allow users to select and place the new terrain piece. (as the project is under development, this step is subject to considerable change)
 
 By following these steps, you can expand the application to support new releases of Heroscape terrain.
+
+LavaField: rgb(160, 32, 32)
+Lava: rgb(255, 64, 64)
+Sand: rgb(204, 171, 41)
+Water: rgb(32, 32, 255)
+Swampwater: rgb(222, 210, 42)
+Snow: rgb(255,255,255)
+Ice: rgb(180,180,255)
+Shadow: rgb(0,0,0)
+
+COLOR MAPPING:
+Gpick                 |||  Coolors
+hsl(359, 51%, 36%)  hsl(354, 65%, 36%)
+hsl(232, 42%, 71%) hsl(231, 46%, 71%)

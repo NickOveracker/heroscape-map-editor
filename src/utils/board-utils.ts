@@ -1,4 +1,6 @@
-import { HexTerrain, Pieces } from '../types'
+import { piecesSoFar } from '../data/pieces'
+import { BoardHexes, HexTerrain, Pieces } from '../types'
+import { decodePieceID } from './map-utils'
 export function isFluidTerrainHex(terrain: string) {
   if (
     terrain === HexTerrain.wellspringWater ||
@@ -32,13 +34,45 @@ export function isSolidTerrainHex(terrain: string) {
     return false
   }
 }
-export function isPieceIDPiece(pieceID: string) {
+export function isPieceIDPiece(inventoryID: string) {
   if (
-    pieceID === Pieces.battlement ||
-    pieceID === Pieces.roadWall ||
-    pieceID === Pieces.laurWallRuin ||
-    pieceID === Pieces.laurWallShort ||
-    pieceID === Pieces.laurWallLong
+    inventoryID === Pieces.battlement ||
+    inventoryID === Pieces.roadWall ||
+    inventoryID === Pieces.laurWallRuin ||
+    inventoryID === Pieces.laurWallShort ||
+    inventoryID === Pieces.laurWallLong
+  ) {
+    return true
+  } else {
+    return false
+  }
+}
+export function isNoVerifyDeletePieceByPieceID(inventoryID: string) {
+  if (
+    inventoryID === Pieces.tree10 ||
+    inventoryID === Pieces.ruins2 ||
+    inventoryID === Pieces.ruins3 ||
+    inventoryID === Pieces.tree10 ||
+    inventoryID === Pieces.tree11 ||
+    inventoryID === Pieces.tree12 ||
+    inventoryID === Pieces.tree415 ||
+    inventoryID === Pieces.brush9 ||
+    inventoryID === Pieces.palm14 ||
+    inventoryID === Pieces.palm15 ||
+    inventoryID === Pieces.palm16 ||
+    inventoryID === Pieces.laurBrush10 ||
+    inventoryID === Pieces.laurPalm13 ||
+    inventoryID === Pieces.laurPalm14 ||
+    inventoryID === Pieces.laurPalm15 ||
+    inventoryID === Pieces.outcrop1 ||
+    inventoryID === Pieces.outcrop3 ||
+    inventoryID === Pieces.lavaRockOutcrop1 ||
+    inventoryID === Pieces.lavaRockOutcrop3 ||
+    inventoryID === Pieces.glacier1 ||
+    inventoryID === Pieces.glacier3 ||
+    inventoryID === Pieces.glacier4 ||
+    inventoryID === Pieces.glacier6 ||
+    inventoryID === Pieces.hive
   ) {
     return true
   } else {
@@ -97,4 +131,18 @@ export function isBridgingObstaclePieceID(id: string) {
   } else {
     return false
   }
+}
+export const getBoardHexObstacleOriginsAndHexesAndEmpties = (boardHexes: BoardHexes): BoardHexes => {
+  return Object.values(boardHexes).reduce((acc, hex) => {
+    const inventoryPieceID = decodePieceID(hex.pieceID).pieceID;
+    const isPieceOriginHex =
+      piecesSoFar[inventoryPieceID]?.isHexTerrainPiece ||
+      (piecesSoFar[inventoryPieceID]?.isObstaclePiece && hex.isObstacleOrigin)
+
+    if (isPieceOriginHex || hex.terrain === 'empty') {
+      acc[hex.id] = hex;
+    }
+    return acc;
+  }
+    , {} as BoardHexes);
 }

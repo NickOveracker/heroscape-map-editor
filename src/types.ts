@@ -17,6 +17,10 @@ export type CubeCoordinate = {
   r: number
   s: number
 }
+export type Point = {
+  x: number
+  y: number
+}
 export interface BoardHex extends CubeCoordinate {
   id: string
   altitude: number
@@ -24,7 +28,7 @@ export interface BoardHex extends CubeCoordinate {
   terrain: string
   pieceRotation: number
   isCap?: boolean // caps are uncovered (no land hex above them) land hexes
-  interlockType?: string // 0,1,2,3,4,4B,5,6 interlocking hex types https://github.com/Dissolutio/heroscape-map-editor/issues/3
+  interlockType?: string // 0,1,2,3,3B,4,4B,5,6 interlocking hex types https://github.com/Dissolutio/heroscape-map-editor/issues/3
   interlockRotation?: number // 1-6, each interlock has a rotatin WITHIN its template
   isObstacleOrigin?: boolean // This marks the boardHex that will render the obstacle model
   isObstacleAuxiliary?: boolean // just shows an obstacle base for that hex
@@ -93,8 +97,16 @@ export type Piece = {
   size: number
   template: string
   height: number
+  isHexTerrainPiece: boolean
+  isObstaclePiece: boolean
   landPrefix?: PiecePrefixes // Including this so land pieces can have their sizes computed for piece-size selection in the Controls
   isUninventoried?: boolean, // so far just marvel-ruins-broken and castle-arch-no-door versions (these are just variations on their inventoried counterparts)
+}
+export type PieceSet = {
+  id: PieceSetIds
+  title: string, // the human friendly name
+  inventory: PieceInventory
+  abbreviation: string
 }
 export enum PiecePrefixes {
   grass = 'g',
@@ -126,9 +138,32 @@ export enum PiecePrefixes {
   castleWall = 'cw',
   laurWall = 'lw',
   castleArch = 'ca',
+  glyph = 'y',
+}
+export enum PieceSetIds {
+  // these inventory IDs are purposely short, to make their character length small for maximum-sized URL-shareable maps
+  aoaMaster1 = 'aoa1',
+  mstk = 'mstk',
+  totk = 'totk',
+  battleForWellspring = 'bftw',
+  laurJungle = 'lj',
+  landsOfValhalla = 'lov',
+  watersOfValhalla = 'wov',
+  swampsOfValhalla = 'sov',
+  snowfieldsOfValhalla = 'sfov',
+  lavafieldsOfValhalla = 'lfov',
+  volcarren = 'volc',
+  ticallaJungle = 'tj',
+  forgottenForest = 'ff',
+  underdarkMaster = 'bftu',
+  fortress = 'fort',
+  marvel = 'marv',
+  thaelenkTundra = 'tt',
+  riseOfValkyrieMaster = 'rotv',
+  swarmOfMarroMaster = 'sotm',
 }
 export enum Pieces {
-  // these inventory IDs are purposely short, to make their character length small for maximum-sized URL-sharealbe maps
+  // these inventory IDs are purposely short, to make their character length small for maximum-sized URL-shareable maps
   grass1 = `${PiecePrefixes.grass}1`,
   grass2 = `${PiecePrefixes.grass}2`,
   grass3 = `${PiecePrefixes.grass}3`,
@@ -169,6 +204,7 @@ export enum Pieces {
   asphalt7 = `${PiecePrefixes.asphalt}7`,
   concrete1 = `${PiecePrefixes.concrete}1`,
   concrete2 = `${PiecePrefixes.concrete}2`,
+  concrete6 = `${PiecePrefixes.concrete}6`, // base of marvel ruin
   concrete7 = `${PiecePrefixes.concrete}7`,
   road1 = `${PiecePrefixes.road}1`,
   road2 = `${PiecePrefixes.road}2`,
@@ -188,14 +224,14 @@ export enum Pieces {
   shadow1 = `${PiecePrefixes.shadow}1`,
   shadow3 = `${PiecePrefixes.shadow}3`,
   // EdgeAddons
-  roadWall = 'rw',
-  battlement = 'bt',
+  roadWall = 'rw', // rendered from BoardPieces not BoardHexes
+  battlement = 'bt', // rendered from BoardPieces not BoardHexes
   ladder = 'ld',
   // LaurWall
   laurWallPillar = `${PiecePrefixes.laurWall}p`,
-  laurWallShort = `${PiecePrefixes.laurWall}s`,
-  laurWallLong = `${PiecePrefixes.laurWall}l`,
-  laurWallRuin = `${PiecePrefixes.laurWall}r`,
+  laurWallShort = `${PiecePrefixes.laurWall}s`, // rendered from BoardPieces not BoardHexes
+  laurWallLong = `${PiecePrefixes.laurWall}l`, // rendered from BoardPieces not BoardHexes
+  laurWallRuin = `${PiecePrefixes.laurWall}r`, // rendered from BoardPieces not BoardHexes
   // HexObstacles
   snowTree10 = `${PiecePrefixes.snowTree}10`,
   snowTree12 = `${PiecePrefixes.snowTree}12`,
@@ -238,6 +274,7 @@ export enum Pieces {
   castleWallEnd = `${PiecePrefixes.castleWall}e`,
   castleArch = `${PiecePrefixes.castleArch}`,
   castleArchNoDoor = `${PiecePrefixes.castleArch}b`, //b broken, like marvel
+  glyphHaukeland = `${PiecePrefixes.glyph}1`, // WIP glyphs
 }
 
 export type VirtualScapeMap = {

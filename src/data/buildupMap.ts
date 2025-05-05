@@ -42,7 +42,7 @@ export default function buildupVSFileMap(
       // if (tile.type === 15001) {
       //   console.log("Startzone found in virtualscape map!", tileCoords, tile.colorf)
       // }
-      const id = pieceCodes?.[getCodeQuick(tile)] ?? ''
+      const id = pieceCodes?.[getCodeForVSPersonalTile(tile)] ?? ''
       const piece = piecesSoFar[id]
       if (!piece) {
         return boardHexes // Should probably handle this different, errors etc.
@@ -180,22 +180,86 @@ function getBlankHexoscapeMapForVSTiles(
     mapName,
   })
 }
-function getCodeQuick(tile: VirtualScapeTile) {
+function getCodeForVSPersonalTile(tile: VirtualScapeTile) {
   // this function is a monkeypatch
   // this function was created to simply transform personal tiles, created in Virtualscape, to be used in this app, quickly, or just return the original pieceCode
   if (
     tile.type === 17000 &&
-    ((tile?.personal?.letter ?? '') === 'LW' ||
-      (tile?.personal?.letter ?? '') === 'LW')
+    (tile?.personal?.name ?? '').toLowerCase().includes('pillar')
   ) {
     return 17101 // is now the laurPillar code, never existed in virtualscape
   }
   if (
     tile.type === 17000 &&
-    ((tile?.personal?.letter ?? '') === 'W' ||
-      (tile?.personal?.name ?? '').toLowerCase().includes('wellspring'))
+    (tile?.personal?.name ?? '').toLowerCase().includes('wellspring')
   ) {
-    return 17001 // is now the wellspring water 1-hex fluid piece code, never existed in virtualscape
+    return 17001
+  }
+  if (
+    tile.type === 17000 &&
+    (tile?.personal?.name ?? '').toLowerCase().includes('lavafield3')
+  ) {
+    return 7003
+  }
+  if (
+    tile.type === 17000 &&
+    (tile?.personal?.name ?? '').toLowerCase().includes('lavafield24')
+  ) {
+    return 7024
+  }
+  if (
+    tile.type === 17000 &&
+    (tile?.personal?.name ?? '').toLowerCase().includes('snow3')
+  ) {
+    return 9003
+  }
+  if (
+    tile.type === 17000 &&
+    (tile?.personal?.name ?? '').toLowerCase().includes('snow7')
+  ) {
+    return 9007
+  }
+  if (
+    tile.type === 17000 &&
+    (tile?.personal?.name ?? '').toLowerCase().includes('snow24')
+  ) {
+    return 9024
+  }
+  if (
+    tile.type === 17000 &&
+    (tile?.personal?.name ?? '').toLowerCase().includes('sand24')
+  ) {
+    return 3024
+  }
+  if (
+    tile.type === 17000 &&
+    (tile?.personal?.name ?? '').toLowerCase().includes('swampwater3')
+  ) {
+    return 19003
+  }
+  if (
+    tile.type === 17000 &&
+    (tile?.personal?.name ?? '').toLowerCase().startsWith('water3')
+  ) {
+    return 4003
+  }
+  if (
+    tile.type === 17000 &&
+    (tile?.personal?.name ?? '').toLowerCase().includes('lava3')
+  ) {
+    return 6003
+  }
+  if (
+    tile.type === 17000 &&
+    (tile?.personal?.name ?? '').toLowerCase().includes('shadow3')
+  ) {
+    return 25003
+  }
+  if (
+    tile.type === 17000 &&
+    (tile?.personal?.name ?? '').toLowerCase().includes('ice3')
+  ) {
+    return 5003
   }
   return tile.type
 }

@@ -6,18 +6,19 @@ import {
   HEXGRID_HEX_RADIUS,
   HEXGRID_SPACING,
   HEXGRID_HEXCAP_FLUID_HEIGHT,
+  LAYOUT_POINTY,
+  SVG_HEX_RADIUS,
+  SVG_HEX_APOTHEM,
 } from './constants'
 import { cubeToPixel, hexUtilsAdd, hexUtilsGetNeighborForRotation, hexUtilsGetRadialFarNeighborForRotation } from './hex-utils'
 
-type MapDimensions = {
-  width: number // vertex-to-vertex, in our World
-  length: number // vertex-to-vertex, in our World
-  apex: number // this is worthless so far
-}
 
 export const getBoardHexesRectangularMapDimensions = (
   boardHexes: BoardHexes,
-): MapDimensions & {
+): {
+  width: number // vertex-to-vertex, in our World
+  length: number // vertex-to-vertex, in our World
+  apex: number // this is worthless so far
   hexLength: number
   hexWidth: number
 } => {
@@ -64,6 +65,54 @@ export const getBoardHexesRectangularMapDimensions = (
     HEXGRID_HEX_HEIGHT
   return { length, width, apex, hexLength, hexWidth, }
 }
+export const getBoardHexesSvgMapDimensions = (
+  boardHexes: BoardHexes,
+): {
+  width: number
+  length: number
+  hexLength: number
+  hexWidth: number
+} => {
+  // Gets the top-most, bottom-most, left-most, and right-most hexes, then calculates the difference for the map width and height
+  const qPlusSMax = Math.max(
+    ...Object.keys(boardHexes).map(
+      (hexID) => boardHexes[hexID].q + boardHexes[hexID].s,
+    ),
+  )
+  const qPlusSMin = Math.min(
+    ...Object.keys(boardHexes).map(
+      (hexID) => boardHexes[hexID].q + boardHexes[hexID].s,
+    ),
+  )
+  const sMinusQMax = Math.max(
+    ...Object.keys(boardHexes).map(
+      (hexID) => boardHexes[hexID].s - boardHexes[hexID].q,
+    ),
+  )
+  const sMinusQMin = Math.min(
+    ...Object.keys(boardHexes).map(
+      (hexID) => boardHexes[hexID].s - boardHexes[hexID].q,
+    ),
+  )
+  const hexLength = qPlusSMax - qPlusSMin + 1
+  const length = (
+    (
+      (2 * SVG_HEX_RADIUS) + // 2 for the first row
+      // 1.5 for each row after that (the short leg from a vertex to the perpendicular shortdiagonal is 1/2 radius)
+      Math.floor(hexLength - 1) * 1.5 * SVG_HEX_RADIUS
+    ) / HEXGRID_SPACING
+  )
+  const hexWidth = Math.floor((sMinusQMax - sMinusQMin) / 2 + 1)
+  const width = (
+    // the short diagonal of the first hex, if height is 1
+    (hexLength === 1 ? (2 * SVG_HEX_APOTHEM)
+      // otherwise, also the next half from 2nd row
+      : (3 * SVG_HEX_APOTHEM))
+    +
+    (hexWidth - 1) * 2 * SVG_HEX_APOTHEM
+  ) / HEXGRID_SPACING
+  return { length, width, hexLength, hexWidth, }
+}
 export const getBoardHex3DCoords = (
   hex: CubeCoordinate & { altitude: number },
 ) => {
@@ -84,6 +133,19 @@ export const getBoardHex3DCoords = (
     yBase,
     yJungle
   }
+}
+export const hexUtilsHexToPixel = (
+  hex: CubeCoordinate
+): { x: number; y: number } => {
+  const s = HEXGRID_SPACING
+  // const M = layout.orientation
+  const M = LAYOUT_POINTY
+  let x = (M.f0 * hex.q + M.f1 * hex.r) * SVG_HEX_RADIUS
+  let y = (M.f2 * hex.q + M.f3 * hex.r) * SVG_HEX_RADIUS
+  // Apply spacing
+  x = x * s
+  y = y * s
+  return { x: x + SVG_HEX_APOTHEM, y: y + SVG_HEX_RADIUS }
 }
 export const getHexNeighborByRotAlt = (
   hex: BoardHex,

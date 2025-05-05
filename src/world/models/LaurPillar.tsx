@@ -98,7 +98,7 @@ export default function LaurWallPillar({
 }) {
   const pillarColor = hexTerrainColor[HexTerrain.laurWall]
   const interiorPillarColor = hexTerrainColor.laurModelColor2
-  const { x, z, yBaseCap, yWithBase } = getBoardHex3DCoords(boardHex)
+  const { x, z, yWithBase, yBase } = getBoardHex3DCoords(boardHex)
   const selectedPieceID = useBoundStore(s => s.selectedPieceID)
   const toggleSelectedPieceID = useBoundStore(s => s.toggleSelectedPieceID)
   const { nodes } = useGLTF('/laurwall-pillar.glb') as any
@@ -153,48 +153,59 @@ export default function LaurWallPillar({
         )}
       </group>
       <group
-        position={[x, yWithBase, z]}
+        position={[x, yBase, z]}
         rotation={[0, (rotation * -Math.PI) / 3, 0]}
         onPointerUp={onPointerUp}
         onPointerEnter={e => onPointerEnter(e, boardHex)}
         onPointerOut={e => onPointerOut(e)}
       >
-        <mesh
-          geometry={nodes.PillarTop.geometry}
+        <group
+          position={[0, HEXGRID_HEXCAP_FLUID_HEIGHT / 2, 0]}
         >
-          <meshMatcapMaterial
-            color={isHighlighted ? yellowColor : pillarColor}
-          />
-        </mesh>
-        <mesh
-          geometry={nodes.SubDecorCore.geometry}
+
+
+          <mesh
+            geometry={nodes.PillarTop.geometry}
+          >
+            <meshMatcapMaterial
+              color={isHighlighted ? yellowColor : pillarColor}
+            />
+          </mesh>
+          <mesh
+            geometry={nodes.SubDecorCore.geometry}
+          >
+            <meshMatcapMaterial
+              color={isHighlighted ? yellowColor : interiorPillarColor}
+            />
+          </mesh>
+          <mesh
+            geometry={nodes.Facade.geometry}
+          >
+            <meshMatcapMaterial
+              side={DoubleSide}
+              color={isHighlighted ? yellowColor : pillarColor}
+            />
+          </mesh>
+          <mesh
+            geometry={nodes.FacadeInner.geometry}
+          >
+            <meshMatcapMaterial
+              side={DoubleSide}
+              color={isHighlighted ? yellowColor : interiorPillarColor}
+            />
+          </mesh>
+        </group>
+        <group
+          position={[0, 0, 0]}
         >
-          <meshMatcapMaterial
-            color={isHighlighted ? yellowColor : interiorPillarColor}
-          />
-        </mesh>
-        <mesh
-          geometry={nodes.Facade.geometry}
-        >
-          <meshMatcapMaterial
-            side={DoubleSide}
-            color={isHighlighted ? yellowColor : pillarColor}
-          />
-        </mesh>
-        <mesh
-          geometry={nodes.FacadeInner.geometry}
-        >
-          <meshMatcapMaterial
-            side={DoubleSide}
-            color={isHighlighted ? yellowColor : interiorPillarColor}
-          />
-        </mesh>
-        <mesh position={[0, -(yWithBase - yBaseCap), 0]}>
-          <cylinderGeometry args={baseCylinderArgs} />
-          <meshMatcapMaterial
-            color={isHighlighted ? yellowColor : pillarColor}
-          />
-        </mesh>
+          <mesh
+          >
+            <cylinderGeometry args={baseCylinderArgs} />
+            <meshMatcapMaterial
+              color={isHighlighted ? yellowColor : pillarColor}
+            />
+          </mesh>
+        </group>
       </group>
     </>
   )
