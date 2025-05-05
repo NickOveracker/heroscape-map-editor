@@ -51,7 +51,7 @@ const World = ({
           onPointerLeave={() => {
             toggleHoveredPieceID('')
           }}
-          // frameloop='demand'
+          frameloop='demand'
           hidden={isHidden}
         >
           {/* <color attach="background" args={["white"]} /> */}
