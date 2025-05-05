@@ -117,7 +117,7 @@ export const svgColors = {
   outline24: 'rgb(188, 188, 186)',
   outlineWater: 'rgb(43, 56, 139)', // ice, swampwater too
   outlineWellspringWater: 'rgb(41, 56, 136)',
-  outlineTree: 'rgb(28, 57, 29)',
+  outlineTree: 'rgb(29, 60, 30)',
   outlineJungle: 'rgb(121, 61, 26)',
   outlineLaurWall: 'rgb(215, 38, 156)',
   // OBSTACLES
@@ -138,7 +138,7 @@ export const svgColors = {
   [HexTerrain.swampWater]: 'rgb(162, 166, 32)',
   // ice: 'rgb(148, 158, 215)',
   iceFlake: 'rgb(242, 243, 250)', // there is variation in the snowflake color
-  snowFlake: 'rgb(164, 172, 218)', // there is variation in the snowflake color
+  snowFlake: '#629BD0', // there is variation in the snowflake color
 }
 // const hsColors = {
 //     // selected by color picker on webp image of renegade paint set, so probably horrible

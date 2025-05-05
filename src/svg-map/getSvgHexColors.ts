@@ -2,7 +2,7 @@ import { BoardHex, HexTerrain } from '../types';
 import { svgColors, virtualscapeTileColors } from '../world/maphex/hexColors';
 import { decodePieceID } from '../utils/map-utils';
 import { piecesSoFar } from '../data/pieces';
-import { isFluidTerrainHex, isJungleTerrainHex, isSolidTerrainHex } from '../utils/board-utils';
+import { isEvergreenTree, isFluidTerrainHex, isJungleTerrainHex, isSolidTerrainHex } from '../utils/board-utils';
 
 export const getSvgHexBorderColor = (hex: BoardHex) => {
   const isSolidTerrain = isSolidTerrainHex(hex.terrain);
@@ -36,7 +36,7 @@ export const getSvgHexBorderColor = (hex: BoardHex) => {
   if (isJungleTerrainHex(hex.terrain)) {
     return svgColors.outlineJungle;
   }
-  if (hex.terrain === HexTerrain.tree) {
+  if (isEvergreenTree(hex.terrain)) {
     return svgColors.outlineTree;
   }
   if (hex.terrain === HexTerrain.laurWall) {
@@ -51,8 +51,8 @@ export const getSvgHexFillColor = (hex: BoardHex) => {
   if (isJungleTerrainHex(hex.terrain)) {
     return svgColors.fillJungle;
   }
-  if (hex.terrain === HexTerrain.tree) {
-    return svgColors.outlineTree;
+  if (isEvergreenTree(hex.terrain)) {
+    return svgColors.tree;
   }
   if (hex.terrain === HexTerrain.laurWall) {
     return svgColors.outlineLaurWall;

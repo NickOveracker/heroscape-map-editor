@@ -81,7 +81,16 @@ export function isNoVerifyDeletePieceByPieceID(inventoryID: string) {
 }
 export function isJungleTerrainHex(terrain: string) {
   if (terrain === HexTerrain.brush || terrain === HexTerrain.palm ||
-    terrain === HexTerrain.laurBrush || terrain === HexTerrain.laurPalm
+    terrain === HexTerrain.laurBrush || terrain === HexTerrain.laurPalm ||
+    terrain === HexTerrain.swampBrush
+  ) {
+    return true
+  } else {
+    return false
+  }
+}
+export function isEvergreenTree(terrain: string) {
+  if (terrain === HexTerrain.tree || terrain === HexTerrain.snowTree
   ) {
     return true
   } else {
