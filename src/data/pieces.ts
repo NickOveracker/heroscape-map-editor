@@ -872,7 +872,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isObstaclePiece: true,
     size: 1,
     template: '1',
-    height: 9,
+    height: 10,
   },
   [Pieces.laurBrush10]: {
     id: Pieces.laurBrush10,
@@ -882,7 +882,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isObstaclePiece: true,
     size: 1,
     template: '1',
-    height: 9,
+    height: 10,
   },
   [Pieces.laurPalm13]: {
     id: Pieces.laurPalm13,
@@ -892,7 +892,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isObstaclePiece: true,
     size: 1,
     template: '1',
-    height: 12,
+    height: 13,
   },
   [Pieces.laurPalm14]: {
     id: Pieces.laurPalm14,
@@ -902,7 +902,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isObstaclePiece: true,
     size: 1,
     template: '1',
-    height: 13,
+    height: 14,
   },
   [Pieces.laurPalm15]: {
     id: Pieces.laurPalm15,
@@ -912,7 +912,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isObstaclePiece: true,
     size: 1,
     template: '1',
-    height: 14,
+    height: 15,
   },
   [Pieces.brush9]: {
     id: Pieces.brush9,
@@ -922,7 +922,7 @@ export const piecesSoFar: Dictionary<Piece> = {
     isObstaclePiece: true,
     size: 1,
     template: '1',
-    height: 8,
+    height: 9,
   },
   [Pieces.palm14]: {
     id: Pieces.palm14,

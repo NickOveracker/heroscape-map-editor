@@ -51,7 +51,6 @@ export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
       />}
       {/* Hex text */}
       {!isEmptyHex && <SvgHexIDText
-        hexSize={SVG_HEX_RADIUS}
         text={`${hex.altitude}`}
         textLine2={``}
       />}

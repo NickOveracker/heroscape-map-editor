@@ -1,9 +1,11 @@
 import { decodePieceID, hexUtilsHexToPixel } from '../utils/map-utils'
 import { BoardHex, Pieces } from '../types'
-import { G, Polygon } from '@react-pdf/renderer'
+import { G, Polygon, Text } from '@react-pdf/renderer'
 import { getHexagonSvgPolygonPoints } from '../svg-map/getHexagonSvgPolygonPoints'
-import { SVG_HEX_RADIUS } from '../utils/constants'
+import { SVG_HEX_APOTHEM, SVG_HEX_RADIUS } from '../utils/constants'
 import { getSvgHexBorderColor, getSvgHexFillColor } from '../svg-map/getSvgHexColors'
+import { isJungleTerrainHex } from '../utils/board-utils'
+import { piecesSoFar } from '../data/pieces'
 
 export const PdfMapHex = ({ hex }: { hex: BoardHex }) => {
   const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS)
@@ -16,6 +18,7 @@ export const PdfMapHex = ({ hex }: { hex: BoardHex }) => {
   const borderRotation =
     ((hex?.interlockRotation ?? 0) +
       (hex?.pieceRotation ?? 0)) % 6;
+  const jungleText = piecesSoFar[inventoryID]?.height
   return (
     <G
       transform={`translate(${pixel.x}, ${pixel.y})`}
@@ -31,7 +34,7 @@ export const PdfMapHex = ({ hex }: { hex: BoardHex }) => {
         <Polygon
           points={points}
           stroke={borderColor}
-          strokeWidth={3}
+          strokeWidth={5}
           clipPath={`url(#interlock${hex.interlockType}-${borderRotation}-clip)`}
         />
       }
@@ -42,6 +45,26 @@ export const PdfMapHex = ({ hex }: { hex: BoardHex }) => {
           strokeWidth={5}
           clipPath={`url(#interlock6-${borderRotation}-clip)`}
         />
+      }
+      {(isJungleTerrainHex(hex.terrain)) &&
+        <Polygon
+          points={points}
+          stroke={borderColor}
+          strokeWidth={5}
+          clipPath={`url(#interlock6-${borderRotation}-clip)`}
+        />
+      }
+      {(isJungleTerrainHex(hex.terrain)) &&
+        <Text
+          style={{
+            fontSize: 7,
+            fontWeight: 'bold',
+          }}
+          y={1.2 * SVG_HEX_RADIUS}
+          x={jungleText.toString().length === 2 ? 0.6 * SVG_HEX_APOTHEM : 0.8 * SVG_HEX_APOTHEM}
+        >
+          {jungleText}
+        </Text>
       }
       {/* Hex text */}
       {/* <SvgHexIDText
