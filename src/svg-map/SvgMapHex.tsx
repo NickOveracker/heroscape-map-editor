@@ -1,5 +1,3 @@
-import { SyntheticEvent } from 'react';
-
 import { SvgHexIDText } from './SvgHexIDText';
 import { getHexagonSvgPolygonPoints } from './getHexagonSvgPolygonPoints';
 import { SVG_HEX_RADIUS } from '../utils/constants';
@@ -10,9 +8,6 @@ import { getSvgHexBorderColor, getSvgHexFillColor } from './getSvgHexColors';
 export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
   const isEmptyHex = hex.terrain === 'empty';
   // handlers
-  const onClick = (event: SyntheticEvent, sourceHex: BoardHex) => {
-    console.log('🚀 ~ onClick ~ sourceHex:', sourceHex);
-  };
   const pixel = hexUtilsHexToPixel(hex)
 
   const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS);
@@ -26,11 +21,6 @@ export const SvgMapHex = ({ hex }: { hex: BoardHex }) => {
   return (
     <g
       transform={`translate(${pixel.x}, ${pixel.y})`}
-      onClick={(e) => {
-        if (onClick) {
-          onClick(e, hex)
-        }
-      }}
       clipPath="url(#inner-stroke-clip)"
     >
 
