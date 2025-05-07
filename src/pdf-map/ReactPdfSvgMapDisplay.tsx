@@ -13,7 +13,6 @@ type ReactPdfSvgMapDisplayProps = {
 }
 
 export const ReactPdfSvgMapDisplay = ({ width, length, boardHexArr, emptyHexesArr }: ReactPdfSvgMapDisplayProps) => {
-  console.log("🚀 ~ ReactPdfSvgMapDisplay ~ width, length:", width, length)
   const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS);
 
   return (
