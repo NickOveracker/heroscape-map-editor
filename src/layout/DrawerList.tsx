@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { Box, List, Collapse, ListItemButton, ListItemIcon, ListItemText, Typography, Divider, Link } from '@mui/material'
 import { MdExpandLess, MdExpandMore, MdInventory, MdOutlineInventory } from 'react-icons/md'
 import LoadMapButtons from './LoadMapButtons'
@@ -99,7 +99,7 @@ export const DrawerList = ({
       Papa.parse(file, {
           delimiter: '\t',
           header: true,
-          complete: (results) => {
+          complete: (results: { ID: string, Count: string, Size: string, Type: string }[]) => {
               const dataMap = {}
               results.data.forEach(datum => {
                   if(Pieces.hasOwnProperty(datum.ID)) {
