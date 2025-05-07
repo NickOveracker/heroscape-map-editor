@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, List, Collapse, ListItemButton, ListItemIcon, ListItemText, Typography, Divider, Link } from '@mui/material'
-import { MdExpandLess, MdExpandMore, MdInventory } from 'react-icons/md'
+import { MdExpandLess, MdExpandMore, MdInventory, MdOutlineInventory } from 'react-icons/md'
 import LoadMapButtons from './LoadMapButtons'
 import DownloadMapFileButtons from './DownloadMapFileButtons'
 import useBoundStore from '../store/store'
@@ -10,6 +10,7 @@ import { FcAddImage, FcDownload, FcLink, FcUpload, FcVlc } from 'react-icons/fc'
 import Papa from 'papaparse'
 import { useLocalPieceInventory } from '../hooks/useLocalPieceInventory'
 import { Pieces } from '../types'
+import tsvTemplate from '/inventory_template.tsv?url';
 
 export const DrawerList = ({
   toggleIsNavOpen,
@@ -212,6 +213,20 @@ export const DrawerList = ({
             </ListItemIcon>
             <ListItemText primary={'Load Personal Inventory (.tsv)'} />
           </ListItemButton>
+
+          { /* DOWNLOAD PERSONAL INVENTORY TSV TEMPLATE */ }
+          <a style={{textDecoration: 'none', color: 'inherit'}} href={tsvTemplate} download="inventory_template.tsv">
+            <ListItemButton>
+              <ListItemIcon
+                sx={{
+                  color: 'inherit',
+                }}
+              >
+                <MdOutlineInventory />
+              </ListItemIcon>
+              <ListItemText primary={'Download Inventory Template File'} />
+            </ListItemButton>
+          </a>
         </List>
 
         <input
@@ -221,6 +236,7 @@ export const DrawerList = ({
           accept=".tsv"
           onChange={readPersonalInventoryTsvFile}
         />
+
 
         <div>
           <Divider />
