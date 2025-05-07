@@ -20,10 +20,10 @@ const Controls = () => {
   const inventory = useLocalPieceInventory();
   const useInventory = 0 < Object.keys(inventory.pieceInventory).reduce(
     function(sum, key) {
-        return sum + parseInt(inventory.pieceInventory[key]);
+        return sum + inventory.pieceInventory[key];
     }, 0);
   const selectedPiece = useBoundStore(s => s.penMode + s.pieceSize)
-  const totalCount = parseInt(inventory.pieceInventory[selectedPiece])
+  const totalCount = inventory.pieceInventory[selectedPiece]
   const remainingCount = Object.values(boardPieces).reduce((count, val) => {
 	  return val === selectedPiece ? count - 1 : count
   }, totalCount)
