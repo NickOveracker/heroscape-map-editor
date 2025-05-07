@@ -41,8 +41,6 @@ export const ReactPdfSvgMapDisplay = ({ width, length, boardHexArr, emptyHexesAr
       {emptyHexesArr.map((hex) => (
         <PdfMapHex key={hex.id} hex={hex} />
       ))}
-      {/* This displays the interlock hexes */}
-      {/* This displays the base hexagons and the hex-text (unit name, altitude, hex.id) */}
       {boardHexArr.filter(h => h.terrain !== 'empty').sort(
         (a, b) => a.altitude - b.altitude,
       ).map((hex) => (

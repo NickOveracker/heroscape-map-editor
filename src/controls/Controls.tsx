@@ -8,8 +8,28 @@ import useBoundStore from '../store/store'
 import { HEX_DIRECTIONS, hexUtilsAdd } from '../utils/hex-utils'
 import { decodePieceID, genBoardHexID, genPieceID } from '../utils/map-utils'
 import { buildupJsonFileMap } from '../data/buildupMap'
+import { BoardPieces } from '../types'
 // import LocalStorageList from './LocalStorageList'
 
+const shiftPieces = (direction: number, boardPieces: BoardPieces) => {
+  const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
+    const {
+      pieceID,
+      altitude,
+      rotation,
+      // boardHexID,
+      pieceCoords
+    } = decodePieceID(pid)
+    const newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[direction])
+    const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
+    const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
+    return {
+      ...prev,
+      [newPieceID]: pieceID
+    }
+  }, {})
+  return newBoardPieces
+}
 const Controls = () => {
   const boardHexes = useBoundStore((s) => s.boardHexes)
   const boardPieces = useBoundStore((s) => s.boardPieces)
@@ -36,22 +56,7 @@ const Controls = () => {
   //   const isTop2RowsEmpty = top2Rows.every(bh => bh.terrain === HexTerrain.empty)
   // }
   const movePieces = (direction: number) => {
-    const newBoardPieces = Object.keys(boardPieces).reduce((prev: any, pid: string) => {
-      const {
-        pieceID,
-        altitude,
-        rotation,
-        // boardHexID,
-        pieceCoords
-      } = decodePieceID(pid)
-      const newPieceCoords = hexUtilsAdd(pieceCoords, HEX_DIRECTIONS[direction])
-      const newBoardHexID = genBoardHexID({ ...newPieceCoords, altitude })
-      const newPieceID = genPieceID(newBoardHexID, pieceID, rotation)
-      return {
-        ...prev,
-        [newPieceID]: pieceID
-      }
-    }, {})
+    const newBoardPieces = shiftPieces(direction, boardPieces)
     const newMap = buildupJsonFileMap(newBoardPieces, hexMap)
     loadMap(newMap)
   }
@@ -60,8 +65,15 @@ const Controls = () => {
       ...hexMap,
       length: hexMap.length + 1
     }
-    const newMap = buildupJsonFileMap(boardPieces, newHexMap)
-    loadMap(newMap)
+    if (hexMap.shape !== 'hexagon') {
+      const newMap = buildupJsonFileMap(boardPieces, newHexMap)
+      loadMap(newMap)
+    } else {
+      const shiftedEastPieces = shiftPieces(0, boardPieces)
+      const shiftedSouthEastPieces = shiftPieces(1, shiftedEastPieces)
+      const newMap = buildupJsonFileMap(shiftedSouthEastPieces, newHexMap)
+      loadMap(newMap)
+    }
   }
   const handleClickRemoveMapLengthX = () => {
     const newHexMap = {
@@ -69,8 +81,15 @@ const Controls = () => {
       length: hexMap.length - 1
 
     }
-    const newMap = buildupJsonFileMap(boardPieces, newHexMap)
-    loadMap(newMap)
+    if (hexMap.shape !== 'hexagon') {
+      const newMap = buildupJsonFileMap(boardPieces, newHexMap)
+      loadMap(newMap)
+    } else {
+      const shiftedWestPieces = shiftPieces(3, boardPieces)
+      const shiftedNorthWestPieces = shiftPieces(4, shiftedWestPieces)
+      const newMap = buildupJsonFileMap(shiftedNorthWestPieces, newHexMap)
+      loadMap(newMap)
+    }
   }
   const handleClickAddMapWidthY = () => {
     const newHexMap = {

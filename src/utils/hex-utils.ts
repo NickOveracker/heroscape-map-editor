@@ -100,7 +100,7 @@ export function hexUtilsGenHexagonGrid(mapRadius: number): CubeCoordinate[] {
   const hexas: CubeCoordinate[] = [];
 
   // Calculate the offset to shift the hexagon down and to the right
-  const offsetQ = mapRadius; // Shift right
+  const offsetQ = (mapRadius % 2 === 0) ? mapRadius / 2 : Math.floor(mapRadius / 2 + 0.5); // Shift right
   const offsetR = mapRadius; // Shift down
 
   for (let q = -mapRadius; q <= mapRadius; q++) {
