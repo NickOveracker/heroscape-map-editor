@@ -163,7 +163,6 @@ const HexMapPage = ({ chunk, width, length, emptyHexesArr }: HexMapPageProps) =>
                 <View
                   style={{
                     flexBasis: '33%',
-                    flexGrow: 1,
                   }}
                 >
                   <Text style={{ fontSize: '10px' }}>Level: {group.altitude}</Text>

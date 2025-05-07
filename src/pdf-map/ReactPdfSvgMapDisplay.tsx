@@ -1,8 +1,8 @@
 import { BoardHex } from '../types'
-import { Line, Rect, Svg } from '@react-pdf/renderer'
+import { Svg } from '@react-pdf/renderer'
 import { PdfMapHex } from './PdfMapHex'
 import { PdfInterlockClipPaths } from '../svg-map/svg-hex-interlock-clippath'
-import { SVG_HEX_APOTHEM, SVG_HEX_RADIUS } from '../utils/constants'
+import { SVG_HEX_RADIUS } from '../utils/constants'
 import { getHexagonSvgPolygonPoints } from '../svg-map/getHexagonSvgPolygonPoints'
 
 type ReactPdfSvgMapDisplayProps = {
@@ -22,14 +22,7 @@ export const ReactPdfSvgMapDisplay = ({ width, length, boardHexArr, emptyHexesAr
         border: '1px solid black',
       }}
     >
-      <Rect
-        x={0}
-        y={0}
-        width={2 * SVG_HEX_APOTHEM}
-        height={2 * SVG_HEX_RADIUS}
-        fill='red'
-      />
-      <Line
+      {/* <Line
         x1={0}
         x2={0}
         y1={0}
@@ -44,7 +37,7 @@ export const ReactPdfSvgMapDisplay = ({ width, length, boardHexArr, emptyHexesAr
         y2={0}
         stroke="blue"
         strokeWidth={0.5}
-      />
+      /> */}
       <PdfInterlockClipPaths
         points={points}
       />
