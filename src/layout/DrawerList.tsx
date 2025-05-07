@@ -1,12 +1,15 @@
 import React from 'react'
 import { Box, List, Collapse, ListItemButton, ListItemIcon, ListItemText, Typography, Divider, Link } from '@mui/material'
-import { MdExpandLess, MdExpandMore } from 'react-icons/md'
+import { MdExpandLess, MdExpandMore, MdInventory } from 'react-icons/md'
 import LoadMapButtons from './LoadMapButtons'
 import DownloadMapFileButtons from './DownloadMapFileButtons'
 import useBoundStore from '../store/store'
 import { useSnackbar } from 'notistack'
 import JSONCrush from 'jsoncrush'
 import { FcAddImage, FcDownload, FcLink, FcUpload, FcVlc } from 'react-icons/fc'
+import Papa from 'papaparse'
+import { useLocalPieceInventory } from '../hooks/useLocalPieceInventory'
+import { Pieces } from '../types'
 
 export const DrawerList = ({
   toggleIsNavOpen,
@@ -21,6 +24,8 @@ export const DrawerList = ({
   const toggleIsNewMapDialogOpen = useBoundStore((state) => state.toggleIsNewMapDialogOpen)
   const isNewMapDialogOpen = useBoundStore((state) => state.isNewMapDialogOpen)
   const toggleIsEditMapDialogOpen = useBoundStore((state) => state.toggleIsEditMapDialogOpen)
+  const personalInventoryTsvUploadElementID = 'tsvinventoryupload'
+  const inventory = useLocalPieceInventory()
   const handleClick = (e: any) => {
     e?.stopPropagation()
     setIsUploadOpen(!isUploadOpen);
@@ -28,6 +33,13 @@ export const DrawerList = ({
   const handleClickDownload = (e: any) => {
     e?.stopPropagation()
     setIsDownloadOpen(!isDownloadOpen);
+  };
+  const handleClickUploadPersonalInventoryTsv = (e: any) => {
+    e?.stopPropagation()
+    const element = document.getElementById(personalInventoryTsvUploadElementID)
+    if (element) {
+      element.click()
+    }
   };
   const onClickCopy = async () => {
     const myUrl = encodeURI(
@@ -75,6 +87,37 @@ export const DrawerList = ({
       })
     }
   }
+  const readPersonalInventoryTsvFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event?.target?.files?.[0]
+  
+    if (!file) {
+      return
+    }
+  
+    try {
+      Papa.parse(file, {
+          delimiter: '\t',
+          header: true,
+          complete: (results) => {
+              const dataMap = {}
+              results.data.forEach(datum => {
+                  if(Pieces.hasOwnProperty(datum.ID)) {
+                      dataMap[Pieces[datum.ID]] = datum.Count
+                  }
+              })
+              inventory.setPieceInventory(dataMap)
+              console.log(inventory.pieceInventory)
+          },
+          error: (err) => {
+              console.error(err)
+          }
+      })
+    } catch (error: any) {
+      console.error(error)
+    }
+    event.target.value = '' // Reset the input value, otherwise choosing same file again will do nothing
+  };
+
   return (
     <Box
       sx={{ width: 350, height: '100%' }}
@@ -157,8 +200,27 @@ export const DrawerList = ({
               <LoadMapButtons />
             </List>
           </Collapse>
+
+          {/* LOAD PERSONAL PIECE INVENTORY */}
+          <ListItemButton onClick={handleClickUploadPersonalInventoryTsv}>
+            <ListItemIcon
+              sx={{
+                color: 'inherit',
+              }}
+            >
+              <MdInventory />
+            </ListItemIcon>
+            <ListItemText primary={'Load Personal Inventory (.tsv)'} />
+          </ListItemButton>
         </List>
 
+        <input
+          id={personalInventoryTsvUploadElementID}
+          type="file"
+          style={hiddenStyle}
+          accept=".tsv"
+          onChange={readPersonalInventoryTsvFile}
+        />
 
         <div>
           <Divider />
@@ -185,8 +247,19 @@ export const DrawerList = ({
             </Link>
           </div>
         </div>
-
       </div>
     </Box>
   )
+}
+
+const hiddenStyle = {
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: '1',
+  overflow: 'hidden',
+  position: 'absolute' as const,
+  bottom: '0',
+  left: '0',
+  whiteSpace: 'nowrap',
+  width: '1',
 }
