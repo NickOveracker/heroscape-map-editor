@@ -99,8 +99,8 @@ export const DrawerList = ({
       parse<File>(file, {
           delimiter: '\t',
           header: true,
-          complete: (results: ParseResult<Record<string, any>>) => {
-              const dataMap: Record<string, string> = {}
+          complete: (results: ParseResult<Record<string, string>>) => {
+              const dataMap: Record<string, number> = {}
               results.data.forEach(datum => {
                   if(Pieces.hasOwnProperty(datum.ID)) {
                       const id: string = Pieces[datum.ID]
