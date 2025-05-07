@@ -7,7 +7,7 @@ import useBoundStore from '../store/store'
 import { useSnackbar } from 'notistack'
 import JSONCrush from 'jsoncrush'
 import { FcAddImage, FcDownload, FcLink, FcUpload, FcVlc } from 'react-icons/fc'
-import Papa from 'papaparse'
+import { parse, ParseResult } from 'papaparse'
 import { useLocalPieceInventory } from '../hooks/useLocalPieceInventory'
 import { Pieces } from '../types'
 import tsvTemplate from '/inventory_template.tsv?url';
@@ -96,10 +96,10 @@ export const DrawerList = ({
     }
   
     try {
-      Papa.parse<File>(file, {
+      parse<File>(file, {
           delimiter: '\t',
           header: true,
-          complete: (results: ParseResult<File>) => {
+          complete: (results: ParseResult<any>) => {
               const dataMap = {}
               results.data.forEach(datum => {
                   if(Pieces.hasOwnProperty(datum.ID)) {
