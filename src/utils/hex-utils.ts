@@ -108,7 +108,7 @@ export function hexUtilsGenHexagonGrid(mapRadius: number): CubeCoordinate[] {
     const r2 = Math.min(mapRadius, -q + mapRadius);
     for (let r = r1; r <= r2; r++) {
       // Apply the offset to q and r
-      hexas.push({ q: q + offsetQ, r: r + offsetR, s: -q - r });
+      hexas.push({ q: q + offsetQ, r: r + offsetR, s: -(q + offsetQ) - (r + offsetR) });
     }
   }
   return hexas;

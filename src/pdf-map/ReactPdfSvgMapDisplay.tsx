@@ -20,7 +20,6 @@ export const ReactPdfSvgMapDisplay = ({ width, length, boardHexArr, emptyHexesAr
       viewBox={`${0} ${0} ${width} ${length}`}
       style={{
         border: '1px solid black',
-        flexGrow: 1
       }}
     >
       <Rect

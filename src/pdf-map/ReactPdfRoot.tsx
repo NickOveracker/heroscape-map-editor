@@ -83,11 +83,9 @@ type DecodedPiece = {
   };
 }
 
-// Create Document Component
 const MyDocument = ({ boardHexes, boardPieces, hexMap }: MapState) => {
   return (
     <Document
-      pageLayout="oneColumn"
       title={hexMap.name}
     >
       <HexMapLevels6PerPage
@@ -113,7 +111,7 @@ const HalfPageColumn = (props: PropsWithChildren) => {
   );
 };
 
-const HexMapLevels6PerPage = ({ boardHexes, boardPieces, hexMap }: MapState) => {
+const HexMapLevels6PerPage = ({ boardHexes, boardPieces }: MapState) => {
   const boardHexesWithoutEmpties = keyBy(Object.values(boardHexes).filter((hex) => hex.terrain !== 'empty'), 'id')
   const boardHexAndPieceChunks = getBoardHexAndPieceChunks((boardHexesWithoutEmpties), boardPieces);
   const emptyHexesArr = Object.values(boardHexes).filter((hex) => hex.terrain === 'empty');
@@ -125,10 +123,8 @@ const HexMapLevels6PerPage = ({ boardHexes, boardPieces, hexMap }: MapState) => 
           key={pageIndex}
           chunk={chunk}
           emptyHexesArr={emptyHexesArr}
-          width={hexMap.shape === "hexagon" ? svgMapDimensions.length : svgMapDimensions.width + 10}
-          length={hexMap.shape === "hexagon" ? svgMapDimensions.width : svgMapDimensions.length}
-        // width={svgMapDimensions.width}
-        // length={svgMapDimensions.length}
+          width={svgMapDimensions.width}
+          length={svgMapDimensions.length}
         />
       ))}
     </>
@@ -167,6 +163,7 @@ const HexMapPage = ({ chunk, width, length, emptyHexesArr }: HexMapPageProps) =>
                 <View
                   style={{
                     flexBasis: '33%',
+                    flexGrow: 1,
                   }}
                 >
                   <Text style={{ fontSize: '10px' }}>Level: {group.altitude}</Text>
