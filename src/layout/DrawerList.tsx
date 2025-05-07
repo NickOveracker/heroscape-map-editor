@@ -89,14 +89,14 @@ export const DrawerList = ({
     }
   }
   const readPersonalInventoryTsvFile = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file : File | undefined = event?.target?.files?.[0]
+    let file : File | undefined = event?.target?.files?.[0]
   
     if (!file) {
       return
     }
   
     try {
-      Papa.parse(file, {
+      Papa.parse<File>(file, {
           delimiter: '\t',
           header: true,
           complete: (results: { ID: string, Count: string, Size: string, Type: string }[]) => {
