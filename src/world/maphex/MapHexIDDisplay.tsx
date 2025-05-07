@@ -27,7 +27,7 @@ export const MapHexIDDisplay = ({
   // if (boardHex.terrain === HexTerrain.empty) return null
   return (
     <Billboard position={[position.x, position.y + ((boardHex?.obstacleHeight ?? 0) * HEXGRID_HEX_HEIGHT), position.z]}>
-      <Text fontSize={0.2} color={new Color('white')}>
+      <Text fontSize={0.2} color={new Color('black')}>
         {/* {`${boardHex.terrain}:${boardHex.id}`} */}
         {/* {`${boardHex.id}`} */}
         {`${boardHex.q}:${boardHex.r}:${boardHex.s}`}

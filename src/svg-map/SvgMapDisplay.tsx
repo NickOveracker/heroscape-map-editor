@@ -7,8 +7,6 @@ import { SVG_HEX_RADIUS } from '../utils/constants';
 import { SvgInterlockClipPaths } from './svg-hex-interlock-clippath';
 import useBoundStore from '../store/store';
 
-const PADDING = 10;
-
 export const SvgMapDisplay = () => {
   const boardHexes = useBoundStore((state) => state.boardHexes)
   const { points } = getHexagonSvgPolygonPoints(SVG_HEX_RADIUS);
@@ -19,10 +17,10 @@ export const SvgMapDisplay = () => {
 
   const svgRef = useRef<SVGSVGElement>(null);
   const [viewBox, setViewBox] = useState({
-    x: 0 - PADDING,
-    y: 0 - PADDING,
-    width: mapDimensions.width + 3 * PADDING,
-    height: mapDimensions.length + 3 * PADDING,
+    x: 0,
+    y: 0,
+    width: mapDimensions.width,
+    height: mapDimensions.length,
   });
 
   const pointerOrigin = useRef({ x: 0, y: 0 });
@@ -31,10 +29,10 @@ export const SvgMapDisplay = () => {
   // Effect to update the viewBox when map dimensions change
   useEffect(() => {
     setViewBox({
-      x: 0 - PADDING,
-      y: 0 - PADDING,
-      width: getBoardHexesSvgMapDimensions(boardHexes).width + 3 * PADDING,
-      height: getBoardHexesSvgMapDimensions(boardHexes).length + 3 * PADDING,
+      x: 0,
+      y: 0,
+      width: getBoardHexesSvgMapDimensions(boardHexes).width,
+      height: getBoardHexesSvgMapDimensions(boardHexes).length,
     });
   }, [boardHexes]);
 
@@ -83,6 +81,22 @@ export const SvgMapDisplay = () => {
       onPointerLeave={onPointerUp}
     >
       <SvgInterlockClipPaths points={points} />
+      {/* <line
+        x1={0}
+        y1={0}
+        x2={0}
+        y2={mapDimensions.length}
+        stroke="red"
+        strokeWidth={0.5}
+      />
+      <line
+        x1={0}
+        y1={0}
+        x2={mapDimensions.width}
+        y2={0}
+        stroke="blue"
+        strokeWidth={0.5}
+      /> */}
       {boardHexesArr.map((hex) => (
         <SvgMapHex key={hex.id} hex={hex} />
       ))}

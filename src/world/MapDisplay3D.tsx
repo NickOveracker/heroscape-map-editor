@@ -89,17 +89,18 @@ export default function MapDisplay3D({
   }
 
   const { length, width } = getBoardHexesRectangularMapDimensions(boardHexes)
-  console.log("🚀 ~ length, width:", length, width)
   // const topLeft = [-HEXGRID_HEX_APOTHEM, -1]
   return (
     <group ref={mapGroupRef}>
       {/* TOP LEFT */}
-      {!isTakingPicture && (<axesHelper
-        // position={[topLeft[0], 0, topLeft[1]]}
-        position={[0, 0, 0]}
-        scale={[width, 0, length]}
-      // rotation={new Euler(0, Math.PI, 0)}
-      />)}
+      {!isTakingPicture && (
+        <axesHelper
+          // position={[topLeft[0], 0, topLeft[1]]}
+          position={[0, 0, 0]}
+          scale={[width, 0, length]}
+        // rotation={new Euler(0, Math.PI, 0)}
+        />
+      )}
 
       {/* BOTTOM RIGHT */}
       {/* <axesHelper

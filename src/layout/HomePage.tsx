@@ -11,13 +11,14 @@ import CameraSpeedDial from './CameraSpeedDial'
 import ReactPdfRoot from '../pdf-map/ReactPdfRoot'
 import useAutoLoadMapFile from '../hooks/useAutoLoadMapFile'
 import { SvgMapDisplay } from '../svg-map/SvgMapDisplay'
+import { shatteredTableBoardHexes } from '../data/shatteredTableBoardHexes'
 
 export default function HomePage() {
   const cameraControlsRef = React.useRef(undefined!)
 
   // https://robohash.org/you.png?size=200x200
   // USE EFFECT: automatically load up map from URL, OR from file
-  useAutoLoadMapFile()
+  useAutoLoadMapFile({ boardHexes: shatteredTableBoardHexes })
 
 
   // MUI BREAKPOINTS
@@ -63,7 +64,6 @@ export default function HomePage() {
           height: '100vh',
           padding: 0,
           margin: 0,
-          // backgroundColor: 'var(--outer-space)',
         }}
       >
         <HeaderNav
