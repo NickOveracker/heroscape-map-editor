@@ -6,7 +6,6 @@ import {
   HEXGRID_HEX_RADIUS,
   HEXGRID_SPACING,
   HEXGRID_HEXCAP_FLUID_HEIGHT,
-  LAYOUT_POINTY,
   SVG_HEX_RADIUS,
   SVG_HEX_APOTHEM,
 } from './constants'
@@ -135,17 +134,11 @@ export const getBoardHex3DCoords = (
   }
 }
 export const hexUtilsHexToPixel = (
-  hex: CubeCoordinate
+  hex: CubeCoordinate,
 ): { x: number; y: number } => {
-  const s = HEXGRID_SPACING
-  // const M = layout.orientation
-  const M = LAYOUT_POINTY
-  let x = (M.f0 * hex.q + M.f1 * hex.r) * SVG_HEX_RADIUS
-  let y = (M.f2 * hex.q + M.f3 * hex.r) * SVG_HEX_RADIUS
-  // Apply spacing
-  x = x * s
-  y = y * s
-  return { x: x + SVG_HEX_APOTHEM, y: y + SVG_HEX_RADIUS }
+  const x = SVG_HEX_RADIUS * (Math.sqrt(3) * hex.q + (Math.sqrt(3) / 2) * hex.r)
+  const y = SVG_HEX_RADIUS * ((3 / 2) * hex.r)
+  return { x, y }
 }
 export const getHexNeighborByRotAlt = (
   hex: BoardHex,

@@ -3,15 +3,16 @@ import useBoundStore from '../store/store'
 import { useSnackbar } from 'notistack'
 import { useSearch } from 'wouter'
 import JSONCrush from 'jsoncrush'
-import { BoardPieces, Pieces } from '../types'
+import { BoardHexes, BoardPieces, Pieces } from '../types'
 import { decodePieceID } from '../utils/map-utils'
 import { buildupJsonFileMap } from '../data/buildupMap'
 import { genRandomMapName } from '../utils/genRandomMapName'
 
-// type Props = {}
+type Props = {
+  boardHexes?: BoardHexes
+}
 
-// const useAutoLoadMapFile = (props: Props) => {
-const useAutoLoadMapFile = () => {
+const useAutoLoadMapFile = (props: Props) => {
   const loadMap = useBoundStore((s) => s.loadMap)
   const { clear: clearUndoHistory } = useBoundStore.temporal.getState()
   const { enqueueSnackbar } = useSnackbar()
@@ -83,11 +84,19 @@ const useAutoLoadMapFile = () => {
       fetch(fileName).then(async (response) => {
         // const data = response.json()
         const data = await response.json()
-        const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
-        if (!jsonMap.hexMap.name) {
-          jsonMap.hexMap.name = fileName
+        if (props.boardHexes) {
+          loadMap({
+            boardHexes: props.boardHexes,
+            boardPieces: data.boardPieces,
+            hexMap: data.hexMap,
+          })
+        } else {
+          const jsonMap = buildupJsonFileMap(data.boardPieces, data.hexMap)
+          if (!jsonMap.hexMap.name) {
+            jsonMap.hexMap.name = fileName
+          }
+          loadMap(jsonMap)
         }
-        loadMap(jsonMap)
         enqueueSnackbar({
           // message: `Loaded map "${jsonMap.hexMap.name}" from file: "${fileName}"`,
           message: `WELCOME!`,

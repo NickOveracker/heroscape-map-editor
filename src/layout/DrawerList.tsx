@@ -242,7 +242,10 @@ export const DrawerList = ({
         <div>
           <Divider />
           <Typography variant={"subtitle1"} paddingX={2} paddingY={1} align={'center'}>
-            Made with ❤️ in Austin, Texas
+            This app is a work in progress.
+          </Typography>
+          <Typography variant={"subtitle1"} paddingX={2} paddingY={1} align={'center'}>
+            Under construction in Austin, Texas
           </Typography>
           <div
             style={{

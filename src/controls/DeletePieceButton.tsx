@@ -23,9 +23,9 @@ const DeletePieceButton = () => {
       toggleSelectedPieceID('')
     }
     /* 
-    0. Obstacles, Ruins, Land fluid
+    0. Obstacles, Ruins
     1. Laur Pillars
-    2. Land Solid (check stuff on top)
+    2. Land (check stuff on top)
     3. Ladders
     4. Castle Pieces
     */

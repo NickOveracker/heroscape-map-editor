@@ -97,15 +97,21 @@ export function hexUtilsRotateAroundOrigin_000(
   }
 }
 export function hexUtilsGenHexagonGrid(mapRadius: number): CubeCoordinate[] {
-  const hexas: CubeCoordinate[] = []
+  const hexas: CubeCoordinate[] = [];
+
+  // Calculate the offset to shift the hexagon down and to the right
+  const offsetQ = (mapRadius % 2 === 0) ? mapRadius / 2 : Math.floor(mapRadius / 2 + 0.5); // Shift right
+  const offsetR = mapRadius; // Shift down
+
   for (let q = -mapRadius; q <= mapRadius; q++) {
-    const r1 = Math.max(-mapRadius, -q - mapRadius)
-    const r2 = Math.min(mapRadius, -q + mapRadius)
+    const r1 = Math.max(-mapRadius, -q - mapRadius);
+    const r2 = Math.min(mapRadius, -q + mapRadius);
     for (let r = r1; r <= r2; r++) {
-      hexas.push({ q, r, s: -q - r })
+      // Apply the offset to q and r
+      hexas.push({ q: q + offsetQ, r: r + offsetR, s: -(q + offsetQ) - (r + offsetR) });
     }
   }
-  return hexas
+  return hexas;
 }
 export function hexUtilsGenRectangleGrid(
   mapWidth: number,
