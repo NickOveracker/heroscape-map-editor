@@ -9,6 +9,7 @@ import { HEX_DIRECTIONS, hexUtilsAdd } from '../utils/hex-utils'
 import { decodePieceID, genBoardHexID, genPieceID } from '../utils/map-utils'
 import { buildupJsonFileMap } from '../data/buildupMap'
 import { BoardPieces } from '../types'
+import { MAX_HEXAGON_MAP_DIMENSION, MAX_RECTANGLE_MAP_DIMENSION } from '../utils/constants'
 // import LocalStorageList from './LocalStorageList'
 
 const shiftPieces = (direction: number, boardPieces: BoardPieces) => {
@@ -64,7 +65,7 @@ const Controls = () => {
     const newHexMap = {
       ...hexMap,
       length: hexMap.length + 1,
-      width: hexMap.shape !== 'hexagon' ? hexMap.width + 1 : hexMap.width
+      width: hexMap.shape === 'hexagon' ? hexMap.width + 1 : hexMap.width
     }
     if (hexMap.shape !== 'hexagon') {
       const newMap = buildupJsonFileMap(boardPieces, newHexMap)
@@ -96,10 +97,17 @@ const Controls = () => {
     const newHexMap = {
       ...hexMap,
       width: hexMap.width + 1,
-      length: hexMap.shape !== 'hexagon' ? hexMap.length + 1 : hexMap.length
+      length: hexMap.shape === 'hexagon' ? hexMap.length + 1 : hexMap.length
     }
-    const newMap = buildupJsonFileMap(boardPieces, newHexMap)
-    loadMap(newMap)
+    if (hexMap.shape !== 'hexagon') {
+      const newMap = buildupJsonFileMap(boardPieces, newHexMap)
+      loadMap(newMap)
+    } else {
+      const shiftedEastPieces = shiftPieces(0, boardPieces)
+      const shiftedSouthEastPieces = shiftPieces(1, shiftedEastPieces)
+      const newMap = buildupJsonFileMap(shiftedSouthEastPieces, newHexMap)
+      loadMap(newMap)
+    }
   }
   const handleClickRemoveMapWidthY = () => {
     const newHexMap = {
@@ -107,8 +115,15 @@ const Controls = () => {
       width: hexMap.width - 1,
       length: hexMap.shape !== 'hexagon' ? hexMap.length - 1 : hexMap.length
     }
-    const newMap = buildupJsonFileMap(boardPieces, newHexMap)
-    loadMap(newMap)
+    if (hexMap.shape !== 'hexagon') {
+      const newMap = buildupJsonFileMap(boardPieces, newHexMap)
+      loadMap(newMap)
+    } else {
+      const shiftedWestPieces = shiftPieces(3, boardPieces)
+      const shiftedNorthWestPieces = shiftPieces(4, shiftedWestPieces)
+      const newMap = buildupJsonFileMap(shiftedNorthWestPieces, newHexMap)
+      loadMap(newMap)
+    }
   }
 
   return (
@@ -120,10 +135,28 @@ const Controls = () => {
       {/* <MapLensToggles /> */}
       <ViewingLevelInput />
       {/* <LocalStorageList /> */}
-      <Button onClick={handleClickAddMapLengthX}>Add length</Button>
-      <Button onClick={handleClickRemoveMapLengthX}>Remove length</Button>
-      <Button onClick={handleClickAddMapWidthY}>Add width</Button>
-      <Button onClick={handleClickRemoveMapWidthY}>Remove width</Button>
+      <Button
+        disabled={(hexMap.shape === "hexagon" && hexMap.length >= MAX_HEXAGON_MAP_DIMENSION)
+          || (hexMap.shape === "rectangle" && hexMap.length >= MAX_RECTANGLE_MAP_DIMENSION)}
+        onClick={handleClickAddMapLengthX}
+      >Add length
+      </Button>
+      <Button
+        disabled={(hexMap.shape === "hexagon" && hexMap.length <= 1)
+          || (hexMap.shape === "rectangle" && hexMap.length <= 1)}
+        onClick={handleClickRemoveMapLengthX}
+      >Remove length
+      </Button>
+      <Button
+        disabled={(hexMap.shape === "hexagon" && hexMap.width >= MAX_HEXAGON_MAP_DIMENSION)
+          || (hexMap.shape === "rectangle" && hexMap.width >= MAX_RECTANGLE_MAP_DIMENSION)}
+        onClick={handleClickAddMapWidthY}
+      >Add width</Button>
+      <Button
+        disabled={(hexMap.shape === "hexagon" && hexMap.width <= 1)
+          || (hexMap.shape === "rectangle" && hexMap.width <= 1)}
+        onClick={handleClickRemoveMapWidthY}
+      >Remove width</Button>
       <Button onClick={() => movePieces(0)}>East</Button>
       <Button onClick={() => movePieces(1)}>SouthEast</Button>
       <Button onClick={() => movePieces(2)}>SouthWest</Button>
