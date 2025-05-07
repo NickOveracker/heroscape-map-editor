@@ -135,24 +135,9 @@ export const getBoardHex3DCoords = (
 }
 export const hexUtilsHexToPixel = (
   hex: CubeCoordinate,
-  hexagonMapSize?: number
 ): { x: number; y: number } => {
   const x = SVG_HEX_RADIUS * (Math.sqrt(3) * hex.q + (Math.sqrt(3) / 2) * hex.r)
   const y = SVG_HEX_RADIUS * ((3 / 2) * hex.r)
-  // const s = HEXGRID_SPACING
-  // // const M = layout.orientation
-  // const M = LAYOUT_POINTY
-  // let x = (M.f0 * hex.q + M.f1 * hex.r) * SVG_HEX_RADIUS
-  // let y = (M.f2 * hex.q + M.f3 * hex.r) * SVG_HEX_RADIUS
-  // // Apply spacing
-  // x = x * s
-  // y = y * s
-  if (hexagonMapSize && hexagonMapSize > 0) {
-    return {
-      x: x - (hexagonMapSize * SVG_HEX_APOTHEM),
-      y
-    }
-  }
   return { x, y }
 }
 export const getHexNeighborByRotAlt = (
