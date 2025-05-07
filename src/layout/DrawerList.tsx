@@ -99,7 +99,7 @@ export const DrawerList = ({
       Papa.parse<File>(file, {
           delimiter: '\t',
           header: true,
-          complete: (results: { ID: string, Count: string, Size: string, Type: string }[]) => {
+          complete: (results: ParseResult<File>) => {
               const dataMap = {}
               results.data.forEach(datum => {
                   if(Pieces.hasOwnProperty(datum.ID)) {
