@@ -101,7 +101,7 @@ export const DrawerList = ({
           header: true,
           complete: (results: ParseResult<Record<string, string>>) => {
               const dataMap: Record<string, number> = {}
-              results.data.forEach(datum => {
+              results.data.forEach((datum: Record<string, string>) => {
                   if(Pieces.hasOwnProperty(datum.ID)) {
                       const id: string = Pieces[datum.ID]
                       dataMap[id] = parseInt(datum.Count)
