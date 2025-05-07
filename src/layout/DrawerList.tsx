@@ -96,7 +96,7 @@ export const DrawerList = ({
     }
   
     try {
-      parse<Record<string, string>[]>(file, {
+      parse<Record<string, string>>(file, {
           delimiter: '\t',
           header: true,
           complete: (results: ParseResult<Record<string, string>>) => {
