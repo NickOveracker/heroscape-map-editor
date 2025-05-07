@@ -89,7 +89,7 @@ export const DrawerList = ({
     }
   }
   const readPersonalInventoryTsvFile = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file : File = event?.target?.files?.[0]
+    const file : File | undefined = event?.target?.files?.[0]
   
     if (!file) {
       return
