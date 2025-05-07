@@ -63,7 +63,8 @@ const Controls = () => {
   const handleClickAddMapLengthX = () => {
     const newHexMap = {
       ...hexMap,
-      length: hexMap.length + 1
+      length: hexMap.length + 1,
+      width: hexMap.shape !== 'hexagon' ? hexMap.width + 1 : hexMap.width
     }
     if (hexMap.shape !== 'hexagon') {
       const newMap = buildupJsonFileMap(boardPieces, newHexMap)
@@ -78,8 +79,8 @@ const Controls = () => {
   const handleClickRemoveMapLengthX = () => {
     const newHexMap = {
       ...hexMap,
-      length: hexMap.length - 1
-
+      length: hexMap.length - 1,
+      width: hexMap.shape !== 'hexagon' ? hexMap.width - 1 : hexMap.width
     }
     if (hexMap.shape !== 'hexagon') {
       const newMap = buildupJsonFileMap(boardPieces, newHexMap)
@@ -94,7 +95,8 @@ const Controls = () => {
   const handleClickAddMapWidthY = () => {
     const newHexMap = {
       ...hexMap,
-      width: hexMap.width + 1
+      width: hexMap.width + 1,
+      length: hexMap.shape !== 'hexagon' ? hexMap.length + 1 : hexMap.length
     }
     const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
@@ -102,8 +104,8 @@ const Controls = () => {
   const handleClickRemoveMapWidthY = () => {
     const newHexMap = {
       ...hexMap,
-      width: hexMap.width - 1
-
+      width: hexMap.width - 1,
+      length: hexMap.shape !== 'hexagon' ? hexMap.length - 1 : hexMap.length
     }
     const newMap = buildupJsonFileMap(boardPieces, newHexMap)
     loadMap(newMap)
