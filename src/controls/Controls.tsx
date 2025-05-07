@@ -8,6 +8,7 @@ import useBoundStore from '../store/store'
 import { HEX_DIRECTIONS, hexUtilsAdd } from '../utils/hex-utils'
 import { decodePieceID, genBoardHexID, genPieceID } from '../utils/map-utils'
 import { buildupJsonFileMap } from '../data/buildupMap'
+import { useLocalPieceInventory } from '../hooks/useLocalPieceInventory'
 import { BoardPieces } from '../types'
 import { MAX_HEXAGON_MAP_DIMENSION, MAX_RECTANGLE_MAP_DIMENSION } from '../utils/constants'
 // import LocalStorageList from './LocalStorageList'
@@ -37,6 +38,16 @@ const Controls = () => {
   const hexMap = useBoundStore((s) => s.hexMap)
   const loadMap = useBoundStore((s) => s.loadMap)
 
+  const inventory = useLocalPieceInventory();
+  const useInventory = 0 < Object.keys(inventory.pieceInventory).reduce(
+    function(sum, key) {
+        return sum + inventory.pieceInventory[key];
+    }, 0);
+  const selectedPiece = useBoundStore(s => s.penMode + s.pieceSize)
+  const totalCount = inventory.pieceInventory[selectedPiece]
+  const remainingCount = Object.values(boardPieces).reduce((count, val) => {
+	  return val === selectedPiece ? count - 1 : count
+  }, totalCount)
 
   const handleClickLogState = () => {
     console.log("🚀 ~ Controls ~ boardHexes:", boardHexes)
@@ -130,6 +141,7 @@ const Controls = () => {
     <Container sx={{ padding: 1 }}>
       <UndoRedoButtonGroup />
       <PenModeControls />
+      <div style={{ padding: '0px 20px' }}>{ useInventory && !isNaN(remainingCount) ? remainingCount + " remaining" : "" }</div>
       <PieceSizeSelect />
       <RotationSelect />
       {/* <MapLensToggles /> */}

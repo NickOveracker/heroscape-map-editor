@@ -65,6 +65,7 @@ This project utilizes several libraries to provide a rich development experience
 - **lodash**: A utility library for JavaScript. (included by React, so is "free")
 - **nanoid**: A library for generating unique IDs. (to keep mapID's unique, in case they one day become cloud-storable)
 - **notistack**: A library for displaying snackbars (feedback/notifications when something is successful or errors) in React.
+- **papaparse**: A library for parsing CSV (and TSV etc) files, used for loading non-standard piece inventories.
 - **react-hotkeys-hook**: A library for handling keyboard shortcuts in React.
 - **react-icons**: A library for including popular icons in React.
 - **wouter**: A minimalistic routing library for React.

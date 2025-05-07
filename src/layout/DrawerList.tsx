@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { Box, List, Collapse, ListItemButton, ListItemIcon, ListItemText, Typography, Divider, Link } from '@mui/material'
-import { MdExpandLess, MdExpandMore } from 'react-icons/md'
+import { MdExpandLess, MdExpandMore, MdInventory, MdOutlineInventory } from 'react-icons/md'
 import LoadMapButtons from './LoadMapButtons'
 import DownloadMapFileButtons from './DownloadMapFileButtons'
 import useBoundStore from '../store/store'
 import { useSnackbar } from 'notistack'
 import JSONCrush from 'jsoncrush'
 import { FcAddImage, FcDownload, FcLink, FcUpload, FcVlc } from 'react-icons/fc'
+import { parse, ParseResult } from 'papaparse'
+import { useLocalPieceInventory } from '../hooks/useLocalPieceInventory'
+import { Pieces } from '../types'
+import tsvTemplate from '/inventory_template.tsv?url';
 
 export const DrawerList = ({
   toggleIsNavOpen,
@@ -21,6 +25,8 @@ export const DrawerList = ({
   const toggleIsNewMapDialogOpen = useBoundStore((state) => state.toggleIsNewMapDialogOpen)
   const isNewMapDialogOpen = useBoundStore((state) => state.isNewMapDialogOpen)
   const toggleIsEditMapDialogOpen = useBoundStore((state) => state.toggleIsEditMapDialogOpen)
+  const personalInventoryTsvUploadElementID = 'tsvinventoryupload'
+  const inventory = useLocalPieceInventory()
   const handleClick = (e: any) => {
     e?.stopPropagation()
     setIsUploadOpen(!isUploadOpen);
@@ -28,6 +34,13 @@ export const DrawerList = ({
   const handleClickDownload = (e: any) => {
     e?.stopPropagation()
     setIsDownloadOpen(!isDownloadOpen);
+  };
+  const handleClickUploadPersonalInventoryTsv = (e: any) => {
+    e?.stopPropagation()
+    const element = document.getElementById(personalInventoryTsvUploadElementID)
+    if (element) {
+      element.click()
+    }
   };
   const onClickCopy = async () => {
     const myUrl = encodeURI(
@@ -75,6 +88,38 @@ export const DrawerList = ({
       })
     }
   }
+  const readPersonalInventoryTsvFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    let file : File | undefined = event?.target?.files?.[0]
+  
+    if (!file) {
+      return
+    }
+  
+    try {
+      parse<Record<string, string>>(file, {
+          delimiter: '\t',
+          header: true,
+          complete: (results: ParseResult<Record<string, string>>) => {
+              const dataMap: Record<string, number> = {}
+              results.data.forEach((datum: Record<string, string>) => {
+                  if(Pieces.hasOwnProperty(datum.ID)) {
+                      const id: string = Pieces[datum.ID as keyof typeof Pieces] as string
+                      dataMap[id] = parseInt(datum.Count)
+                  }
+              })
+              inventory.setPieceInventory(dataMap)
+              console.log(inventory.pieceInventory)
+          },
+          error: (err) => {
+              console.error(err)
+          }
+      })
+    } catch (error: any) {
+      console.error(error)
+    }
+    event.target.value = '' // Reset the input value, otherwise choosing same file again will do nothing
+  };
+
   return (
     <Box
       sx={{ width: 350, height: '100%' }}
@@ -157,7 +202,41 @@ export const DrawerList = ({
               <LoadMapButtons />
             </List>
           </Collapse>
+
+          {/* LOAD PERSONAL PIECE INVENTORY */}
+          <ListItemButton onClick={handleClickUploadPersonalInventoryTsv}>
+            <ListItemIcon
+              sx={{
+                color: 'inherit',
+              }}
+            >
+              <MdInventory />
+            </ListItemIcon>
+            <ListItemText primary={'Load Personal Inventory (.tsv)'} />
+          </ListItemButton>
+
+          { /* DOWNLOAD PERSONAL INVENTORY TSV TEMPLATE */ }
+          <a style={{textDecoration: 'none', color: 'inherit'}} href={tsvTemplate} download="inventory_template.tsv">
+            <ListItemButton>
+              <ListItemIcon
+                sx={{
+                  color: 'inherit',
+                }}
+              >
+                <MdOutlineInventory />
+              </ListItemIcon>
+              <ListItemText primary={'Download Inventory Template File'} />
+            </ListItemButton>
+          </a>
         </List>
+
+        <input
+          id={personalInventoryTsvUploadElementID}
+          type="file"
+          style={hiddenStyle}
+          accept=".tsv"
+          onChange={readPersonalInventoryTsvFile}
+        />
 
 
         <div>
@@ -188,8 +267,19 @@ export const DrawerList = ({
             </Link>
           </div>
         </div>
-
       </div>
     </Box>
   )
+}
+
+const hiddenStyle = {
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: '1',
+  overflow: 'hidden',
+  position: 'absolute' as const,
+  bottom: '0',
+  left: '0',
+  whiteSpace: 'nowrap',
+  width: '1',
 }

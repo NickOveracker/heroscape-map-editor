@@ -1,0 +1,101 @@
+ID	Type	Size	Count
+asphalt1	Asphalt	1	0
+asphalt2	Asphalt	2	0
+asphalt7	Asphalt	7	0
+battlement	Battlement	#N/A	0
+castleBaseCorner	Castle Base Corner	1	0
+castleBaseEnd	Castle Base End	1	0
+castleBaseStraight	Castle Base Straight	1	0
+castleArch	Castle Door Arch	3	0
+concrete1	Concrete	1	0
+concrete2	Concrete	2	0
+concrete6	Concrete	6	0
+concrete7	Concrete	7	0
+dungeon1	Dungeon	1	0
+dungeon3	Dungeon	3	0
+dungeon7	Dungeon	7	0
+dungeon24	Dungeon	24	0
+flag	Flag	#N/A	0
+glacier1	Glacier	1	0
+glacier3	Glacier	3	0
+glacier4	Glacier	4	0
+glacier6	Glacier	6	0
+grass1	Grass	1	0
+grass2	Grass	2	0
+grass3	Grass	3	0
+grass7	Grass	7	0
+grass24	Grass	24	0
+ice1	Ice	1	0
+ice3	Ice	3	0
+ice4	Ice	4	0
+ice6	Ice	6	0
+ld	Ladder	#N/A	0
+laurPalm13	Laur Jungle Tree	13	0
+laurPalm14	Laur Jungle Tree	14	0
+laurPalm15	Laur Jungle Tree	15	0
+laurWallPillar	Laur Pillar	1	0
+swampBrush10	Laur Underbrush	10	0
+laurWallLong	Laur Wall Long	1	0
+laurWallRuin	Laur Wall Ruin	#N/A	0
+laurWallShort	Laur Wall Short	#N/A	0
+lava1	Lava	1	0
+lava3	Lava	3	0
+lavaField1	Lava Field	1	0
+lavaField2	Lava Field	2	0
+lavaField3	Lava Field	3	0
+lavaField7	Lava Field	7	0
+lavaField24	Lava Field	24	0
+lavaRockOutcrop1	Lava Rock Outcrop	1	0
+lavaRockOutcrop3	Lava Rock Outcrop	3	0
+hive	Marro Hive	6	0
+marvel	Marvel Breakable Wall	6	0
+outcrop1	Outcrop	1	0
+outcrop3	Outcrop	3	0
+palm14	Palm	14	0
+palm15	Palm	15	0
+palm16	Palm	16	0
+road1	Road	1	0
+road2	Road	2	0
+road5	Road	5	0
+roadWall	Road Wall	#N/A	0
+rock1	Rock	1	0
+rock2	Rock	2	0
+rock3	Rock	3	0
+rock7	Rock	7	0
+rock24	Rock	24	0
+ruins2	Ruins	2	0
+ruins3	Ruins	3	0
+sand1	Sand	1	0
+sand2	Sand	2	0
+sand3	Sand	3	0
+sand7	Sand	7	0
+sand24	Sand	24	0
+shadow1	Shadow	1	0
+shadow3	Shadow	3	0
+snow1	Snow	1	0
+snow2	Snow	2	0
+snow3	Snow	3	0
+snow7	Snow	7	0
+snow24	Snow	24	0
+snowTree10	Snow Tree	10	0
+snowTree12	Snow Tree	12	0
+swamp1	Swamp	1	0
+swamp2	Swamp	2	0
+swamp3	Swamp	3	0
+swamp7	Swamp	7	0
+swamp24	Swamp	24	0
+swampBrush10	Swamp Underbrush	10	0
+swampWater1	Swamp Water	1	0
+swampWater3	Swamp Water	3	0
+swampWater6	Swamp Water	6	0
+brush9	Ticalla Brush	9	0
+tree10	Tree	10	0
+tree11	Tree	11	0
+tree12	Tree	12	0
+tree415	Tree	15	0
+wallWalk1	Wall Walk	1	0
+wallWalk7	Wall Walk	7	0
+wallWalk9	Wall Walk	9	0
+water1	Water	1	0
+water3	Water	3	0
+wellspringWater1	Wellspring Water	1	0
