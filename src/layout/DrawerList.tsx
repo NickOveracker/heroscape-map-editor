@@ -99,7 +99,7 @@ export const DrawerList = ({
       parse<File>(file, {
           delimiter: '\t',
           header: true,
-          complete: (results: ParseResult<File>) => {
+          complete: (results: ParseResult<Record<string, any>>) => {
               const dataMap: Record<string, string> = {}
               results.data.forEach(datum => {
                   if(Pieces.hasOwnProperty(datum.ID)) {
