@@ -102,7 +102,7 @@ export const DrawerList = ({
               const dataMap = {}
               results.data.forEach(datum => {
                   if(Pieces.hasOwnProperty(datum.ID)) {
-                      dataMap[Pieces[datum.ID]] = datum.Count
+                      dataMap[Pieces[datum.ID]] = parseInt(datum.Count)
                   }
               })
               inventory.setPieceInventory(dataMap)
